@@ -34,6 +34,7 @@ func main() {
 	seed := flag.Int64("graine", 1, "graine")
 	out := flag.String("sortie", "demo", "dossier de sortie")
 	rejouer := flag.String("rejouer", "", "journal JSON à rejouer")
+	etapes := flag.Bool("etapes", false, "écrire aussi les pages d'affichage à plusieurs stades du tournoi")
 	flag.Parse()
 
 	if *rejouer != "" {
@@ -83,6 +84,29 @@ func main() {
 		for _, sec := range ph.Sections {
 			if len(sec.Rounds) > 0 {
 				_ = os.WriteFile(filepath.Join(*out, fmt.Sprintf("phase%d_%s.svg", ph.Index+1, sec.Name)), []byte(render.BracketSVG(r.State, sec)), 0o644)
+			}
+		}
+	}
+	if *etapes {
+		fractions := []float64{0.15, 0.4, 0.7, 1.0}
+		for k, fr := range fractions {
+			n := int(float64(len(r.Journal)) * fr)
+			if n < 1 {
+				n = 1
+			}
+			st, err := tournoi.Replay(r.Journal[:n])
+			if err != nil {
+				fmt.Fprintln(os.Stderr, err)
+				os.Exit(1)
+			}
+			acts := st.Propose()
+			_ = os.WriteFile(filepath.Join(*out, fmt.Sprintf("etape%d_affichage.html", k+1)), []byte(render.Page(st, acts, st.Last)), 0o644)
+			for _, ph := range st.Phases {
+				for _, sec := range ph.Sections {
+					if len(sec.Rounds) > 0 {
+						_ = os.WriteFile(filepath.Join(*out, fmt.Sprintf("etape%d_phase%d_%s.svg", k+1, ph.Index+1, sec.Name)), []byte(render.BracketSVG(st, sec)), 0o644)
+					}
+				}
 			}
 		}
 	}

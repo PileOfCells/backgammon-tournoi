@@ -31,7 +31,9 @@ Les phases s'enchaînent (`entry` : `survivors` avec leurs vies, `all`, `top:N`)
 - `render/` : SVG des arbres, tableau des vies, matchs en cours, classement, page complète.
 - `sim/` : simulation (tests d'invariants, comparaison avec le simulateur de l'étude, prévision de fin).
 - `players/` : import CSV.
-- `cmd/tournoi-demo` : démonstration (`go run ./cmd/tournoi-demo -format suisse_tableau -joueurs 32 -sortie demo`, `-rejouer demo/journal.json`).
+- `cmd/tournoi-demo` : démonstration (`go run ./cmd/tournoi-demo -format suisse_tableau -joueurs 32 -etapes -sortie demo`, `-rejouer demo/journal.json`).
+- `cmd/tournoi-td` : console interactive pour diriger un tournoi à la main (voir « Tester à la main »).
+- `exemples/` : tournois simulés rendus à quatre stades pour sept formats ; ouvrir `exemples/index.html`.
 
 ## Tests
 
@@ -39,3 +41,15 @@ Les phases s'enchaînent (`entry` : `survivors` avec leurs vies, `all`, `top:N`)
 go test ./...                    # invariants sur 11 formats × 8 effectifs × 8 graines, rejeu, corrections
 go test -run TestParity -v ./    # P(meilleur gagne), matchs et durées sur 64 joueurs (long)
 ```
+
+## Tester à la main
+
+```bash
+go run ./cmd/tournoi-td -journal montournoi.json -format suisse_tableau
+```
+
+Dans la console : `ajoute Alice Paris 4.2` (ou `import joueurs.csv`), `propose`, `ok tous`,
+`resultat M1 alice 7 3`, `corrige M1 bob`, `forfait chloe`, `matchs`, `vies`, `classement`,
+`simule` (joue au hasard les matchs en cours), `quitte`. Le journal est écrit après chaque
+commande ; relancer la même commande reprend le tournoi. La page `affichage.html` à côté du
+journal est régénérée à chaque commande : ouvrez-la dans un navigateur.

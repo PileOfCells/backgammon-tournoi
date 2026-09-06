@@ -43,29 +43,39 @@ func BracketSVG(st *tournoi.State, sec *tournoi.Section) string {
 	pos := map[int][2]float64{}
 	for r, idx := range sec.Rounds {
 		x := 10 + float64(r)*(w+gapX)
+		// ordonnée souhaitée : au milieu des matchs sources, sinon répartition régulière
+		ys := make([]float64, len(idx))
 		for k, i := range idx {
-			var y float64
 			if r == 0 {
-				y = 30 + float64(k)*(h+padY)
-			} else {
-				g := sec.Matches[i]
-				ys := []float64{}
-				for _, src := range g.Src {
-					if src.From >= 0 && src.Section == "" {
-						if p, ok := pos[src.From]; ok {
-							ys = append(ys, p[1])
-						}
+				ys[k] = 30 + float64(k)*(h+padY)
+				continue
+			}
+			g := sec.Matches[i]
+			var src []float64
+			for _, sr := range g.Src {
+				if sr.From >= 0 && sr.Section == "" {
+					if p, ok := pos[sr.From]; ok {
+						src = append(src, p[1])
 					}
-				}
-				if len(ys) == 0 {
-					y = 30 + float64(k)*(h+padY)*float64(rows)/float64(len(idx))
-				} else {
-					for _, v := range ys {
-						y += v
-					}
-					y /= float64(len(ys))
 				}
 			}
+			if len(src) == 0 {
+				ys[k] = 30 + float64(k)*(h+padY)*float64(rows)/float64(len(idx))
+			} else {
+				for _, v := range src {
+					ys[k] += v
+				}
+				ys[k] /= float64(len(src))
+			}
+		}
+		// évite les chevauchements (matchs des gagnants et des perdants d'un groupe GSL, par exemple)
+		for k := 1; k < len(ys); k++ {
+			if ys[k] < ys[k-1]+h+padY {
+				ys[k] = ys[k-1] + h + padY
+			}
+		}
+		for k, i := range idx {
+			y := ys[k]
 			pos[i] = [2]float64{x, y}
 			g := sec.Matches[i]
 			if g.Players[0] == tournoi.BYE && g.Players[1] == tournoi.BYE {
