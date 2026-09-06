@@ -184,3 +184,59 @@ func TestCorrection(t *testing.T) {
 		t.Fatalf("défaites %d ≠ matchs terminés %d après correction", total, finished)
 	}
 }
+
+func TestWithdrawnAfterDraw(t *testing.T) {
+	// un joueur retiré après le tirage d'un tableau ne doit plus être proposé : ses matchs non
+	// lancés sont perdus par forfait et le tableau se termine quand même
+	rng := rand.New(rand.NewSource(5))
+	players := sim.Champ(16, 6, 2, 2, 10, rng)
+	r := sim.Run(configs()["elim_simple"], players, sim.Options{Seed: 5})
+	if r.Err != nil {
+		t.Fatal(r.Err)
+	}
+	// journal coupé juste après le tirage
+	var j tournoi.Journal
+	for _, ev := range r.Journal {
+		j = append(j, ev)
+		if ev.Kind == tournoi.EvDraw {
+			break
+		}
+	}
+	st, err := tournoi.Replay(j)
+	if err != nil {
+		t.Fatal(err)
+	}
+	gone := st.Phases[0].Entrants[0]
+	if err := st.Apply(tournoi.Event{Kind: tournoi.EvPlayerWithdrawn, Time: st.Last, ID: gone}); err != nil {
+		t.Fatal(err)
+	}
+	for steps := 0; !st.Finished && steps < 1000; steps++ {
+		acts := st.Propose()
+		for _, a := range acts {
+			if a.Kind == tournoi.ActStartMatch && (a.A == gone || a.B == gone) {
+				t.Fatalf("le joueur retiré %s est proposé : %s", gone, a)
+			}
+			if a.Kind == tournoi.ActWait {
+				continue
+			}
+			ev, err := st.EventFromAction(a, st.Last)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if err := st.Apply(ev); err != nil {
+				t.Fatal(err)
+			}
+			if a.Kind == tournoi.ActStartMatch {
+				if err := st.Apply(tournoi.ResultEvent(ev.MatchID, a.A, ev.Length, 0, st.Last)); err != nil {
+					t.Fatal(err)
+				}
+			}
+		}
+	}
+	if !st.Finished {
+		t.Fatal("le tableau ne se termine pas après un forfait")
+	}
+	if len(st.Warnings) > 0 {
+		t.Fatal(st.Warnings)
+	}
+}

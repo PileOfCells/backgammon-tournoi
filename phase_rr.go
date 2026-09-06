@@ -196,7 +196,7 @@ func (s *State) applyRRDraw(ph *PhaseState, section string, d *Draw) error {
 			ph.Sections = append(ph.Sections, sec)
 		}
 		ph.Drawn = true
-		ph.resolve()
+		ph.resolve(s.Withdrawn)
 		return nil
 	}
 	if len(d.Groups) != 1 {

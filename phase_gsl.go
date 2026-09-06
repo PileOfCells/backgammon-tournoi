@@ -130,6 +130,6 @@ func (s *State) applyGSLDraw(ph *PhaseState, d *Draw) error {
 		sec.Block, sec.Group = ph.Round, i+1
 		ph.Sections = append(ph.Sections, sec)
 	}
-	ph.resolve()
+	ph.resolve(s.Withdrawn)
 	return nil
 }

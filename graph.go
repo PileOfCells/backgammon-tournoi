@@ -30,8 +30,9 @@ func (ph *PhaseState) section(name string) *Section {
 }
 
 // resolve remplit les places de tous les graphes à partir des résultats, propage les exemptions
-// (walkover) et les matchs conditionnels. Idempotent.
-func (ph *PhaseState) resolve() {
+// (walkover), les forfaits des joueurs retirés (un match non lancé contre un joueur retiré est
+// gagné par forfait) et les matchs conditionnels. Idempotent.
+func (ph *PhaseState) resolve(withdrawn map[PlayerID]bool) {
 	for changed := true; changed; {
 		changed = false
 		for _, sec := range ph.Sections {
@@ -73,6 +74,16 @@ func (ph *PhaseState) resolve() {
 						g.Players[k] = p
 						changed = true
 					}
+				}
+				if !g.Done && g.MatchID == "" && g.Players[0] != "" && g.Players[1] != "" &&
+					g.Players[0] != BYE && g.Players[1] != BYE && (withdrawn[g.Players[0]] || withdrawn[g.Players[1]]) {
+					g.Done, g.Walkover = true, true
+					g.Winner, g.Loser = g.Players[0], g.Players[1] // les deux retirés : ordre du tableau
+					if withdrawn[g.Players[0]] && !withdrawn[g.Players[1]] {
+						g.Winner, g.Loser = g.Players[1], g.Players[0]
+					}
+					changed = true
+					continue
 				}
 				if !g.Done && g.Players[0] != "" && g.Players[1] != "" {
 					if g.Players[0] == BYE && g.Players[1] == BYE {

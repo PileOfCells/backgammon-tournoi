@@ -404,7 +404,7 @@ func (s *State) onResult(m *Match) {
 	}
 	if g := ph.gmatch(m.Section, m.Key); g != nil {
 		g.Done, g.Winner, g.Loser = true, m.Winner, loser
-		ph.resolve()
+		ph.resolve(s.Withdrawn)
 	}
 }
 
@@ -436,7 +436,7 @@ func (s *State) recompute() {
 		}
 	}
 	for _, ph := range s.Phases {
-		ph.resolve()
+		ph.resolve(s.Withdrawn)
 	}
 	s.Warnings = s.check()
 }

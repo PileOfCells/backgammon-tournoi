@@ -117,7 +117,7 @@ func (s *State) buildBracket(ph *PhaseState, slots []PlayerID) {
 		}
 	}
 	ph.Drawn = true
-	ph.resolve()
+	ph.resolve(s.Withdrawn)
 }
 
 // bracketFromSrcs : tableau à élimination simple dont les places du premier tour sont des sources
