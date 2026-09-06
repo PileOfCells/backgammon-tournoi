@@ -38,7 +38,6 @@ func BracketSVG(st *tournoi.State, sec *tournoi.Section) string {
 	height := float64(rows)*(h+padY) + 40
 	width := float64(len(sec.Rounds))*(w+gapX) + 20
 	var b strings.Builder
-	fmt.Fprintf(&b, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %.0f %.0f" width="%.0f" height="%.0f" font-family="system-ui, sans-serif" font-size="12">`, width, height, width, height)
 	fmt.Fprintf(&b, `<text x="10" y="18" font-size="14" font-weight="bold">%s</text>`, esc(sec.Name))
 	pos := map[int][2]float64{}
 	for r, idx := range sec.Rounds {
@@ -122,8 +121,12 @@ func BracketSVG(st *tournoi.State, sec *tournoi.Section) string {
 			}
 		}
 	}
-	b.WriteString(`</svg>`)
-	return b.String()
+	for _, p := range pos {
+		if p[1]+h+20 > height {
+			height = p[1] + h + 20
+		}
+	}
+	return fmt.Sprintf(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %.0f %.0f" width="%.0f" height="%.0f" font-family="system-ui, sans-serif" font-size="12">`, width, height, width, height) + b.String() + `</svg>`
 }
 
 // LivesBoard : tableau des joueurs d'une phase à vies par nombre de défaites (état, adversaires).
