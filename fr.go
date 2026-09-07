@@ -200,6 +200,9 @@ func (w Warning) String() string {
 	case WarnScoreOverLength:
 		return fmt.Sprintf("match %s : score %d-%d au-delà de la longueur %d", w.Match, w.ScoreA, w.ScoreB, w.Length)
 	case WarnEndsInBreak:
+		if w.Match == "" {
+			return "le match rencontrerait une pause"
+		}
 		return fmt.Sprintf("match %s : la fin attendue tombe pendant une pause", w.Match)
 	case WarnSlowMatch:
 		return fmt.Sprintf("match %s : durée au-delà de l'attendu", w.Match)

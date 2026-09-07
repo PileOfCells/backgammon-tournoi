@@ -18,7 +18,7 @@ go get github.com/PileOfCells/backgammon-tournoi
 
 | Kind | Description |
 |---|---|
-| `swiss_lives` | Suisse à L vies, appariement dans le groupe de même nombre de défaites, continu (dès que deux joueurs sont libres) ou par rondes ; option `target` : arrêt quand la somme des vies vaut une puissance de 2 pour basculer sur un tableau |
+| `swiss_lives` | Suisse à L vies, appariement dans le groupe de même nombre de défaites, continu (dès que deux joueurs sont libres) ou par rondes ; option `batch_minutes` : micro-rondes, les joueurs libres attendent l'échéance et partent par lots ; option `target` : arrêt quand la somme des vies vaut une puissance de 2 pour basculer sur un tableau |
 | `lives_bracket` | Tableau à élimination simple où un joueur à 2 vies est exempt du premier tour |
 | `gsl` | Blocs de groupes GSL de 4 (3, 2) pour les joueurs à 0 défaite, mini-tableaux pour ceux à 1 défaite ; option `target` |
 | `bracket` | Élimination simple ; `consolation` (consolante progressive), `last_chance`, `reconciliation` + `recharge` (double élimination vraie) |
@@ -42,6 +42,7 @@ grille par tour lue **du dernier tour vers le premier** (`[15,13,11,9]`), `lengt
 - `phase_swiss.go`, `phase_bracket.go`, `phase_gsl.go`, `phase_rr.go` : les formats.
 - `standings.go` (rangs, prix partagés, CSV par section), `prizes.go` (droit d'entrée, retenue, barème par section), `clock.go` (durées, matchs lents), `tables.go` (tables indisponibles, réservées).
 - `retardataire.go` : places d'exemption libres (`FreeSlots`) et entrée d'un joueur arrivé après le tirage, sans jamais refaire le tirage.
+- `horaires.go` : micro-rondes (`batch_minutes`, échéance dérivée du journal) et pauses programmées (`Config.Breaks`, avertissement sans blocage).
 - `seeding.go` : têtes de série en option (`seeding: "rating"`), éteintes par défaut.
 - `reconfig.go` : configuration modifiable en cours (`ConfigChangedEvent`, la configuration entière) et réouverture d'un tournoi clos (`ReopenedEvent`).
 - `render/` : SVG des arbres, tableau des vies, matchs en cours, classement, page complète.

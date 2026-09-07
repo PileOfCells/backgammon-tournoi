@@ -175,10 +175,18 @@ func TestRenduFrancaisCouvreLesCodes(t *testing.T) {
 			t.Errorf("information %s : pas de rendu français (%q)", i.Code, s)
 		}
 	}
-	w := tournoi.Warning{Code: tournoi.WarnBracketWrongPlayers, Match: "M1", Section: "main",
-		Label: tournoi.Label{Kind: tournoi.LabelFinal}, A: "a", B: "b", ExpectedA: "c", ExpectedB: "d"}
-	if s := w.String(); s == "" || s == string(w.Code) {
-		t.Errorf("avertissement %s : pas de rendu français (%q)", w.Code, s)
+	avertissements := []tournoi.Warning{
+		{Code: tournoi.WarnBracketWrongPlayers, Match: "M1", Section: "main",
+			Label: tournoi.Label{Kind: tournoi.LabelFinal}, A: "a", B: "b", ExpectedA: "c", ExpectedB: "d"},
+		{Code: tournoi.WarnScoreOverLength, Match: "M1", Length: 7, ScoreA: 9, ScoreB: 2},
+		{Code: tournoi.WarnEndsInBreak, Match: "M1"},
+		{Code: tournoi.WarnEndsInBreak}, // porté par une PROPOSITION : il n'y a pas encore de match
+		{Code: tournoi.WarnSlowMatch, Match: "M1"},
+	}
+	for _, w := range avertissements {
+		if s := w.String(); s == "" || s == string(w.Code) {
+			t.Errorf("avertissement %s : pas de rendu français (%q)", w.Code, s)
+		}
 	}
 }
 

@@ -49,7 +49,7 @@ func (t *td) save() {
 	b, _ := t.journal.Bytes()
 	_ = os.WriteFile(t.path, b, 0o644)
 	page := filepath.Join(filepath.Dir(t.path), "affichage.html")
-	_ = os.WriteFile(page, []byte(render.Page(t.st, t.st.Propose(), time.Now())), 0o644)
+	_ = os.WriteFile(page, []byte(render.Page(t.st, t.st.ProposeAt(time.Now()), time.Now())), 0o644)
 }
 
 func (t *td) apply(ev tournoi.Event) error {
@@ -73,7 +73,7 @@ func (t *td) propose() {
 	for _, i := range t.st.Infos {
 		fmt.Println("  i", i)
 	}
-	t.acts = t.st.Propose()
+	t.acts = t.st.ProposeAt(time.Now())
 	if len(t.acts) == 0 {
 		fmt.Println("  rien à proposer")
 		return
@@ -320,7 +320,7 @@ func (t *td) exec(f []string) error {
 		t.propose()
 	case "ok":
 		if len(t.acts) == 0 {
-			t.acts = t.st.Propose()
+			t.acts = t.st.ProposeAt(time.Now())
 		}
 		which := "tous"
 		if len(f) >= 2 {

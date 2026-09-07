@@ -17,11 +17,12 @@ où intervenir et comment vérifier.
 - [ ] **Validation manuelle sur un tournoi de club** (16 à 32 joueurs) avec le format
   `swiss_lives` continu + `lives_bracket`, en doublant sur papier. Noter les cas où le TD a
   voulu faire autre chose que la proposition du moteur : ce sont les fonctions manquantes.
-- [ ] **Règle anti-manipulation du continu** (choix de conception, voir `docs/etude_formats.md`) :
-  soit micro-rondes (les appariements sont tirés toutes les X minutes parmi les joueurs libres,
-  pas au fil de l'eau), soit blocs GSL. Aujourd'hui `Propose` apparie tous les joueurs libres à
-  chaque appel : l'hôte doit l'appeler à intervalle fixe pour obtenir l'effet micro-rondes.
-  À implémenter dans `phase_swiss.go` : paramètre `batch_minutes` et horodatage du dernier lot.
+- [x] **Règle anti-manipulation du continu** (issue #7). `PhaseConfig.BatchMinutes` fait attendre
+  les joueurs libres jusqu'à l'échéance du prochain lot, puis apparie d'un coup tous ceux d'un
+  même groupe de défaites. L'échéance est DÉRIVÉE du journal — le départ du dernier match lancé
+  dans la phase plus `BatchMinutes` (`horaires.go`) — et voyage dans `Action.Until` avec
+  `ReasonWaitingBatch`, pour que l'hôte affiche un compte à rebours. Le temps entre par
+  `ProposeAt(now)` ; `Propose()` prend l'horodatage du dernier événement.
 - [x] **Tables.** `Config.Tables` porte les indisponibles et les réservations (`tables.go`) ;
   `assignTables` les saute et marque `ReasonWaitingTable` quand aucune table n'est libre ;
   `table_changed` déplace un match en cours.
@@ -45,9 +46,10 @@ où intervenir et comment vérifier.
   la phase et la raison. La bascule, les longueurs, les tables, la dotation et une phase ajoutée
   après la courante passent. `EvReopened` annule la clôture et efface `Final`, recalculé à la
   clôture suivante. `EvLengthChanged` reste lu.
-- [ ] **Pauses programmées** (repas) : `Propose` ne doit pas lancer de match dont la fin
-  attendue dépasse l'heure de la pause, ou doit l'indiquer. Pour les blocs GSL, caler un bloc par
-  créneau. Paramètre `Config.Breaks []TimeRange`, prise en compte dans `engine.go`.
+- [x] **Pauses programmées** (issue #7). `Config.Breaks []TimeRange` ; une proposition dont le
+  match rencontrerait une pause porte `Action.Warn = WarnEndsInBreak` et RESTE proposée — rien
+  n'est bloqué, le directeur décide. Reste à caler un bloc GSL par créneau, qui est un autre
+  sujet (l'ordonnancement, pas l'avertissement).
 - [ ] **Byes et exemptions équitables sur plusieurs rondes** : en mode `rounds`, le bye va au
   joueur du groupe le plus bas n'en ayant pas eu ; vérifier la règle « pas de second bye tant que
   d'autres n'en ont pas eu » entre groupes différents (aujourd'hui par groupe). `pairGroup`.

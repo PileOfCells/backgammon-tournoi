@@ -36,7 +36,7 @@ Tout passe par un **journal** (`Journal`, tableau JSON d'`Event`) que l'hôte st
 
 Boucle côté hôte (exemple complet dans `doc.go`) :
 
-1. `Propose()` renvoie des `Action` (lancer un match, bye, tirage, phase suivante, clore, attendre).
+1. `Propose()` renvoie des `Action` (lancer un match, bye, tirage, phase suivante, clore, attendre). `ProposeAt(now)` est la même chose à une heure donnée : le moteur n'a pas d'horloge, et seul ce qui dépend du temps (micro-rondes, pauses) change avec `now`. `Propose()` prend l'horodatage du dernier événement du journal.
 2. Le TD confirme ; `EventFromAction` produit l'`Event`, `Apply` l'applique, l'hôte l'ajoute au journal.
 3. Résultats via `ResultEvent(...)`.
 

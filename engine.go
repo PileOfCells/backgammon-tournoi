@@ -3,11 +3,25 @@ package tournoi
 import (
 	"fmt"
 	"sort"
+	"time"
 )
 
 // Propose renvoie les actions à effectuer maintenant. Le TD en confirme tout ou partie ; chaque
 // confirmation devient un événement (voir State.EventFromAction). Déterministe pour un journal donné.
-func (s *State) Propose() []Action {
+//
+// « Maintenant » est ici l'horodatage du dernier événement du journal : le moteur n'a pas
+// d'horloge, et ne va pas s'en inventer une. Un hôte qui affiche un compte à rebours ou qui
+// veut les avertissements de pause à sa propre heure appelle ProposeAt.
+func (s *State) Propose() []Action { return s.ProposeAt(s.Last) }
+
+// ProposeAt est Propose à une heure donnée. Elle ne change que ce qui dépend du temps : les
+// micro-rondes (l'échéance du prochain lot) et les pauses (la fin attendue d'un match proposé).
+// Le reste — appariements, tirages, passage de phase — ne dépend que du journal.
+//
+// Le rejeu n'en est pas affecté : ce qui est rejoué, ce sont les événements, pas les
+// propositions. Deux hôtes dont les horloges diffèrent proposent les mêmes matchs, à des
+// instants différents.
+func (s *State) ProposeAt(now time.Time) []Action {
 	if s.Current < 0 || s.Finished {
 		return nil
 	}
@@ -15,6 +29,11 @@ func (s *State) Propose() []Action {
 	var acts []Action
 	switch ph.Cfg.Kind {
 	case KindSwissLives:
+		if éch, lot := s.batchDeadline(ph); lot && now.Before(éch) && !s.swissDone(ph) {
+			// Micro-rondes : les joueurs libres attendent l'échéance. L'action porte
+			// l'échéance pour que l'hôte affiche un compte à rebours.
+			return []Action{{Kind: ActWait, Phase: ph.Index, Reason: ReasonWaitingBatch, Until: éch}}
+		}
 		acts = s.proposeSwiss(ph)
 	case KindGSL:
 		acts = s.proposeGSL(ph)
@@ -36,6 +55,7 @@ func (s *State) Propose() []Action {
 		return []Action{{Kind: ActWait, Phase: ph.Index, Reason: ReasonNoPairing}}
 	}
 	s.assignTables(acts)
+	s.flagBreaks(acts, now)
 	return acts
 }
 
@@ -131,7 +151,11 @@ func sortedIDs(ids []PlayerID) []PlayerID {
 func (a Action) String() string {
 	switch a.Kind {
 	case ActStartMatch:
-		return fmt.Sprintf("Lancer %s : %s contre %s en %d points, table %d", a.Label, a.A, a.B, a.Length, a.Table)
+		s := fmt.Sprintf("Lancer %s : %s contre %s en %d points, table %d", a.Label, a.A, a.B, a.Length, a.Table)
+		if a.Warn != "" {
+			s += " — " + Warning{Code: a.Warn}.String()
+		}
+		return s
 	case ActBye:
 		return fmt.Sprintf("Bye pour %s (%s)", a.A, a.Label)
 	case ActDraw:
@@ -140,6 +164,9 @@ func (a Action) String() string {
 		return fmt.Sprintf("Passer à la phase suivante : %s", a.Label)
 	case ActFinish:
 		return "Clore le tournoi"
+	}
+	if a.Reason == ReasonWaitingBatch && !a.Until.IsZero() {
+		return fmt.Sprintf("Attendre : %s (jusqu'à %s)", a.Reason, a.Until.Format("15:04"))
 	}
 	return fmt.Sprintf("Attendre : %s", a.Reason)
 }
