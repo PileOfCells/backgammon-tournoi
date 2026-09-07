@@ -58,9 +58,12 @@ où intervenir et comment vérifier.
 - [ ] **Prix** : `Prizes` gère des montants par place ; ajouter les structures en pourcentage
   du pool, la retenue d'organisation, l'arrondi, et les prix séparés par section (consolante,
   dernière chance) : aujourd'hui un seul classement général.
-- [ ] **Export / import** : classement CSV existe ; ajouter l'export du journal en PDF ou texte
-  lisible (feuille d'appariements imprimable par ronde ou par bloc), et l'import CSV avec
-  ratings FFBG (colonnes à confirmer). `players/csv.go`.
+- [x] **Export / import des joueurs** (issue #12). `players.ToCSV` écrit l'annuaire dans le
+  format que `players.FromCSV` relit sans perte (colonnes `nom;club;cote`, colonne `id` seulement
+  quand l'identifiant ne se déduit pas du nom) ; la console TD a la commande `exporte`. Au
+  passage, un en-tête EXACT l'emporte désormais sur un en-tête qui contient seulement le mot
+  cherché : « prénom » contient « pr » et volait la colonne de cote. Reste l'export du journal
+  en PDF ou texte lisible (feuille d'appariements imprimable : issue #11).
 
 ## 3. Rendu et affichage
 
@@ -68,7 +71,8 @@ où intervenir et comment vérifier.
 - [ ] Arbre de double élimination : dessiner principal et consolante côte à côte avec les drops.
 - [ ] Tableau des vies : afficher les adversaires déjà rencontrés et le temps d'attente.
 - [ ] Écran joueur (téléphone) : « votre prochain match » et « votre table ».
-- [ ] Tests unitaires de `render` (golden files SVG/HTML dans `testdata/`) et de `players/csv.go`.
+- [ ] Tests unitaires de `render` (golden files SVG/HTML dans `testdata/`). Ceux de
+  `players/csv.go` existent depuis l'issue #12.
 
 ## 4. Moteur : robustesse et qualité
 
