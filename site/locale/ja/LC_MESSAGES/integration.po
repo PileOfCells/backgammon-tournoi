@@ -1,0 +1,118 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ja\n"
+"Language-Team: ja <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../integration.md:1
+msgid "Intégrer le moteur"
+msgstr "エンジンを組み込む"
+
+#: ../../integration.md:3
+msgid ""
+"Cette page s'adresse à qui écrit le logiciel qui utilisera Nicomaque. "
+"Elle tient en une page ; la [spécification](specification.md) donne le "
+"détail."
+msgstr "このページは Nicomaque を使うソフトウェアを書く人に向けたものです。一ページに収まります。細部は [仕様書](specification.md) にあります。"
+
+#: ../../integration.md:6
+msgid "Le principe"
+msgstr "考え方"
+
+#: ../../integration.md:8
+msgid ""
+"Le moteur ne persiste rien et n'affiche rien. L'hôte conserve un "
+"**journal** — une liste ordonnée d'événements — et le moteur en "
+"reconstruit l'état à la demande."
+msgstr "エンジンは何も保存せず、何も表示しません。ホスト側が **記録簿** — 順序を持つイベントの一覧 — を保持し、エンジンは求めに応じてそこから状態を再構成します。"
+
+#: ../../integration.md:15
+msgid "Trois appels suffisent à comprendre la boucle :"
+msgstr "ループを理解するには三つの呼び出しで足ります。"
+
+#: ../../integration.md:17
+msgid "`Replay(journal)` reconstruit l'état complet ;"
+msgstr "`Replay(journal)` は状態を完全に再構成します。"
+
+#: ../../integration.md:18
+msgid "`Propose()` — ou `ProposeAt(now)` — dit ce qu'il y a à faire maintenant ;"
+msgstr "`Propose()` — あるいは `ProposeAt(now)` — はいま何をすべきかを返します。"
+
+#: ../../integration.md:19
+msgid "`Apply(événement)` applique la décision du directeur."
+msgstr "`Apply(イベント)` はディレクターの決定を適用します。"
+
+#: ../../integration.md:21
+msgid "La boucle"
+msgstr "ループ"
+
+#: ../../integration.md:51
+msgid "Le journal se sérialise en JSON. Une reprise après panne est un `Replay`."
+msgstr "記録簿は JSON にシリアライズされます。障害からの復帰は `Replay` です。"
+
+#: ../../integration.md:53
+msgid "Les trois règles à ne pas oublier"
+msgstr "忘れてはならない三つの規則"
+
+#: ../../integration.md:55
+msgid ""
+"**On ne modifie jamais le journal.** Une correction est un événement de "
+"plus (`CorrectionEvent`), un forfait aussi (`PlayerWithdrawnEvent`), une "
+"annulation aussi (`CancelEvent`). Rien n'est effacé, rien n'est réécrit."
+msgstr "**記録簿は決して書き換えない。** 訂正はイベントを一つ追加すること（`CorrectionEvent`）であり、棄権も（`PlayerWithdrawnEvent`）、取り消しも（`CancelEvent`）同じです。何も消さず、何も書き直しません。"
+
+#: ../../integration.md:59
+msgid ""
+"**Rien de ce qui sort du moteur n'est destiné à l'affichage.** Les "
+"libellés de match, les notes de classement, les avertissements et les "
+"raisons d'attente sont des **codes** structurés. C'est l'hôte qui les "
+"rend, dans la langue de son utilisateur. Un rendu français est fourni "
+"pour la console et les exemples, mais un hôte multilingue l'ignore."
+msgstr "**エンジンから出てくるものはどれも表示用ではない。** 対戦の名称、順位の注記、警告、待機の理由は、いずれも構造化された **コード** です。それを利用者の言語で表示するのはホスト側です。コンソールと例のためにフランス語表示が同梱されていますが、多言語のホストはそれを使いません。"
+
+#: ../../integration.md:64
+msgid ""
+"**Les tirages sont enregistrés, pas recalculés.** L'événement de tirage "
+"porte le placement obtenu. Rejouer un journal ne dépend donc jamais de "
+"l'algorithme d'appariement, et celui-ci peut évoluer sans casser un "
+"journal existant."
+msgstr "**抽選は記録するのであって、計算し直さない。** 抽選イベントは得られた配置そのものを持ちます。したがって記録簿の再生が組み合わせアルゴリズムに依存することはなく、そのアルゴリズムは既存の記録簿を壊さずに変えられます。"
+
+#: ../../integration.md:68
+msgid "L'affichage"
+msgstr "表示"
+
+#: ../../integration.md:70
+msgid ""
+"Le paquet `render` produit des pages autonomes — un seul fichier, feuille"
+" de style embarquée, aucune ressource externe, aucun script. Il prend un "
+"traducteur (`Labeler`) que l'hôte fournit : les codes du moteur et les "
+"mots du rendu lui-même passent tous par là."
+msgstr "`render` パッケージは自己完結したページを作ります — 一つのファイル、埋め込みのスタイルシート、外部リソースなし、スクリプトなし。ホストが与える翻訳器（`Labeler`）を受け取り、エンジンのコードも表示自身の語もすべてそこを通ります。"
+
+#: ../../integration.md:74
+msgid ""
+"Il produit l'écran de salle, les arbres de tableaux avec les descentes "
+"vers la consolante, la grille des tables, le tableau des vies, le "
+"classement, et la feuille d'appariements imprimable."
+msgstr "会場の画面、敗者復活への振り分けを描いたトーナメント表、卓の一覧、ライフ表、順位表、そして印刷用の組み合わせ表を作ります。"
+
+#: ../../integration.md:77
+msgid "L'essayer sans rien écrire"
+msgstr "何も書かずに試す"
+

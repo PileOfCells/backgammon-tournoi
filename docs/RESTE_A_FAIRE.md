@@ -124,10 +124,10 @@ où intervenir et comment vérifier.
   bascule est désormais tronquée au nombre exact de matchs restants, et ne donne aucun bye —
   elle est la dernière, et un bye enregistré fausserait l'ordre d'appariement d'une ronde qui
   n'aura pas lieu.
-- [ ] **La spécification a du retard sur le lot 0** : `docs/specification.md` décrit encore les
-  libellés comme des chaînes (« Ronde 3 ») là où ce sont des codes (`codes.go`), et ne
-  documente pas le catalogue des codes. À reprendre avec la publication du site (issue #13),
-  qui republie la spécification.
+- [x] **La spécification est à jour** (issue #13). La structure `Event` y porte `Version`,
+  `Round`, `Slot`, `AfterCurrent` et un `Label` qui est un CODE et non une chaîne, et une
+  section « Le catalogue des codes » décrit les cinq familles, les noms de section et les deux
+  tests qui les gardent.
 - [x] **API stable** : le format du journal est versionné (`Event.Version`, `JournalVersion`) et
   un journal `Version: 0` est converti à la lecture (`Event.upgraded`) — une fixture du dépôt,
   `testdata/journal_v0.json`, le vérifie sur un tournoi entier et son classement.
@@ -138,7 +138,22 @@ où intervenir et comment vérifier.
   3 minutes sur `FuzzApply`, 156 000 exécutions, rien trouvé.
 - [ ] Renommer le module au chemin définitif du dépôt de l'hôte (`go mod edit -module …`).
 
-## 5. Étude (simulateur de l'étude, hors dépôt)
+## 5. Documentation publiée
+
+- [x] **Site en neuf langues** (issue #13). Projet Sphinx dans `site/`, publié sur GitHub Pages à
+  chaque poussée sur `main` (`.github/workflows/pages.yml`). Français source, huit catalogues
+  gettext ; une chaîne non traduite retombe sur le français. Les quatre pages d'introduction
+  (accueil, déroulement, formats, intégration) sont traduites dans les neuf langues ; les trois
+  documents longs restent en français partout — 1 080 msgid restant à traduire, détaillés dans
+  `site/README.md`.
+- [ ] **Activer GitHub Pages** dans les réglages du dépôt (Settings → Pages → Source : GitHub
+  Actions). Cela demande les droits d'administration du dépôt ; le workflow, lui, est en place et
+  se déclenche déjà.
+- [ ] Traduire `comprendre_le_moteur.md` (243 msgid), `etude_formats.md` (18) et
+  `specification.md` (819) dans les huit langues. Travail de traduction, document par document,
+  qui ne casse rien : chaque `msgstr` rempli apparaît en ligne à la poussée suivante.
+
+## 6. Étude (simulateur de l'étude, hors dépôt)
 
 - [ ] **Effet de la longueur de match** : la base BMAB ne fixe pas l'exposant α (IC [0 ; 0,5–0,8]).
   Pistes : matchs en 3 et 5 points des tournois en ligne (Backgammon Studio, Heroes), ou

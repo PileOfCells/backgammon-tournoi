@@ -1,0 +1,202 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: it\n"
+"Language-Team: it <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../deroulement.md:1
+msgid "Le déroulement d'un tournoi"
+msgstr "Lo svolgimento di un torneo"
+
+#: ../../deroulement.md:3
+msgid ""
+"Cette page décrit une journée de tournoi du point de vue du directeur, et"
+" ce que le moteur fait à chaque étape. Rien ici ne suppose de savoir "
+"programmer."
+msgstr "Questa pagina descrive una giornata di torneo dal punto di vista del direttore, e ciò che il motore fa a ogni passo. Nulla qui presuppone di saper programmare."
+
+#: ../../deroulement.md:6
+msgid "Avant le début : les inscriptions"
+msgstr "Prima dell'inizio: le iscrizioni"
+
+#: ../../deroulement.md:8
+msgid ""
+"Le directeur inscrit les joueurs. Un joueur a un nom, éventuellement un "
+"club et une cote (le PR : plus il est bas, meilleur est le joueur). La "
+"cote est facultative — un joueur sans cote n'est pas un joueur parfait, "
+"et le moteur ne le traite jamais comme tel."
+msgstr "Il direttore iscrive i giocatori. Un giocatore ha un nome, eventualmente un club e una valutazione (il PR: più è basso, migliore è il giocatore). La valutazione è facoltativa — un giocatore senza valutazione non è un giocatore perfetto, e il motore non lo tratta mai come tale."
+
+#: ../../deroulement.md:12
+msgid ""
+"Une liste peut aussi être importée depuis un fichier CSV, celui d'une "
+"billetterie ou d'un tableur, et réexportée pour le tournoi suivant."
+msgstr "Un elenco può anche essere importato da un file CSV, quello di una biglietteria o di un foglio di calcolo, e riesportato per il torneo successivo."
+
+#: ../../deroulement.md:15
+msgid "Le premier appariement"
+msgstr "Il primo abbinamento"
+
+#: ../../deroulement.md:17
+msgid ""
+"Dès qu'il y a deux joueurs libres, le moteur propose un match : deux "
+"noms, une longueur en points, et un numéro de table. Le directeur "
+"confirme ; les joueurs vont s'asseoir."
+msgstr "Appena ci sono due giocatori liberi, il motore propone una partita: due nomi, una lunghezza in punti e un numero di tavolo. Il direttore conferma; i giocatori vanno a sedersi."
+
+#: ../../deroulement.md:20
+msgid ""
+"Les tables ne sont pas de simples numéros. Une table peut être "
+"**indisponible** — plateau cassé, table retirée —, ou **réservée** à la "
+"retransmission de la finale. Le moteur les saute, et si aucune table "
+"n'est libre, il le dit au lieu de rester muet."
+msgstr "I tavoli non sono semplici numeri. Un tavolo può essere **non disponibile** — tavoliere rotto, tavolo tolto — oppure **riservato** alla trasmissione della finale. Il motore li salta, e se nessun tavolo è libero lo dice invece di restare muto."
+
+#: ../../deroulement.md:24
+msgid "Pendant : les résultats"
+msgstr "Durante: i risultati"
+
+#: ../../deroulement.md:26
+msgid ""
+"Le directeur saisit les résultats au fur et à mesure : le vainqueur, et "
+"le score s'il le connaît. Le score est facultatif ; ce qui compte, c'est "
+"qui a gagné."
+msgstr "Il direttore inserisce i risultati man mano: il vincitore, e il punteggio se lo conosce. Il punteggio è facoltativo; ciò che conta è chi ha vinto."
+
+#: ../../deroulement.md:29
+msgid ""
+"Chaque résultat libère deux joueurs, et le moteur propose aussitôt de "
+"nouveaux matchs. C'est le mode **continu** : on ne fait attendre "
+"personne. Il a un défaut connu — celui qui finit à 14 h 03 pourrait "
+"choisir son adversaire en annonçant à 14 h 04 ou à 14 h 20. Les **micro-"
+"rondes** ferment cette porte : les appariements se font par lots, à heure"
+" fixe, et le moteur affiche le temps qui reste avant le prochain."
+msgstr "Ogni risultato libera due giocatori, e il motore propone subito nuove partite. È la modalità **continua**: non si fa aspettare nessuno. Ha un difetto noto — chi finisce alle 14:03 potrebbe scegliere il proprio avversario annunciando alle 14:04 o alle 14:20. Le **micro-tornate** chiudono quella porta: gli abbinamenti si fanno a lotti, a ore fisse, e il motore mostra il tempo che manca al prossimo."
+
+#: ../../deroulement.md:35
+msgid ""
+"Le contraire du continu, ce sont les **rondes** : tout le monde joue en "
+"même temps, et l'on attend le dernier match avant de repartir. C'est plus"
+" simple à suivre, et beaucoup plus long."
+msgstr "Il contrario del continuo sono le **tornate**: tutti giocano nello stesso momento, e si aspetta l'ultima partita prima di ripartire. È più semplice da seguire, e molto più lungo."
+
+#: ../../deroulement.md:38
+msgid "Ce qui ne se passe pas comme prévu"
+msgstr "Ciò che non va come previsto"
+
+#: ../../deroulement.md:40
+msgid ""
+"Un joueur arrive en retard, après le tirage. Le moteur énumère les places"
+" d'exemption encore libres, et l'y installe **sans refaire le tirage**. "
+"S'il n'y a pas de place, il est inscrit quand même et le moteur dit où il"
+" entrera."
+msgstr "Un giocatore arriva in ritardo, dopo il sorteggio. Il motore elenca i posti di riposo ancora liberi e ve lo colloca **senza rifare il sorteggio**. Se non c'è posto, viene iscritto lo stesso e il motore dice dove entrerà."
+
+#: ../../deroulement.md:44
+msgid ""
+"Un joueur doit partir à 18 h. Il peut se retirer tout de suite — ses "
+"matchs en cours sont perdus par forfait — ou se retirer **après son match"
+" en cours**, qui va alors à son terme."
+msgstr "Un giocatore deve andarsene alle 18. Può ritirarsi subito — le sue partite in corso sono perse a tavolino — oppure ritirarsi **dopo la partita in corso**, che allora arriva alla fine."
+
+#: ../../deroulement.md:47
+msgid ""
+"Un joueur ne se présente pas. C'est un forfait pour ce match seulement : "
+"il n'a pas quitté le tournoi, et suit ensuite le chemin d'un perdant "
+"ordinaire, la consolante par exemple."
+msgstr "Un giocatore non si presenta. È una sconfitta a tavolino solo per quella partita: non ha lasciato il torneo, e in seguito segue il percorso di un perdente ordinario, la consolazione per esempio."
+
+#: ../../deroulement.md:50
+msgid ""
+"Un match a été lancé par erreur : on l'annule, et sa place redevient "
+"libre."
+msgstr "Una partita è stata avviata per errore: la si annulla, e il suo posto torna libero."
+
+#: ../../deroulement.md:52
+msgid "Une erreur découverte après coup"
+msgstr "Un errore scoperto in seguito"
+
+#: ../../deroulement.md:54
+msgid ""
+"Un résultat était faux. **Le journal n'est jamais modifié** : une "
+"correction est un événement de plus, et l'état est recalculé à partir de "
+"tout ce qui a été enregistré."
+msgstr "Un risultato era sbagliato. **Il giornale non viene mai modificato**: una correzione è un evento in più, e lo stato è ricalcolato a partire da tutto ciò che è stato registrato."
+
+#: ../../deroulement.md:57
+msgid ""
+"Si le match corrigé était dans un tableau, les matchs suivants ont été "
+"joués par les mauvaises personnes. Le moteur le signale, puis **propose "
+"la réparation** : annuler la demi-finale, annuler la finale, puis "
+"relancer les bons matchs. Le directeur confirme, ou fait autrement. Rien "
+"n'est annulé d'office."
+msgstr "Se la partita corretta era in un tabellone, le partite successive sono state giocate dalle persone sbagliate. Il motore lo segnala, poi **propone la riparazione**: annullare la semifinale, annullare la finale, poi riavviare le partite giuste. Il direttore conferma, o fa diversamente. Nulla viene annullato d'ufficio."
+
+#: ../../deroulement.md:62
+msgid ""
+"Un tournoi déjà clos peut être **rouvert** : le classement final est "
+"effacé, la correction appliquée, et le classement recalculé à la clôture "
+"suivante."
+msgstr "Un torneo già chiuso può essere **riaperto**: la classifica finale viene cancellata, la correzione applicata, e la classifica ricalcolata alla chiusura successiva."
+
+#: ../../deroulement.md:65
+msgid "Le repas"
+msgstr "Il pasto"
+
+#: ../../deroulement.md:67
+msgid ""
+"Les pauses programmées sont déclarées à l'avance. Un match dont la fin "
+"attendue tomberait pendant la pause est signalé — mais **il reste "
+"proposé**. Le directeur sait si ces deux-là mangeront après."
+msgstr "Le pause programmate sono dichiarate in anticipo. Una partita la cui fine prevista cadrebbe durante la pausa viene segnalata — ma **resta proposta**. Il direttore sa se quei due mangeranno dopo."
+
+#: ../../deroulement.md:71
+msgid "La fin"
+msgstr "La fine"
+
+#: ../../deroulement.md:73
+msgid ""
+"Le classement se lit à tout moment, pas seulement à la fin. Il place les "
+"joueurs par ce qu'ils ont atteint : vainqueur, finaliste, éliminé à tel "
+"tour, éliminé avec tant de victoires. **Les ex æquo restent ex æquo** : "
+"aucun départage caché ne les sépare."
+msgstr "La classifica si legge in ogni momento, non solo alla fine. Colloca i giocatori secondo ciò che hanno raggiunto: vincitore, finalista, eliminato a quel turno, eliminato con tante vittorie. **I pari merito restano pari merito**: nessuno spareggio nascosto li separa."
+
+#: ../../deroulement.md:77
+msgid ""
+"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue"
+" d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et"
+" non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
+"prix est arrondi à l'unité et le reste va au premier, de sorte que la "
+"somme distribuée égale exactement le pool après retenue. Une consolante "
+"peut avoir ses propres prix, sur son propre classement."
+msgstr "Il montepremi si ripartisce su questa classifica. Una quota d'iscrizione, una trattenuta d'organizzazione, delle percentuali — un manifesto annuncia «50/30/20 %» e non degli importi, poiché il monte dipende dal numero degli iscritti. Ogni premio è arrotondato all'unità e il resto va al primo, in modo che la somma distribuita sia esattamente il monte al netto della trattenuta. Una consolazione può avere i propri premi, sulla propria classifica."
+
+#: ../../deroulement.md:83
+msgid "Ce qui est affiché"
+msgstr "Ciò che viene mostrato"
+
+#: ../../deroulement.md:85
+msgid ""
+"Le moteur produit des pages autonomes : un seul fichier, qui s'ouvre hors"
+" ligne depuis une clé USB sur l'ordinateur de la salle. L'écran mural "
+"montre les actions à faire, la grille des tables, les matchs en cours, "
+"les arbres et le classement. La feuille d'appariements s'imprime sur une "
+"page A4, avec une case vide par joueur pour écrire le score à la main."
+msgstr "Il motore produce pagine autonome: un solo file, che si apre fuori linea da una chiavetta USB sul computer della sala. Lo schermo a muro mostra le azioni da fare, la griglia dei tavoli, le partite in corso, i tabelloni e la classifica. Il foglio degli abbinamenti si stampa su una pagina A4, con una casella vuota per giocatore per scrivere il punteggio a mano."
+

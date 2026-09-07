@@ -1,0 +1,59 @@
+# Publication du site sur GitHub Pages, à chaque poussée sur la branche principale.
+#
+# Le site est construit dans les neuf langues (site/build.py) et déployé tel quel. Une chaîne non
+# traduite retombe sur le français : c'est le comportement natif de gettext, et il est voulu —
+# mieux vaut une page à moitié française qu'une page absente.
+#
+# L'URL est https://pileofcells.github.io/backgammon-tournoi/ et elle est STABLE : elle est citée
+# depuis le logiciel hôte. La racine redirige vers le français et liste les neuf langues.
+name: Site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Dépendances
+        run: pip install -r site/requirements.txt
+      - name: Construire les neuf langues
+        run: python site/build.py
+      - name: Les catalogues sont-ils à jour ?
+        # Un .rst ou .md modifié sans que ses catalogues soient régénérés fait dériver les
+        # traductions en silence. On le dit ici plutôt que de le découvrir en ligne.
+        run: |
+          python site/build.py --pot --langue fr
+          if ! git diff --quiet -- site/locale; then
+            echo "::warning::les catalogues de site/locale ne sont pas à jour ; lancer site/build.py --pot"
+            git diff --stat -- site/locale
+          fi
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/_site
+
+  deployer:
+    needs: construire
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
+      - id: deploiement
+        uses: actions/deploy-pages@v4

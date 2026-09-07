@@ -1,0 +1,217 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: el\n"
+"Language-Team: el <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../formats.md:1
+msgid "Les formats"
+msgstr "Τα φορμά"
+
+#: ../../formats.md:3
+msgid ""
+"Un tournoi est une suite de **phases**. Chaque phase a son format, et les"
+" survivants de l'une entrent dans la suivante — parfois avec leurs vies "
+"restantes. Les formats disponibles sont les suivants ; le choix entre eux"
+" est justifié par [l'étude](etude_formats.md)."
+msgstr "Ένα τουρνουά είναι μια αλληλουχία **φάσεων**. Κάθε φάση έχει το φορμά της, και όσοι επιβιώνουν από τη μία μπαίνουν στην επόμενη — ενίοτε με τις ζωές που τους απομένουν. Τα διαθέσιμα φορμά είναι τα ακόλουθα· η επιλογή ανάμεσά τους αιτιολογείται από [τη μελέτη](etude_formats.md)."
+
+#: ../../formats.md:7
+msgid "Suisse à vies"
+msgstr "Ελβετικό με ζωές"
+
+#: ../../formats.md:9
+msgid ""
+"Chaque joueur commence avec un nombre de **vies** (deux, en général) et "
+"en perd une à chaque défaite. On apparie les joueurs qui ont le même "
+"nombre de défaites, en évitant de rejouer un adversaire déjà rencontré "
+"et, si on le demande, les joueurs d'un même club."
+msgstr "Κάθε παίκτης ξεκινά με έναν αριθμό **ζωών** (δύο, κατά κανόνα) και χάνει μία σε κάθε ήττα. Ζευγαρώνονται οι παίκτες με τον ίδιο αριθμό ηττών, αποφεύγοντας τον αντίπαλο που έχουν ήδη συναντήσει και, αν ζητηθεί, τους παίκτες του ίδιου συλλόγου."
+
+#: ../../formats.md:13
+msgid ""
+"C'est le format de référence : personne n'est éliminé au premier match, "
+"et tout le monde joue autant que son résultat le mérite."
+msgstr "Είναι το φορμά αναφοράς: κανείς δεν αποκλείεται στον πρώτο αγώνα, και όλοι παίζουν όσο αξίζει το αποτέλεσμά τους."
+
+#: ../../formats.md:16
+msgid ""
+"Il se joue **en continu** — dès que deux joueurs sont libres — ou **par "
+"rondes** — tout le monde en même temps. Le continu est nettement plus "
+"court : même nombre de matchs, presque quatre heures de salle en moins "
+"sur un tournoi de soixante-quatre joueurs."
+msgstr "Παίζεται **συνεχώς** — μόλις δύο παίκτες είναι ελεύθεροι — ή **σε γύρους** — όλοι ταυτόχρονα. Το συνεχές είναι σαφώς πιο σύντομο: ίδιος αριθμός αγώνων, σχεδόν τέσσερις ώρες λιγότερες στην αίθουσα σε τουρνουά εξήντα τεσσάρων παικτών."
+
+#: ../../formats.md:20
+msgid ""
+"Une option importante : **la bascule**. On arrête le suisse dès que la "
+"somme des vies restantes atteint une puissance de deux — seize, par "
+"exemple — et on bascule sur un tableau de seize places, où les joueurs à "
+"deux vies sont exempts du premier tour. C'est le format recommandé : la "
+"meilleure qualité pour la durée la plus courte."
+msgstr "Μια σημαντική επιλογή: **η μετάβαση**. Το ελβετικό σταματά μόλις το άθροισμα των ζωών που απομένουν φτάσει μια δύναμη του δύο — δεκαέξι, για παράδειγμα — και περνά σε ταμπλό δεκαέξι θέσεων, όπου οι παίκτες με δύο ζωές εξαιρούνται από τον πρώτο γύρο. Είναι το συνιστώμενο φορμά: η καλύτερη ποιότητα στη μικρότερη διάρκεια."
+
+#: ../../formats.md:25
+msgid "Tableaux"
+msgstr "Ταμπλό"
+
+#: ../../formats.md:27
+msgid ""
+"L'**élimination simple** est ce que tout le monde connaît : on perd, on "
+"sort. C'est court, et c'est brutal — la moitié du champ a joué un seul "
+"match."
+msgstr "Ο **απλός αποκλεισμός** είναι αυτό που ξέρουν όλοι: χάνεις, βγαίνεις. Είναι σύντομος, και σκληρός — οι μισοί συμμετέχοντες έχουν παίξει έναν μόνο αγώνα."
+
+#: ../../formats.md:30
+msgid "Trois variantes l'adoucissent :"
+msgstr "Τρεις παραλλαγές τον απαλύνουν:"
+
+#: ../../formats.md:32
+msgid ""
+"la **consolante** recueille les perdants du tableau principal et leur "
+"donne un second tournoi ;"
+msgstr "το **παρηγορητικό** μαζεύει τους ηττημένους του κυρίως ταμπλό και τους δίνει ένα δεύτερο τουρνουά·"
+
+#: ../../formats.md:33
+msgid "la **dernière chance** recueille les perdants de la consolante ;"
+msgstr "η **τελευταία ευκαιρία** μαζεύει τους ηττημένους του παρηγορητικού·"
+
+#: ../../formats.md:34
+msgid ""
+"la **réconciliation** fait jouer le vainqueur de la consolante contre "
+"celui du principal — et avec la **recharge**, le vainqueur du principal "
+"doit être battu deux fois. C'est la double élimination véritable."
+msgstr "η **συμφιλίωση** βάζει τον νικητή του παρηγορητικού να παίξει με τον νικητή του κυρίως ταμπλό — και με την **επαναφόρτιση**, ο νικητής του κυρίως ταμπλό πρέπει να νικηθεί δύο φορές. Αυτός είναι ο αληθινός διπλός αποκλεισμός."
+
+#: ../../formats.md:38
+msgid ""
+"Le **tableau à vies** est un tableau où un joueur qui arrive avec deux "
+"vies est exempt du premier tour. C'est ainsi qu'un suisse bascule sur un "
+"tableau sans rien perdre de ce qui a été joué."
+msgstr "Το **ταμπλό με ζωές** είναι ένα ταμπλό όπου ο παίκτης που φτάνει με δύο ζωές εξαιρείται από τον πρώτο γύρο. Έτσι ένα ελβετικό περνά σε ταμπλό χωρίς να χάνεται τίποτε από όσα παίχτηκαν."
+
+#: ../../formats.md:41
+msgid ""
+"Les longueurs de match peuvent croître vers la fin : `15, 13, 11, 9` se "
+"lit du dernier tour vers le premier — finale en quinze points, demies en "
+"treize, quarts en onze, le reste en neuf."
+msgstr "Τα μήκη των αγώνων μπορούν να μεγαλώνουν προς το τέλος: το `15, 13, 11, 9` διαβάζεται από τον τελευταίο γύρο προς τον πρώτο — τελικός στους δεκαπέντε πόντους, ημιτελικοί στους δεκατρείς, προημιτελικοί στους έντεκα, τα υπόλοιπα στους εννέα."
+
+#: ../../formats.md ../../formats.md:44
+msgid "Blocs GSL"
+msgstr "Μπλοκ GSL"
+
+#: ../../formats.md:46
+msgid ""
+"Des groupes de quatre joueurs, deux vies chacun : deux matchs "
+"d'ouverture, un match des gagnants, un match des perdants, un match "
+"décisif. Deux joueurs sortent de chaque groupe."
+msgstr "Όμιλοι τεσσάρων παικτών, δύο ζωές ο καθένας: δύο αγώνες εκκίνησης, ένας αγώνας νικητών, ένας αγώνας ηττημένων, ένας καθοριστικός. Δύο παίκτες βγαίνουν από κάθε όμιλο."
+
+#: ../../formats.md:49
+msgid ""
+"C'est le format le plus lisible pour les joueurs — chacun sait à l'avance"
+" combien de matchs il jouera et contre qui — et le plus facile à caler "
+"sur des créneaux horaires. Il est aussi le plus long : on attend le "
+"groupe entier."
+msgstr "Είναι το πιο ευανάγνωστο φορμά για τους παίκτες — ο καθένας ξέρει από πριν πόσους αγώνες θα παίξει και με ποιον — και το πιο εύκολο να μπει σε ωράριο. Είναι επίσης το πιο μακρύ: περιμένει κανείς ολόκληρο τον όμιλο."
+
+#: ../../formats.md ../../formats.md:53
+msgid "Poules"
+msgstr "Όμιλοι"
+
+#: ../../formats.md:55
+msgid ""
+"Des poules toutes rondes : chacun rencontre chacun, selon la table de "
+"Berger. Les premiers de chaque poule sont qualifiés pour la suite. Une "
+"égalité ne se départage pas au petit point : elle se règle par un "
+"**barrage** à deux vies entre les joueurs concernés."
+msgstr "Όμιλοι με όλους εναντίον όλων, σύμφωνα με τον πίνακα Berger. Οι πρώτοι κάθε ομίλου προκρίνονται. Μια ισοβαθμία δεν λύνεται στους πόντους: λύνεται με **μπαράζ** δύο ζωών ανάμεσα στους ενδιαφερόμενους παίκτες."
+
+#: ../../formats.md:59
+msgid "Têtes de série"
+msgstr "Φαβορί"
+
+#: ../../formats.md:61
+msgid ""
+"Par défaut, un tableau est tiré **au hasard**, intégralement. C'est un "
+"choix, pas un oubli : c'est la culture actuelle du backgammon, et l'étude"
+" ne montre aucun besoin d'y déroger."
+msgstr "Εξ ορισμού, ένα ταμπλό κληρώνεται **στην τύχη**, εξ ολοκλήρου. Είναι επιλογή, όχι παράλειψη: είναι η σημερινή κουλτούρα του τάβλι, και η μελέτη δεν δείχνει καμία ανάγκη να παρεκκλίνουμε από αυτήν."
+
+#: ../../formats.md:64
+msgid ""
+"Pour les organisateurs qui en veulent, une option place les joueurs par "
+"cote selon la construction classique — le premier contre le seizième, le "
+"deuxième contre le quinzième — de sorte que les deux meilleurs ne peuvent"
+" pas se rencontrer avant la finale. Elle est éteinte tant qu'on ne la "
+"demande pas."
+msgstr "Για τους διοργανωτές που τα θέλουν, μια επιλογή τοποθετεί τους παίκτες κατά βαθμολογία σύμφωνα με την κλασική κατασκευή — ο πρώτος με τον δέκατο έκτο, ο δεύτερος με τον δέκατο πέμπτο — ώστε οι δύο καλύτεροι να μην μπορούν να συναντηθούν πριν τον τελικό. Μένει σβηστή όσο δεν ζητείται."
+
+#: ../../formats.md:69
+msgid "Lequel choisir"
+msgstr "Ποιο να διαλέξετε"
+
+#: ../../formats.md
+msgid "Vous voulez"
+msgstr "Θέλετε"
+
+#: ../../formats.md
+msgid "Prenez"
+msgstr "Πάρτε"
+
+#: ../../formats.md
+msgid "Le meilleur compromis qualité / durée"
+msgstr "Τον καλύτερο συμβιβασμό ποιότητας / διάρκειας"
+
+#: ../../formats.md
+msgid "Suisse à deux vies avec bascule sur un tableau de seize"
+msgstr "Ελβετικό δύο ζωών με μετάβαση σε ταμπλό δεκαέξι"
+
+#: ../../formats.md
+msgid "Le plus court"
+msgstr "Το πιο σύντομο"
+
+#: ../../formats.md
+msgid "Élimination simple"
+msgstr "Απλός αποκλεισμός"
+
+#: ../../formats.md
+msgid "Que personne ne parte après un seul match"
+msgstr "Να μη φύγει κανείς μετά από έναν μόνο αγώνα"
+
+#: ../../formats.md
+msgid "Suisse à deux vies, ou principal + consolante"
+msgstr "Ελβετικό δύο ζωών, ή κυρίως ταμπλό + παρηγορητικό"
+
+#: ../../formats.md
+msgid "Que chacun sache à l'avance son programme"
+msgstr "Να ξέρει ο καθένας από πριν το πρόγραμμά του"
+
+#: ../../formats.md
+msgid "Un petit champ, beaucoup de matchs"
+msgstr "Λίγοι συμμετέχοντες, πολλοί αγώνες"
+
+#: ../../formats.md
+msgid "Le champion doit être battu deux fois"
+msgstr "Ο πρωταθλητής πρέπει να νικηθεί δύο φορές"
+
+#: ../../formats.md
+msgid "Double élimination avec recharge"
+msgstr "Διπλός αποκλεισμός με επαναφόρτιση"
+

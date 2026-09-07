@@ -2,3 +2,16 @@ demo/
 *.swp
 .idea/
 .vscode/
+
+# Chaîne de construction du site
+.venv-doc/
+__pycache__/
+site/_build/
+site/_site/
+# Les .mo sont COMPILÉS depuis les .po à chaque construction. Un .mo commis finit par masquer
+# un .po plus récent — la page reste alors dans l'ancienne traduction sans que rien ne le dise.
+*.mo
+# Documents longs recopiés depuis docs/ par site/build.py
+site/comprendre_le_moteur.md
+site/etude_formats.md
+site/specification.md

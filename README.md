@@ -10,6 +10,9 @@ organisateurs — voir `docs/comprendre_le_moteur.md`. La **spécification compl
 pour reconstruire le moteur à partir d'elle seule, est dans `docs/specification.md`.
 Les deux existent aussi en PDF à côté.
 
+**Documentation en ligne, en neuf langues :**
+<https://pileofcells.github.io/backgammon-tournoi/>
+
 ```bash
 go get github.com/PileOfCells/backgammon-tournoi
 ```
@@ -56,6 +59,7 @@ grille par tour lue **du dernier tour vers le premier** (`[15,13,11,9]`), `lengt
 - `cmd/tournoi-demo` : démonstration (`go run ./cmd/tournoi-demo -format suisse_tableau -joueurs 32 -etapes -sortie demo`, `-rejouer demo/journal.json`).
 - `cmd/tournoi-td` : console interactive pour diriger un tournoi à la main (voir « Tester à la main »).
 - `exemples/` : tournois simulés rendus à quatre stades pour sept formats ; ouvrir `exemples/index.html`. Régénérer avec `scripts/exemples.sh`.
+- `site/` : le site publié (Sphinx + gettext, neuf langues). Voir `site/README.md` pour le construire et pour ce qui reste à traduire.
 
 ## Tests
 

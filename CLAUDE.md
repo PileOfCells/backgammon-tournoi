@@ -99,6 +99,20 @@ Un `Match` (state.go, joué, avec table et horodatages) est relié à son `GMatc
 - `players/` : import et export CSV (séparateur détecté, identifiants en slug ; `ToCSV` écrit ce que `FromCSV` relit).
 - `cmd/tournoi-demo`, `cmd/tournoi-td` : chacun a sa propre map `formats` de configurations nommées ; les garder cohérentes si on en ajoute une.
 
+## Site publié
+
+`site/` est un projet Sphinx (MyST + gettext) publié sur GitHub Pages à chaque poussée sur `main`
+(`.github/workflows/pages.yml`). Le français est la source ; huit catalogues gettext dans
+`site/locale/` ; une chaîne non traduite retombe sur le français, ce qui est voulu.
+
+Les trois documents longs (`comprendre_le_moteur.md`, `etude_formats.md`, `specification.md`)
+restent dans `docs/`, leur source canonique ; `site/build.py` les recopie avant la construction.
+**Après toute modification d'une page du site ou de ces trois documents**, régénérer les
+catalogues (`site/build.py --pot --langue fr`) — la CI le signale sinon. Ne jamais réécrire un
+`.po` avec `msgcat`, Babel ou polib : ils reformatent tout le fichier. Utiliser
+`site/po-fill.py`, qui n'édite que les entrées demandées. Voir `site/README.md` pour l'état des
+traductions.
+
 ## Intégration continue
 
 `.github/workflows/ci.yml` : trois travaux, et l'en-tête du fichier dit pourquoi chacun est là.

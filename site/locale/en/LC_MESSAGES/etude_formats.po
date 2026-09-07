@@ -1,0 +1,137 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../etude_formats.md:1
+msgid "Synthèse de l'étude des formats (septembre 2026)"
+msgstr ""
+
+#: ../../etude_formats.md:3
+msgid ""
+"L'étude a été menée avec un simulateur Python (non publié) puis vérifiée "
+"avec `sim/` de ce dépôt."
+msgstr ""
+
+#: ../../etude_formats.md:5
+msgid ""
+"Critères : maximiser l'espérance de gain des meilleurs joueurs à durée "
+"donnée, format pilotable par un TD (papier ou logiciel), aucun match "
+"inutile, **aucun départage**."
+msgstr ""
+
+#: ../../etude_formats.md:8
+msgid "Modèle"
+msgstr ""
+
+#: ../../etude_formats.md:10
+msgid ""
+"Probabilité de gain : formule Elo/FIBS `P = 1/(1+10^(-D·√N/2000))` avec 3"
+" PR = 100 Elo. Sur la base BMAB (33 238 matchs uniques), la taille de "
+"l'effet est confirmée : 1 PR d'écart vaut 2,8 % à 7–11 points (β = 0,036 "
+"à α = 0,5, théorie 0,039)."
+msgstr ""
+
+#: ../../etude_formats.md:13
+msgid ""
+"L'exposant α de la longueur N n'est pas identifiable avec ces données : "
+"vraisemblance plate entre 0 et 0,7, α = 1 exclu. Le PR du match donne α ≈"
+" 0,23, IC [0 ; 0,53]. La mécanique « erreur cumulée ∝ N, chance ∝ √N » "
+"est vérifiée, ce qui soutient α = 0,5 pour un PR réalisé."
+msgstr ""
+
+#: ../../etude_formats.md:16
+msgid ""
+"Durée d'un match : ≈ 8 min/point en moyenne (11 min/point pour planifier "
+"une ronde)."
+msgstr ""
+
+#: ../../etude_formats.md:18
+msgid ""
+"Résultats robustes (grilles à budget de temps constant, 32 et 64 joueurs,"
+" 8 h et 16 h)"
+msgstr ""
+
+#: ../../etude_formats.md:20
+msgid ""
+"Un suisse à vies est une double élimination sans tableau : chaque défaite"
+" compte pareil, tout effectif est admis, la fin est toujours résoluble "
+"sans départage."
+msgstr ""
+
+#: ../../etude_formats.md:22
+msgid ""
+"L'attente est le premier gaspillage : le suisse synchrone fait attendre "
+"10 à 15 fois plus que le continu (174 min contre 12 par joueur sur 16 h),"
+" soit deux points de match perdus."
+msgstr ""
+
+#: ../../etude_formats.md:24
+msgid ""
+"Le continu est manipulable par l'heure d'annonce du résultat ; parades : "
+"blocs GSL (appariement figé par les résultats) ou tirage aléatoire dans "
+"la file."
+msgstr ""
+
+#: ../../etude_formats.md:26
+#, python-format
+msgid ""
+"Bascule « somme des vies = 2^k » (2 vies = exemption du premier tour) : "
+"dans le groupe de tête que la longueur compte ou non. L'élimination "
+"simple longue est la meilleure si √N est vrai, la pire sinon. 3 vies et "
+"HSBT ne sont jamais gagnants ; HSBT jette l'information des rondes du "
+"samedi (≈ 50 % du champ qualifié)."
+msgstr ""
+
+#: ../../etude_formats.md:30
+msgid ""
+"Répartition des longueurs entre rondes : presque neutre (finale longue = "
+"spectacle gratuit)."
+msgstr ""
+
+#: ../../etude_formats.md:31
+#, python-format
+msgid ""
+"Une fin de semaine ne fait gagner « le meilleur » que 4 à 9 % du temps "
+"(64 ou 32 joueurs), contre 1,6 à 3 % au hasard : le format joue sur un "
+"facteur 2 à 3."
+msgstr ""
+
+#: ../../etude_formats.md:34
+msgid ""
+"Choix retenus : pas de finale à handicap, pas de têtes de série protégées"
+" (culture actuelle du backgammon). Les têtes de série existent depuis en "
+"**option** du moteur (`seeding: \"rating\"` sur une phase de tableau), "
+"éteintes par défaut : la conclusion de l'étude reste le défaut, l'option "
+"est là pour l'organisateur qui décide autrement."
+msgstr ""
+
+#: ../../etude_formats.md:39
+msgid "Format recommandé"
+msgstr ""
+
+#: ../../etude_formats.md:41
+msgid ""
+"Suisse 2 vies en continu (appariement aléatoire dans le groupe de même "
+"nombre de défaites, pas de rematch, bye au groupe le plus bas), arrêt "
+"quand la somme des vies vaut 16 ou 32, puis tableau à exemptions avec "
+"matchs plus longs. Variante anti-manipulation : blocs GSL calés sur les "
+"repas."
+msgstr ""
+

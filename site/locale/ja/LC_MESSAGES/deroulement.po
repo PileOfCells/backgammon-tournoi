@@ -1,0 +1,202 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ja\n"
+"Language-Team: ja <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../deroulement.md:1
+msgid "Le déroulement d'un tournoi"
+msgstr "トーナメントの流れ"
+
+#: ../../deroulement.md:3
+msgid ""
+"Cette page décrit une journée de tournoi du point de vue du directeur, et"
+" ce que le moteur fait à chaque étape. Rien ici ne suppose de savoir "
+"programmer."
+msgstr "このページは、ディレクターの視点から見たトーナメントの一日と、各段階でエンジンが行うことを説明します。プログラミングの知識は一切必要ありません。"
+
+#: ../../deroulement.md:6
+msgid "Avant le début : les inscriptions"
+msgstr "開始前 — 受付"
+
+#: ../../deroulement.md:8
+msgid ""
+"Le directeur inscrit les joueurs. Un joueur a un nom, éventuellement un "
+"club et une cote (le PR : plus il est bas, meilleur est le joueur). La "
+"cote est facultative — un joueur sans cote n'est pas un joueur parfait, "
+"et le moteur ne le traite jamais comme tel."
+msgstr "ディレクターが参加者を登録します。参加者には名前があり、必要ならクラブとレーティング（PR。低いほど強い）を持ちます。レーティングは任意です — レーティングのない参加者は完璧な打ち手ではなく、エンジンがそう扱うことは決してありません。"
+
+#: ../../deroulement.md:12
+msgid ""
+"Une liste peut aussi être importée depuis un fichier CSV, celui d'une "
+"billetterie ou d'un tableur, et réexportée pour le tournoi suivant."
+msgstr "名簿はチケット販売サービスや表計算ソフトの CSV ファイルから取り込むこともでき、次のトーナメントのために書き出すこともできます。"
+
+#: ../../deroulement.md:15
+msgid "Le premier appariement"
+msgstr "最初の組み合わせ"
+
+#: ../../deroulement.md:17
+msgid ""
+"Dès qu'il y a deux joueurs libres, le moteur propose un match : deux "
+"noms, une longueur en points, et un numéro de table. Le directeur "
+"confirme ; les joueurs vont s'asseoir."
+msgstr "手の空いた参加者が二人そろうと、エンジンは対戦を提案します。二つの名前、ポイント数、そして卓番号です。ディレクターが承認すれば、二人は席に着きます。"
+
+#: ../../deroulement.md:20
+msgid ""
+"Les tables ne sont pas de simples numéros. Une table peut être "
+"**indisponible** — plateau cassé, table retirée —, ou **réservée** à la "
+"retransmission de la finale. Le moteur les saute, et si aucune table "
+"n'est libre, il le dit au lieu de rester muet."
+msgstr "卓は単なる番号ではありません。卓は **使用不可** — 盤が壊れた、撤去した — であったり、決勝の中継用に **予約済み** であったりします。エンジンはそれらを飛ばし、空いている卓がなければ、黙り込まずにそう伝えます。"
+
+#: ../../deroulement.md:24
+msgid "Pendant : les résultats"
+msgstr "進行中 — 結果の入力"
+
+#: ../../deroulement.md:26
+msgid ""
+"Le directeur saisit les résultats au fur et à mesure : le vainqueur, et "
+"le score s'il le connaît. Le score est facultatif ; ce qui compte, c'est "
+"qui a gagné."
+msgstr "ディレクターは結果を随時入力します。勝者と、分かっていればスコアです。スコアは任意で、大切なのは誰が勝ったかです。"
+
+#: ../../deroulement.md:29
+msgid ""
+"Chaque résultat libère deux joueurs, et le moteur propose aussitôt de "
+"nouveaux matchs. C'est le mode **continu** : on ne fait attendre "
+"personne. Il a un défaut connu — celui qui finit à 14 h 03 pourrait "
+"choisir son adversaire en annonçant à 14 h 04 ou à 14 h 20. Les **micro-"
+"rondes** ferment cette porte : les appariements se font par lots, à heure"
+" fixe, et le moteur affiche le temps qui reste avant le prochain."
+msgstr "結果が一つ入るたびに二人が手空きになり、エンジンはただちに新しい対戦を提案します。これが **連続** モードで、誰も待たせません。ただし既知の弱点があります — 14 時 03 分に終えた人が、14 時 04 分に報告するか 14 時 20 分に報告するかで相手を選べてしまうのです。**マイクロラウンド** はこの抜け道をふさぎます。組み合わせは決まった時刻にまとめて行われ、エンジンは次回までの残り時間を表示します。"
+
+#: ../../deroulement.md:35
+msgid ""
+"Le contraire du continu, ce sont les **rondes** : tout le monde joue en "
+"même temps, et l'on attend le dernier match avant de repartir. C'est plus"
+" simple à suivre, et beaucoup plus long."
+msgstr "連続モードの対極が **ラウンド** です。全員が同時に対戦し、最後の一局が終わるまで次に進みません。追いかけやすい代わりに、はるかに時間がかかります。"
+
+#: ../../deroulement.md:38
+msgid "Ce qui ne se passe pas comme prévu"
+msgstr "予定どおりにいかないとき"
+
+#: ../../deroulement.md:40
+msgid ""
+"Un joueur arrive en retard, après le tirage. Le moteur énumère les places"
+" d'exemption encore libres, et l'y installe **sans refaire le tirage**. "
+"S'il n'y a pas de place, il est inscrit quand même et le moteur dit où il"
+" entrera."
+msgstr "抽選のあとに参加者が遅れて到着した。エンジンはまだ空いている不戦勝の枠を挙げ、**抽選をやり直さずに** そこへ入れます。枠がなければ登録だけは行い、どこから入ることになるかを伝えます。"
+
+#: ../../deroulement.md:44
+msgid ""
+"Un joueur doit partir à 18 h. Il peut se retirer tout de suite — ses "
+"matchs en cours sont perdus par forfait — ou se retirer **après son match"
+" en cours**, qui va alors à son terme."
+msgstr "参加者が 18 時に帰らなければならない。すぐに棄権することも — 進行中の対戦は不戦敗になります — **進行中の対戦のあとで** 棄権することもでき、その場合その対戦は最後まで行われます。"
+
+#: ../../deroulement.md:47
+msgid ""
+"Un joueur ne se présente pas. C'est un forfait pour ce match seulement : "
+"il n'a pas quitté le tournoi, et suit ensuite le chemin d'un perdant "
+"ordinaire, la consolante par exemple."
+msgstr "参加者が現れない。それはその対戦だけの不戦敗です。トーナメントを去ったわけではなく、その後は通常の敗者と同じ道、たとえば敗者復活へ進みます。"
+
+#: ../../deroulement.md:50
+msgid ""
+"Un match a été lancé par erreur : on l'annule, et sa place redevient "
+"libre."
+msgstr "誤って開始した対戦は取り消せます。その枠はふたたび空きになります。"
+
+#: ../../deroulement.md:52
+msgid "Une erreur découverte après coup"
+msgstr "あとから見つかった誤り"
+
+#: ../../deroulement.md:54
+msgid ""
+"Un résultat était faux. **Le journal n'est jamais modifié** : une "
+"correction est un événement de plus, et l'état est recalculé à partir de "
+"tout ce qui a été enregistré."
+msgstr "結果が間違っていた。**記録簿は決して書き換えません。** 訂正はイベントを一つ追加することであり、状態は記録されたすべてから計算し直されます。"
+
+#: ../../deroulement.md:57
+msgid ""
+"Si le match corrigé était dans un tableau, les matchs suivants ont été "
+"joués par les mauvaises personnes. Le moteur le signale, puis **propose "
+"la réparation** : annuler la demi-finale, annuler la finale, puis "
+"relancer les bons matchs. Le directeur confirme, ou fait autrement. Rien "
+"n'est annulé d'office."
+msgstr "訂正した対戦がトーナメント表の中にあった場合、その先の対戦は違う人が行ったことになります。エンジンはそれを指摘したうえで **修復を提案** します。準決勝を取り消し、決勝を取り消し、正しい対戦を組み直す。ディレクターは承認してもよいし、別のやり方をしてもかまいません。勝手に取り消されることはありません。"
+
+#: ../../deroulement.md:62
+msgid ""
+"Un tournoi déjà clos peut être **rouvert** : le classement final est "
+"effacé, la correction appliquée, et le classement recalculé à la clôture "
+"suivante."
+msgstr "終了済みのトーナメントは **再開** できます。最終順位が消去され、訂正が適用され、次の終了時に順位が計算し直されます。"
+
+#: ../../deroulement.md:65
+msgid "Le repas"
+msgstr "食事"
+
+#: ../../deroulement.md:67
+msgid ""
+"Les pauses programmées sont déclarées à l'avance. Un match dont la fin "
+"attendue tomberait pendant la pause est signalé — mais **il reste "
+"proposé**. Le directeur sait si ces deux-là mangeront après."
+msgstr "予定された休憩はあらかじめ宣言します。終了予定が休憩に食い込む対戦には印が付きます — しかし **提案されたままです**。その二人があとで食事をするかどうかは、ディレクターが知っています。"
+
+#: ../../deroulement.md:71
+msgid "La fin"
+msgstr "終わり"
+
+#: ../../deroulement.md:73
+msgid ""
+"Le classement se lit à tout moment, pas seulement à la fin. Il place les "
+"joueurs par ce qu'ils ont atteint : vainqueur, finaliste, éliminé à tel "
+"tour, éliminé avec tant de victoires. **Les ex æquo restent ex æquo** : "
+"aucun départage caché ne les sépare."
+msgstr "順位表は最後だけでなく、いつでも読めます。到達点で並べます — 優勝、準優勝、どの回戦で敗退したか、何勝して敗退したか。**同順位は同順位のままです。** 隠れたタイブレークが分けることはありません。"
+
+#: ../../deroulement.md:77
+msgid ""
+"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue"
+" d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et"
+" non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
+"prix est arrondi à l'unité et le reste va au premier, de sorte que la "
+"somme distribuée égale exactement le pool après retenue. Une consolante "
+"peut avoir ses propres prix, sur son propre classement."
+msgstr "賞金はこの順位表に沿って配分されます。参加費、主催者の控除、割合 — ポスターが掲げるのは「50/30/20 %」であって金額ではありません。原資は参加人数で決まるからです。各賞金は単位に丸められ、端数は一位に回るので、配分の合計は控除後の原資とちょうど一致します。敗者復活戦には、その独自の順位表に基づく独自の賞金を設けられます。"
+
+#: ../../deroulement.md:83
+msgid "Ce qui est affiché"
+msgstr "画面に出るもの"
+
+#: ../../deroulement.md:85
+msgid ""
+"Le moteur produit des pages autonomes : un seul fichier, qui s'ouvre hors"
+" ligne depuis une clé USB sur l'ordinateur de la salle. L'écran mural "
+"montre les actions à faire, la grille des tables, les matchs en cours, "
+"les arbres et le classement. La feuille d'appariements s'imprime sur une "
+"page A4, avec une case vide par joueur pour écrire le score à la main."
+msgstr "エンジンは自己完結したページを作ります。一つのファイルで、会場のパソコンで USB メモリからオフラインで開けます。壁の画面には、やるべき動作、卓の一覧、進行中の対戦、トーナメント表、順位表が出ます。組み合わせ表は A4 一枚に印刷でき、各参加者の欄はスコアを手書きするために空けてあります。"
+

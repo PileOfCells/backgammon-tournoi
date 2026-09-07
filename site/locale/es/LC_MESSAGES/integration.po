@@ -1,0 +1,118 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../integration.md:1
+msgid "Intégrer le moteur"
+msgstr "Integrar el motor"
+
+#: ../../integration.md:3
+msgid ""
+"Cette page s'adresse à qui écrit le logiciel qui utilisera Nicomaque. "
+"Elle tient en une page ; la [spécification](specification.md) donne le "
+"détail."
+msgstr "Esta página se dirige a quien escribe el programa que usará Nicomaque. Cabe en una página; la [especificación](specification.md) da el detalle."
+
+#: ../../integration.md:6
+msgid "Le principe"
+msgstr "El principio"
+
+#: ../../integration.md:8
+msgid ""
+"Le moteur ne persiste rien et n'affiche rien. L'hôte conserve un "
+"**journal** — une liste ordonnée d'événements — et le moteur en "
+"reconstruit l'état à la demande."
+msgstr "El motor no persiste nada y no muestra nada. El anfitrión conserva un **diario** — una lista ordenada de eventos — y el motor reconstruye el estado a partir de él cuando se le pide."
+
+#: ../../integration.md:15
+msgid "Trois appels suffisent à comprendre la boucle :"
+msgstr "Tres llamadas bastan para entender el bucle:"
+
+#: ../../integration.md:17
+msgid "`Replay(journal)` reconstruit l'état complet ;"
+msgstr "`Replay(journal)` reconstruye el estado completo;"
+
+#: ../../integration.md:18
+msgid "`Propose()` — ou `ProposeAt(now)` — dit ce qu'il y a à faire maintenant ;"
+msgstr "`Propose()` — o `ProposeAt(now)` — dice qué hay que hacer ahora;"
+
+#: ../../integration.md:19
+msgid "`Apply(événement)` applique la décision du directeur."
+msgstr "`Apply(evento)` aplica la decisión del director."
+
+#: ../../integration.md:21
+msgid "La boucle"
+msgstr "El bucle"
+
+#: ../../integration.md:51
+msgid "Le journal se sérialise en JSON. Une reprise après panne est un `Replay`."
+msgstr "El diario se serializa en JSON. La recuperación tras un fallo es un `Replay`."
+
+#: ../../integration.md:53
+msgid "Les trois règles à ne pas oublier"
+msgstr "Las tres reglas que no hay que olvidar"
+
+#: ../../integration.md:55
+msgid ""
+"**On ne modifie jamais le journal.** Une correction est un événement de "
+"plus (`CorrectionEvent`), un forfait aussi (`PlayerWithdrawnEvent`), une "
+"annulation aussi (`CancelEvent`). Rien n'est effacé, rien n'est réécrit."
+msgstr "**El diario nunca se modifica.** Una corrección es un evento más (`CorrectionEvent`), una retirada también (`PlayerWithdrawnEvent`), una anulación también (`CancelEvent`). Nada se borra, nada se reescribe."
+
+#: ../../integration.md:59
+msgid ""
+"**Rien de ce qui sort du moteur n'est destiné à l'affichage.** Les "
+"libellés de match, les notes de classement, les avertissements et les "
+"raisons d'attente sont des **codes** structurés. C'est l'hôte qui les "
+"rend, dans la langue de son utilisateur. Un rendu français est fourni "
+"pour la console et les exemples, mais un hôte multilingue l'ignore."
+msgstr "**Nada de lo que sale del motor está destinado a mostrarse.** Las etiquetas de partida, las notas de clasificación, las advertencias y los motivos de espera son **códigos** estructurados. Es el anfitrión quien los presenta, en el idioma de su usuario. Se proporciona una presentación en francés para la consola y los ejemplos, pero un anfitrión multilingüe la ignora."
+
+#: ../../integration.md:64
+msgid ""
+"**Les tirages sont enregistrés, pas recalculés.** L'événement de tirage "
+"porte le placement obtenu. Rejouer un journal ne dépend donc jamais de "
+"l'algorithme d'appariement, et celui-ci peut évoluer sans casser un "
+"journal existant."
+msgstr "**Los sorteos se registran, no se recalculan.** El evento de sorteo lleva la colocación obtenida. Reproducir un diario nunca depende, pues, del algoritmo de emparejamiento, y este puede evolucionar sin romper un diario existente."
+
+#: ../../integration.md:68
+msgid "L'affichage"
+msgstr "La presentación"
+
+#: ../../integration.md:70
+msgid ""
+"Le paquet `render` produit des pages autonomes — un seul fichier, feuille"
+" de style embarquée, aucune ressource externe, aucun script. Il prend un "
+"traducteur (`Labeler`) que l'hôte fournit : les codes du moteur et les "
+"mots du rendu lui-même passent tous par là."
+msgstr "El paquete `render` produce páginas autónomas — un solo archivo, hoja de estilo incorporada, ninguna recurso externo, ningún script. Toma un traductor (`Labeler`) que proporciona el anfitrión: los códigos del motor y las palabras de la propia presentación pasan todos por ahí."
+
+#: ../../integration.md:74
+msgid ""
+"Il produit l'écran de salle, les arbres de tableaux avec les descentes "
+"vers la consolante, la grille des tables, le tableau des vies, le "
+"classement, et la feuille d'appariements imprimable."
+msgstr "Produce la pantalla de sala, los árboles de los cuadros con las caídas hacia el consuelo, la rejilla de mesas, el tablero de vidas, la clasificación y la hoja de emparejamientos imprimible."
+
+#: ../../integration.md:77
+msgid "L'essayer sans rien écrire"
+msgstr "Probarlo sin escribir nada"
+

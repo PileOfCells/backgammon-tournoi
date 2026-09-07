@@ -1,0 +1,118 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fi\n"
+"Language-Team: fi <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../integration.md:1
+msgid "Intégrer le moteur"
+msgstr "Moottorin liittäminen"
+
+#: ../../integration.md:3
+msgid ""
+"Cette page s'adresse à qui écrit le logiciel qui utilisera Nicomaque. "
+"Elle tient en une page ; la [spécification](specification.md) donne le "
+"détail."
+msgstr "Tämä sivu on tarkoitettu sille, joka kirjoittaa Nicomaquea käyttävän ohjelman. Se mahtuu yhdelle sivulle; [määrittely](specification.md) antaa yksityiskohdat."
+
+#: ../../integration.md:6
+msgid "Le principe"
+msgstr "Periaate"
+
+#: ../../integration.md:8
+msgid ""
+"Le moteur ne persiste rien et n'affiche rien. L'hôte conserve un "
+"**journal** — une liste ordonnée d'événements — et le moteur en "
+"reconstruit l'état à la demande."
+msgstr "Moottori ei tallenna mitään eikä näytä mitään. Isäntä säilyttää **päiväkirjan** — järjestetyn tapahtumaluettelon — ja moottori rakentaa tilan siitä pyydettäessä uudelleen."
+
+#: ../../integration.md:15
+msgid "Trois appels suffisent à comprendre la boucle :"
+msgstr "Kolme kutsua riittää silmukan ymmärtämiseen:"
+
+#: ../../integration.md:17
+msgid "`Replay(journal)` reconstruit l'état complet ;"
+msgstr "`Replay(journal)` rakentaa täyden tilan uudelleen;"
+
+#: ../../integration.md:18
+msgid "`Propose()` — ou `ProposeAt(now)` — dit ce qu'il y a à faire maintenant ;"
+msgstr "`Propose()` — tai `ProposeAt(now)` — kertoo, mitä nyt on tehtävä;"
+
+#: ../../integration.md:19
+msgid "`Apply(événement)` applique la décision du directeur."
+msgstr "`Apply(tapahtuma)` soveltaa johtajan päätöksen."
+
+#: ../../integration.md:21
+msgid "La boucle"
+msgstr "Silmukka"
+
+#: ../../integration.md:51
+msgid "Le journal se sérialise en JSON. Une reprise après panne est un `Replay`."
+msgstr "Päiväkirja sarjallistuu JSON-muotoon. Toipuminen kaatumisen jälkeen on `Replay`."
+
+#: ../../integration.md:53
+msgid "Les trois règles à ne pas oublier"
+msgstr "Kolme sääntöä, joita ei sovi unohtaa"
+
+#: ../../integration.md:55
+msgid ""
+"**On ne modifie jamais le journal.** Une correction est un événement de "
+"plus (`CorrectionEvent`), un forfait aussi (`PlayerWithdrawnEvent`), une "
+"annulation aussi (`CancelEvent`). Rien n'est effacé, rien n'est réécrit."
+msgstr "**Päiväkirjaa ei koskaan muuteta.** Korjaus on yksi tapahtuma lisää (`CorrectionEvent`), samoin vetäytyminen (`PlayerWithdrawnEvent`), samoin peruutus (`CancelEvent`). Mitään ei pyyhitä, mitään ei kirjoiteta uudelleen."
+
+#: ../../integration.md:59
+msgid ""
+"**Rien de ce qui sort du moteur n'est destiné à l'affichage.** Les "
+"libellés de match, les notes de classement, les avertissements et les "
+"raisons d'attente sont des **codes** structurés. C'est l'hôte qui les "
+"rend, dans la langue de son utilisateur. Un rendu français est fourni "
+"pour la console et les exemples, mais un hôte multilingue l'ignore."
+msgstr "**Mikään moottorista tuleva ei ole tarkoitettu näytettäväksi.** Otteluiden nimikkeet, tulosluettelon merkinnät, varoitukset ja odotuksen syyt ovat rakenteisia **koodeja**. Isäntä esittää ne käyttäjänsä kielellä. Ranskankielinen esitys on mukana konsolia ja esimerkkejä varten, mutta monikielinen isäntä sivuuttaa sen."
+
+#: ../../integration.md:64
+msgid ""
+"**Les tirages sont enregistrés, pas recalculés.** L'événement de tirage "
+"porte le placement obtenu. Rejouer un journal ne dépend donc jamais de "
+"l'algorithme d'appariement, et celui-ci peut évoluer sans casser un "
+"journal existant."
+msgstr "**Arvonnat kirjataan, niitä ei lasketa uudelleen.** Arvontatapahtuma kantaa saadun sijoittelun. Päiväkirjan toisto ei siis koskaan riipu paritusalgoritmista, ja se voi kehittyä rikkomatta olemassa olevaa päiväkirjaa."
+
+#: ../../integration.md:68
+msgid "L'affichage"
+msgstr "Esitys"
+
+#: ../../integration.md:70
+msgid ""
+"Le paquet `render` produit des pages autonomes — un seul fichier, feuille"
+" de style embarquée, aucune ressource externe, aucun script. Il prend un "
+"traducteur (`Labeler`) que l'hôte fournit : les codes du moteur et les "
+"mots du rendu lui-même passent tous par là."
+msgstr "Paketti `render` tuottaa itsenäisiä sivuja — yksi tiedosto, upotettu tyylitiedosto, ei ulkoisia resursseja, ei skriptejä. Se ottaa kääntäjän (`Labeler`), jonka isäntä toimittaa: sekä moottorin koodit että itse esityksen sanat kulkevat sen kautta."
+
+#: ../../integration.md:74
+msgid ""
+"Il produit l'écran de salle, les arbres de tableaux avec les descentes "
+"vers la consolante, la grille des tables, le tableau des vies, le "
+"classement, et la feuille d'appariements imprimable."
+msgstr "Se tuottaa salin näytön, kaaviopuut lohdutuskaavioon johtavine pudotuksineen, pöytäruudukon, elämätaulun, tulosluettelon ja tulostettavan otteluparilomakkeen."
+
+#: ../../integration.md:77
+msgid "L'essayer sans rien écrire"
+msgstr "Kokeilla kirjoittamatta mitään"
+

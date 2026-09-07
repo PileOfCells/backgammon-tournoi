@@ -1,0 +1,145 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ja\n"
+"Language-Team: ja <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../index.md:1
+msgid "Nicomaque"
+msgstr "Nicomaque"
+
+#: ../../index.md:3
+msgid ""
+"**Nicomaque** est un moteur de tournoi de backgammon. Ce n'est pas un "
+"logiciel qu'on ouvre : c'est une bibliothèque que d'autres logiciels "
+"utilisent pour diriger un tournoi — inscrire les joueurs, apparier les "
+"matchs, tenir les tableaux, produire le classement."
+msgstr "**Nicomaque** はバックギャモンのトーナメント運営エンジンです。開いて使うアプリケーションではなく、他のソフトウェアがトーナメントを運営するために使うライブラリです — 参加者の登録、対戦の組み合わせ、トーナメント表の管理、順位表の作成。"
+
+#: ../../index.md:7
+msgid ""
+"Il est écrit en Go, sans aucune dépendance, et se lit en entier. Il est "
+"publié sous une licence libre et son code est sur "
+"[GitHub](https://github.com/PileOfCells/backgammon-tournoi)."
+msgstr "Go で書かれ、依存ライブラリは一つもなく、全体を読み通せます。フリーライセンスで公開され、コードは [GitHub](https://github.com/PileOfCells/backgammon-tournoi) にあります。"
+
+#: ../../index.md:10
+msgid "Ce qu'il fait"
+msgstr "できること"
+
+#: ../../index.md:12
+msgid ""
+"Un directeur de tournoi passe sa journée à répondre à une seule question "
+": *qui joue contre qui, maintenant, et sur quelle table ?* Nicomaque "
+"répond à cette question, et rien d'autre."
+msgstr "トーナメントディレクターは一日中ただ一つの問いに答え続けます。*いま誰と誰が、どの卓で対戦するのか。* Nicomaque はこの問いに答えます。それ以外のことはしません。"
+
+#: ../../index.md:15
+msgid ""
+"À tout instant, il propose une liste d'actions — lancer ce match sur "
+"cette table, donner cette exemption, tirer ce tableau, passer à la phase "
+"suivante, clore le tournoi. Le directeur en confirme ce qu'il veut. "
+"Chaque confirmation devient un **événement** ajouté à un journal, et "
+"l'état du tournoi est reconstruit à partir de ce journal."
+msgstr "いつでも、行うべき動作の一覧を提案します — この卓でこの対戦を始める、この不戦勝を与える、この組み合わせ抽選を行う、次のフェーズに進む、トーナメントを終了する。ディレクターは望むものだけを承認します。承認はそのつど **イベント** となって記録簿に追加され、トーナメントの状態はその記録簿から再構成されます。"
+
+#: ../../index.md:20
+msgid ""
+"**Le moteur propose, le directeur décide.** Rien n'est appliqué d'office,"
+" jamais. Un avertissement — un score incohérent, un match joué par le "
+"mauvais joueur, une fin de match qui tombe pendant le repas — est dit, "
+"pas imposé : le directeur sait des choses que le moteur ignore."
+msgstr "**エンジンは提案し、ディレクターが決める。** 何かが勝手に適用されることは決してありません。警告 — 不整合なスコア、間違った参加者が行った対戦、食事休憩中に終わりそうな対戦 — は伝えられるだけで、強制されません。ディレクターはエンジンの知らないことを知っているからです。"
+
+#: ../../index.md:24
+msgid "Ce qu'il ne fait pas"
+msgstr "しないこと"
+
+#: ../../index.md:26
+msgid ""
+"Il n'a pas d'interface. Il ne stocke rien. Il n'affiche aucune phrase : "
+"tout ce qui sort du moteur est un **code**, que le logiciel hôte traduit "
+"dans la langue de son utilisateur."
+msgstr "画面を持ちません。何も保存しません。文章を一切表示しません。エンジンから出てくるものはすべて **コード** であり、それを利用者の言語で表示するのはホスト側のソフトウェアです。"
+
+#: ../../index.md:29
+msgid ""
+"Il ne départage pas. Les égalités restent des égalités, ou se règlent par"
+" un barrage. Aucun classement n'est décidé par un critère caché."
+msgstr "同順位を分けません。同順位は同順位のまま残るか、プレーオフで決着します。隠れた基準で順位が決まることはありません。"
+
+#: ../../index.md:32
+msgid ""
+"Il n'a jamais dirigé de vrai tournoi. Il est testé par simulation — des "
+"milliers de tournois joués à chaque modification — mais la simulation "
+"n'est pas la salle."
+msgstr "実際のトーナメントを運営したことはまだありません。シミュレーションで検証されています — 変更のたびに数千のトーナメントを実行します — が、シミュレーションは会場ではありません。"
+
+#: ../../index.md:35
+msgid "Par où commencer"
+msgstr "はじめに読むもの"
+
+#: ../../index.md:48
+msgid ""
+"[Le déroulement d'un tournoi](deroulement.md) — la journée du directeur, "
+"de l'inscription au classement final."
+msgstr "[トーナメントの流れ](deroulement.md) — 受付から最終順位まで、ディレクターの一日。"
+
+#: ../../index.md:50
+msgid ""
+"[Les formats](formats.md) — suisse à vies, tableaux, GSL, poules, et "
+"lequel choisir."
+msgstr "[フォーマット](formats.md) — ライフ制スイス、トーナメント表、GSL、総当たり、そしてどれを選ぶか。"
+
+#: ../../index.md:51
+msgid ""
+"[Intégrer le moteur](integration.md) — la boucle que le logiciel hôte "
+"écrit, en une page."
+msgstr "[エンジンを組み込む](integration.md) — ホスト側が書くループを一ページで。"
+
+#: ../../index.md:52
+msgid ""
+"[Comprendre le moteur](comprendre_le_moteur.md) — les décisions de "
+"conception et leurs justifications, les questions fréquentes, les "
+"chiffres de référence."
+msgstr "[エンジンを理解する](comprendre_le_moteur.md) — 設計上の判断とその理由、よくある質問、基準となる数値。"
+
+#: ../../index.md:54
+msgid ""
+"[L'étude des formats](etude_formats.md) — la simulation qui a servi à "
+"choisir."
+msgstr "[フォーマットの研究](etude_formats.md) — 選択の根拠となったシミュレーション。"
+
+#: ../../index.md:55
+msgid ""
+"[La spécification](specification.md) — assez détaillée pour reconstruire "
+"le moteur."
+msgstr "[仕様書](specification.md) — これだけでエンジンを作り直せる詳しさ。"
+
+#: ../../index.md:57
+msgid "Le nom"
+msgstr "名前について"
+
+#: ../../index.md:59
+msgid ""
+"Nicomaque était le fils d'Aristote, et le destinataire de l'*Éthique à "
+"Nicomaque*, où il est question de ce qu'est une décision juste. Diriger "
+"un tournoi consiste à en prendre beaucoup, vite, devant des gens qui "
+"attendent."
+msgstr "ニコマコスはアリストテレスの息子であり、正しい決定とは何かを論じた『ニコマコス倫理学』の宛先です。トーナメントを運営するとは、待っている人々の前で、そうした決定を数多く、素早く下すことです。"
+

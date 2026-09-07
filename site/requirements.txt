@@ -1,0 +1,7 @@
+# Chaîne de construction du site (Sphinx + gettext).
+#   python3 -m venv .venv-doc && .venv-doc/bin/pip install -r site/requirements.txt
+#   .venv-doc/bin/python site/build.py
+sphinx>=8
+myst-parser>=4
+sphinx-intl>=2.2
+furo>=2024.8.6

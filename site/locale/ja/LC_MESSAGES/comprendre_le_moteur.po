@@ -1,0 +1,1389 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ja\n"
+"Language-Team: ja <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../comprendre_le_moteur.md:14
+msgid "À qui s'adresse ce document"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:16
+msgid ""
+"À toute personne qui doit comprendre — ou défendre — le fonctionnement du"
+" moteur sans en lire le code : directeur de tournoi, responsable de club,"
+" fédération, joueur qui pose une question à l'issue d'une ronde, "
+"développeur qui découvre le projet."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:20
+msgid ""
+"Il ne suppose aucune connaissance en programmation. Il suppose de savoir "
+"ce qu'est un tournoi de backgammon."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:23
+msgid "Trois autres documents existent :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Document"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Contenu"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "`docs/etude_formats.md`"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "La synthèse de l'étude par simulation qui justifie les choix de format"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "`docs/specification.md`"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid ""
+"La spécification technique complète (44 pages), de quoi reconstruire le "
+"moteur"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "`docs/RESTE_A_FAIRE.md`"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "La liste priorisée du travail restant"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:31
+msgid ""
+"Le présent document est le résumé argumenté : chaque décision importante "
+"y est énoncée avec sa raison, et la dernière partie répond directement "
+"aux objections les plus probables."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:36
+msgid "Ce que le moteur fait"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:38
+msgid ""
+"C'est une **bibliothèque** : un composant sans écran ni base de données, "
+"destiné à être intégré dans un logiciel de tournoi. Il ne remplace pas ce"
+" logiciel, il en constitue le cerveau."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:41
+msgid ""
+"Son travail tient en une phrase : **à partir de l'historique de ce qui "
+"s'est passé, dire au directeur de tournoi ce qu'il y a à faire "
+"maintenant.**"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:44
+msgid ""
+"Concrètement, à chaque instant il produit une liste de propositions du "
+"type :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:46
+msgid "« Lancer Ronde 3 : Alice contre Bob en 7 points, table 4 »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:47
+msgid "« Bye pour Chloé (Ronde 3) »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:48
+msgid "« Tirage : Tableau final, tableau de 16 places » — avec le tirage joint"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:49
+msgid "« Passer à la phase suivante : Tableau final »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:50
+msgid "« Clore le tournoi »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:51
+msgid "« Attendre : matchs en cours »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:53
+msgid ""
+"Le directeur de tournoi confirme ce qu'il veut, quand il veut. Il peut "
+"tout confirmer, une partie, ou rien. Il peut aussi faire des choses que "
+"le moteur n'a pas proposées : corriger un résultat, annuler un match "
+"lancé par erreur, enregistrer un forfait."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:57
+msgid ""
+"Ce que le moteur **ne fait pas** : il n'affiche rien de lui-même, il ne "
+"stocke rien, il ne décide jamais tout seul, il n'envoie aucun message. Ce"
+" sont des choix, expliqués plus loin."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:62
+msgid "Ce qu'on cherche à obtenir"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:64
+msgid ""
+"Le format d'un tournoi est un compromis. Les critères retenus, dans cet "
+"ordre :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:66
+msgid ""
+"**Maximiser les chances des meilleurs joueurs, à durée donnée.** Pas dans"
+" l'absolu : à budget de temps constant. Un format qui fait mieux gagner "
+"les forts en durant deux jours de plus n'est pas meilleur, il est plus "
+"long."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:69
+msgid ""
+"**Être pilotable par un directeur de tournoi**, y compris sur papier en "
+"cas de panne."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:70
+msgid ""
+"**Aucun match inutile.** Chaque match doit servir à quelque chose : "
+"éliminer, qualifier, départager."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:72
+msgid ""
+"**Aucun départage arithmétique.** Les égalités restent des égalités, ou "
+"se jouent."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:73
+msgid ""
+"**Accepter n'importe quel effectif.** 13 joueurs, 47 joueurs, 100 joueurs"
+" : le format doit fonctionner sans bricolage."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:76
+msgid ""
+"Les points 4 et 5 sont des contraintes fortes qui éliminent d'emblée "
+"beaucoup de formats usuels."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:80
+msgid "Ce que l'étude a établi"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:82
+msgid ""
+"Une étude par simulation a précédé l'écriture du moteur. Elle a comparé "
+"les formats à budget de temps constant, sur des champs de 32 et 64 "
+"joueurs, pour des tournois de 8 h et 16 h. Les résultats robustes sont "
+"les suivants."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:86
+msgid "Le modèle"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:88
+msgid ""
+"La probabilité qu'un joueur batte un autre suit la formule Elo/FIBS, avec"
+" la conversion habituelle **3 PR = 100 points Elo** :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:91
+msgid "$$ P = \\frac{1}{1 + 10^{-D\\sqrt{N}/2000}} $$"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:93
+msgid "où $D$ est l'écart en Elo et $N$ la longueur du match en points."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:95
+#, python-format
+msgid ""
+"Cette formule a été confrontée à la base BMAB (33 238 matchs uniques) : "
+"**1 PR d'écart vaut environ 2,8 % de chances supplémentaires sur un match"
+" en 7 à 11 points**, ce qui correspond à la théorie (2,8 % mesurés contre"
+" 3,9 % théoriques, même ordre de grandeur)."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:99
+#, python-brace-format
+msgid ""
+"Une inconnue subsiste, et il faut la dire : **l'effet exact de la "
+"longueur du match n'est pas mesurable avec ces données.** L'exposant de "
+"$N$ est compris entre 0 et 0,7 sans que l'on puisse trancher ; seule la "
+"valeur 1 est exclue. La valeur retenue, $\\sqrt{N}$, est soutenue par la "
+"mécanique du jeu (l'erreur cumulée croît comme $N$, la chance comme "
+"$\\sqrt N$) mais reste une hypothèse. C'est la principale fragilité du "
+"modèle, et elle est signalée comme telle."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:105
+msgid ""
+"**Durée d'un match** : environ 8 minutes par point en moyenne ; compter "
+"11 minutes par point pour planifier une ronde, attente comprise."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:108
+msgid "Les six résultats"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:110
+msgid ""
+"**Un suisse à vies est une double élimination sans tableau.** Chaque "
+"défaite compte pareil, tout effectif est admis, et la fin est toujours "
+"résoluble sans départage. C'est le format le plus souple qui satisfasse "
+"les cinq critères."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:114
+msgid ""
+"**L'attente est le premier gaspillage.** Un suisse synchrone — où tout le"
+" monde attend la fin de la ronde — fait attendre les joueurs **10 à 15 "
+"fois plus** qu'un suisse continu : 174 minutes d'attente par joueur "
+"contre 12, sur un tournoi de 16 heures. Ces 162 minutes valent environ "
+"deux matchs de plus. C'est le gain le plus important de toute l'étude, et"
+" il ne coûte rien."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:119
+msgid ""
+"**Le continu est manipulable.** Un joueur qui connaît la situation peut "
+"retarder l'annonce de son résultat pour choisir son prochain adversaire. "
+"Deux parades existent : les blocs GSL (l'appariement est figé par les "
+"résultats d'un bloc, pas par l'heure) ou le tirage aléatoire dans la file"
+" d'attente."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:124
+msgid ""
+"**La bascule « somme des vies = puissance de 2 » fonctionne.** Quand la "
+"somme des vies restantes atteint 16 ou 32, on peut passer à un tableau "
+"parfaitement équilibré, où un joueur encore invaincu est exempt du "
+"premier tour. Dans le groupe de tête, que la longueur des matchs compte "
+"ou non, ce format tient. **3 vies et le format HSBT ne sont jamais "
+"gagnants** ; le HSBT jette l'information des rondes du samedi (environ la"
+" moitié du champ se retrouve qualifiée)."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:130
+msgid ""
+"**La répartition des longueurs de match entre les tours est presque "
+"neutre.** Allonger la finale ne change pratiquement rien au résultat : "
+"c'est du spectacle gratuit, à prendre comme tel."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:133
+#, python-format
+msgid ""
+"**Le format joue sur un facteur 2 à 3, pas davantage.** Une fin de "
+"semaine ne fait gagner « le meilleur joueur » que 4 à 9 % du temps selon "
+"l'effectif, contre 1,6 à 3 % si le vainqueur était tiré au sort (les "
+"mesures du moteur, en fin de document, confirment cet ordre de grandeur)."
+" C'est le chiffre le plus important à avoir en tête : **aucun format ne "
+"rend le backgammon déterministe**, et prétendre le contraire serait "
+"malhonnête."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:141
+msgid "Les décisions de format"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:143
+msgid "Suisse à vies plutôt qu'élimination directe"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:145
+#, python-format
+msgid ""
+"L'élimination directe est le format à plus forte variance : une seule "
+"défaite, souvent sur un match court, suffit. À 7 points, un joueur "
+"meilleur de 3 PR ne gagne qu'environ 58 % du temps — perdre n'a rien "
+"d'exceptionnel."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:149
+msgid ""
+"Le suisse à 2 vies donne à chacun le droit à une défaite, tout en "
+"produisant le même nombre de matchs qu'une double élimination classique "
+"(**2N − 2** pour N joueurs, plus un éventuel match de recharge). Il "
+"n'exige aucun tableau, donc aucun effectif particulier."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:153
+msgid "Continu plutôt que par rondes"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:155
+msgid ""
+"Conséquence directe du résultat n° 2. Dès que deux joueurs du même groupe"
+" sont libres, un match leur est proposé. Personne n'attend que la ronde "
+"se termine."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:158
+msgid ""
+"Le mode par rondes reste disponible : il est plus lisible, plus facile à "
+"doubler sur papier, et insensible à la manipulation. C'est un choix du "
+"directeur de tournoi, pas une contrainte du moteur."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:161
+msgid "Appariement dans le groupe de même nombre de défaites"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:163
+msgid ""
+"C'est la règle unique : on affronte quelqu'un qui a le même nombre de "
+"défaites que soi. Pas de score, pas de classement intermédiaire, pas de "
+"calcul."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:166
+msgid "Trois raffinements, dans cet ordre de priorité :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:168
+msgid ""
+"**un joueur qui a déjà été exempté est apparié en priorité** (pour ne pas"
+" cumuler les byes) ;"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:169
+msgid ""
+"**on n'affronte pas deux fois le même adversaire**, sauf s'il n'y a plus "
+"d'autre solution ;"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:170
+msgid "**on évite les joueurs du même club** quand c'est possible (option)."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:172
+msgid ""
+"Quand plus aucun appariement régulier n'est possible — typiquement, en "
+"fin de tournoi, quand il ne reste que deux joueurs qui se sont déjà "
+"rencontrés, ou un invaincu face à un joueur à une défaite — le moteur "
+"propose quand même le match, sous le libellé « Finale » ou « Match croisé"
+" ». C'est ce qui garantit qu'un tournoi **se termine toujours**."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:177
+msgid "Bascule vers un tableau"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:179
+msgid ""
+"Chaque match consomme exactement une vie. Quand la somme des vies "
+"restantes atteint une puissance de 2, on peut construire un tableau exact"
+" : un joueur à 2 vies occupe deux places (il est exempt du premier tour),"
+" un joueur à 1 vie en occupe une."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:183
+msgid ""
+"C'est pourquoi **le tableau final peut avoir 32 places pour 20 joueurs** "
+": sa taille est dictée par la somme des vies, pas par le nombre de têtes."
+" Les exemptions ne sont pas des cadeaux du hasard, elles sont gagnées."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:187
+msgid "Aucun départage"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:189
+msgid ""
+"Un départage arithmétique — Buchholz, différence de points, départage au "
+"rating — prétend séparer deux joueurs qui ont fait la même chose, à "
+"partir d'informations qui ne les concernent pas (la force de leurs "
+"adversaires) ou qui ne mesurent pas la performance (la marge d'un match)."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:193
+msgid ""
+"Au backgammon, la variance d'un match est trop élevée pour que ces "
+"critères portent une information fiable. Un départage fabrique une "
+"décision là où les données n'en contiennent pas."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:196
+msgid "Deux réponses honnêtes existent, et le moteur n'utilise que celles-là :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:198
+msgid "**l'ex æquo**, avec partage des prix des places occupées ;"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:199
+msgid "**le barrage joué**, quand une place qualificative est en jeu."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:201
+msgid "Aucune tête de série"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:203
+msgid ""
+"Techniquement possible (le moteur connaît le PR de chaque joueur) et "
+"prévu comme option future, mais écarté pour la version 1, pour deux "
+"raisons :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:206
+msgid "c'est la culture actuelle du backgammon, qui tire au sort ;"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:207
+msgid ""
+"protéger les meilleurs revient à leur ajouter un avantage structurel, "
+"alors que l'objectif de départ — leur donner de meilleures chances — est "
+"déjà atteint par le choix du format, et que le classement PR est lui-même"
+" bruité."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:211
+msgid "Aucune finale à handicap"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:213
+msgid "Même raison : le format doit récompenser le parcours, pas le corriger."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:215
+msgid "Longueurs de match"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:217
+msgid ""
+"Résultat n° 5 : c'est presque neutre. Le moteur permet une longueur par "
+"phase et une longueur de finale distincte. Allonger la finale est un "
+"choix d'organisateur, pas un choix statistique."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:222
+msgid "Les décisions techniques"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:224
+msgid ""
+"Ces décisions n'intéressent pas directement les joueurs, mais elles "
+"expliquent le comportement du logiciel — et notamment ce qui se passe "
+"quand quelque chose se passe mal."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:227
+msgid "Tout passe par un journal"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:229
+msgid ""
+"La seule donnée conservée est un **journal** : la liste, dans l'ordre, de"
+" tout ce qui s'est passé. Création du tournoi, inscription de chaque "
+"joueur, lancement de chaque match, résultat, forfait, tirage, correction."
+" Rien d'autre n'est stocké."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:233
+msgid ""
+"L'état du tournoi — qui est en vie, qui joue contre qui, quel est le "
+"classement — n'est jamais enregistré : il est **recalculé** à partir du "
+"journal chaque fois qu'on en a besoin."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:236
+msgid "Trois conséquences pratiques :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:238
+msgid ""
+"**Panne, redémarrage, changement de machine** : on relit le journal, on "
+"retrouve l'état exact. Il n'y a pas d'état à sauvegarder, donc pas d'état"
+" à perdre."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:240
+msgid ""
+"**Audit** : on peut rejouer le tournoi à n'importe quel moment de son "
+"déroulement et voir exactement ce que le logiciel proposait à cet "
+"instant. C'est ainsi que sont produites les pages d'exemple du dépôt."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:243
+msgid ""
+"**Contestation** : le journal est la trace. Il dit qui a joué contre qui,"
+" à quelle heure, sur quelle table, avec quel résultat."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:246
+msgid "On ne réécrit jamais le journal"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:248
+msgid ""
+"Une erreur ne se corrige pas en effaçant. Elle se corrige en **ajoutant**"
+" :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Erreur"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Ce qu'on ajoute"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Mauvais vainqueur saisi"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "une correction de résultat"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Match lancé par erreur"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "une annulation de match"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Joueur qui abandonne"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "un forfait"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:256
+msgid ""
+"Le logiciel recalcule alors tout, et **signale ce qui n'est plus "
+"cohérent** — typiquement : « le match M17 a été joué par Alice et Bob, "
+"mais le tableau attend maintenant Alice et Chloé ». Le directeur de "
+"tournoi voit immédiatement l'étendue des dégâts."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:260
+msgid ""
+"Ce que le moteur ne fait pas encore : proposer la réparation. C'est une "
+"limite connue."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:262
+msgid "Le moteur propose, le directeur dispose"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:264
+msgid ""
+"Aucune action n'est automatique. Le moteur ne lance pas un match : il "
+"propose de le lancer. Cette séparation a un coût (il faut confirmer) et "
+"deux avantages :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:267
+msgid ""
+"le directeur de tournoi garde la main, y compris pour faire autre chose "
+"que la proposition ;"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:268
+msgid ""
+"chaque bouton de l'interface correspond exactement à une ligne du "
+"journal, ce qui rend le système vérifiable."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:271
+msgid "Les tirages sont enregistrés, pas recalculés"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:273
+msgid ""
+"Quand le moteur tire un tableau ou compose des groupes, **le résultat du "
+"tirage est écrit dans le journal**, pas seulement la décision de tirer."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:276
+msgid ""
+"Cela veut dire qu'on peut améliorer l'algorithme de tirage plus tard sans"
+" invalider les tournois déjà joués : rejouer un ancien journal ne fait "
+"plus appel à l'algorithme, il relit le tirage."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:279
+msgid "Une bibliothèque, pas un service"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:281
+msgid ""
+"Le moteur s'intègre dans le logiciel hôte, dans le même processus, sans "
+"réseau ni base de données. Il n'a aucune dépendance extérieure. Cela le "
+"rend facile à embarquer, facile à tester, et sans point de panne propre."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:287
+msgid "Les formats disponibles"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Format"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Description"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "**Suisse à vies**"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid ""
+"*L* vies (2 par défaut), appariement dans le groupe de même nombre de "
+"défaites, en continu ou par rondes. Option : arrêt quand la somme des "
+"vies atteint une puissance de 2, pour basculer sur un tableau."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "**Tableau à exemptions**"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid ""
+"Élimination directe où un joueur arrivé avec 2 vies est exempt du premier"
+" tour."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "**Blocs GSL**"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid ""
+"Groupes de 4 (ou 3, ou 2) à double élimination interne pour les "
+"invaincus, mini-tableaux pour les joueurs à une défaite. Version non "
+"manipulable du suisse à vies, qui se cale bien sur des créneaux horaires."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "**Tableau**"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid ""
+"Élimination simple, avec en option une consolante progressive, une "
+"dernière chance, et une vraie double élimination (le vainqueur du tableau"
+" principal doit être battu deux fois)."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "**Poules**"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid ""
+"Toutes rondes par poules (table de Berger), avec un nombre de qualifiés "
+"par poule ; les égalités à la place qualificative se règlent par barrage."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:297
+msgid ""
+"Les formats s'enchaînent en **phases**. Le format recommandé par l'étude "
+"est :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:299
+msgid ""
+"**Suisse 2 vies en continu**, appariement aléatoire dans le groupe de "
+"même nombre de défaites, sans revanche, bye au groupe le plus bas ; arrêt"
+" quand la somme des vies vaut 16 ou 32 ; puis **tableau à exemptions** "
+"avec des matchs plus longs."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:303
+msgid "Variante anti-manipulation : blocs GSL calés sur les repas."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:307
+msgid "Ce qui est vérifié, ce qui ne l'est pas"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:309
+msgid ""
+"Cette partie est celle qu'il faut lire avant de confier un tournoi au "
+"moteur."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:311
+msgid "Ce qui est vérifié"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:313
+msgid ""
+"Le moteur est validé par **simulation** : on lui fait jouer des tournois "
+"entiers, et on vérifie que certaines propriétés sont toujours vraies. La "
+"batterie standard couvre **11 configurations de format × 8 effectifs (2, "
+"3, 5, 8, 13, 32, 64 et 100 joueurs) × 8 tirages**, soit 704 tournois "
+"complets, et vérifie à chaque événement :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:318
+msgid ""
+"le tournoi se **termine toujours**, quel que soit l'effectif — y compris "
+"3 joueurs ou 13 ;"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:319
+msgid "il y a **un vainqueur et un seul** ;"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:320
+msgid "**tous les inscrits sont classés**, aucun n'est oublié ;"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:321
+msgid ""
+"**rejouer le journal donne exactement le même classement**, et aucune "
+"incohérence ;"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:322
+msgid "**aucun joueur éliminé ne joue** ;"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:323
+msgid ""
+"**aucun match entre joueurs de groupes différents**, hors les cas de fin "
+"de tournoi explicitement prévus ;"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:325
+msgid "**peu de revanches** en suisse."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:327
+msgid ""
+"S'y ajoutent des vérifications ciblées : le nombre de matchs produits par"
+" chaque format sur 64 joueurs, le comportement après correction d'un "
+"résultat, et le comportement après le forfait d'un joueur déjà placé dans"
+" un tableau."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:331
+msgid ""
+"Enfin, une campagne longue (1 500 tournois de 64 joueurs par format) "
+"mesure les probabilités de victoire, le nombre de matchs et la durée, à "
+"comparer aux valeurs de l'étude. **Tout changement de l'algorithme "
+"d'appariement doit repasser par cette campagne.**"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:335
+msgid "Ce qui ne l'est pas"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:337
+msgid ""
+"**Le moteur n'a jamais dirigé de tournoi réel.** C'est le point le plus "
+"important de ce document."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:339
+msgid ""
+"Ce qui est simulé, c'est le déroulement mathématique d'un tournoi. Ce qui"
+" ne l'est pas, c'est la réalité d'une salle : les retardataires, les "
+"joueurs qui disparaissent, les tables indisponibles, les pauses repas, un"
+" directeur de tournoi qui veut faire autrement."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:343
+msgid "Les manques identifiés, par ordre d'urgence :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:345
+msgid ""
+"**Interface** : le moteur ne fournit que la logique ; l'écran du "
+"directeur de tournoi reste à écrire."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:347
+msgid ""
+"**Retardataires** : un joueur inscrit après le tirage d'un tableau "
+"n'entre nulle part."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:348
+msgid ""
+"**Forfaits fins** : le forfait est aujourd'hui total. Il manque le "
+"forfait sur un seul match, et le retrait « à partir de la ronde suivante "
+"»."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:350
+msgid ""
+"**Tables** : pas de table indisponible ou réservée, pas de changement de "
+"table en cours de match."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:351
+msgid ""
+"**Pauses repas** : le moteur ne sait pas s'abstenir de lancer un match "
+"qui finirait après l'heure de la pause."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:353
+msgid "**Réparation après correction** : l'incohérence est signalée, pas réparée."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:354
+msgid ""
+"**Prix** : les montants par place et le partage entre ex æquo existent ; "
+"les structures en pourcentage du pool, la retenue d'organisation et les "
+"prix par section restent à faire."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:356
+msgid ""
+"**Longueurs de match par tour** (9 / 11 / 13 / 15) : pas encore "
+"paramétrables."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:358
+msgid ""
+"La recommandation qui en découle : **un premier tournoi de club de 16 à "
+"32 joueurs, en doublant sur papier**, en notant chaque fois que le "
+"directeur de tournoi a voulu faire autre chose que la proposition du "
+"moteur. Ce sont ces cas-là qui définiront les fonctions manquantes."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:364
+msgid "Questions fréquentes"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:366
+msgid "« Pourquoi mes deux joueurs ex æquo ne sont-ils pas départagés ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:368
+msgid ""
+"Parce qu'ils ont fait la même chose. Les départager exigerait d'utiliser "
+"soit la force de leurs adversaires respectifs — qu'ils n'ont pas choisis "
+"—, soit la marge de leurs victoires — qui au backgammon dépend fortement "
+"du videau et de la chance. Ni l'un ni l'autre ne mesure ce qu'on "
+"prétendrait mesurer."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:373
+msgid ""
+"Si la place a une conséquence (une qualification), elle se joue : c'est "
+"le barrage. Si elle n'en a pas, les prix des places concernées sont "
+"partagés à parts égales."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:376
+#, python-format
+msgid ""
+"« Pourquoi le meilleur joueur ne gagne-t-il que 4 à 9 % du temps ? N'est-"
+"ce pas un échec ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:378
+#, python-format
+msgid ""
+"Non, c'est le backgammon. Sur 64 joueurs, les formats mesurés donnent "
+"entre 3,5 % et 5,7 % ; sur 32 joueurs, l'étude monte jusqu'à environ 9 %."
+" Si le vainqueur était tiré au sort parmi 64 joueurs, ce serait 1,6 %. Le"
+" format multiplie donc ce chiffre par 2 à 3,5."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:382
+msgid ""
+"Aucun format raisonnable ne fait beaucoup mieux à durée égale : pour que "
+"le meilleur gagne vraiment souvent, il faudrait des matchs de 25 points "
+"et une semaine de jeu."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:385
+msgid ""
+"Un format qui prétendrait garantir la victoire du meilleur mentirait sur "
+"la nature du jeu."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:387
+msgid "« Pourquoi un joueur qui a perdu peut-il gagner le tournoi ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:389
+#, python-format
+msgid ""
+"C'est la définition d'un format à deux vies. À 7 points, un joueur "
+"meilleur de 3 PR que son adversaire gagne environ 58 % du temps : perdre "
+"un match n'est pas un accident rare, c'est la normale statistique. "
+"Éliminer sur une seule défaite maximiserait la part du hasard, pas "
+"l'inverse."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:393
+msgid "« Le jeu en continu n'avantage-t-il pas ceux qui jouent vite ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:395
+msgid ""
+"Il avantage surtout tout le monde : l'attente passe de 174 minutes par "
+"joueur à 12 sur un tournoi de 16 heures. Ce temps rendu vaut environ deux"
+" matchs supplémentaires."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:398
+msgid ""
+"Il a un défaut réel, identifié et assumé : un joueur peut retarder "
+"l'annonce de son résultat pour influencer son appariement. Deux parades "
+"existent — les blocs GSL, où l'appariement est figé par les résultats et "
+"non par l'heure, et l'appariement par lots à intervalle fixe. Le mode par"
+" rondes reste disponible pour qui préfère."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:403
+msgid ""
+"Ces parades ne sont pas gratuites : sur 64 joueurs, les blocs GSL "
+"demandent **14 h 25** de salle contre 10 h 20 pour le suisse continu, et "
+"le mode par rondes 14 h 10 — pour exactement le même nombre de matchs. "
+"Synchroniser coûte du temps, quelle que soit la forme que prend la "
+"synchronisation."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:408
+msgid "« Pourquoi le tableau final a-t-il 32 places alors que nous sommes 20 ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:410
+msgid ""
+"Parce qu'il est dimensionné par la **somme des vies restantes**, pas par "
+"le nombre de joueurs. Un joueur encore invaincu vaut deux places : il est"
+" exempt du premier tour. C'est la récompense de son parcours, et c'est ce"
+" qui permet d'avoir un tableau exact, sans exemption arbitraire."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:414
+msgid "« Pourquoi ai-je un bye alors qu'un autre joueur en a déjà eu un ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:416
+msgid ""
+"La règle appliquée est : celui qui a déjà été exempté est apparié en "
+"priorité, donc il n'a normalement pas de second bye tant que d'autres "
+"n'en ont pas eu. Cette règle s'applique **à l'intérieur d'un groupe de "
+"joueurs ayant le même nombre de défaites**. Entre deux groupes "
+"différents, l'équité n'est pas encore garantie : c'est une limite connue "
+"et documentée."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:421
+msgid ""
+"« J'ai perdu contre X au premier tour et je le retrouve en consolante. "
+"Normal ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:423
+msgid ""
+"La consolante est construite pour éviter la rencontre **immédiate** : les"
+" joueurs qui retombent du tableau principal sont insérés dans l'ordre "
+"inverse, ce qui écarte ceux qui viennent de la même moitié de tableau. "
+"Cela n'évite pas les retrouvailles aux tours suivants. La fréquence "
+"réelle de ces revanches reste à mesurer ; le cas échéant, l'ordre "
+"d'insertion sera modifié — sans invalider les tournois déjà joués, "
+"puisque les tirages sont enregistrés."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:429
+msgid ""
+"« Le directeur de tournoi s'est trompé de vainqueur. Faut-il tout refaire"
+" ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:431
+msgid ""
+"Non. Il saisit une correction, qui est ajoutée à l'historique — l'erreur "
+"reste visible, ce qui est volontaire. Le logiciel recalcule tout et "
+"signale ce qui n'est plus cohérent, par exemple un match de tableau "
+"désormais joué par le mauvais joueur."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:435
+msgid ""
+"En revanche, il ne propose pas encore la réparation (rejouer tel match, "
+"annuler telle suite). Cette décision revient au directeur de tournoi."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:438
+msgid "« Et si l'ordinateur s'éteint en plein tournoi ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:440
+msgid ""
+"On relit l'historique et on retrouve l'état exact, y compris les matchs "
+"en cours et les tirages déjà effectués. Il n'y a rien d'autre à "
+"sauvegarder. Cette propriété est vérifiée sur les 704 tournois de la "
+"batterie de tests : rejouer l'historique redonne toujours le même "
+"classement."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:444
+msgid ""
+"À condition, évidemment, que le logiciel hôte ait bien enregistré "
+"l'historique au fur et à mesure — c'est sa responsabilité, et c'est le "
+"premier point à tester avant un tournoi réel."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:447
+msgid "« Peut-on inscrire un joueur en retard ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:449
+msgid ""
+"Dans un suisse, oui, tant que la phase n'est pas figée : il entre avec "
+"toutes ses vies. Dans un tableau ou des poules, seulement avant le "
+"tirage. Après le tirage d'un tableau, non — le joueur est enregistré mais"
+" n'entre nulle part. C'est une limite connue, à corriger avant un usage "
+"réel."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:453
+msgid ""
+"« Pourquoi les meilleurs joueurs ne sont-ils pas protégés dans le tableau"
+" ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:455
+msgid ""
+"Parce que le backgammon tire au sort, et parce que le PR est une mesure "
+"bruitée. Protéger les têtes de série ajouterait un avantage structurel à "
+"des joueurs que le format avantage déjà. La fonctionnalité est prévue "
+"comme option ; elle n'est pas activée."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:459
+msgid "« Pourquoi 2 vies plutôt que 3 ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:461
+msgid ""
+"Parce que l'étude a mesuré que **3 vies n'est jamais gagnant** à budget "
+"de temps constant : le troisième droit à l'erreur coûte plus de temps "
+"qu'il n'apporte de justesse. Le moteur accepte néanmoins un nombre de "
+"vies quelconque, si un organisateur veut en faire l'essai."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:465
+msgid "« Combien de temps dure un tournoi ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:467
+msgid ""
+"Compter **8 minutes par point** en moyenne pour un match, et **11 minutes"
+" par point** pour planifier une ronde, attente comprise. Un match en 7 "
+"points dure donc environ une heure."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:470
+msgid ""
+"Pour le nombre de matchs : un format à 2 vies produit environ **2 fois le"
+" nombre de joueurs** (126 matchs pour 64 joueurs) ; une élimination "
+"simple en produit **le nombre de joueurs moins un** (63 matchs pour 64 "
+"joueurs), mais avec une variance bien plus forte sur le résultat."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:474
+msgid ""
+"En temps de salle simulé sur 64 joueurs et des matchs en 7 points, cela "
+"donne environ 7 h pour une élimination simple, 10 h pour un suisse 2 vies"
+" en continu et 14 h pour le même suisse par rondes (voir les chiffres de "
+"référence)."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:478
+msgid ""
+"Le logiciel fournit en outre une **prévision de fin** en cours de "
+"tournoi, par simulation des matchs restants : elle donne une médiane et "
+"un délai à 90 %."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:481
+msgid "« Pourquoi une bibliothèque plutôt qu'un logiciel complet ? »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:483
+msgid ""
+"Pour que la logique du tournoi puisse être vérifiée indépendamment de "
+"l'affichage, et pour qu'elle soit réutilisable par n'importe quel "
+"logiciel hôte. Les 704 tournois de la batterie de tests sont joués sans "
+"qu'aucun écran n'existe : c'est précisément ce qui permet de les jouer "
+"par milliers."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:489
+msgid "Chiffres de référence"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:491
+msgid ""
+"Mesures sur **1 500 tournois simulés de 64 joueurs**, matchs en 7 points,"
+" champ de PR tirés dans une loi normale de moyenne 6 et d'écart-type 2, "
+"bornée entre 2 et 10. « P(meilleur) » est la probabilité que le meilleur "
+"joueur du champ gagne le tournoi ; « P(top 4) » celle qu'un des quatre "
+"meilleurs le gagne. La durée est le temps de salle simulé, toutes tables "
+"confondues."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "P(meilleur)"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "P(top 4)"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Matchs"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Durée"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Élimination simple"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "3,8 %"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "14,6 %"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "63,0"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "7 h 00"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Suisse 2 vies, continu"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "3,5 %"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "16,5 %"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "126,5"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "10 h 20"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Suisse 2 vies, par rondes"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "4,9 %"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "15,9 %"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "14 h 10"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Suisse 2 vies → tableau 16"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "4,2 %"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "15,5 %"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "124,3"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "9 h 45"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Blocs GSL"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "4,5 %"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "15,3 %"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "14 h 25"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Double élimination avec recharge"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "5,7 %"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "18,0 %"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "13 h 35"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:505
+msgid ""
+"Sur 1 500 tirages, l'incertitude est d'environ **±0,5 point** sur "
+"P(meilleur) et **±1 point** sur P(top 4). Les durées supposent un nombre "
+"de tables illimité : ce sont des durées de salle, pas des durées de jeu."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:509
+msgid "Trois lectures :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:511
+msgid ""
+"**Le prix de l'attente est directement visible.** Le suisse 2 vies joue "
+"exactement le même nombre de matchs en continu et par rondes — 126,5 — "
+"mais met **3 h 50 de plus** par rondes. C'est du temps de salle pur, sans"
+" aucun match supplémentaire. C'est l'argument principal en faveur du "
+"continu."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:515
+msgid ""
+"**Le format recommandé est le meilleur compromis.** Le suisse 2 vies "
+"suivi d'un tableau de 16 obtient une qualité comparable au reste de la "
+"famille à deux vies pour la durée la plus courte du groupe (9 h 45 contre"
+" 13 à 14 h)."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:518
+msgid ""
+"**Les écarts de qualité sont réels mais modestes.** Sur P(top 4), la "
+"famille à deux vies (15,3 à 18,0 %) devance nettement l'élimination "
+"simple (14,6 %) — l'écart dépasse l'incertitude. Sur P(meilleur), en "
+"revanche, seule la double élimination se détache franchement ; les autres"
+" écarts sont du même ordre que le bruit de mesure et ne doivent pas être "
+"surinterprétés."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:523
+#, python-format
+msgid ""
+"Pour référence, un vainqueur tiré au sort parmi 64 joueurs donnerait "
+"P(meilleur) = 1,6 % et P(top 4) = 6,3 %. Le format multiplie donc ces "
+"chiffres par 2 à 3,5 — pas davantage."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:526
+msgid ""
+"Ces mesures proviennent du simulateur du dépôt. Le simulateur indépendant"
+" de l'étude donne les mêmes nombres de matchs et les mêmes durées, mais "
+"des probabilités qui diffèrent de 1 à 2 écarts types sur la double "
+"élimination et le GSL ; la cause n'est pas encore identifiée. Les "
+"chiffres ci-dessus sont donc à lire comme des ordres de grandeur fiables,"
+" pas comme des valeurs au dixième de point près."
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:533
+msgid "Pour aller plus loin"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Question"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Pourquoi ces formats et pas d'autres ?"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Comment le moteur fonctionne exactement ?"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Qu'est-ce qui reste à faire ?"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "À quoi ressemble un tournoi rendu ?"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "`exemples/index.html`"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "Comment l'essayer soi-même ?"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md
+msgid "`README.md`, section « Tester à la main »"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:543
+msgid "Pour essayer le moteur en console, sans rien installer d'autre que Go :"
+msgstr ""
+
+#: ../../comprendre_le_moteur.md:549
+msgid ""
+"Puis, dans la console : `ajoute Alice Paris 4.2`, `propose`, `ok tous`, "
+"`resultat M1 alice 7 3`, `classement`. Le fichier `affichage.html` créé à"
+" côté du journal se recharge tout seul dans un navigateur."
+msgstr ""
+
