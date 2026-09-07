@@ -32,7 +32,7 @@ Les phases s'enchaînent (`entry` : `survivors` avec leurs vies, `all`, `top:N`)
 - `codes.go`, `fr.go` : les libellés, notes, avertissements et raisons sont des **codes** ; `fr.go` en donne le rendu français. Un hôte multilingue traduit les codes lui-même.
 - `graph.go` : graphes de matchs (tableaux, GSL, poules, consolantes) remplis par les résultats.
 - `phase_swiss.go`, `phase_bracket.go`, `phase_gsl.go`, `phase_rr.go` : les formats.
-- `standings.go` (rangs, prix partagés, CSV), `clock.go` (durées, matchs lents).
+- `standings.go` (rangs, prix partagés, CSV), `clock.go` (durées, matchs lents), `tables.go` (tables indisponibles, réservées).
 - `render/` : SVG des arbres, tableau des vies, matchs en cours, classement, page complète.
 - `sim/` : simulation (tests d'invariants, comparaison avec le simulateur de l'étude, prévision de fin).
 - `players/` : import CSV.

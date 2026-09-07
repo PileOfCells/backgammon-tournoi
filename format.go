@@ -19,7 +19,7 @@ type Config struct {
 	Name        string        `json:"name"`
 	Phases      []PhaseConfig `json:"phases"`
 	MinPerPoint float64       `json:"min_per_point,omitempty"` // durée moyenne d'un point (minutes), défaut 8
-	Tables      int           `json:"tables,omitempty"`        // nombre de tables, 0 = illimité
+	Tables      Tables        `json:"tables,omitempty"`        // les tables de la salle (tables.go)
 	Prizes      []float64     `json:"prizes,omitempty"`        // dotation par place (fractions ou montants)
 }
 
