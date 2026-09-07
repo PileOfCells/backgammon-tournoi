@@ -1,0 +1,83 @@
+# Intégration continue du moteur.
+#
+# Trois travaux, et la raison de chacun :
+#   - « tests » : ce qu'un relecteur doit voir sur la proposition elle-même — compilation, vet,
+#     format, et la suite COMPLÈTE (sans -short), qui inclut la matrice entière des invariants
+#     et TestParity. C'est long, environ une minute, et c'est le prix de la confiance ;
+#     `go test -short` reste la boucle qu'on lance à chaque sauvegarde, sous trois secondes.
+#   - « fuzz » : le fuzzing d'Apply et du rejeu d'un journal, sur une durée fixée. Il ne trouve
+#     rien la plupart du temps ; le jour où il trouve, il trouve ce qu'aucun test écrit à la
+#     main n'aurait cherché.
+#   - « exemples » : la galerie doit rester régénérable, et à jour. Une vitrine qu'on ne sait
+#     plus reconstruire est une vitrine perdue.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 4 * * 1" # le lundi : un fuzzing plus long que sur une proposition
+
+env:
+  GO_VERSION: "1.22"
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: Format
+        run: test -z "$(gofmt -l .)" || { gofmt -l .; exit 1; }
+      - name: Vet
+        run: go vet ./...
+      - name: Build
+        run: go build ./...
+      - name: Tests complets
+        run: go test ./...
+
+  fuzz:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: Durée du fuzzing
+        id: duree
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "t=300s" >> "$GITHUB_OUTPUT"
+          else
+            echo "t=60s" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Fuzz Apply
+        run: go test -run '^$' -fuzz FuzzApply -fuzztime ${{ steps.duree.outputs.t }} ./
+      - name: Fuzz rejeu de journal
+        run: go test -run '^$' -fuzz FuzzReplayJournal -fuzztime ${{ steps.duree.outputs.t }} ./
+      - name: Conserver les cas trouvés
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fuzz-testdata
+          path: testdata/fuzz/
+
+  exemples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: Régénérer la galerie
+        run: scripts/exemples.sh
+      - name: La galerie du dépôt est-elle à jour ?
+        run: |
+          if ! git diff --quiet -- exemples; then
+            echo "exemples/ n'est pas à jour : lancer scripts/exemples.sh et committer."
+            git diff --stat -- exemples
+            exit 1
+          fi

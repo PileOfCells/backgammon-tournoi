@@ -60,8 +60,10 @@ grille par tour lue **du dernier tour vers le premier** (`[15,13,11,9]`), `lengt
 ## Tests
 
 ```bash
-go test ./...                    # invariants sur 11 formats × 8 effectifs × 8 graines, rejeu, corrections
+go test -short ./...             # la boucle de travail : matrice réduite, sous trois secondes
+go test ./...                    # tout : invariants sur tous les formats × 8 effectifs × 8 graines, rejeu, corrections, parité
 go test -run TestParity -v ./    # P(meilleur gagne), matchs et durées sur 64 joueurs (long)
+go test -run '^$' -fuzz FuzzApply -fuzztime 60s ./   # fuzzing d'Apply (aussi en intégration continue)
 ```
 
 ## Tester à la main

@@ -16,6 +16,9 @@ func configs() map[string]tournoi.Config {
 		"suisse2_continu": {Name: "Suisse 2 vies continu", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindSwissLives, Length: 7}}},
 		"suisse2_rondes":  {Name: "Suisse 2 vies rondes", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindSwissLives, Length: 7, Mode: "rounds", AvoidClubs: true}}},
 		"suisse3_wins":    {Name: "Suisse 3 vies", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindSwissLives, Length: 5, Lives: 3, Pairing: "wins"}}},
+		"suisse_rondes_tableau": {Name: "Suisse par rondes puis tableau", Phases: []tournoi.PhaseConfig{
+			{Kind: tournoi.KindSwissLives, Length: 7, Mode: "rounds", Target: 16},
+			{Kind: tournoi.KindLivesBracket, Length: 9}}},
 		"suisse_micro_rondes": {Name: "Suisse à micro-rondes",
 			Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindSwissLives, Length: 7, BatchMinutes: 20}}},
 		// La simulation démarre le 1er janvier 2026 à 9 h (sim.Options.Start) : la pause du
@@ -97,10 +100,18 @@ func hook(t *testing.T, name string, seen map[string]int) func(s *tournoi.State,
 }
 
 func TestFormatsInvariants(t *testing.T) {
+	// La matrice complète — 8 effectifs × 8 graines × tous les formats — est ce qui donne
+	// confiance, et ce qui coûte. En mode court elle est réduite aux petits effectifs et à
+	// trois graines : c'est la boucle qu'on lance à chaque sauvegarde. La matrice entière
+	// tourne sans -short, donc en intégration continue.
+	effectifs, graines := []int{2, 3, 5, 8, 13, 32, 64, 100}, 8
+	if testing.Short() {
+		effectifs, graines = []int{2, 3, 5, 8, 13, 32}, 3
+	}
 	for name, cfg := range configs() {
-		for _, P := range []int{2, 3, 5, 8, 13, 32, 64, 100} {
+		for _, P := range effectifs {
 			seen := map[string]int{}
-			for k := 0; k < 8; k++ {
+			for k := 0; k < graines; k++ {
 				rng := rand.New(rand.NewSource(int64(P*1000 + k)))
 				players := sim.Champ(P, 6, 2, 2, 10, rng)
 				r := sim.Run(cfg, players, sim.Options{Seed: int64(k), Hook: hook(t, name, seen)})
@@ -134,7 +145,7 @@ func TestFormatsInvariants(t *testing.T) {
 			if lives == 0 {
 				lives = 2
 			}
-			if P >= 8 && seen["rematch"] > 8*(lives+3) {
+			if P >= 8 && seen["rematch"] > graines*(lives+3) {
 				t.Errorf("%s P=%d : trop de rematchs (%d)", name, P, seen["rematch"])
 			}
 		}

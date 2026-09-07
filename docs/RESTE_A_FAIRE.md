@@ -117,17 +117,25 @@ où intervenir et comment vérifier.
   les drops (le tirage est enregistré, donc l'algorithme peut évoluer sans casser les journaux).
 - [ ] **Poules : classement intra-poule** sans départage → barrage à 2 vies. Vérifier le cas
   d'égalité à trois pour deux places sur un tournoi réel (durée du barrage).
-- [ ] **Bascule Σvies = 2^k en mode `rounds`** : la somme décroît par paquets ; aujourd'hui la
-  ronde ne se lance que si elle laisse Σvies ≥ cible, ce qui peut bloquer sur une ronde impaire.
-  À tester (`sim_test.go`, config suisse `rounds` + `Target`) et corriger (`budget` dans
-  `proposeSwissRound`).
+- [x] **Bascule Σvies = 2^k en mode `rounds`** (issue #14). `proposeSwissRound` n'avait aucun
+  budget, là où le mode continu en avait un : la dernière ronde passait sous la cible et le
+  tableau suivant n'était plus complet. Mesuré avant correction, 2 vies et cible 16 : la somme
+  atterrissait entre 12 et 15 selon l'effectif, jamais sur 16. La dernière ronde d'une phase à
+  bascule est désormais tronquée au nombre exact de matchs restants, et ne donne aucun bye —
+  elle est la dernière, et un bye enregistré fausserait l'ordre d'appariement d'une ronde qui
+  n'aura pas lieu.
 - [ ] **La spécification a du retard sur le lot 0** : `docs/specification.md` décrit encore les
   libellés comme des chaînes (« Ronde 3 ») là où ce sont des codes (`codes.go`), et ne
   documente pas le catalogue des codes. À reprendre avec la publication du site (issue #13),
   qui republie la spécification.
 - [x] **API stable** : le format du journal est versionné (`Event.Version`, `JournalVersion`) et
-  un journal `Version: 0` est converti à la lecture (`Event.upgraded`). Reste le fuzzing de
-  `Apply` sur des journaux aléatoires (issue #14).
+  un journal `Version: 0` est converti à la lecture (`Event.upgraded`) — une fixture du dépôt,
+  `testdata/journal_v0.json`, le vérifie sur un tournoi entier et son classement.
+- [x] **Fuzzing** (issue #14). `FuzzApply` applique des suites d'événements tirées au hasard et
+  `FuzzReplayJournal` rejoue des octets quelconques : aucun panic, aucun état incohérent, une
+  erreur est une réponse acceptable. Les deux tournent en intégration continue
+  (`.github/workflows/ci.yml`), 60 s par proposition et 300 s le lundi. Mesuré localement :
+  3 minutes sur `FuzzApply`, 156 000 exécutions, rien trouvé.
 - [ ] Renommer le module au chemin définitif du dépôt de l'hôte (`go mod edit -module …`).
 
 ## 5. Étude (simulateur de l'étude, hors dépôt)
