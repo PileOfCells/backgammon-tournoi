@@ -25,6 +25,8 @@ const (
 	EvDraw            EventKind = "draw"             // Phase, Section, Draw
 	EvNextPhase       EventKind = "next_phase"       // passage à la phase suivante
 	EvLengthChanged   EventKind = "length_changed"   // Phase, Length (matchs futurs de la phase)
+	EvConfigChanged   EventKind = "config_changed"   // Config (la configuration ENTIÈRE, voir reconfig.go)
+	EvReopened        EventKind = "reopened"         // le tournoi clos est rouvert ; Final sera recalculé
 	EvTableChanged    EventKind = "table_changed"    // MatchID, Table (match en cours déplacé)
 	EvFinished        EventKind = "finished"
 	EvNote            EventKind = "note" // Text (annotation libre du TD)
@@ -183,6 +185,24 @@ func CancelEvent(id MatchID, now time.Time) Event {
 // LengthChangedEvent : nouvelle longueur pour les matchs à venir d'une phase.
 func LengthChangedEvent(phase, length int, now time.Time) Event {
 	return Event{Version: JournalVersion, Kind: EvLengthChanged, Time: now, Phase: phase, Length: length}
+}
+
+// ConfigChangedEvent : nouvelle configuration du tournoi, ENTIÈRE. Le moteur la valide et
+// refuse ce qui changerait le format d'une phase commencée ou terminée, ou retirerait une phase
+// ouverte (reconfig.go). Tout le reste est admis : la bascule, les longueurs à venir, les
+// tables, les pauses, la dotation, une phase ajoutée après la phase courante.
+//
+// EvLengthChanged reste lu pour les journaux existants ; il n'est plus le seul moyen de changer
+// une longueur.
+func ConfigChangedEvent(cfg Config, now time.Time) Event {
+	c := cfg.clone()
+	return Event{Version: JournalVersion, Kind: EvConfigChanged, Time: now, Config: &c}
+}
+
+// ReopenedEvent : un tournoi clos est rouvert, parce qu'un résultat était faux. Le classement
+// final est effacé et sera recalculé à la clôture suivante — le journal, lui, garde tout.
+func ReopenedEvent(now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvReopened, Time: now}
 }
 
 // TableChangedEvent : un match en cours change de table (bruit, lumière, retransmission).

@@ -180,7 +180,7 @@ func (s *State) Apply(ev Event) error {
 		if err := cfg.Validate(); err != nil {
 			return err
 		}
-		s.Config, s.Seed = cfg, ev.Seed
+		s.Config, s.Seed = cfg.clone(), ev.Seed
 		s.Phases = []*PhaseState{newPhaseState(0, cfg.Phases[0])}
 		s.Current = 0
 	case EvPlayerAdded:
@@ -332,6 +332,24 @@ func (s *State) Apply(ev Event) error {
 			return fmt.Errorf("phase %d inconnue", ev.Phase)
 		}
 		ph.Length = ev.Length
+	case EvConfigChanged:
+		if ev.Config == nil {
+			return fmt.Errorf("config_changed sans configuration")
+		}
+		cfg := ev.Config.clone()
+		if err := cfg.Validate(); err != nil {
+			return err
+		}
+		if err := s.acceptConfig(cfg); err != nil {
+			return err
+		}
+		s.setConfig(cfg)
+		s.recompute()
+	case EvReopened:
+		if !s.Finished {
+			return fmt.Errorf("le tournoi n'est pas clos")
+		}
+		s.Finished, s.Final = false, nil
 	case EvFinished:
 		s.Finished = true
 		s.Final = s.Ranking()
