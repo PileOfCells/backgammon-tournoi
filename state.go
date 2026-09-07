@@ -27,7 +27,10 @@ type State struct {
 	NEvents       int                `json:"n_events"`
 	Last          time.Time          `json:"last"`
 	Warnings      []Warning          `json:"warnings,omitempty"`
-	nextID        int
+	// Infos : les inscrits qui ne jouent encore nulle part et où ils entreront (retardataire.go).
+	// Dérivées de l'état à chaque événement, jamais accumulées.
+	Infos  []Info `json:"infos,omitempty"`
+	nextID int
 }
 
 // PhaseState est l'état d'une phase.
@@ -129,6 +132,7 @@ func newState() *State {
 // seen enregistre qu'un événement a été appliqué : compteur et horodatage. Les branches d'Apply
 // qui sortent tôt passent par là pour ne pas fausser le générateur (rng dépend de NEvents).
 func (s *State) seen(ev Event) error {
+	s.refreshInfos()
 	s.NEvents++
 	if ev.Time.After(s.Last) {
 		s.Last = ev.Time
@@ -190,8 +194,15 @@ func (s *State) Apply(ev Event) error {
 		s.Players[p.ID] = &p
 		delete(s.Withdrawn, p.ID)
 		ph := s.phase()
-		if ph.Index == 0 && !ph.Drawn && (ph.Cfg.Kind == KindSwissLives || !ph.Started) {
-			s.enter(ph, p.ID, livesFor(ph.Cfg)) // retardataire admis avec toutes ses vies (suisse) ou avant le tirage
+		switch {
+		case ev.Slot != "":
+			// Retardataire sur une place d'exemption d'un tableau déjà tiré : le tirage n'est
+			// pas refait, la place est occupée là où elle est.
+			if err := s.takeSlot(s.phaseOf(ev.Phase), ev.Section, ev.Slot, p.ID); err != nil {
+				return err
+			}
+		case ph.Index == 0 && !ph.Drawn && (ph.Cfg.Kind == KindSwissLives || !ph.Started):
+			s.enter(ph, p.ID, livesFor(ph.Cfg)) // admis avec toutes ses vies (suisse) ou avant le tirage
 		}
 	case EvPlayerWithdrawn:
 		if _, ok := s.Players[ev.ID]; !ok {
@@ -328,6 +339,7 @@ func (s *State) Apply(ev Event) error {
 	default:
 		return fmt.Errorf("événement %q inconnu", ev.Kind)
 	}
+	s.refreshInfos()
 	s.NEvents++
 	if ev.Time.After(s.Last) {
 		s.Last = ev.Time
@@ -468,6 +480,13 @@ func (s *State) recompute() {
 			for i := range sec.Matches {
 				g := &sec.Matches[i]
 				g.Done, g.Winner, g.Loser, g.Walkover, g.Skipped = false, "", "", false, false
+				// Les places DÉRIVÉES d'un autre match repartent vides : sans cela, un match
+				// qui cesse d'être joué (correction, annulation, place d'exemption prise par un
+				// retardataire) laissait derrière lui le joueur qu'il avait fait avancer, et
+				// resolve ne le remplaçait jamais.
+				for k := 0; k < 2; k++ {
+					g.Players[k] = g.Src[k].Player
+				}
 			}
 		}
 	}

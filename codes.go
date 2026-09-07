@@ -173,6 +173,31 @@ type Warning struct {
 	ScoreB    int         `json:"score_b,omitempty"`
 }
 
+// ---- Informations ----
+
+// InfoCode est le code d'une information : ni une incohérence à corriger, ni une action à
+// confirmer, mais un fait que le TD doit voir — le sort d'un joueur inscrit qui ne joue encore
+// nulle part.
+type InfoCode string
+
+const (
+	// InfoEntersAt : le joueur entrera là. Phase et Section (avec le libellé) disent où.
+	InfoEntersAt InfoCode = "enters_at"
+	// InfoNoEntry : le joueur est inscrit mais rien ne l'admet — aucune place d'exemption
+	// libre, aucune phase à venir ouverte à tous. Le dire vaut mieux que le laisser disparaître
+	// de l'affichage.
+	InfoNoEntry InfoCode = "no_entry"
+)
+
+// Info est une information destinée au TD : un code et de quoi la situer.
+type Info struct {
+	Code    InfoCode `json:"code"`
+	Player  PlayerID `json:"player,omitempty"`
+	Phase   int      `json:"phase,omitempty"`
+	Section string   `json:"section,omitempty"`
+	Label   Label    `json:"label,omitempty"`
+}
+
 // ---- Raisons d'attente ----
 
 // ReasonCode dit pourquoi le moteur ne propose rien à faire.

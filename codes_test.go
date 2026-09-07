@@ -83,6 +83,7 @@ func TestAucunTexteHumainNeSortDuMoteur(t *testing.T) {
 			}
 			aucunTexteAffichable(t, r.State.Ranking(), "classement final")
 			aucunTexteAffichable(t, r.State.Warnings, "avertissements")
+			aucunTexteAffichable(t, r.State.Infos, "informations")
 			aucunTexteAffichable(t, journal, "journal")
 		})
 	}
@@ -162,6 +163,16 @@ func TestRenduFrancaisCouvreLesCodes(t *testing.T) {
 	} {
 		if s := r.String(); s == "" || s == string(r) {
 			t.Errorf("raison %s : pas de rendu français (%q)", r, s)
+		}
+	}
+	infos := []tournoi.Info{
+		{Code: tournoi.InfoEntersAt, Player: "tard", Phase: 1, Label: tournoi.Label{Kind: tournoi.LabelPhase, Text: "Tableau"}},
+		{Code: tournoi.InfoEntersAt, Player: "tard", Phase: 0, Section: "conso"},
+		{Code: tournoi.InfoNoEntry, Player: "tard"},
+	}
+	for _, i := range infos {
+		if s := i.String(); s == "" || s == string(i.Code) {
+			t.Errorf("information %s : pas de rendu français (%q)", i.Code, s)
 		}
 	}
 	w := tournoi.Warning{Code: tournoi.WarnBracketWrongPlayers, Match: "M1", Section: "main",

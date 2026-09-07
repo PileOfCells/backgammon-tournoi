@@ -28,10 +28,13 @@ où intervenir et comment vérifier.
 
 ## 2. Fonctions attendues d'un logiciel de tournoi
 
-- [ ] **Retardataires.** Un joueur ajouté après le tirage d'un tableau n'entre nulle part
-  (accepté seulement en suisse avant bascule) — issue #6. Les forfaits fins sont faits : le
-  forfait d'un seul match sans retrait (`ForfeitEvent`) et le retrait différé
-  (`PlayerWithdrawnAfterCurrentEvent`, le joueur finit son match en cours).
+- [x] **Retardataires** (issue #6). `State.FreeSlots` énumère les places d'exemption libres d'un
+  tour non commencé ; `PlayerAddedAtSlotEvent` y installe le joueur sans jamais refaire le
+  tirage. Sans place, il est enregistré et `State.Infos` porte le code `enters_at` (ou
+  `no_entry`) — dérivé de l'état, jamais accumulé. Le correctif de fond est dans `recompute`,
+  qui réinitialise désormais les places dérivées de `GMatch.Players`. Les forfaits fins étaient
+  déjà là : forfait d'un seul match (`ForfeitEvent`), retrait différé
+  (`PlayerWithdrawnAfterCurrentEvent`).
 - [x] **Longueurs de match par tour** (issue #5). `PhaseConfig.Lengths` se lit du dernier tour
   vers le premier (`[15,13,11,9]`) et passe par `lengthPlan` (graph.go), qui superpose la liste,
   `FinalLength` et `Length`. La fin d'un suisse s'allonge avec `LengthLate` + `LateThreshold`
@@ -81,6 +84,10 @@ où intervenir et comment vérifier.
   ronde ne se lance que si elle laisse Σvies ≥ cible, ce qui peut bloquer sur une ronde impaire.
   À tester (`sim_test.go`, config suisse `rounds` + `Target`) et corriger (`budget` dans
   `proposeSwissRound`).
+- [ ] **La spécification a du retard sur le lot 0** : `docs/specification.md` décrit encore les
+  libellés comme des chaînes (« Ronde 3 ») là où ce sont des codes (`codes.go`), et ne
+  documente pas le catalogue des codes. À reprendre avec la publication du site (issue #13),
+  qui republie la spécification.
 - [x] **API stable** : le format du journal est versionné (`Event.Version`, `JournalVersion`) et
   un journal `Version: 0` est converti à la lecture (`Event.upgraded`). Reste le fuzzing de
   `Apply` sur des journaux aléatoires (issue #14).

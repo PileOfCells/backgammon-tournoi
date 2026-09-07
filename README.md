@@ -37,6 +37,7 @@ grille par tour lue **du dernier tour vers le premier** (`[15,13,11,9]`), `lengt
 - `graph.go` : graphes de matchs (tableaux, GSL, poules, consolantes) remplis par les résultats.
 - `phase_swiss.go`, `phase_bracket.go`, `phase_gsl.go`, `phase_rr.go` : les formats.
 - `standings.go` (rangs, prix partagés, CSV), `clock.go` (durées, matchs lents), `tables.go` (tables indisponibles, réservées).
+- `retardataire.go` : places d'exemption libres (`FreeSlots`) et entrée d'un joueur arrivé après le tirage, sans jamais refaire le tirage.
 - `render/` : SVG des arbres, tableau des vies, matchs en cours, classement, page complète.
 - `sim/` : simulation (tests d'invariants, comparaison avec le simulateur de l'étude, prévision de fin).
 - `players/` : import CSV.
