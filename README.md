@@ -4,7 +4,9 @@ Bibliothèque Go sans dépendance, à intégrer dans un logiciel web dans le mê
 Journal d'événements, état reconstruit par `Replay`, propositions d'actions pour le directeur de
 tournoi, aucun départage. Exemple d'intégration dans `doc.go`. Les choix de conception viennent
 d'une étude par simulation des formats résumée dans `docs/etude_formats.md` ; le travail restant
-est dans `docs/RESTE_A_FAIRE.md`.
+est dans `docs/RESTE_A_FAIRE.md`. La **spécification complète** du moteur — assez détaillée
+pour le reconstruire à partir d'elle seule — est dans `docs/specification.md`
+(version PDF : `docs/specification.pdf`).
 
 ```bash
 go get github.com/PileOfCells/backgammon-tournoi
