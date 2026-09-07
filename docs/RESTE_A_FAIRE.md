@@ -91,6 +91,14 @@ où intervenir et comment vérifier.
 
 ## 4. Moteur : robustesse et qualité
 
+- [x] **Les avertissements sont recalculés dès le résultat.** `check()` n'était appelée que
+  depuis `recompute()`, donc depuis les seules corrections, annulations et forfaits : un score
+  au-delà de la longueur annoncée n'apparaissait qu'après une correction sans rapport, ou
+  jamais. `Apply` la rappelle désormais sur `match_started` et `result`. Au passage, `check()`
+  parcourt les GRAPHES et non les matchs — chercher pour chaque match sa place dans toutes les
+  sections était quadratique, ce qui était supportable une fois par correction et ne l'est plus
+  à chaque résultat.
+
 - [ ] **Correction d'un résultat de tableau après coup** : l'état est recalculé et une `Warning`
   signale un match joué par le mauvais joueur, mais rien ne propose la réparation (rejouer le
   match, annuler la suite). Définir la procédure et l'outiller (`EvMatchCancelled` en série).

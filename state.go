@@ -357,6 +357,17 @@ func (s *State) Apply(ev Event) error {
 	default:
 		return fmt.Errorf("événement %q inconnu", ev.Kind)
 	}
+	switch ev.Kind {
+	case EvMatchStarted, EvResult:
+		// Ces deux-là changent ce que check() regarde — les joueurs qui occupent une place de
+		// graphe, le score au regard de la longueur annoncée — sans passer par recompute. Sans
+		// ce rappel, un score au-delà de la longueur n'apparaissait qu'après une correction
+		// sans rapport, ou jamais : le TD ne le voyait pas au moment où il pouvait encore agir.
+		// Les autres types qui touchent un match recalculent déjà tout (recompute appelle
+		// check) ; length_changed ne touche que les matchs FUTURS d'une phase, et ne peut donc
+		// rien changer à ce que check regarde.
+		s.Warnings = s.check()
+	}
 	s.refreshInfos()
 	s.NEvents++
 	if ev.Time.After(s.Last) {
@@ -529,22 +540,53 @@ func (s *State) recompute() {
 	s.Warnings = s.check()
 }
 
-// check signale les incohérences (après correction d'un résultat, par exemple).
+// check signale les incohérences : un match de graphe joué par d'autres joueurs que ceux que la
+// place attendait, un score au-delà de la longueur annoncée.
+//
+// Elle tourne après CHAQUE événement qui touche un match, et pas seulement après un recalcul
+// complet : un avertissement qui n'apparaît qu'après une correction sans rapport — ou jamais —
+// ne sert à rien. C'est pourquoi elle parcourt les GRAPHES et non les matchs : chercher, pour
+// chaque match, sa place dans toutes les sections était quadratique. Le sens de lecture inverse
+// (chaque place connaît son match par MatchID) donne le même résultat en une passe.
 func (s *State) check() []Warning {
+	// Carte allouée seulement s'il y a quelque chose à signaler : check tourne à chaque
+	// résultat, et le cas normal est qu'il n'y ait rien.
+	var parMatch map[MatchID]Warning
+	for _, ph := range s.Phases {
+		for _, sec := range ph.Sections {
+			for i := range sec.Matches {
+				g := &sec.Matches[i]
+				if g.MatchID == "" {
+					continue
+				}
+				m := s.Matches[g.MatchID]
+				if m == nil || m.Status == Cancelled {
+					continue
+				}
+				if g.Players[0] == "" || g.Players[1] == "" {
+					continue
+				}
+				if (g.Players[0] == m.A && g.Players[1] == m.B) || (g.Players[0] == m.B && g.Players[1] == m.A) {
+					continue
+				}
+				if parMatch == nil {
+					parMatch = map[MatchID]Warning{}
+				}
+				parMatch[m.ID] = Warning{Code: WarnBracketWrongPlayers, Match: m.ID, Section: m.Section, Label: m.Label,
+					A: m.A, B: m.B, ExpectedA: g.Players[0], ExpectedB: g.Players[1]}
+			}
+		}
+	}
+	// L'ordre reste celui des matchs : c'est celui que le TD lit.
 	var w []Warning
 	for _, id := range s.MatchOrder {
 		m := s.Matches[id]
 		if m.Status == Cancelled {
 			continue
 		}
-		ph := s.phaseOf(m.Phase)
-		if ph == nil {
-			continue
-		}
-		if g := ph.gmatch(m.Section, m.Key); g != nil {
-			if g.Players[0] != "" && g.Players[1] != "" && !((g.Players[0] == m.A && g.Players[1] == m.B) || (g.Players[0] == m.B && g.Players[1] == m.A)) {
-				w = append(w, Warning{Code: WarnBracketWrongPlayers, Match: m.ID, Section: m.Section, Label: m.Label,
-					A: m.A, B: m.B, ExpectedA: g.Players[0], ExpectedB: g.Players[1]})
+		if parMatch != nil {
+			if x, ok := parMatch[id]; ok {
+				w = append(w, x)
 			}
 		}
 		if m.Status == Finished && m.Length > 0 && (m.ScoreA > m.Length || m.ScoreB > m.Length) {
