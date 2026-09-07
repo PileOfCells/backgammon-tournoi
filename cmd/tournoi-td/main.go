@@ -139,6 +139,7 @@ func help() {
 	fmt.Print(`Commandes :
   ajoute <nom> [club] [pr]     inscrire un joueur (identifiant dérivé du nom)
   import <fichier.csv>         inscrire depuis un CSV (nom, club, pr)
+  exporte <fichier.csv>        écrire les inscrits en CSV (relisible par import)
   places                       places d'exemption libres pour un retardataire
   retardataire <nom> <place>   inscrire un joueur sur une place d'exemption libre
   propose                      afficher ce que le moteur propose
@@ -300,6 +301,19 @@ func (t *td) exec(f []string) error {
 			}
 		}
 		fmt.Printf("  %d joueurs inscrits\n", len(ps))
+	case "exporte":
+		// L'annuaire fait l'aller-retour : ce qu'on écrit ici, « import » le relit tel quel.
+		if len(f) < 2 {
+			return fmt.Errorf("exporte <fichier.csv>")
+		}
+		ps := make([]tournoi.Player, 0, len(t.st.Order))
+		for _, id := range t.st.Order {
+			ps = append(ps, *t.st.Players[id])
+		}
+		if err := os.WriteFile(f[1], players.ToCSV(ps), 0o644); err != nil {
+			return err
+		}
+		fmt.Printf("  %d joueurs écrits dans %s\n", len(ps), f[1])
 	case "propose":
 		t.propose()
 	case "ok":

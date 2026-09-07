@@ -90,7 +90,7 @@ Un `Match` (state.go, joué, avec table et horodatages) est relié à son `GMatc
 
 - `sim/` : `Run(cfg, players, Options)` joue un tournoi complet avec résultats tirés selon les PR (`PGain`, modèle Elo/FIBS) ; `Options.Hook` est appelé après chaque événement (c'est ainsi que les tests vérifient les invariants) ; `Forecast` prévoit la fin d'un tournoi en cours. Les tests du paquet racine (`sim_test.go`, `parity_test.go`) sont dans `tournoi_test` et reposent entièrement sur `sim`.
 - `render/` : HTML/SVG bruts sans CSS (`BracketSVG`, `LivesBoard`, `RunningTable`, `ActionsList`, `StandingsTable`, `Page`). Pas de tests.
-- `players/` : import CSV (séparateur détecté, identifiants en slug).
+- `players/` : import et export CSV (séparateur détecté, identifiants en slug ; `ToCSV` écrit ce que `FromCSV` relit).
 - `cmd/tournoi-demo`, `cmd/tournoi-td` : chacun a sa propre map `formats` de configurations nommées ; les garder cohérentes si on en ajoute une.
 
 ## Conventions de test

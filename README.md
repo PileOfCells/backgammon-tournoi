@@ -40,7 +40,7 @@ grille par tour lue **du dernier tour vers le premier** (`[15,13,11,9]`), `lengt
 - `retardataire.go` : places d'exemption libres (`FreeSlots`) et entrée d'un joueur arrivé après le tirage, sans jamais refaire le tirage.
 - `render/` : SVG des arbres, tableau des vies, matchs en cours, classement, page complète.
 - `sim/` : simulation (tests d'invariants, comparaison avec le simulateur de l'étude, prévision de fin).
-- `players/` : import CSV.
+- `players/` : import et export CSV d'une liste de joueurs (l'annuaire de l'hôte fait l'aller-retour).
 - `cmd/tournoi-demo` : démonstration (`go run ./cmd/tournoi-demo -format suisse_tableau -joueurs 32 -etapes -sortie demo`, `-rejouer demo/journal.json`).
 - `cmd/tournoi-td` : console interactive pour diriger un tournoi à la main (voir « Tester à la main »).
 - `exemples/` : tournois simulés rendus à quatre stades pour sept formats ; ouvrir `exemples/index.html`.
