@@ -57,6 +57,9 @@ type Event struct {
 	AfterCurrent bool      `json:"after_current,omitempty"` // retrait différé : le joueur finit son match
 	Draw         *Draw     `json:"draw,omitempty"`
 	Text         string    `json:"text,omitempty"`
+	// Slot : sur player_added, la clé de la place d'exemption qu'un retardataire vient prendre
+	// dans un tableau déjà tiré (voir retardataire.go). Vide pour une inscription ordinaire.
+	Slot string `json:"slot,omitempty"`
 }
 
 // Journal est la liste ordonnée des événements d'un tournoi.
@@ -127,10 +130,17 @@ func (e Event) upgraded() Event {
 // Tout événement porte la version du format. Ces constructeurs existent pour qu'on ne puisse pas
 // l'oublier : un événement fabriqué à la main sans Version serait relu comme un journal ancien.
 
-// PlayerAddedEvent : inscription d'un joueur. slot désigne, s'il est non vide, la place
-// d'exemption qu'un retardataire vient prendre dans un tableau déjà tiré.
+// PlayerAddedEvent : inscription d'un joueur.
 func PlayerAddedEvent(p Player, now time.Time) Event {
 	return Event{Version: JournalVersion, Kind: EvPlayerAdded, Time: now, Player: &p}
+}
+
+// PlayerAddedAtSlotEvent : inscription d'un retardataire sur une place d'exemption libre d'un
+// tableau déjà tiré (State.FreeSlots les énumère). Le tirage n'est pas refait : la place est
+// occupée là où elle est. Une place déjà jouée est refusée par Apply.
+func PlayerAddedAtSlotEvent(p Player, slot Slot, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvPlayerAdded, Time: now, Player: &p,
+		Phase: slot.Phase, Section: slot.Section, Slot: slot.Key}
 }
 
 // PlayerWithdrawnEvent : retrait immédiat d'un joueur. Ses matchs en cours sont perdus par

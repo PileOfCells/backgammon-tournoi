@@ -70,6 +70,9 @@ func (t *td) name(id tournoi.PlayerID) string {
 }
 
 func (t *td) propose() {
+	for _, i := range t.st.Infos {
+		fmt.Println("  i", i)
+	}
 	t.acts = t.st.Propose()
 	if len(t.acts) == 0 {
 		fmt.Println("  rien à proposer")
@@ -136,6 +139,8 @@ func help() {
 	fmt.Print(`Commandes :
   ajoute <nom> [club] [pr]     inscrire un joueur (identifiant dérivé du nom)
   import <fichier.csv>         inscrire depuis un CSV (nom, club, pr)
+  places                       places d'exemption libres pour un retardataire
+  retardataire <nom> <place>   inscrire un joueur sur une place d'exemption libre
   propose                      afficher ce que le moteur propose
   ok [n | tous]                confirmer la proposition n (ou toutes)
   resultat <match> <vainqueur> [scoreA scoreB]   ex. : resultat M12 dupont 7 3
@@ -255,6 +260,27 @@ func (t *td) exec(f []string) error {
 			p.Rating, _ = strconv.ParseFloat(strings.ReplaceAll(f[3], ",", "."), 64)
 		}
 		return t.apply(tournoi.PlayerAddedEvent(p, now))
+	case "places":
+		libres := t.st.FreeSlots()
+		if len(libres) == 0 {
+			fmt.Println("  aucune place d'exemption libre")
+			return nil
+		}
+		for _, sl := range libres {
+			fmt.Printf("  %s (%s, %s)\n", sl.Key, sl.Section, sl.Label)
+		}
+		return nil
+	case "retardataire":
+		if len(f) < 3 {
+			return fmt.Errorf("retardataire <nom> <place> (voir la commande places)")
+		}
+		p := tournoi.Player{Name: f[1], ID: tournoi.PlayerID(strings.ToLower(f[1]))}
+		for _, sl := range t.st.FreeSlots() {
+			if sl.Key == f[2] {
+				return t.apply(tournoi.PlayerAddedAtSlotEvent(p, sl, now))
+			}
+		}
+		return fmt.Errorf("place %q introuvable ou plus libre (voir la commande places)", f[2])
 	case "import":
 		if len(f) < 2 {
 			return fmt.Errorf("import <fichier.csv>")

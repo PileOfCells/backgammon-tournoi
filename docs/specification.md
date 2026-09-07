@@ -316,7 +316,8 @@ type State struct {
     Final      []Rank               `json:"final,omitempty"` // figé à la clôture
     NEvents    int                  `json:"n_events"`
     Last       time.Time            `json:"last"`     // horodatage du dernier événement
-    Warnings   []string             `json:"warnings,omitempty"`
+    Warnings   []Warning            `json:"warnings,omitempty"` // incohérences (codes)
+    Infos      []Info               `json:"infos,omitempty"`    // inscrits qui ne jouent nulle part
     nextID     int                  // interne : compteur de matchs
 }
 ```
@@ -676,15 +677,22 @@ s.Players[id] = copie de *ev.Player     (réinscription = mise à jour de la fic
 supprimer id de s.Withdrawn             (une réinscription annule un forfait)
 
 ph := phase courante
-si ph.Index == 0 et non ph.Drawn et (ph.Kind == swiss_lives ou non ph.Started) :
+si ev.Slot != "" :
+    takeSlot(phaseOf(ev.Phase), ev.Section, ev.Slot, id)   ← erreur si la place n'est plus libre
+sinon si ph.Index == 0 et non ph.Drawn et (ph.Kind == swiss_lives ou non ph.Started) :
     enter(ph, id, livesFor(ph.Cfg))
 ```
 
-**Retardataires** : un joueur inscrit après le début n'entre dans la phase 0 que si le tirage n'a
-pas eu lieu, et — pour les formats à tableau ou à poules — qu'aucun match n'a encore été lancé. Un
-suisse accepte les retardataires tant qu'il n'est pas figé. Un joueur inscrit alors qu'aucune de ces
-conditions n'est remplie est **enregistré mais n'entre dans aucune phase** : il figure dans
-`Players` et `Order`, pas dans `Entrants`. C'est une limite connue (voir le dernier chapitre).
+**Retardataires.** Trois chemins, et un seul interdit : refaire le tirage.
+
+1. Le tirage n'a pas eu lieu (ou la phase est un suisse non figé) : le joueur entre tout de suite,
+   avec toutes ses vies.
+2. `ev.Slot` désigne une **place d'exemption libre** d'un tableau déjà tiré (`State.FreeSlots` les
+   énumère, `PlayerAddedAtSlotEvent` construit l'événement) : il l'occupe là où elle est, avec une
+   vie — il ne bénéficie pas de l'exemption qu'il prend. Une place dont le match a été lancé, ou
+   dont le tour a commencé, ou qui n'existe pas, est **refusée** : `Apply` renvoie une erreur.
+3. Sinon il est enregistré (`Players`, `Order`) sans entrer dans aucune phase, et `State.Infos`
+   porte un code disant où il entrera (`enters_at`) ou que rien ne l'admet (`no_entry`).
 
 ### `player_withdrawn`
 
@@ -842,6 +850,20 @@ donc le prochain tirage : c'est sans conséquence sur la validité, mais à savo
 ```go
 func (s *State) EventFromAction(a Action, now time.Time) (Event, error)
 func ResultEvent(id MatchID, winner PlayerID, scoreA, scoreB int, now time.Time) Event
+
+// constructeurs d'événements (ils posent Version = JournalVersion ; ne jamais écrire un
+// Event littéral sans version, il serait relu comme un journal ancien)
+func PlayerAddedEvent(p Player, now time.Time) Event
+func PlayerAddedAtSlotEvent(p Player, slot Slot, now time.Time) Event
+func PlayerWithdrawnEvent(id PlayerID, now time.Time) Event
+func PlayerWithdrawnAfterCurrentEvent(id PlayerID, now time.Time) Event
+func ForfeitEvent(id MatchID, winner PlayerID, now time.Time) Event
+func CorrectionEvent(id MatchID, winner PlayerID, scoreA, scoreB int, now time.Time) Event
+func CancelEvent(id MatchID, now time.Time) Event
+func LengthChangedEvent(phase, length int, now time.Time) Event
+func TableChangedEvent(id MatchID, table int, now time.Time) Event
+func NoteEvent(text string, now time.Time) Event
+func (e Event) WithNote(text string) Event
 ```
 
 `EventFromAction` traduit une action confirmée en événement. Base commune :
@@ -1034,6 +1056,7 @@ Déclenché par `player_withdrawn`, `result_corrected` et `match_cancelled`.
        ElimOrder ← nil
        pour chaque GMatch de chaque section :
            Done, Winner, Loser, Walkover, Skipped ← false, "", "", false, false
+           Players[k] ← Src[k].Player  (donc "" pour une place dérivée d'un autre match)
 
 2. Pour chaque match dans l'ordre de MatchOrder :
        ph := phaseOf(m.Phase) ; si absente ou m.Status == Cancelled → passer
@@ -1047,17 +1070,18 @@ Déclenché par `player_withdrawn`, `result_corrected` et `match_cancelled`.
 ```
 
 Ce qui **n'est pas** réinitialisé : `Byes` (un bye reste acquis), `Entrants`, `Lives`, `Round`,
-`Drawn`, `Sections` (structure), `GMatch.Players` et `GMatch.MatchID`.
+`Drawn`, `Sections` (structure) et `GMatch.MatchID`.
 
-Le fait de ne pas réinitialiser `GMatch.Players` est une limite connue : si une correction rend
-« non joué » un match amont, les places aval conservent leur ancien occupant tant qu'une nouvelle
-résolution ne les écrase pas. Le contrôle `check()` détecte le symptôme le plus visible (un match
-réel joué par des joueurs que le graphe n'attend plus) mais le moteur ne propose pas de réparation.
+Les **places dérivées** (`GMatch.Players[k]` dont la source est un autre match) repartent vides à
+l'étape 1 et sont refaites par `resolve`. Sans cela, un match qui cesse d'être joué — correction,
+annulation, ou place d'exemption prise par un retardataire — laissait derrière lui le joueur qu'il
+avait fait avancer, et `resolve` ne le remplaçait jamais. Les places **fixes** (`Src[k].Player`,
+un joueur ou un `BYE`) sont restaurées telles quelles.
 
 ## Contrôle de cohérence
 
 ```go
-func (s *State) check() []string
+func (s *State) check() []Warning
 ```
 
 Pour chaque match non annulé rattaché à un `GMatch` dont les deux places sont connues : si
@@ -2663,7 +2687,6 @@ reconstruction fidèle du moteur ne doit pas les inclure sans le dire.
 
 ## Fonctions attendues d'un logiciel de tournoi
 
-- **Retardataires** : un joueur ajouté après le tirage d'un tableau n'entre nulle part.
 - **Forfaits fins** : il manque le forfait pour un seul match sans retrait, et le retrait « à partir
   de la ronde suivante ».
 - **Pauses programmées** : `Propose` ne doit pas lancer un match dont la fin attendue dépasse
@@ -2693,8 +2716,6 @@ reconstruction fidèle du moteur ne doit pas les inclure sans le dire.
   `proposeSwissRound`.
 - **API stable** : versionner le format du journal (champ `version` dans `Event`), documenter la
   compatibilité ascendante, fuzzer `Apply` sur des journaux aléatoires.
-- **`recompute` ne réinitialise pas `GMatch.Players`** : des places périmées peuvent subsister après
-  une correction amont.
 - **Rendu** : pas de tests (prévoir des fichiers témoins SVG/HTML), pas de vue double élimination
   côte à côte, pas d'écran joueur.
 
@@ -2707,16 +2728,20 @@ reconstruction fidèle du moteur ne doit pas les inclure sans le dire.
 ### Types
 
 `PlayerID`, `Player`, `MatchID`, `MatchStatus`, `Match`, `Rank`, `ActionKind`, `Action`, `Draw`,
-`EventKind`, `Event`, `Journal`, `Config`, `PhaseConfig`, `State`, `PhaseState`, `Section`,
-`GMatch`, `Src`, `Clock`.
+`EventKind`, `Event`, `Journal`, `Config`, `PhaseConfig`, `Tables`, `TableRule`, `State`,
+`PhaseState`, `Section`, `GMatch`, `Src`, `Slot`, `Clock`.
+
+Codes (voir `codes.go`, aucun texte destiné à l'affichage ne sort du moteur) : `LabelKind`,
+`Label`, `NoteKind`, `Note`, `WarningCode`, `Warning`, `InfoCode`, `Info`, `ReasonCode`.
 
 ### Constantes
 
 `BYE` ; `Running`, `Finished`, `Cancelled` ; `ActStartMatch`, `ActBye`, `ActDraw`, `ActNextPhase`,
 `ActFinish`, `ActWait` ; `EvCreated`, `EvPlayerAdded`, `EvPlayerWithdrawn`, `EvMatchStarted`,
 `EvResult`, `EvResultCorrected`, `EvMatchCancelled`, `EvBye`, `EvDraw`, `EvNextPhase`,
-`EvLengthChanged`, `EvFinished`, `EvNote` ; `KindSwissLives`, `KindLivesBracket`, `KindGSL`,
-`KindBracket`, `KindRoundRobin`.
+`EvLengthChanged`, `EvTableChanged`, `EvFinished`, `EvNote` ; `KindSwissLives`,
+`KindLivesBracket`, `KindGSL`, `KindBracket`, `KindRoundRobin` ; `JournalVersion` ; les codes
+`Label*`, `Note*`, `Warn*`, `Info*`, `Reason*`.
 
 ### Fonctions et méthodes
 
@@ -2735,6 +2760,7 @@ func ResultEvent(id MatchID, winner PlayerID, scoreA, scoreB int, now time.Time)
 // consultation
 func (s *State) Running() []*Match
 func (s *State) Ranking() []Rank
+func (s *State) FreeSlots() []Slot          // places d'exemption libres (retardataires)
 func (s *State) StandingsCSV() []byte
 func (s *State) Expected(n int) time.Duration
 func (s *State) SlowMatches(now time.Time, facteur float64) []*Match
@@ -2746,6 +2772,15 @@ func (j Journal) Bytes() ([]byte, error)
 func ParseJournal(b []byte) (Journal, error)
 func ParseConfig(b []byte) (*Config, error)
 func (c *Config) Validate() error
+
+// rendu français des codes (fr.go) — la console, la démo et render ; un hôte
+// multilingue traduit les codes lui-même et ignore ce fichier
+func (l Label) String() string
+func (n Note) String() string
+func (w Warning) String() string
+func (i Info) String() string
+func (r ReasonCode) String() string
+func PhaseName(p PhaseConfig) string
 
 // divers
 func (m *Match) Loser() PlayerID

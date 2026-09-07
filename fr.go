@@ -177,6 +177,20 @@ func (r ReasonCode) String() string {
 	return string(r)
 }
 
+// String rend une information en français.
+func (i Info) String() string {
+	switch i.Code {
+	case InfoEntersAt:
+		if i.Section != "" {
+			return fmt.Sprintf("%s entre en %s (phase %d)", i.Player, sectionName(i.Section), i.Phase+1)
+		}
+		return fmt.Sprintf("%s entre à la phase %d : %s", i.Player, i.Phase+1, i.Label.String())
+	case InfoNoEntry:
+		return fmt.Sprintf("%s est inscrit mais aucune phase ne l'admet", i.Player)
+	}
+	return string(i.Code)
+}
+
 // String rend un avertissement en français.
 func (w Warning) String() string {
 	switch w.Code {
