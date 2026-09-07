@@ -1,0 +1,203 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../deroulement.md:1
+msgid "Le déroulement d'un tournoi"
+msgstr "Ход турнира"
+
+#: ../../deroulement.md:3
+msgid ""
+"Cette page décrit une journée de tournoi du point de vue du directeur, et"
+" ce que le moteur fait à chaque étape. Rien ici ne suppose de savoir "
+"programmer."
+msgstr "Эта страница описывает турнирный день глазами директора и то, что движок делает на каждом шаге. Ничто здесь не требует умения программировать."
+
+#: ../../deroulement.md:6
+msgid "Avant le début : les inscriptions"
+msgstr "До начала: регистрация"
+
+#: ../../deroulement.md:8
+msgid ""
+"Le directeur inscrit les joueurs. Un joueur a un nom, éventuellement un "
+"club et une cote (le PR : plus il est bas, meilleur est le joueur). La "
+"cote est facultative — un joueur sans cote n'est pas un joueur parfait, "
+"et le moteur ne le traite jamais comme tel."
+msgstr "Директор регистрирует игроков. У игрока есть имя, возможно клуб и рейтинг (PR: чем он ниже, тем игрок сильнее). Рейтинг необязателен — игрок без рейтинга не является безупречным игроком, и движок никогда не считает его таковым."
+
+#: ../../deroulement.md:12
+msgid ""
+"Une liste peut aussi être importée depuis un fichier CSV, celui d'une "
+"billetterie ou d'un tableur, et réexportée pour le tournoi suivant."
+msgstr "Список можно также загрузить из файла CSV — из системы продажи билетов или из таблицы — и снова выгрузить для следующего турнира."
+
+#: ../../deroulement.md:15
+msgid "Le premier appariement"
+msgstr "Первая пара"
+
+#: ../../deroulement.md:17
+msgid ""
+"Dès qu'il y a deux joueurs libres, le moteur propose un match : deux "
+"noms, une longueur en points, et un numéro de table. Le directeur "
+"confirme ; les joueurs vont s'asseoir."
+msgstr "Как только освобождаются два игрока, движок предлагает матч: два имени, длину в очках и номер стола. Директор подтверждает; игроки садятся за стол."
+
+#: ../../deroulement.md:20
+msgid ""
+"Les tables ne sont pas de simples numéros. Une table peut être "
+"**indisponible** — plateau cassé, table retirée —, ou **réservée** à la "
+"retransmission de la finale. Le moteur les saute, et si aucune table "
+"n'est libre, il le dit au lieu de rester muet."
+msgstr "Столы — не просто номера. Стол может быть **недоступен** (сломанная доска, стол убран) или **зарезервирован** под трансляцию финала. Движок их пропускает, а если свободных столов нет, он говорит об этом, а не молчит."
+
+#: ../../deroulement.md:24
+msgid "Pendant : les résultats"
+msgstr "По ходу: результаты"
+
+#: ../../deroulement.md:26
+msgid ""
+"Le directeur saisit les résultats au fur et à mesure : le vainqueur, et "
+"le score s'il le connaît. Le score est facultatif ; ce qui compte, c'est "
+"qui a gagné."
+msgstr "Директор вводит результаты по мере их поступления: победителя и счёт, если он его знает. Счёт необязателен; важно, кто выиграл."
+
+#: ../../deroulement.md:29
+msgid ""
+"Chaque résultat libère deux joueurs, et le moteur propose aussitôt de "
+"nouveaux matchs. C'est le mode **continu** : on ne fait attendre "
+"personne. Il a un défaut connu — celui qui finit à 14 h 03 pourrait "
+"choisir son adversaire en annonçant à 14 h 04 ou à 14 h 20. Les **micro-"
+"rondes** ferment cette porte : les appariements se font par lots, à heure"
+" fixe, et le moteur affiche le temps qui reste avant le prochain."
+msgstr "Каждый результат освобождает двух игроков, и движок тут же предлагает новые матчи. Это **непрерывный** режим: никого не заставляют ждать. У него есть известный изъян — тот, кто закончил в 14:03, мог бы выбрать соперника, объявив результат в 14:04 или в 14:20. **Микротуры** закрывают эту дверь: пары составляются партиями, в фиксированное время, и движок показывает, сколько осталось до следующей."
+
+#: ../../deroulement.md:35
+msgid ""
+"Le contraire du continu, ce sont les **rondes** : tout le monde joue en "
+"même temps, et l'on attend le dernier match avant de repartir. C'est plus"
+" simple à suivre, et beaucoup plus long."
+msgstr "Противоположность непрерывного режима — **туры**: все играют одновременно, и до следующего тура ждут последний матч. Так проще следить и намного дольше."
+
+#: ../../deroulement.md:38
+msgid "Ce qui ne se passe pas comme prévu"
+msgstr "Когда всё идёт не по плану"
+
+#: ../../deroulement.md:40
+msgid ""
+"Un joueur arrive en retard, après le tirage. Le moteur énumère les places"
+" d'exemption encore libres, et l'y installe **sans refaire le tirage**. "
+"S'il n'y a pas de place, il est inscrit quand même et le moteur dit où il"
+" entrera."
+msgstr "Игрок опоздал, жеребьёвка уже прошла. Движок перечисляет ещё свободные места с пропуском и ставит его туда, **не переигрывая жеребьёвку**. Если места нет, он всё равно зарегистрирован, и движок говорит, где он войдёт."
+
+#: ../../deroulement.md:44
+msgid ""
+"Un joueur doit partir à 18 h. Il peut se retirer tout de suite — ses "
+"matchs en cours sont perdus par forfait — ou se retirer **après son match"
+" en cours**, qui va alors à son terme."
+msgstr "Игроку нужно уйти в 18 часов. Он может сняться сразу — текущие матчи засчитываются ему как поражения — или сняться **после текущего матча**, который тогда доигрывается до конца."
+
+#: ../../deroulement.md:47
+msgid ""
+"Un joueur ne se présente pas. C'est un forfait pour ce match seulement : "
+"il n'a pas quitté le tournoi, et suit ensuite le chemin d'un perdant "
+"ordinaire, la consolante par exemple."
+msgstr "Игрок не явился. Это неявка только на этот матч: он не покинул турнир и дальше идёт путём обычного проигравшего, например в утешительную сетку."
+
+#: ../../deroulement.md:50
+msgid ""
+"Un match a été lancé par erreur : on l'annule, et sa place redevient "
+"libre."
+msgstr "Матч начали по ошибке: его отменяют, и его место снова свободно."
+
+#: ../../deroulement.md:52
+msgid "Une erreur découverte après coup"
+msgstr "Ошибка, обнаруженная позже"
+
+#: ../../deroulement.md:54
+msgid ""
+"Un résultat était faux. **Le journal n'est jamais modifié** : une "
+"correction est un événement de plus, et l'état est recalculé à partir de "
+"tout ce qui a été enregistré."
+msgstr "Результат оказался неверным. **Журнал никогда не изменяется**: исправление — это ещё одно событие, а состояние пересчитывается по всему записанному."
+
+#: ../../deroulement.md:57
+msgid ""
+"Si le match corrigé était dans un tableau, les matchs suivants ont été "
+"joués par les mauvaises personnes. Le moteur le signale, puis **propose "
+"la réparation** : annuler la demi-finale, annuler la finale, puis "
+"relancer les bons matchs. Le directeur confirme, ou fait autrement. Rien "
+"n'est annulé d'office."
+msgstr "Если исправленный матч был в сетке, следующие матчи сыграли не те люди. Движок это сообщает, а затем **предлагает починку**: отменить полуфинал, отменить финал, затем заново назначить правильные матчи. Директор подтверждает или поступает иначе. Ничто не отменяется само собой."
+
+#: ../../deroulement.md:62
+msgid ""
+"Un tournoi déjà clos peut être **rouvert** : le classement final est "
+"effacé, la correction appliquée, et le classement recalculé à la clôture "
+"suivante."
+msgstr "Уже закрытый турнир можно **открыть заново**: итоговая таблица стирается, исправление применяется, а таблица пересчитывается при следующем закрытии."
+
+#: ../../deroulement.md:65
+msgid "Le repas"
+msgstr "Обед"
+
+#: ../../deroulement.md:67
+msgid ""
+"Les pauses programmées sont déclarées à l'avance. Un match dont la fin "
+"attendue tomberait pendant la pause est signalé — mais **il reste "
+"proposé**. Le directeur sait si ces deux-là mangeront après."
+msgstr "Запланированные перерывы объявляются заранее. Матч, ожидаемое окончание которого пришлось бы на перерыв, помечается — но **он остаётся предложенным**. Директор знает, будут ли эти двое есть позже."
+
+#: ../../deroulement.md:71
+msgid "La fin"
+msgstr "Конец"
+
+#: ../../deroulement.md:73
+msgid ""
+"Le classement se lit à tout moment, pas seulement à la fin. Il place les "
+"joueurs par ce qu'ils ont atteint : vainqueur, finaliste, éliminé à tel "
+"tour, éliminé avec tant de victoires. **Les ex æquo restent ex æquo** : "
+"aucun départage caché ne les sépare."
+msgstr "Таблицу можно смотреть в любой момент, а не только в конце. Она расставляет игроков по достигнутому: победитель, финалист, выбывший в таком-то круге, выбывший с таким-то числом побед. **Равные остаются равными**: никакой скрытый критерий их не разделяет."
+
+#: ../../deroulement.md:77
+msgid ""
+"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue"
+" d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et"
+" non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
+"prix est arrondi à l'unité et le reste va au premier, de sorte que la "
+"somme distribuée égale exactement le pool après retenue. Une consolante "
+"peut avoir ses propres prix, sur son propre classement."
+msgstr "Призовой фонд распределяется по этой таблице. Взнос, удержание организатора, проценты — афиша объявляет «50/30/20 %», а не суммы, поскольку фонд зависит от числа участников. Каждый приз округляется до единицы, а остаток идёт первому, так что распределённая сумма в точности равна фонду за вычетом удержания. У утешительной сетки могут быть свои призы, по своей таблице."
+
+#: ../../deroulement.md:83
+msgid "Ce qui est affiché"
+msgstr "Что выводится на экран"
+
+#: ../../deroulement.md:85
+msgid ""
+"Le moteur produit des pages autonomes : un seul fichier, qui s'ouvre hors"
+" ligne depuis une clé USB sur l'ordinateur de la salle. L'écran mural "
+"montre les actions à faire, la grille des tables, les matchs en cours, "
+"les arbres et le classement. La feuille d'appariements s'imprime sur une "
+"page A4, avec une case vide par joueur pour écrire le score à la main."
+msgstr "Движок делает самодостаточные страницы: один файл, который открывается без сети с флешки на зальном компьютере. Настенный экран показывает, что нужно сделать, сетку столов, идущие матчи, турнирные сетки и таблицу. Лист пар печатается на одной странице A4, с пустой клеткой у каждого игрока, чтобы вписать счёт от руки."
+

@@ -1,0 +1,217 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fi\n"
+"Language-Team: fi <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../formats.md:1
+msgid "Les formats"
+msgstr "Muodot"
+
+#: ../../formats.md:3
+msgid ""
+"Un tournoi est une suite de **phases**. Chaque phase a son format, et les"
+" survivants de l'une entrent dans la suivante — parfois avec leurs vies "
+"restantes. Les formats disponibles sont les suivants ; le choix entre eux"
+" est justifié par [l'étude](etude_formats.md)."
+msgstr "Turnaus on **vaiheiden** sarja. Jokaisella vaiheella on muotonsa, ja yhden vaiheen selviytyjät siirtyvät seuraavaan — joskus jäljellä olevine elämineen. Käytettävissä olevat muodot ovat seuraavat; valinta niiden välillä perustellaan [tutkimuksessa](etude_formats.md)."
+
+#: ../../formats.md:7
+msgid "Suisse à vies"
+msgstr "Sveitsiläinen elämillä"
+
+#: ../../formats.md:9
+msgid ""
+"Chaque joueur commence avec un nombre de **vies** (deux, en général) et "
+"en perd une à chaque défaite. On apparie les joueurs qui ont le même "
+"nombre de défaites, en évitant de rejouer un adversaire déjà rencontré "
+"et, si on le demande, les joueurs d'un même club."
+msgstr "Jokainen pelaaja aloittaa tietyllä määrällä **elämiä** (yleensä kaksi) ja menettää yhden jokaisesta tappiosta. Pariksi asetetaan pelaajat, joilla on yhtä monta tappiota, välttäen jo kohdatun vastustajan uusintaa ja pyydettäessä saman seuran pelaajia."
+
+#: ../../formats.md:13
+msgid ""
+"C'est le format de référence : personne n'est éliminé au premier match, "
+"et tout le monde joue autant que son résultat le mérite."
+msgstr "Tämä on viitemuoto: kukaan ei putoa ensimmäisessä ottelussa, ja jokainen pelaa niin paljon kuin tuloksensa ansaitsee."
+
+#: ../../formats.md:16
+msgid ""
+"Il se joue **en continu** — dès que deux joueurs sont libres — ou **par "
+"rondes** — tout le monde en même temps. Le continu est nettement plus "
+"court : même nombre de matchs, presque quatre heures de salle en moins "
+"sur un tournoi de soixante-quatre joueurs."
+msgstr "Sitä pelataan **jatkuvasti** — heti kun kaksi pelaajaa on vapaana — tai **kierroksina** — kaikki samaan aikaan. Jatkuva on selvästi lyhyempi: sama määrä otteluita, lähes neljä tuntia vähemmän saliaikaa kuudenkymmenenneljän pelaajan turnauksessa."
+
+#: ../../formats.md:20
+msgid ""
+"Une option importante : **la bascule**. On arrête le suisse dès que la "
+"somme des vies restantes atteint une puissance de deux — seize, par "
+"exemple — et on bascule sur un tableau de seize places, où les joueurs à "
+"deux vies sont exempts du premier tour. C'est le format recommandé : la "
+"meilleure qualité pour la durée la plus courte."
+msgstr "Yksi tärkeä valinta: **vaihto**. Sveitsiläinen lopetetaan heti kun jäljellä olevien elämien summa saavuttaa kahden potenssin — esimerkiksi kuusitoista — ja siirrytään kuudentoista paikan kaavioon, jossa kaksi elämää omaavat pelaajat ovat vapaita ensimmäiseltä kierrokselta. Tämä on suositeltu muoto: paras laatu lyhimmässä ajassa."
+
+#: ../../formats.md:25
+msgid "Tableaux"
+msgstr "Kaaviot"
+
+#: ../../formats.md:27
+msgid ""
+"L'**élimination simple** est ce que tout le monde connaît : on perd, on "
+"sort. C'est court, et c'est brutal — la moitié du champ a joué un seul "
+"match."
+msgstr "**Suora putoaminen** on se, jonka kaikki tuntevat: häviät, olet ulkona. Se on lyhyt ja armoton — puolet osallistujista on pelannut yhden ainoan ottelun."
+
+#: ../../formats.md:30
+msgid "Trois variantes l'adoucissent :"
+msgstr "Kolme muunnelmaa lieventävät sitä:"
+
+#: ../../formats.md:32
+msgid ""
+"la **consolante** recueille les perdants du tableau principal et leur "
+"donne un second tournoi ;"
+msgstr "**lohdutuskaavio** kerää pääkaavion häviäjät ja antaa heille toisen turnauksen;"
+
+#: ../../formats.md:33
+msgid "la **dernière chance** recueille les perdants de la consolante ;"
+msgstr "**viimeinen mahdollisuus** kerää lohdutuskaavion häviäjät;"
+
+#: ../../formats.md:34
+msgid ""
+"la **réconciliation** fait jouer le vainqueur de la consolante contre "
+"celui du principal — et avec la **recharge**, le vainqueur du principal "
+"doit être battu deux fois. C'est la double élimination véritable."
+msgstr "**sovitus** panee lohdutuskaavion voittajan pelaamaan pääkaavion voittajaa vastaan — ja **latauksen** kanssa pääkaavion voittaja on voitettava kahdesti. Tämä on todellinen kaksinkertainen putoaminen."
+
+#: ../../formats.md:38
+msgid ""
+"Le **tableau à vies** est un tableau où un joueur qui arrive avec deux "
+"vies est exempt du premier tour. C'est ainsi qu'un suisse bascule sur un "
+"tableau sans rien perdre de ce qui a été joué."
+msgstr "**Elämäkaavio** on kaavio, jossa kahden elämän kanssa saapuva pelaaja on vapaa ensimmäiseltä kierrokselta. Näin sveitsiläinen siirtyy kaavioon menettämättä mitään jo pelatusta."
+
+#: ../../formats.md:41
+msgid ""
+"Les longueurs de match peuvent croître vers la fin : `15, 13, 11, 9` se "
+"lit du dernier tour vers le premier — finale en quinze points, demies en "
+"treize, quarts en onze, le reste en neuf."
+msgstr "Otteluiden pituudet voivat kasvaa loppua kohti: `15, 13, 11, 9` luetaan viimeisestä kierroksesta ensimmäiseen — finaali viiteentoista pisteeseen, välierät kolmeentoista, puolivälierät yhteentoista, loput yhdeksään."
+
+#: ../../formats.md ../../formats.md:44
+msgid "Blocs GSL"
+msgstr "GSL-lohkot"
+
+#: ../../formats.md:46
+msgid ""
+"Des groupes de quatre joueurs, deux vies chacun : deux matchs "
+"d'ouverture, un match des gagnants, un match des perdants, un match "
+"décisif. Deux joueurs sortent de chaque groupe."
+msgstr "Neljän pelaajan ryhmiä, kullakin kaksi elämää: kaksi avausottelua, voittajien ottelu, häviäjien ottelu, ratkaiseva ottelu. Kustakin ryhmästä jatkaa kaksi pelaajaa."
+
+#: ../../formats.md:49
+msgid ""
+"C'est le format le plus lisible pour les joueurs — chacun sait à l'avance"
+" combien de matchs il jouera et contre qui — et le plus facile à caler "
+"sur des créneaux horaires. Il est aussi le plus long : on attend le "
+"groupe entier."
+msgstr "Se on pelaajille luettavin muoto — jokainen tietää etukäteen, montako ottelua ja ketä vastaan hän pelaa — ja helpoin sovittaa aikatauluun. Se on myös pisin: koko ryhmää odotetaan."
+
+#: ../../formats.md ../../formats.md:53
+msgid "Poules"
+msgstr "Lohkot"
+
+#: ../../formats.md:55
+msgid ""
+"Des poules toutes rondes : chacun rencontre chacun, selon la table de "
+"Berger. Les premiers de chaque poule sont qualifiés pour la suite. Une "
+"égalité ne se départage pas au petit point : elle se règle par un "
+"**barrage** à deux vies entre les joueurs concernés."
+msgstr "Kaikki kaikkia vastaan -lohkot Bergerin taulukon mukaan. Kunkin lohkon parhaat jatkavat. Tasatulosta ei ratkaista pisteillä: se ratkaistaan asianosaisten pelaajien kesken kahden elämän **uusintaottelulla**."
+
+#: ../../formats.md:59
+msgid "Têtes de série"
+msgstr "Sijoitukset"
+
+#: ../../formats.md:61
+msgid ""
+"Par défaut, un tableau est tiré **au hasard**, intégralement. C'est un "
+"choix, pas un oubli : c'est la culture actuelle du backgammon, et l'étude"
+" ne montre aucun besoin d'y déroger."
+msgstr "Oletuksena kaavio arvotaan **täysin sattumanvaraisesti**. Se on valinta, ei unohdus: se on backgammonin nykyinen kulttuuri, eikä tutkimus osoita mitään tarvetta poiketa siitä."
+
+#: ../../formats.md:64
+msgid ""
+"Pour les organisateurs qui en veulent, une option place les joueurs par "
+"cote selon la construction classique — le premier contre le seizième, le "
+"deuxième contre le quinzième — de sorte que les deux meilleurs ne peuvent"
+" pas se rencontrer avant la finale. Elle est éteinte tant qu'on ne la "
+"demande pas."
+msgstr "Niille järjestäjille, jotka haluavat, valinta sijoittaa pelaajat luokituksen mukaan klassisen rakenteen mukaisesti — ensimmäinen kuudettatoista vastaan, toinen viidettätoista vastaan — niin että kaksi parasta eivät voi kohdata ennen finaalia. Se pysyy pois päältä, kunnes sitä pyydetään."
+
+#: ../../formats.md:69
+msgid "Lequel choisir"
+msgstr "Minkä valita"
+
+#: ../../formats.md
+msgid "Vous voulez"
+msgstr "Haluat"
+
+#: ../../formats.md
+msgid "Prenez"
+msgstr "Valitse"
+
+#: ../../formats.md
+msgid "Le meilleur compromis qualité / durée"
+msgstr "Parhaan laadun ja keston kompromissin"
+
+#: ../../formats.md
+msgid "Suisse à deux vies avec bascule sur un tableau de seize"
+msgstr "Kahden elämän sveitsiläinen ja siirtymä kuudentoista kaavioon"
+
+#: ../../formats.md
+msgid "Le plus court"
+msgstr "Lyhyimmän"
+
+#: ../../formats.md
+msgid "Élimination simple"
+msgstr "Suora putoaminen"
+
+#: ../../formats.md
+msgid "Que personne ne parte après un seul match"
+msgstr "Ettei kukaan lähde yhden ottelun jälkeen"
+
+#: ../../formats.md
+msgid "Suisse à deux vies, ou principal + consolante"
+msgstr "Kahden elämän sveitsiläinen tai pääkaavio + lohdutuskaavio"
+
+#: ../../formats.md
+msgid "Que chacun sache à l'avance son programme"
+msgstr "Että jokainen tietää ohjelmansa etukäteen"
+
+#: ../../formats.md
+msgid "Un petit champ, beaucoup de matchs"
+msgstr "Pienen osallistujajoukon ja paljon otteluita"
+
+#: ../../formats.md
+msgid "Le champion doit être battu deux fois"
+msgstr "Että mestari on voitettava kahdesti"
+
+#: ../../formats.md
+msgid "Double élimination avec recharge"
+msgstr "Kaksinkertainen putoaminen latauksella"
+

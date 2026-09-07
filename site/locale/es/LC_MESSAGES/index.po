@@ -1,0 +1,145 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../index.md:1
+msgid "Nicomaque"
+msgstr "Nicomaque"
+
+#: ../../index.md:3
+msgid ""
+"**Nicomaque** est un moteur de tournoi de backgammon. Ce n'est pas un "
+"logiciel qu'on ouvre : c'est une bibliothèque que d'autres logiciels "
+"utilisent pour diriger un tournoi — inscrire les joueurs, apparier les "
+"matchs, tenir les tableaux, produire le classement."
+msgstr "**Nicomaque** es un motor de torneos de backgammon. No es un programa que se abra: es una biblioteca que otros programas usan para dirigir un torneo — inscribir a los jugadores, emparejar las partidas, mantener los cuadros, producir la clasificación."
+
+#: ../../index.md:7
+msgid ""
+"Il est écrit en Go, sans aucune dépendance, et se lit en entier. Il est "
+"publié sous une licence libre et son code est sur "
+"[GitHub](https://github.com/PileOfCells/backgammon-tournoi)."
+msgstr "Está escrito en Go, sin ninguna dependencia, y se lee entero. Se publica bajo una licencia libre y su código está en [GitHub](https://github.com/PileOfCells/backgammon-tournoi)."
+
+#: ../../index.md:10
+msgid "Ce qu'il fait"
+msgstr "Lo que hace"
+
+#: ../../index.md:12
+msgid ""
+"Un directeur de tournoi passe sa journée à répondre à une seule question "
+": *qui joue contre qui, maintenant, et sur quelle table ?* Nicomaque "
+"répond à cette question, et rien d'autre."
+msgstr "Un director de torneo se pasa el día respondiendo a una sola pregunta: *¿quién juega contra quién, ahora, y en qué mesa?* Nicomaque responde a esa pregunta, y a nada más."
+
+#: ../../index.md:15
+msgid ""
+"À tout instant, il propose une liste d'actions — lancer ce match sur "
+"cette table, donner cette exemption, tirer ce tableau, passer à la phase "
+"suivante, clore le tournoi. Le directeur en confirme ce qu'il veut. "
+"Chaque confirmation devient un **événement** ajouté à un journal, et "
+"l'état du tournoi est reconstruit à partir de ce journal."
+msgstr "En todo momento propone una lista de acciones — lanzar esta partida en esta mesa, dar este descanso, sortear este cuadro, pasar a la fase siguiente, cerrar el torneo. El director confirma lo que quiere. Cada confirmación se convierte en un **evento** añadido a un diario, y el estado del torneo se reconstruye a partir de ese diario."
+
+#: ../../index.md:20
+msgid ""
+"**Le moteur propose, le directeur décide.** Rien n'est appliqué d'office,"
+" jamais. Un avertissement — un score incohérent, un match joué par le "
+"mauvais joueur, une fin de match qui tombe pendant le repas — est dit, "
+"pas imposé : le directeur sait des choses que le moteur ignore."
+msgstr "**El motor propone, el director decide.** Nada se aplica de oficio, nunca. Una advertencia — un resultado incoherente, una partida jugada por el jugador equivocado, un final de partida que cae durante la comida — se dice, no se impone: el director sabe cosas que el motor ignora."
+
+#: ../../index.md:24
+msgid "Ce qu'il ne fait pas"
+msgstr "Lo que no hace"
+
+#: ../../index.md:26
+msgid ""
+"Il n'a pas d'interface. Il ne stocke rien. Il n'affiche aucune phrase : "
+"tout ce qui sort du moteur est un **code**, que le logiciel hôte traduit "
+"dans la langue de son utilisateur."
+msgstr "No tiene interfaz. No almacena nada. No muestra ninguna frase: todo lo que sale del motor es un **código**, que el programa anfitrión traduce al idioma de su usuario."
+
+#: ../../index.md:29
+msgid ""
+"Il ne départage pas. Les égalités restent des égalités, ou se règlent par"
+" un barrage. Aucun classement n'est décidé par un critère caché."
+msgstr "No deshace empates. Los empates siguen siendo empates, o se resuelven con una desempate jugado. Ninguna clasificación se decide por un criterio oculto."
+
+#: ../../index.md:32
+msgid ""
+"Il n'a jamais dirigé de vrai tournoi. Il est testé par simulation — des "
+"milliers de tournois joués à chaque modification — mais la simulation "
+"n'est pas la salle."
+msgstr "Nunca ha dirigido un torneo real. Se prueba por simulación — miles de torneos jugados en cada modificación — pero la simulación no es la sala."
+
+#: ../../index.md:35
+msgid "Par où commencer"
+msgstr "Por dónde empezar"
+
+#: ../../index.md:48
+msgid ""
+"[Le déroulement d'un tournoi](deroulement.md) — la journée du directeur, "
+"de l'inscription au classement final."
+msgstr "[El desarrollo de un torneo](deroulement.md) — la jornada del director, de la inscripción a la clasificación final."
+
+#: ../../index.md:50
+msgid ""
+"[Les formats](formats.md) — suisse à vies, tableaux, GSL, poules, et "
+"lequel choisir."
+msgstr "[Los formatos](formats.md) — suizo con vidas, cuadros, GSL, grupos, y cuál elegir."
+
+#: ../../index.md:51
+msgid ""
+"[Intégrer le moteur](integration.md) — la boucle que le logiciel hôte "
+"écrit, en une page."
+msgstr "[Integrar el motor](integration.md) — el bucle que escribe el programa anfitrión, en una página."
+
+#: ../../index.md:52
+msgid ""
+"[Comprendre le moteur](comprendre_le_moteur.md) — les décisions de "
+"conception et leurs justifications, les questions fréquentes, les "
+"chiffres de référence."
+msgstr "[Comprender el motor](comprendre_le_moteur.md) — las decisiones de diseño y sus justificaciones, las preguntas frecuentes, las cifras de referencia."
+
+#: ../../index.md:54
+msgid ""
+"[L'étude des formats](etude_formats.md) — la simulation qui a servi à "
+"choisir."
+msgstr "[El estudio de los formatos](etude_formats.md) — la simulación que sirvió para elegir."
+
+#: ../../index.md:55
+msgid ""
+"[La spécification](specification.md) — assez détaillée pour reconstruire "
+"le moteur."
+msgstr "[La especificación](specification.md) — lo bastante detallada para reconstruir el motor."
+
+#: ../../index.md:57
+msgid "Le nom"
+msgstr "El nombre"
+
+#: ../../index.md:59
+msgid ""
+"Nicomaque était le fils d'Aristote, et le destinataire de l'*Éthique à "
+"Nicomaque*, où il est question de ce qu'est une décision juste. Diriger "
+"un tournoi consiste à en prendre beaucoup, vite, devant des gens qui "
+"attendent."
+msgstr "Nicómaco era el hijo de Aristóteles, y el destinatario de la *Ética a Nicómaco*, donde se trata de qué es una decisión justa. Dirigir un torneo consiste en tomar muchas, deprisa, delante de gente que espera."
+

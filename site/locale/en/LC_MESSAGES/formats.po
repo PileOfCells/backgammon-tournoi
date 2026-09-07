@@ -1,0 +1,217 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../formats.md:1
+msgid "Les formats"
+msgstr "The formats"
+
+#: ../../formats.md:3
+msgid ""
+"Un tournoi est une suite de **phases**. Chaque phase a son format, et les"
+" survivants de l'une entrent dans la suivante — parfois avec leurs vies "
+"restantes. Les formats disponibles sont les suivants ; le choix entre eux"
+" est justifié par [l'étude](etude_formats.md)."
+msgstr "A tournament is a sequence of **phases**. Each phase has its format, and the survivors of one enter the next — sometimes with their remaining lives. The available formats are the following; the choice between them is justified by [the study](etude_formats.md)."
+
+#: ../../formats.md:7
+msgid "Suisse à vies"
+msgstr "Swiss with lives"
+
+#: ../../formats.md:9
+msgid ""
+"Chaque joueur commence avec un nombre de **vies** (deux, en général) et "
+"en perd une à chaque défaite. On apparie les joueurs qui ont le même "
+"nombre de défaites, en évitant de rejouer un adversaire déjà rencontré "
+"et, si on le demande, les joueurs d'un même club."
+msgstr "Each player starts with a number of **lives** (two, usually) and loses one on each defeat. Players with the same number of losses are paired, avoiding a rematch with an opponent already met and, if asked for, players from the same club."
+
+#: ../../formats.md:13
+msgid ""
+"C'est le format de référence : personne n'est éliminé au premier match, "
+"et tout le monde joue autant que son résultat le mérite."
+msgstr "This is the reference format: nobody is knocked out on the first match, and everyone plays as much as his results deserve."
+
+#: ../../formats.md:16
+msgid ""
+"Il se joue **en continu** — dès que deux joueurs sont libres — ou **par "
+"rondes** — tout le monde en même temps. Le continu est nettement plus "
+"court : même nombre de matchs, presque quatre heures de salle en moins "
+"sur un tournoi de soixante-quatre joueurs."
+msgstr "It is played **continuously** — as soon as two players are free — or **in rounds** — everyone at the same time. Continuous is markedly shorter: the same number of matches, almost four hours less of hall time in a sixty-four-player tournament."
+
+#: ../../formats.md:20
+msgid ""
+"Une option importante : **la bascule**. On arrête le suisse dès que la "
+"somme des vies restantes atteint une puissance de deux — seize, par "
+"exemple — et on bascule sur un tableau de seize places, où les joueurs à "
+"deux vies sont exempts du premier tour. C'est le format recommandé : la "
+"meilleure qualité pour la durée la plus courte."
+msgstr "One important option: **the switch**. The Swiss stops as soon as the sum of remaining lives reaches a power of two — sixteen, for instance — and switches to a sixteen-slot bracket, where players with two lives skip the first round. This is the recommended format: the best quality for the shortest duration."
+
+#: ../../formats.md:25
+msgid "Tableaux"
+msgstr "Brackets"
+
+#: ../../formats.md:27
+msgid ""
+"L'**élimination simple** est ce que tout le monde connaît : on perd, on "
+"sort. C'est court, et c'est brutal — la moitié du champ a joué un seul "
+"match."
+msgstr "**Single elimination** is what everybody knows: you lose, you are out. It is short, and it is brutal — half the field has played a single match."
+
+#: ../../formats.md:30
+msgid "Trois variantes l'adoucissent :"
+msgstr "Three variants soften it:"
+
+#: ../../formats.md:32
+msgid ""
+"la **consolante** recueille les perdants du tableau principal et leur "
+"donne un second tournoi ;"
+msgstr "the **consolation** collects the losers of the main bracket and gives them a second tournament;"
+
+#: ../../formats.md:33
+msgid "la **dernière chance** recueille les perdants de la consolante ;"
+msgstr "the **last chance** collects the losers of the consolation;"
+
+#: ../../formats.md:34
+msgid ""
+"la **réconciliation** fait jouer le vainqueur de la consolante contre "
+"celui du principal — et avec la **recharge**, le vainqueur du principal "
+"doit être battu deux fois. C'est la double élimination véritable."
+msgstr "**reconciliation** has the winner of the consolation play the winner of the main bracket — and with **recharge**, the winner of the main bracket must be beaten twice. That is true double elimination."
+
+#: ../../formats.md:38
+msgid ""
+"Le **tableau à vies** est un tableau où un joueur qui arrive avec deux "
+"vies est exempt du premier tour. C'est ainsi qu'un suisse bascule sur un "
+"tableau sans rien perdre de ce qui a été joué."
+msgstr "The **lives bracket** is a bracket where a player arriving with two lives skips the first round. That is how a Swiss switches to a bracket without losing anything of what has been played."
+
+#: ../../formats.md:41
+msgid ""
+"Les longueurs de match peuvent croître vers la fin : `15, 13, 11, 9` se "
+"lit du dernier tour vers le premier — finale en quinze points, demies en "
+"treize, quarts en onze, le reste en neuf."
+msgstr "Match lengths may grow towards the end: `15, 13, 11, 9` reads from the last round back to the first — final to fifteen points, semi-finals to thirteen, quarter-finals to eleven, the rest to nine."
+
+#: ../../formats.md ../../formats.md:44
+msgid "Blocs GSL"
+msgstr "GSL blocks"
+
+#: ../../formats.md:46
+msgid ""
+"Des groupes de quatre joueurs, deux vies chacun : deux matchs "
+"d'ouverture, un match des gagnants, un match des perdants, un match "
+"décisif. Deux joueurs sortent de chaque groupe."
+msgstr "Groups of four players, two lives each: two opening matches, a winners' match, a losers' match, a decider. Two players come out of each group."
+
+#: ../../formats.md:49
+msgid ""
+"C'est le format le plus lisible pour les joueurs — chacun sait à l'avance"
+" combien de matchs il jouera et contre qui — et le plus facile à caler "
+"sur des créneaux horaires. Il est aussi le plus long : on attend le "
+"groupe entier."
+msgstr "It is the format players read most easily — each knows in advance how many matches he will play and against whom — and the easiest to fit into time slots. It is also the longest: one waits for the whole group."
+
+#: ../../formats.md ../../formats.md:53
+msgid "Poules"
+msgstr "Round robin"
+
+#: ../../formats.md:55
+msgid ""
+"Des poules toutes rondes : chacun rencontre chacun, selon la table de "
+"Berger. Les premiers de chaque poule sont qualifiés pour la suite. Une "
+"égalité ne se départage pas au petit point : elle se règle par un "
+"**barrage** à deux vies entre les joueurs concernés."
+msgstr "Round robin groups: everyone meets everyone, following the Berger table. The top finishers of each group qualify for what follows. A tie is not broken on points: it is settled by a **play-off** with two lives between the players concerned."
+
+#: ../../formats.md:59
+msgid "Têtes de série"
+msgstr "Seeding"
+
+#: ../../formats.md:61
+msgid ""
+"Par défaut, un tableau est tiré **au hasard**, intégralement. C'est un "
+"choix, pas un oubli : c'est la culture actuelle du backgammon, et l'étude"
+" ne montre aucun besoin d'y déroger."
+msgstr "By default a bracket is drawn **at random**, entirely. That is a choice, not an oversight: it is the current culture of backgammon, and the study shows no need to depart from it."
+
+#: ../../formats.md:64
+msgid ""
+"Pour les organisateurs qui en veulent, une option place les joueurs par "
+"cote selon la construction classique — le premier contre le seizième, le "
+"deuxième contre le quinzième — de sorte que les deux meilleurs ne peuvent"
+" pas se rencontrer avant la finale. Elle est éteinte tant qu'on ne la "
+"demande pas."
+msgstr "For the organisers who want it, an option places players by rating following the classic construction — first against sixteenth, second against fifteenth — so that the two best cannot meet before the final. It stays off until asked for."
+
+#: ../../formats.md:69
+msgid "Lequel choisir"
+msgstr "Which one to choose"
+
+#: ../../formats.md
+msgid "Vous voulez"
+msgstr "You want"
+
+#: ../../formats.md
+msgid "Prenez"
+msgstr "Take"
+
+#: ../../formats.md
+msgid "Le meilleur compromis qualité / durée"
+msgstr "The best quality/duration compromise"
+
+#: ../../formats.md
+msgid "Suisse à deux vies avec bascule sur un tableau de seize"
+msgstr "Swiss with two lives switching to a sixteen-slot bracket"
+
+#: ../../formats.md
+msgid "Le plus court"
+msgstr "The shortest"
+
+#: ../../formats.md
+msgid "Élimination simple"
+msgstr "Single elimination"
+
+#: ../../formats.md
+msgid "Que personne ne parte après un seul match"
+msgstr "Nobody leaving after a single match"
+
+#: ../../formats.md
+msgid "Suisse à deux vies, ou principal + consolante"
+msgstr "Swiss with two lives, or main bracket + consolation"
+
+#: ../../formats.md
+msgid "Que chacun sache à l'avance son programme"
+msgstr "Everyone knowing his programme in advance"
+
+#: ../../formats.md
+msgid "Un petit champ, beaucoup de matchs"
+msgstr "A small field, plenty of matches"
+
+#: ../../formats.md
+msgid "Le champion doit être battu deux fois"
+msgstr "The champion must be beaten twice"
+
+#: ../../formats.md
+msgid "Double élimination avec recharge"
+msgstr "Double elimination with recharge"
+

@@ -1,0 +1,145 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: el\n"
+"Language-Team: el <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../index.md:1
+msgid "Nicomaque"
+msgstr "Nicomaque"
+
+#: ../../index.md:3
+msgid ""
+"**Nicomaque** est un moteur de tournoi de backgammon. Ce n'est pas un "
+"logiciel qu'on ouvre : c'est une bibliothèque que d'autres logiciels "
+"utilisent pour diriger un tournoi — inscrire les joueurs, apparier les "
+"matchs, tenir les tableaux, produire le classement."
+msgstr "Το **Nicomaque** είναι μια μηχανή διεξαγωγής τουρνουά τάβλι. Δεν είναι πρόγραμμα που το ανοίγεις: είναι μια βιβλιοθήκη που άλλα προγράμματα χρησιμοποιούν για να διευθύνουν ένα τουρνουά — να δηλώνουν παίκτες, να ορίζουν ζευγάρια, να κρατούν τα ταμπλό, να βγάζουν την κατάταξη."
+
+#: ../../index.md:7
+msgid ""
+"Il est écrit en Go, sans aucune dépendance, et se lit en entier. Il est "
+"publié sous une licence libre et son code est sur "
+"[GitHub](https://github.com/PileOfCells/backgammon-tournoi)."
+msgstr "Είναι γραμμένη σε Go, χωρίς καμία εξάρτηση, και διαβάζεται ολόκληρη. Δημοσιεύεται με ελεύθερη άδεια και ο κώδικάς της βρίσκεται στο [GitHub](https://github.com/PileOfCells/backgammon-tournoi)."
+
+#: ../../index.md:10
+msgid "Ce qu'il fait"
+msgstr "Τι κάνει"
+
+#: ../../index.md:12
+msgid ""
+"Un directeur de tournoi passe sa journée à répondre à une seule question "
+": *qui joue contre qui, maintenant, et sur quelle table ?* Nicomaque "
+"répond à cette question, et rien d'autre."
+msgstr "Ένας διευθυντής τουρνουά περνά τη μέρα του απαντώντας σε μία μόνο ερώτηση: *ποιος παίζει με ποιον, τώρα, και σε ποιο τραπέζι;* Το Nicomaque απαντά σε αυτή την ερώτηση, και σε τίποτε άλλο."
+
+#: ../../index.md:15
+msgid ""
+"À tout instant, il propose une liste d'actions — lancer ce match sur "
+"cette table, donner cette exemption, tirer ce tableau, passer à la phase "
+"suivante, clore le tournoi. Le directeur en confirme ce qu'il veut. "
+"Chaque confirmation devient un **événement** ajouté à un journal, et "
+"l'état du tournoi est reconstruit à partir de ce journal."
+msgstr "Ανά πάσα στιγμή προτείνει έναν κατάλογο ενεργειών — ξεκίνα αυτόν τον αγώνα σε αυτό το τραπέζι, δώσε αυτό το ρεπό, κάνε αυτή την κλήρωση, πέρασε στην επόμενη φάση, κλείσε το τουρνουά. Ο διευθυντής επιβεβαιώνει όσες θέλει. Κάθε επιβεβαίωση γίνεται ένα **συμβάν** που προστίθεται σε ένα ημερολόγιο, και η κατάσταση του τουρνουά ανακατασκευάζεται από αυτό το ημερολόγιο."
+
+#: ../../index.md:20
+msgid ""
+"**Le moteur propose, le directeur décide.** Rien n'est appliqué d'office,"
+" jamais. Un avertissement — un score incohérent, un match joué par le "
+"mauvais joueur, une fin de match qui tombe pendant le repas — est dit, "
+"pas imposé : le directeur sait des choses que le moteur ignore."
+msgstr "**Η μηχανή προτείνει, ο διευθυντής αποφασίζει.** Τίποτε δεν εφαρμόζεται ποτέ από μόνο του. Μια προειδοποίηση — ένα ασυνεπές σκορ, ένας αγώνας που τον έπαιξε λάθος παίκτης, ένας αγώνας που αναμένεται να τελειώσει μέσα στο διάλειμμα του φαγητού — λέγεται, δεν επιβάλλεται: ο διευθυντής ξέρει πράγματα που η μηχανή αγνοεί."
+
+#: ../../index.md:24
+msgid "Ce qu'il ne fait pas"
+msgstr "Τι δεν κάνει"
+
+#: ../../index.md:26
+msgid ""
+"Il n'a pas d'interface. Il ne stocke rien. Il n'affiche aucune phrase : "
+"tout ce qui sort du moteur est un **code**, que le logiciel hôte traduit "
+"dans la langue de son utilisateur."
+msgstr "Δεν έχει διεπαφή. Δεν αποθηκεύει τίποτε. Δεν εμφανίζει καμία φράση: ό,τι βγαίνει από τη μηχανή είναι ένας **κωδικός**, που το πρόγραμμα-ξενιστής τον αποδίδει στη γλώσσα του χρήστη του."
+
+#: ../../index.md:29
+msgid ""
+"Il ne départage pas. Les égalités restent des égalités, ou se règlent par"
+" un barrage. Aucun classement n'est décidé par un critère caché."
+msgstr "Δεν λύνει ισοβαθμίες. Οι ισοβαθμίες μένουν ισοβαθμίες ή κρίνονται με μπαράζ. Καμία κατάταξη δεν αποφασίζεται από κρυφό κριτήριο."
+
+#: ../../index.md:32
+msgid ""
+"Il n'a jamais dirigé de vrai tournoi. Il est testé par simulation — des "
+"milliers de tournois joués à chaque modification — mais la simulation "
+"n'est pas la salle."
+msgstr "Δεν έχει διευθύνει ποτέ αληθινό τουρνουά. Δοκιμάζεται με προσομοίωση — χιλιάδες τουρνουά σε κάθε αλλαγή — αλλά η προσομοίωση δεν είναι η αίθουσα."
+
+#: ../../index.md:35
+msgid "Par où commencer"
+msgstr "Από πού να ξεκινήσετε"
+
+#: ../../index.md:48
+msgid ""
+"[Le déroulement d'un tournoi](deroulement.md) — la journée du directeur, "
+"de l'inscription au classement final."
+msgstr "[Η ροή ενός τουρνουά](deroulement.md) — η μέρα του διευθυντή, από τη δήλωση ως την τελική κατάταξη."
+
+#: ../../index.md:50
+msgid ""
+"[Les formats](formats.md) — suisse à vies, tableaux, GSL, poules, et "
+"lequel choisir."
+msgstr "[Τα φορμά](formats.md) — ελβετικό με ζωές, ταμπλό, GSL, όμιλοι, και ποιο να διαλέξετε."
+
+#: ../../index.md:51
+msgid ""
+"[Intégrer le moteur](integration.md) — la boucle que le logiciel hôte "
+"écrit, en une page."
+msgstr "[Ενσωμάτωση της μηχανής](integration.md) — ο βρόχος που γράφει το πρόγραμμα-ξενιστής, σε μία σελίδα."
+
+#: ../../index.md:52
+msgid ""
+"[Comprendre le moteur](comprendre_le_moteur.md) — les décisions de "
+"conception et leurs justifications, les questions fréquentes, les "
+"chiffres de référence."
+msgstr "[Κατανόηση της μηχανής](comprendre_le_moteur.md) — οι σχεδιαστικές αποφάσεις και οι αιτιολογήσεις τους, οι συχνές ερωτήσεις, τα αριθμητικά δεδομένα αναφοράς."
+
+#: ../../index.md:54
+msgid ""
+"[L'étude des formats](etude_formats.md) — la simulation qui a servi à "
+"choisir."
+msgstr "[Η μελέτη των φορμά](etude_formats.md) — η προσομοίωση που οδήγησε στις επιλογές."
+
+#: ../../index.md:55
+msgid ""
+"[La spécification](specification.md) — assez détaillée pour reconstruire "
+"le moteur."
+msgstr "[Η προδιαγραφή](specification.md) — αρκετά λεπτομερής ώστε να ξαναφτιαχτεί η μηχανή από αυτήν."
+
+#: ../../index.md:57
+msgid "Le nom"
+msgstr "Το όνομα"
+
+#: ../../index.md:59
+msgid ""
+"Nicomaque était le fils d'Aristote, et le destinataire de l'*Éthique à "
+"Nicomaque*, où il est question de ce qu'est une décision juste. Diriger "
+"un tournoi consiste à en prendre beaucoup, vite, devant des gens qui "
+"attendent."
+msgstr "Ο Νικόμαχος ήταν ο γιος του Αριστοτέλη και ο αποδέκτης των *Ηθικών Νικομαχείων*, όπου τίθεται το ερώτημα τι είναι μια δίκαιη απόφαση. Το να διευθύνεις ένα τουρνουά σημαίνει να παίρνεις πάρα πολλές, γρήγορα, μπροστά σε ανθρώπους που περιμένουν."
+

@@ -1,0 +1,218 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../formats.md:1
+msgid "Les formats"
+msgstr "Форматы"
+
+#: ../../formats.md:3
+msgid ""
+"Un tournoi est une suite de **phases**. Chaque phase a son format, et les"
+" survivants de l'une entrent dans la suivante — parfois avec leurs vies "
+"restantes. Les formats disponibles sont les suivants ; le choix entre eux"
+" est justifié par [l'étude](etude_formats.md)."
+msgstr "Турнир — это последовательность **фаз**. У каждой фазы свой формат, и уцелевшие в одной входят в следующую — иногда с оставшимися жизнями. Доступные форматы перечислены ниже; выбор между ними обоснован [исследованием](etude_formats.md)."
+
+#: ../../formats.md:7
+msgid "Suisse à vies"
+msgstr "Швейцарка с жизнями"
+
+#: ../../formats.md:9
+msgid ""
+"Chaque joueur commence avec un nombre de **vies** (deux, en général) et "
+"en perd une à chaque défaite. On apparie les joueurs qui ont le même "
+"nombre de défaites, en évitant de rejouer un adversaire déjà rencontré "
+"et, si on le demande, les joueurs d'un même club."
+msgstr "Каждый игрок начинает с некоторым числом **жизней** (как правило, двумя) и теряет одну при каждом поражении. В пары ставят игроков с одинаковым числом поражений, избегая повторной встречи с уже сыгранным соперником и, если это запрошено, игроков одного клуба."
+
+#: ../../formats.md:13
+msgid ""
+"C'est le format de référence : personne n'est éliminé au premier match, "
+"et tout le monde joue autant que son résultat le mérite."
+msgstr "Это эталонный формат: никто не выбывает после первого матча, и каждый играет ровно столько, сколько заслуживает его результат."
+
+#: ../../formats.md:16
+msgid ""
+"Il se joue **en continu** — dès que deux joueurs sont libres — ou **par "
+"rondes** — tout le monde en même temps. Le continu est nettement plus "
+"court : même nombre de matchs, presque quatre heures de salle en moins "
+"sur un tournoi de soixante-quatre joueurs."
+msgstr "Играют **непрерывно** — как только освобождаются двое — или **турами** — все одновременно. Непрерывный режим заметно короче: столько же матчей, почти на четыре часа меньше зального времени на турнире из шестидесяти четырёх игроков."
+
+#: ../../formats.md:20
+msgid ""
+"Une option importante : **la bascule**. On arrête le suisse dès que la "
+"somme des vies restantes atteint une puissance de deux — seize, par "
+"exemple — et on bascule sur un tableau de seize places, où les joueurs à "
+"deux vies sont exempts du premier tour. C'est le format recommandé : la "
+"meilleure qualité pour la durée la plus courte."
+msgstr "Важная опция: **переход**. Швейцарку останавливают, как только сумма оставшихся жизней достигает степени двойки — например шестнадцати, — и переходят к сетке на шестнадцать мест, где игроки с двумя жизнями освобождены от первого круга. Это рекомендуемый формат: лучшее качество при кратчайшей продолжительности."
+
+#: ../../formats.md:25
+msgid "Tableaux"
+msgstr "Сетки"
+
+#: ../../formats.md:27
+msgid ""
+"L'**élimination simple** est ce que tout le monde connaît : on perd, on "
+"sort. C'est court, et c'est brutal — la moitié du champ a joué un seul "
+"match."
+msgstr "**Олимпийская система** известна всем: проиграл — вылетел. Она коротка и сурова: половина участников сыграла один-единственный матч."
+
+#: ../../formats.md:30
+msgid "Trois variantes l'adoucissent :"
+msgstr "Три разновидности её смягчают:"
+
+#: ../../formats.md:32
+msgid ""
+"la **consolante** recueille les perdants du tableau principal et leur "
+"donne un second tournoi ;"
+msgstr "**утешительная сетка** собирает проигравших основной сетки и даёт им второй турнир;"
+
+#: ../../formats.md:33
+msgid "la **dernière chance** recueille les perdants de la consolante ;"
+msgstr "**последний шанс** собирает проигравших утешительной сетки;"
+
+#: ../../formats.md:34
+msgid ""
+"la **réconciliation** fait jouer le vainqueur de la consolante contre "
+"celui du principal — et avec la **recharge**, le vainqueur du principal "
+"doit être battu deux fois. C'est la double élimination véritable."
+msgstr "**примирение** сводит победителя утешительной сетки с победителем основной, а с **перезарядкой** победителя основной сетки нужно обыграть дважды. Это и есть настоящий двойной выбыв."
+
+#: ../../formats.md:38
+msgid ""
+"Le **tableau à vies** est un tableau où un joueur qui arrive avec deux "
+"vies est exempt du premier tour. C'est ainsi qu'un suisse bascule sur un "
+"tableau sans rien perdre de ce qui a été joué."
+msgstr "**Сетка с жизнями** — это сетка, где игрок, пришедший с двумя жизнями, освобождён от первого круга. Так швейцарка переходит в сетку, не теряя ничего из сыгранного."
+
+#: ../../formats.md:41
+msgid ""
+"Les longueurs de match peuvent croître vers la fin : `15, 13, 11, 9` se "
+"lit du dernier tour vers le premier — finale en quinze points, demies en "
+"treize, quarts en onze, le reste en neuf."
+msgstr "Длина матчей может расти к концу: `15, 13, 11, 9` читается от последнего круга к первому — финал до пятнадцати очков, полуфиналы до тринадцати, четвертьфиналы до одиннадцати, остальное до девяти."
+
+#: ../../formats.md ../../formats.md:44
+msgid "Blocs GSL"
+msgstr "Блоки GSL"
+
+#: ../../formats.md:46
+msgid ""
+"Des groupes de quatre joueurs, deux vies chacun : deux matchs "
+"d'ouverture, un match des gagnants, un match des perdants, un match "
+"décisif. Deux joueurs sortent de chaque groupe."
+msgstr "Группы по четыре игрока, по две жизни у каждого: два стартовых матча, матч победителей, матч проигравших, решающий матч. Из каждой группы выходят двое."
+
+#: ../../formats.md:49
+msgid ""
+"C'est le format le plus lisible pour les joueurs — chacun sait à l'avance"
+" combien de matchs il jouera et contre qui — et le plus facile à caler "
+"sur des créneaux horaires. Il est aussi le plus long : on attend le "
+"groupe entier."
+msgstr "Это самый понятный для игроков формат — каждый заранее знает, сколько матчей и с кем он сыграет, — и его легче всего уложить во временные окна. Он же и самый долгий: ждут всю группу."
+
+#: ../../formats.md ../../formats.md:53
+msgid "Poules"
+msgstr "Круговые группы"
+
+#: ../../formats.md:55
+msgid ""
+"Des poules toutes rondes : chacun rencontre chacun, selon la table de "
+"Berger. Les premiers de chaque poule sont qualifiés pour la suite. Une "
+"égalité ne se départage pas au petit point : elle se règle par un "
+"**barrage** à deux vies entre les joueurs concernés."
+msgstr "Круговые группы: каждый встречается с каждым по таблице Бергера. Первые в каждой группе проходят дальше. Равенство не разводится по очкам: оно решается **стыковым матчем** с двумя жизнями между заинтересованными игроками."
+
+#: ../../formats.md:59
+msgid "Têtes de série"
+msgstr "Посев"
+
+#: ../../formats.md:61
+msgid ""
+"Par défaut, un tableau est tiré **au hasard**, intégralement. C'est un "
+"choix, pas un oubli : c'est la culture actuelle du backgammon, et l'étude"
+" ne montre aucun besoin d'y déroger."
+msgstr "По умолчанию сетка разыгрывается **вслепую**, целиком. Это выбор, а не упущение: такова нынешняя культура нард, и исследование не показывает никакой нужды от неё отступать."
+
+#: ../../formats.md:64
+msgid ""
+"Pour les organisateurs qui en veulent, une option place les joueurs par "
+"cote selon la construction classique — le premier contre le seizième, le "
+"deuxième contre le quinzième — de sorte que les deux meilleurs ne peuvent"
+" pas se rencontrer avant la finale. Elle est éteinte tant qu'on ne la "
+"demande pas."
+msgstr "Для организаторов, которые этого хотят, есть опция: игроки расставляются по рейтингу по классической схеме — первый против шестнадцатого, второй против пятнадцатого, — так что двое сильнейших не могут встретиться раньше финала. Она выключена, пока её не попросят."
+
+#: ../../formats.md:69
+msgid "Lequel choisir"
+msgstr "Какой выбрать"
+
+#: ../../formats.md
+msgid "Vous voulez"
+msgstr "Вы хотите"
+
+#: ../../formats.md
+msgid "Prenez"
+msgstr "Берите"
+
+#: ../../formats.md
+msgid "Le meilleur compromis qualité / durée"
+msgstr "Лучшее соотношение качества и продолжительности"
+
+#: ../../formats.md
+msgid "Suisse à deux vies avec bascule sur un tableau de seize"
+msgstr "Швейцарка с двумя жизнями и переходом в сетку на шестнадцать"
+
+#: ../../formats.md
+msgid "Le plus court"
+msgstr "Самое короткое"
+
+#: ../../formats.md
+msgid "Élimination simple"
+msgstr "Олимпийская система"
+
+#: ../../formats.md
+msgid "Que personne ne parte après un seul match"
+msgstr "Чтобы никто не уходил после одного матча"
+
+#: ../../formats.md
+msgid "Suisse à deux vies, ou principal + consolante"
+msgstr "Швейцарка с двумя жизнями или основная сетка + утешительная"
+
+#: ../../formats.md
+msgid "Que chacun sache à l'avance son programme"
+msgstr "Чтобы каждый заранее знал свою программу"
+
+#: ../../formats.md
+msgid "Un petit champ, beaucoup de matchs"
+msgstr "Небольшой состав, много матчей"
+
+#: ../../formats.md
+msgid "Le champion doit être battu deux fois"
+msgstr "Чемпиона нужно обыграть дважды"
+
+#: ../../formats.md
+msgid "Double élimination avec recharge"
+msgstr "Двойной выбыв с перезарядкой"
+

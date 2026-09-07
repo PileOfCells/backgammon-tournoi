@@ -1,0 +1,217 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ja\n"
+"Language-Team: ja <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../formats.md:1
+msgid "Les formats"
+msgstr "フォーマット"
+
+#: ../../formats.md:3
+msgid ""
+"Un tournoi est une suite de **phases**. Chaque phase a son format, et les"
+" survivants de l'une entrent dans la suivante — parfois avec leurs vies "
+"restantes. Les formats disponibles sont les suivants ; le choix entre eux"
+" est justifié par [l'étude](etude_formats.md)."
+msgstr "トーナメントは **フェーズ** の連なりです。フェーズごとにフォーマットがあり、あるフェーズを勝ち残った人が次のフェーズへ — ときには残ったライフを持ったまま — 進みます。利用できるフォーマットは次のとおりで、その選択の根拠は [研究](etude_formats.md) にあります。"
+
+#: ../../formats.md:7
+msgid "Suisse à vies"
+msgstr "ライフ制スイス"
+
+#: ../../formats.md:9
+msgid ""
+"Chaque joueur commence avec un nombre de **vies** (deux, en général) et "
+"en perd une à chaque défaite. On apparie les joueurs qui ont le même "
+"nombre de défaites, en évitant de rejouer un adversaire déjà rencontré "
+"et, si on le demande, les joueurs d'un même club."
+msgstr "各参加者はいくつかの **ライフ**（通常は二つ）から始め、敗れるたびに一つ失います。敗戦数が同じ者どうしを組み合わせ、すでに当たった相手との再戦を避け、求められれば同じクラブの者どうしも避けます。"
+
+#: ../../formats.md:13
+msgid ""
+"C'est le format de référence : personne n'est éliminé au premier match, "
+"et tout le monde joue autant que son résultat le mérite."
+msgstr "これが基準となるフォーマットです。初戦で誰も脱落せず、誰もが自分の成績にふさわしいだけ対戦します。"
+
+#: ../../formats.md:16
+msgid ""
+"Il se joue **en continu** — dès que deux joueurs sont libres — ou **par "
+"rondes** — tout le monde en même temps. Le continu est nettement plus "
+"court : même nombre de matchs, presque quatre heures de salle en moins "
+"sur un tournoi de soixante-quatre joueurs."
+msgstr "**連続** で — 手の空いた二人がそろい次第 — 行うことも、**ラウンド制** で — 全員同時に — 行うこともできます。連続のほうがはっきり短く、対戦数は同じでありながら、六十四人のトーナメントで会場時間がおよそ四時間短くなります。"
+
+#: ../../formats.md:20
+msgid ""
+"Une option importante : **la bascule**. On arrête le suisse dès que la "
+"somme des vies restantes atteint une puissance de deux — seize, par "
+"exemple — et on bascule sur un tableau de seize places, où les joueurs à "
+"deux vies sont exempts du premier tour. C'est le format recommandé : la "
+"meilleure qualité pour la durée la plus courte."
+msgstr "重要な選択肢が **切り替え** です。残りライフの合計が 2 のべき乗 — たとえば十六 — に達した時点でスイスを終え、十六枠のトーナメント表へ移ります。そこではライフを二つ持つ人が初戦を免除されます。これが推奨フォーマットで、最短の所要時間で最良の質が得られます。"
+
+#: ../../formats.md:25
+msgid "Tableaux"
+msgstr "トーナメント表"
+
+#: ../../formats.md:27
+msgid ""
+"L'**élimination simple** est ce que tout le monde connaît : on perd, on "
+"sort. C'est court, et c'est brutal — la moitié du champ a joué un seul "
+"match."
+msgstr "**シングルイリミネーション** は誰もが知るものです。負ければ終わり。短く、そして厳しい — 参加者の半分は一局しか打っていません。"
+
+#: ../../formats.md:30
+msgid "Trois variantes l'adoucissent :"
+msgstr "三つの変種がそれを和らげます。"
+
+#: ../../formats.md:32
+msgid ""
+"la **consolante** recueille les perdants du tableau principal et leur "
+"donne un second tournoi ;"
+msgstr "**敗者復活** は本戦の敗者を集め、二つめのトーナメントを与えます。"
+
+#: ../../formats.md:33
+msgid "la **dernière chance** recueille les perdants de la consolante ;"
+msgstr "**ラストチャンス** は敗者復活の敗者を集めます。"
+
+#: ../../formats.md:34
+msgid ""
+"la **réconciliation** fait jouer le vainqueur de la consolante contre "
+"celui du principal — et avec la **recharge**, le vainqueur du principal "
+"doit être battu deux fois. C'est la double élimination véritable."
+msgstr "**リコンシリエーション** は敗者復活の優勝者と本戦の優勝者を対戦させ、**リチャージ** を付ければ本戦の優勝者は二度負かされなければなりません。これが本来のダブルイリミネーションです。"
+
+#: ../../formats.md:38
+msgid ""
+"Le **tableau à vies** est un tableau où un joueur qui arrive avec deux "
+"vies est exempt du premier tour. C'est ainsi qu'un suisse bascule sur un "
+"tableau sans rien perdre de ce qui a été joué."
+msgstr "**ライフ制トーナメント表** は、ライフを二つ持って来た人が初戦を免除される表です。これによってスイスは、そこまでの対戦を無駄にせずトーナメント表へ移行できます。"
+
+#: ../../formats.md:41
+msgid ""
+"Les longueurs de match peuvent croître vers la fin : `15, 13, 11, 9` se "
+"lit du dernier tour vers le premier — finale en quinze points, demies en "
+"treize, quarts en onze, le reste en neuf."
+msgstr "対戦のポイント数は終盤に向けて増やせます。`15, 13, 11, 9` は最終回戦から先頭へ読みます — 決勝は 15 点、準決勝は 13 点、準々決勝は 11 点、それ以外は 9 点。"
+
+#: ../../formats.md ../../formats.md:44
+msgid "Blocs GSL"
+msgstr "GSL ブロック"
+
+#: ../../formats.md:46
+msgid ""
+"Des groupes de quatre joueurs, deux vies chacun : deux matchs "
+"d'ouverture, un match des gagnants, un match des perdants, un match "
+"décisif. Deux joueurs sortent de chaque groupe."
+msgstr "四人一組、各自ライフ二つ。開幕戦が二局、勝者戦、敗者戦、そして決定戦。各組から二人が勝ち上がります。"
+
+#: ../../formats.md:49
+msgid ""
+"C'est le format le plus lisible pour les joueurs — chacun sait à l'avance"
+" combien de matchs il jouera et contre qui — et le plus facile à caler "
+"sur des créneaux horaires. Il est aussi le plus long : on attend le "
+"groupe entier."
+msgstr "参加者にとって最も見通しのよいフォーマットで — 何局を誰と打つかが前もって分かります — 時間枠に当てはめるのも最も容易です。同時に最も時間がかかります。組全体を待つからです。"
+
+#: ../../formats.md ../../formats.md:53
+msgid "Poules"
+msgstr "総当たり"
+
+#: ../../formats.md:55
+msgid ""
+"Des poules toutes rondes : chacun rencontre chacun, selon la table de "
+"Berger. Les premiers de chaque poule sont qualifiés pour la suite. Une "
+"égalité ne se départage pas au petit point : elle se règle par un "
+"**barrage** à deux vies entre les joueurs concernés."
+msgstr "総当たりの組。ベルガー表に従って全員が全員と対戦します。各組の上位が次に進みます。同率は得点差では分けず、当事者どうしのライフ二つの **プレーオフ** で決めます。"
+
+#: ../../formats.md:59
+msgid "Têtes de série"
+msgstr "シード"
+
+#: ../../formats.md:61
+msgid ""
+"Par défaut, un tableau est tiré **au hasard**, intégralement. C'est un "
+"choix, pas un oubli : c'est la culture actuelle du backgammon, et l'étude"
+" ne montre aucun besoin d'y déroger."
+msgstr "既定では、トーナメント表は完全に **抽選** で決まります。これは見落としではなく選択です。現在のバックギャモンの文化がそうであり、研究もそこから外れる必要を示していません。"
+
+#: ../../formats.md:64
+msgid ""
+"Pour les organisateurs qui en veulent, une option place les joueurs par "
+"cote selon la construction classique — le premier contre le seizième, le "
+"deuxième contre le quinzième — de sorte que les deux meilleurs ne peuvent"
+" pas se rencontrer avant la finale. Elle est éteinte tant qu'on ne la "
+"demande pas."
+msgstr "希望する主催者のために、レーティング順に古典的な配置 — 一位と十六位、二位と十五位 — で並べる選択肢があります。上位二人が決勝より前に当たらないようにするものです。求めない限り無効のままです。"
+
+#: ../../formats.md:69
+msgid "Lequel choisir"
+msgstr "どれを選ぶか"
+
+#: ../../formats.md
+msgid "Vous voulez"
+msgstr "望むこと"
+
+#: ../../formats.md
+msgid "Prenez"
+msgstr "選ぶもの"
+
+#: ../../formats.md
+msgid "Le meilleur compromis qualité / durée"
+msgstr "質と所要時間の最良の折り合い"
+
+#: ../../formats.md
+msgid "Suisse à deux vies avec bascule sur un tableau de seize"
+msgstr "ライフ二つのスイスから十六枠のトーナメント表へ"
+
+#: ../../formats.md
+msgid "Le plus court"
+msgstr "最も短いもの"
+
+#: ../../formats.md
+msgid "Élimination simple"
+msgstr "シングルイリミネーション"
+
+#: ../../formats.md
+msgid "Que personne ne parte après un seul match"
+msgstr "一局で誰も帰らないこと"
+
+#: ../../formats.md
+msgid "Suisse à deux vies, ou principal + consolante"
+msgstr "ライフ二つのスイス、または本戦＋敗者復活"
+
+#: ../../formats.md
+msgid "Que chacun sache à l'avance son programme"
+msgstr "各自が予定を前もって知れること"
+
+#: ../../formats.md
+msgid "Un petit champ, beaucoup de matchs"
+msgstr "少人数で対戦数を多く"
+
+#: ../../formats.md
+msgid "Le champion doit être battu deux fois"
+msgstr "王者は二度負かされるべきだということ"
+
+#: ../../formats.md
+msgid "Double élimination avec recharge"
+msgstr "リチャージ付きダブルイリミネーション"
+

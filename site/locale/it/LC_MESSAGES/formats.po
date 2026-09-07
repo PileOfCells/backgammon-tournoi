@@ -1,0 +1,217 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: it\n"
+"Language-Team: it <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../formats.md:1
+msgid "Les formats"
+msgstr "I formati"
+
+#: ../../formats.md:3
+msgid ""
+"Un tournoi est une suite de **phases**. Chaque phase a son format, et les"
+" survivants de l'une entrent dans la suivante — parfois avec leurs vies "
+"restantes. Les formats disponibles sont les suivants ; le choix entre eux"
+" est justifié par [l'étude](etude_formats.md)."
+msgstr "Un torneo è una successione di **fasi**. Ogni fase ha il suo formato, e i sopravvissuti dell'una entrano nella successiva — talvolta con le vite che restano loro. I formati disponibili sono i seguenti; la scelta fra essi è giustificata da [lo studio](etude_formats.md)."
+
+#: ../../formats.md:7
+msgid "Suisse à vies"
+msgstr "Svizzero a vite"
+
+#: ../../formats.md:9
+msgid ""
+"Chaque joueur commence avec un nombre de **vies** (deux, en général) et "
+"en perd une à chaque défaite. On apparie les joueurs qui ont le même "
+"nombre de défaites, en évitant de rejouer un adversaire déjà rencontré "
+"et, si on le demande, les joueurs d'un même club."
+msgstr "Ogni giocatore comincia con un numero di **vite** (due, in generale) e ne perde una a ogni sconfitta. Si abbinano i giocatori che hanno lo stesso numero di sconfitte, evitando di rigiocare contro un avversario già incontrato e, se lo si chiede, i giocatori dello stesso club."
+
+#: ../../formats.md:13
+msgid ""
+"C'est le format de référence : personne n'est éliminé au premier match, "
+"et tout le monde joue autant que son résultat le mérite."
+msgstr "È il formato di riferimento: nessuno è eliminato alla prima partita, e tutti giocano quanto il loro risultato merita."
+
+#: ../../formats.md:16
+msgid ""
+"Il se joue **en continu** — dès que deux joueurs sont libres — ou **par "
+"rondes** — tout le monde en même temps. Le continu est nettement plus "
+"court : même nombre de matchs, presque quatre heures de salle en moins "
+"sur un tournoi de soixante-quatre joueurs."
+msgstr "Si gioca **in continuo** — appena due giocatori sono liberi — oppure **a tornate** — tutti nello stesso momento. Il continuo è nettamente più corto: stesso numero di partite, quasi quattro ore di sala in meno in un torneo di sessantaquattro giocatori."
+
+#: ../../formats.md:20
+msgid ""
+"Une option importante : **la bascule**. On arrête le suisse dès que la "
+"somme des vies restantes atteint une puissance de deux — seize, par "
+"exemple — et on bascule sur un tableau de seize places, où les joueurs à "
+"deux vies sont exempts du premier tour. C'est le format recommandé : la "
+"meilleure qualité pour la durée la plus courte."
+msgstr "Un'opzione importante: **il passaggio**. Si ferma lo svizzero appena la somma delle vite restanti raggiunge una potenza di due — sedici, per esempio — e si passa a un tabellone di sedici posti, dove i giocatori con due vite sono esenti dal primo turno. È il formato raccomandato: la qualità migliore per la durata più corta."
+
+#: ../../formats.md:25
+msgid "Tableaux"
+msgstr "Tabelloni"
+
+#: ../../formats.md:27
+msgid ""
+"L'**élimination simple** est ce que tout le monde connaît : on perd, on "
+"sort. C'est court, et c'est brutal — la moitié du champ a joué un seul "
+"match."
+msgstr "L'**eliminazione diretta** è ciò che tutti conoscono: si perde, si esce. È corta, ed è brutale — metà del campo ha giocato una sola partita."
+
+#: ../../formats.md:30
+msgid "Trois variantes l'adoucissent :"
+msgstr "Tre varianti la addolciscono:"
+
+#: ../../formats.md:32
+msgid ""
+"la **consolante** recueille les perdants du tableau principal et leur "
+"donne un second tournoi ;"
+msgstr "la **consolazione** raccoglie i perdenti del tabellone principale e dà loro un secondo torneo;"
+
+#: ../../formats.md:33
+msgid "la **dernière chance** recueille les perdants de la consolante ;"
+msgstr "l'**ultima chance** raccoglie i perdenti della consolazione;"
+
+#: ../../formats.md:34
+msgid ""
+"la **réconciliation** fait jouer le vainqueur de la consolante contre "
+"celui du principal — et avec la **recharge**, le vainqueur du principal "
+"doit être battu deux fois. C'est la double élimination véritable."
+msgstr "la **riconciliazione** fa giocare il vincitore della consolazione contro quello del principale — e con la **ricarica**, il vincitore del principale deve essere battuto due volte. È la vera doppia eliminazione."
+
+#: ../../formats.md:38
+msgid ""
+"Le **tableau à vies** est un tableau où un joueur qui arrive avec deux "
+"vies est exempt du premier tour. C'est ainsi qu'un suisse bascule sur un "
+"tableau sans rien perdre de ce qui a été joué."
+msgstr "Il **tabellone a vite** è un tabellone in cui un giocatore che arriva con due vite è esente dal primo turno. È così che uno svizzero passa a un tabellone senza perdere nulla di quanto è stato giocato."
+
+#: ../../formats.md:41
+msgid ""
+"Les longueurs de match peuvent croître vers la fin : `15, 13, 11, 9` se "
+"lit du dernier tour vers le premier — finale en quinze points, demies en "
+"treize, quarts en onze, le reste en neuf."
+msgstr "Le lunghezze delle partite possono crescere verso la fine: `15, 13, 11, 9` si legge dall'ultimo turno verso il primo — finale a quindici punti, semifinali a tredici, quarti a undici, il resto a nove."
+
+#: ../../formats.md ../../formats.md:44
+msgid "Blocs GSL"
+msgstr "Blocchi GSL"
+
+#: ../../formats.md:46
+msgid ""
+"Des groupes de quatre joueurs, deux vies chacun : deux matchs "
+"d'ouverture, un match des gagnants, un match des perdants, un match "
+"décisif. Deux joueurs sortent de chaque groupe."
+msgstr "Gruppi di quattro giocatori, due vite ciascuno: due partite d'apertura, una partita dei vincenti, una dei perdenti, una decisiva. Due giocatori escono da ogni gruppo."
+
+#: ../../formats.md:49
+msgid ""
+"C'est le format le plus lisible pour les joueurs — chacun sait à l'avance"
+" combien de matchs il jouera et contre qui — et le plus facile à caler "
+"sur des créneaux horaires. Il est aussi le plus long : on attend le "
+"groupe entier."
+msgstr "È il formato più leggibile per i giocatori — ciascuno sa in anticipo quante partite giocherà e contro chi — e il più facile da incastrare in fasce orarie. È anche il più lungo: si aspetta il gruppo intero."
+
+#: ../../formats.md ../../formats.md:53
+msgid "Poules"
+msgstr "Gironi"
+
+#: ../../formats.md:55
+msgid ""
+"Des poules toutes rondes : chacun rencontre chacun, selon la table de "
+"Berger. Les premiers de chaque poule sont qualifiés pour la suite. Une "
+"égalité ne se départage pas au petit point : elle se règle par un "
+"**barrage** à deux vies entre les joueurs concernés."
+msgstr "Gironi all'italiana: ciascuno incontra ciascuno, secondo la tabella di Berger. I primi di ogni girone sono qualificati per il seguito. Una parità non si scioglie ai punti: si risolve con uno **spareggio** a due vite fra i giocatori interessati."
+
+#: ../../formats.md:59
+msgid "Têtes de série"
+msgstr "Teste di serie"
+
+#: ../../formats.md:61
+msgid ""
+"Par défaut, un tableau est tiré **au hasard**, intégralement. C'est un "
+"choix, pas un oubli : c'est la culture actuelle du backgammon, et l'étude"
+" ne montre aucun besoin d'y déroger."
+msgstr "Per impostazione predefinita, un tabellone è sorteggiato **a caso**, integralmente. È una scelta, non una dimenticanza: è la cultura attuale del backgammon, e lo studio non mostra alcuna necessità di derogarvi."
+
+#: ../../formats.md:64
+msgid ""
+"Pour les organisateurs qui en veulent, une option place les joueurs par "
+"cote selon la construction classique — le premier contre le seizième, le "
+"deuxième contre le quinzième — de sorte que les deux meilleurs ne peuvent"
+" pas se rencontrer avant la finale. Elle est éteinte tant qu'on ne la "
+"demande pas."
+msgstr "Per gli organizzatori che le vogliono, un'opzione colloca i giocatori per valutazione secondo la costruzione classica — il primo contro il sedicesimo, il secondo contro il quindicesimo — in modo che i due migliori non possano incontrarsi prima della finale. Resta spenta finché non la si chiede."
+
+#: ../../formats.md:69
+msgid "Lequel choisir"
+msgstr "Quale scegliere"
+
+#: ../../formats.md
+msgid "Vous voulez"
+msgstr "Volete"
+
+#: ../../formats.md
+msgid "Prenez"
+msgstr "Prendete"
+
+#: ../../formats.md
+msgid "Le meilleur compromis qualité / durée"
+msgstr "Il miglior compromesso qualità / durata"
+
+#: ../../formats.md
+msgid "Suisse à deux vies avec bascule sur un tableau de seize"
+msgstr "Svizzero a due vite con passaggio a un tabellone di sedici"
+
+#: ../../formats.md
+msgid "Le plus court"
+msgstr "Il più corto"
+
+#: ../../formats.md
+msgid "Élimination simple"
+msgstr "Eliminazione diretta"
+
+#: ../../formats.md
+msgid "Que personne ne parte après un seul match"
+msgstr "Che nessuno se ne vada dopo una sola partita"
+
+#: ../../formats.md
+msgid "Suisse à deux vies, ou principal + consolante"
+msgstr "Svizzero a due vite, oppure principale + consolazione"
+
+#: ../../formats.md
+msgid "Que chacun sache à l'avance son programme"
+msgstr "Che ciascuno conosca in anticipo il proprio programma"
+
+#: ../../formats.md
+msgid "Un petit champ, beaucoup de matchs"
+msgstr "Un campo piccolo, molte partite"
+
+#: ../../formats.md
+msgid "Le champion doit être battu deux fois"
+msgstr "Il campione deve essere battuto due volte"
+
+#: ../../formats.md
+msgid "Double élimination avec recharge"
+msgstr "Doppia eliminazione con ricarica"
+

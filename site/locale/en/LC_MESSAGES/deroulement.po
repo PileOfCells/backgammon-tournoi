@@ -1,0 +1,202 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../deroulement.md:1
+msgid "Le déroulement d'un tournoi"
+msgstr "How a tournament unfolds"
+
+#: ../../deroulement.md:3
+msgid ""
+"Cette page décrit une journée de tournoi du point de vue du directeur, et"
+" ce que le moteur fait à chaque étape. Rien ici ne suppose de savoir "
+"programmer."
+msgstr "This page describes a tournament day from the director's point of view, and what the engine does at each step. Nothing here assumes any knowledge of programming."
+
+#: ../../deroulement.md:6
+msgid "Avant le début : les inscriptions"
+msgstr "Before the start: registration"
+
+#: ../../deroulement.md:8
+msgid ""
+"Le directeur inscrit les joueurs. Un joueur a un nom, éventuellement un "
+"club et une cote (le PR : plus il est bas, meilleur est le joueur). La "
+"cote est facultative — un joueur sans cote n'est pas un joueur parfait, "
+"et le moteur ne le traite jamais comme tel."
+msgstr "The director registers the players. A player has a name, possibly a club and a rating (the PR: the lower it is, the better the player). The rating is optional — a player with no rating is not a perfect player, and the engine never treats him as one."
+
+#: ../../deroulement.md:12
+msgid ""
+"Une liste peut aussi être importée depuis un fichier CSV, celui d'une "
+"billetterie ou d'un tableur, et réexportée pour le tournoi suivant."
+msgstr "A list can also be imported from a CSV file, from a ticketing service or a spreadsheet, and exported again for the next tournament."
+
+#: ../../deroulement.md:15
+msgid "Le premier appariement"
+msgstr "The first pairing"
+
+#: ../../deroulement.md:17
+msgid ""
+"Dès qu'il y a deux joueurs libres, le moteur propose un match : deux "
+"noms, une longueur en points, et un numéro de table. Le directeur "
+"confirme ; les joueurs vont s'asseoir."
+msgstr "As soon as two players are free, the engine proposes a match: two names, a length in points, and a table number. The director confirms; the players go and sit down."
+
+#: ../../deroulement.md:20
+msgid ""
+"Les tables ne sont pas de simples numéros. Une table peut être "
+"**indisponible** — plateau cassé, table retirée —, ou **réservée** à la "
+"retransmission de la finale. Le moteur les saute, et si aucune table "
+"n'est libre, il le dit au lieu de rester muet."
+msgstr "Tables are not mere numbers. A table can be **unavailable** — broken board, table removed — or **reserved** for the broadcast of the final. The engine skips them, and if no table is free it says so instead of falling silent."
+
+#: ../../deroulement.md:24
+msgid "Pendant : les résultats"
+msgstr "During: the results"
+
+#: ../../deroulement.md:26
+msgid ""
+"Le directeur saisit les résultats au fur et à mesure : le vainqueur, et "
+"le score s'il le connaît. Le score est facultatif ; ce qui compte, c'est "
+"qui a gagné."
+msgstr "The director enters results as they come: the winner, and the score if he knows it. The score is optional; what matters is who won."
+
+#: ../../deroulement.md:29
+msgid ""
+"Chaque résultat libère deux joueurs, et le moteur propose aussitôt de "
+"nouveaux matchs. C'est le mode **continu** : on ne fait attendre "
+"personne. Il a un défaut connu — celui qui finit à 14 h 03 pourrait "
+"choisir son adversaire en annonçant à 14 h 04 ou à 14 h 20. Les **micro-"
+"rondes** ferment cette porte : les appariements se font par lots, à heure"
+" fixe, et le moteur affiche le temps qui reste avant le prochain."
+msgstr "Every result frees two players, and the engine immediately proposes new matches. This is **continuous** mode: nobody is kept waiting. It has a known flaw — a player finishing at 2:03 pm could choose his opponent by reporting at 2:04 or at 2:20. **Micro-rounds** close that door: pairings are made in batches, at fixed times, and the engine shows the time left before the next one."
+
+#: ../../deroulement.md:35
+msgid ""
+"Le contraire du continu, ce sont les **rondes** : tout le monde joue en "
+"même temps, et l'on attend le dernier match avant de repartir. C'est plus"
+" simple à suivre, et beaucoup plus long."
+msgstr "The opposite of continuous mode is **rounds**: everyone plays at the same time, and one waits for the last match before starting again. It is simpler to follow, and much longer."
+
+#: ../../deroulement.md:38
+msgid "Ce qui ne se passe pas comme prévu"
+msgstr "When things do not go as planned"
+
+#: ../../deroulement.md:40
+msgid ""
+"Un joueur arrive en retard, après le tirage. Le moteur énumère les places"
+" d'exemption encore libres, et l'y installe **sans refaire le tirage**. "
+"S'il n'y a pas de place, il est inscrit quand même et le moteur dit où il"
+" entrera."
+msgstr "A player arrives late, after the draw. The engine lists the bye slots still free and installs him there **without redoing the draw**. If there is no slot, he is registered anyway and the engine says where he will enter."
+
+#: ../../deroulement.md:44
+msgid ""
+"Un joueur doit partir à 18 h. Il peut se retirer tout de suite — ses "
+"matchs en cours sont perdus par forfait — ou se retirer **après son match"
+" en cours**, qui va alors à son terme."
+msgstr "A player has to leave at 6 pm. He can withdraw right away — his matches in progress are lost by forfeit — or withdraw **after his current match**, which then runs to its end."
+
+#: ../../deroulement.md:47
+msgid ""
+"Un joueur ne se présente pas. C'est un forfait pour ce match seulement : "
+"il n'a pas quitté le tournoi, et suit ensuite le chemin d'un perdant "
+"ordinaire, la consolante par exemple."
+msgstr "A player does not show up. That is a forfeit for this match only: he has not left the tournament, and afterwards follows the path of an ordinary loser, the consolation for instance."
+
+#: ../../deroulement.md:50
+msgid ""
+"Un match a été lancé par erreur : on l'annule, et sa place redevient "
+"libre."
+msgstr "A match was started by mistake: it is cancelled, and its slot becomes free again."
+
+#: ../../deroulement.md:52
+msgid "Une erreur découverte après coup"
+msgstr "A mistake found after the fact"
+
+#: ../../deroulement.md:54
+msgid ""
+"Un résultat était faux. **Le journal n'est jamais modifié** : une "
+"correction est un événement de plus, et l'état est recalculé à partir de "
+"tout ce qui a été enregistré."
+msgstr "A result was wrong. **The journal is never modified**: a correction is one more event, and the state is recomputed from everything that has been recorded."
+
+#: ../../deroulement.md:57
+msgid ""
+"Si le match corrigé était dans un tableau, les matchs suivants ont été "
+"joués par les mauvaises personnes. Le moteur le signale, puis **propose "
+"la réparation** : annuler la demi-finale, annuler la finale, puis "
+"relancer les bons matchs. Le directeur confirme, ou fait autrement. Rien "
+"n'est annulé d'office."
+msgstr "If the corrected match was in a bracket, the following matches were played by the wrong people. The engine says so, then **proposes the repair**: cancel the semi-final, cancel the final, then restart the right matches. The director confirms, or does otherwise. Nothing is cancelled on its own."
+
+#: ../../deroulement.md:62
+msgid ""
+"Un tournoi déjà clos peut être **rouvert** : le classement final est "
+"effacé, la correction appliquée, et le classement recalculé à la clôture "
+"suivante."
+msgstr "A tournament already closed can be **reopened**: the final standings are cleared, the correction applied, and the standings recomputed at the next closing."
+
+#: ../../deroulement.md:65
+msgid "Le repas"
+msgstr "The meal"
+
+#: ../../deroulement.md:67
+msgid ""
+"Les pauses programmées sont déclarées à l'avance. Un match dont la fin "
+"attendue tomberait pendant la pause est signalé — mais **il reste "
+"proposé**. Le directeur sait si ces deux-là mangeront après."
+msgstr "Scheduled breaks are declared in advance. A match whose expected end would fall during the break is flagged — but **it remains proposed**. The director knows whether those two will eat afterwards."
+
+#: ../../deroulement.md:71
+msgid "La fin"
+msgstr "The end"
+
+#: ../../deroulement.md:73
+msgid ""
+"Le classement se lit à tout moment, pas seulement à la fin. Il place les "
+"joueurs par ce qu'ils ont atteint : vainqueur, finaliste, éliminé à tel "
+"tour, éliminé avec tant de victoires. **Les ex æquo restent ex æquo** : "
+"aucun départage caché ne les sépare."
+msgstr "The standings can be read at any moment, not only at the end. They place players by what they reached: winner, finalist, knocked out in such a round, knocked out with so many wins. **Ties stay ties**: no hidden tiebreak separates them."
+
+#: ../../deroulement.md:77
+msgid ""
+"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue"
+" d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et"
+" non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
+"prix est arrondi à l'unité et le reste va au premier, de sorte que la "
+"somme distribuée égale exactement le pool après retenue. Une consolante "
+"peut avoir ses propres prix, sur son propre classement."
+msgstr "The prize money is spread over those standings. An entry fee, an organisation retention, percentages — a poster announces \"50/30/20%\" and not amounts, since the pool depends on the number of entries. Each prize is rounded to the unit and the remainder goes to the first place, so that the sum distributed equals exactly the pool after retention. A consolation can have its own prizes, on its own standings."
+
+#: ../../deroulement.md:83
+msgid "Ce qui est affiché"
+msgstr "What gets displayed"
+
+#: ../../deroulement.md:85
+msgid ""
+"Le moteur produit des pages autonomes : un seul fichier, qui s'ouvre hors"
+" ligne depuis une clé USB sur l'ordinateur de la salle. L'écran mural "
+"montre les actions à faire, la grille des tables, les matchs en cours, "
+"les arbres et le classement. La feuille d'appariements s'imprime sur une "
+"page A4, avec une case vide par joueur pour écrire le score à la main."
+msgstr "The engine produces self-contained pages: a single file, which opens offline from a USB stick on the hall's computer. The wall screen shows the actions to take, the table grid, the matches in progress, the brackets and the standings. The pairing sheet prints on one A4 page, with an empty box per player to write the score by hand."
+

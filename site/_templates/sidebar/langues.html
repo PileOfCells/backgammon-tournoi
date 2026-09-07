@@ -1,0 +1,12 @@
+{#- Sélecteur de langue. Les documents du site sont à plat, si bien qu'un lien d'une langue à
+    l'autre est toujours « ../<langue>/<document>.html ». -#}
+<div class="sidebar-langues">
+  <p class="caption"><span class="caption-text">{{ _("Langues") }}</span></p>
+  <ul>
+    {%- for code, nom in langues.items() %}
+    <li{% if code == language %} class="active"{% endif %}>
+      <a href="../{{ code }}/{{ pagename }}.html" hreflang="{{ code }}">{{ nom }}</a>
+    </li>
+    {%- endfor %}
+  </ul>
+</div>

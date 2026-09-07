@@ -1,0 +1,146 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../index.md:1
+msgid "Nicomaque"
+msgstr "Nicomaque"
+
+#: ../../index.md:3
+msgid ""
+"**Nicomaque** est un moteur de tournoi de backgammon. Ce n'est pas un "
+"logiciel qu'on ouvre : c'est une bibliothèque que d'autres logiciels "
+"utilisent pour diriger un tournoi — inscrire les joueurs, apparier les "
+"matchs, tenir les tableaux, produire le classement."
+msgstr "**Nicomaque** — это движок для проведения турниров по нардам. Это не программа, которую открывают: это библиотека, которую другие программы используют, чтобы вести турнир — регистрировать игроков, составлять пары, вести сетки, выдавать итоговую таблицу."
+
+#: ../../index.md:7
+msgid ""
+"Il est écrit en Go, sans aucune dépendance, et se lit en entier. Il est "
+"publié sous une licence libre et son code est sur "
+"[GitHub](https://github.com/PileOfCells/backgammon-tournoi)."
+msgstr "Он написан на Go, без единой зависимости, и его можно прочитать целиком. Он выпущен под свободной лицензией, исходный код лежит на [GitHub](https://github.com/PileOfCells/backgammon-tournoi)."
+
+#: ../../index.md:10
+msgid "Ce qu'il fait"
+msgstr "Что он делает"
+
+#: ../../index.md:12
+msgid ""
+"Un directeur de tournoi passe sa journée à répondre à une seule question "
+": *qui joue contre qui, maintenant, et sur quelle table ?* Nicomaque "
+"répond à cette question, et rien d'autre."
+msgstr "Директор турнира весь день отвечает на один вопрос: *кто с кем играет прямо сейчас и за каким столом?* Nicomaque отвечает на этот вопрос — и больше ни на что."
+
+#: ../../index.md:15
+msgid ""
+"À tout instant, il propose une liste d'actions — lancer ce match sur "
+"cette table, donner cette exemption, tirer ce tableau, passer à la phase "
+"suivante, clore le tournoi. Le directeur en confirme ce qu'il veut. "
+"Chaque confirmation devient un **événement** ajouté à un journal, et "
+"l'état du tournoi est reconstruit à partir de ce journal."
+msgstr "В любой момент он предлагает список действий: начать этот матч за этим столом, дать этот пропуск, провести жеребьёвку сетки, перейти к следующей фазе, закрыть турнир. Директор подтверждает то, что считает нужным. Каждое подтверждение становится **событием** в журнале, и состояние турнира восстанавливается из этого журнала."
+
+#: ../../index.md:20
+msgid ""
+"**Le moteur propose, le directeur décide.** Rien n'est appliqué d'office,"
+" jamais. Un avertissement — un score incohérent, un match joué par le "
+"mauvais joueur, une fin de match qui tombe pendant le repas — est dit, "
+"pas imposé : le directeur sait des choses que le moteur ignore."
+msgstr "**Движок предлагает, директор решает.** Ничто и никогда не применяется само собой. Предупреждение — противоречивый счёт, матч, сыгранный не тем игроком, матч, который по расчёту закончится во время обеда, — высказывается, а не навязывается: директор знает то, чего движок не знает."
+
+#: ../../index.md:24
+msgid "Ce qu'il ne fait pas"
+msgstr "Чего он не делает"
+
+#: ../../index.md:26
+msgid ""
+"Il n'a pas d'interface. Il ne stocke rien. Il n'affiche aucune phrase : "
+"tout ce qui sort du moteur est un **code**, que le logiciel hôte traduit "
+"dans la langue de son utilisateur."
+msgstr "У него нет интерфейса. Он ничего не хранит. Он не выводит ни одной фразы: всё, что выходит из движка, — это **код**, который программа-хозяин отображает на языке своего пользователя."
+
+#: ../../index.md:29
+msgid ""
+"Il ne départage pas. Les égalités restent des égalités, ou se règlent par"
+" un barrage. Aucun classement n'est décidé par un critère caché."
+msgstr "Он не разводит равных. Равенство остаётся равенством или решается стыковым матчем. Ни одно место не определяется скрытым критерием."
+
+#: ../../index.md:32
+msgid ""
+"Il n'a jamais dirigé de vrai tournoi. Il est testé par simulation — des "
+"milliers de tournois joués à chaque modification — mais la simulation "
+"n'est pas la salle."
+msgstr "Он никогда не вёл настоящего турнира. Он проверяется моделированием — тысячи турниров при каждом изменении, — но моделирование это не игровой зал."
+
+#: ../../index.md:35
+msgid "Par où commencer"
+msgstr "С чего начать"
+
+#: ../../index.md:48
+msgid ""
+"[Le déroulement d'un tournoi](deroulement.md) — la journée du directeur, "
+"de l'inscription au classement final."
+msgstr "[Ход турнира](deroulement.md) — день директора, от регистрации до итоговой таблицы."
+
+#: ../../index.md:50
+msgid ""
+"[Les formats](formats.md) — suisse à vies, tableaux, GSL, poules, et "
+"lequel choisir."
+msgstr "[Форматы](formats.md) — швейцарка с жизнями, сетки, GSL, круговые группы, и какой выбрать."
+
+#: ../../index.md:51
+msgid ""
+"[Intégrer le moteur](integration.md) — la boucle que le logiciel hôte "
+"écrit, en une page."
+msgstr "[Встроить движок](integration.md) — цикл, который пишет программа-хозяин, на одной странице."
+
+#: ../../index.md:52
+msgid ""
+"[Comprendre le moteur](comprendre_le_moteur.md) — les décisions de "
+"conception et leurs justifications, les questions fréquentes, les "
+"chiffres de référence."
+msgstr "[Понять движок](comprendre_le_moteur.md) — проектные решения и их обоснования, частые вопросы, справочные цифры."
+
+#: ../../index.md:54
+msgid ""
+"[L'étude des formats](etude_formats.md) — la simulation qui a servi à "
+"choisir."
+msgstr "[Исследование форматов](etude_formats.md) — моделирование, на котором основан выбор."
+
+#: ../../index.md:55
+msgid ""
+"[La spécification](specification.md) — assez détaillée pour reconstruire "
+"le moteur."
+msgstr "[Спецификация](specification.md) — достаточно подробная, чтобы построить движок заново."
+
+#: ../../index.md:57
+msgid "Le nom"
+msgstr "Имя"
+
+#: ../../index.md:59
+msgid ""
+"Nicomaque était le fils d'Aristote, et le destinataire de l'*Éthique à "
+"Nicomaque*, où il est question de ce qu'est une décision juste. Diriger "
+"un tournoi consiste à en prendre beaucoup, vite, devant des gens qui "
+"attendent."
+msgstr "Никомах был сыном Аристотеля и адресатом *Никомаховой этики*, где речь идёт о том, что такое справедливое решение. Вести турнир — значит принимать их во множестве, быстро, перед людьми, которые ждут."
+

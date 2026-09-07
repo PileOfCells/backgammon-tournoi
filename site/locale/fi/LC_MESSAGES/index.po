@@ -1,0 +1,145 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fi\n"
+"Language-Team: fi <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../index.md:1
+msgid "Nicomaque"
+msgstr "Nicomaque"
+
+#: ../../index.md:3
+msgid ""
+"**Nicomaque** est un moteur de tournoi de backgammon. Ce n'est pas un "
+"logiciel qu'on ouvre : c'est une bibliothèque que d'autres logiciels "
+"utilisent pour diriger un tournoi — inscrire les joueurs, apparier les "
+"matchs, tenir les tableaux, produire le classement."
+msgstr "**Nicomaque** on backgammon-turnausten moottori. Se ei ole ohjelma, joka avataan: se on kirjasto, jota muut ohjelmat käyttävät turnauksen johtamiseen — pelaajien ilmoittamiseen, otteluparien muodostamiseen, kaavioiden ylläpitoon ja tulosluettelon tuottamiseen."
+
+#: ../../index.md:7
+msgid ""
+"Il est écrit en Go, sans aucune dépendance, et se lit en entier. Il est "
+"publié sous une licence libre et son code est sur "
+"[GitHub](https://github.com/PileOfCells/backgammon-tournoi)."
+msgstr "Se on kirjoitettu Go-kielellä ilman yhtään riippuvuutta, ja sen voi lukea kokonaan. Se julkaistaan vapaalla lisenssillä ja sen koodi on [GitHubissa](https://github.com/PileOfCells/backgammon-tournoi)."
+
+#: ../../index.md:10
+msgid "Ce qu'il fait"
+msgstr "Mitä se tekee"
+
+#: ../../index.md:12
+msgid ""
+"Un directeur de tournoi passe sa journée à répondre à une seule question "
+": *qui joue contre qui, maintenant, et sur quelle table ?* Nicomaque "
+"répond à cette question, et rien d'autre."
+msgstr "Turnauksenjohtaja viettää päivänsä vastaten yhteen ainoaan kysymykseen: *kuka pelaa ketä vastaan, juuri nyt, ja missä pöydässä?* Nicomaque vastaa tähän kysymykseen eikä mihinkään muuhun."
+
+#: ../../index.md:15
+msgid ""
+"À tout instant, il propose une liste d'actions — lancer ce match sur "
+"cette table, donner cette exemption, tirer ce tableau, passer à la phase "
+"suivante, clore le tournoi. Le directeur en confirme ce qu'il veut. "
+"Chaque confirmation devient un **événement** ajouté à un journal, et "
+"l'état du tournoi est reconstruit à partir de ce journal."
+msgstr "Se ehdottaa milloin tahansa luetteloa toimista — aloita tämä ottelu tässä pöydässä, anna tämä vapaakierros, arvo tämä kaavio, siirry seuraavaan vaiheeseen, sulje turnaus. Johtaja vahvistaa ne, jotka haluaa. Jokaisesta vahvistuksesta tulee **tapahtuma**, joka lisätään päiväkirjaan, ja turnauksen tila rakennetaan uudelleen tästä päiväkirjasta."
+
+#: ../../index.md:20
+msgid ""
+"**Le moteur propose, le directeur décide.** Rien n'est appliqué d'office,"
+" jamais. Un avertissement — un score incohérent, un match joué par le "
+"mauvais joueur, une fin de match qui tombe pendant le repas — est dit, "
+"pas imposé : le directeur sait des choses que le moteur ignore."
+msgstr "**Moottori ehdottaa, johtaja päättää.** Mitään ei koskaan sovelleta itsestään. Varoitus — ristiriitainen tulos, ottelu jonka pelasi väärä pelaaja, ottelu jonka odotetaan päättyvän ruokatauon aikana — sanotaan, ei pakoteta: johtaja tietää asioita, joita moottori ei tiedä."
+
+#: ../../index.md:24
+msgid "Ce qu'il ne fait pas"
+msgstr "Mitä se ei tee"
+
+#: ../../index.md:26
+msgid ""
+"Il n'a pas d'interface. Il ne stocke rien. Il n'affiche aucune phrase : "
+"tout ce qui sort du moteur est un **code**, que le logiciel hôte traduit "
+"dans la langue de son utilisateur."
+msgstr "Sillä ei ole käyttöliittymää. Se ei tallenna mitään. Se ei näytä yhtään lausetta: kaikki, mikä moottorista tulee ulos, on **koodi**, jonka isäntäohjelma esittää käyttäjänsä kielellä."
+
+#: ../../index.md:29
+msgid ""
+"Il ne départage pas. Les égalités restent des égalités, ou se règlent par"
+" un barrage. Aucun classement n'est décidé par un critère caché."
+msgstr "Se ei ratkaise tasatuloksia. Tasatulokset jäävät tasatuloksiksi tai ratkaistaan uusintaottelulla. Mitään sijoitusta ei päätetä piilotetulla kriteerillä."
+
+#: ../../index.md:32
+msgid ""
+"Il n'a jamais dirigé de vrai tournoi. Il est testé par simulation — des "
+"milliers de tournois joués à chaque modification — mais la simulation "
+"n'est pas la salle."
+msgstr "Se ei ole koskaan johtanut oikeaa turnausta. Sitä testataan simuloimalla — tuhansia turnauksia jokaisella muutoksella — mutta simulaatio ei ole pelisali."
+
+#: ../../index.md:35
+msgid "Par où commencer"
+msgstr "Mistä aloittaa"
+
+#: ../../index.md:48
+msgid ""
+"[Le déroulement d'un tournoi](deroulement.md) — la journée du directeur, "
+"de l'inscription au classement final."
+msgstr "[Turnauksen kulku](deroulement.md) — johtajan päivä ilmoittautumisesta lopputuloksiin."
+
+#: ../../index.md:50
+msgid ""
+"[Les formats](formats.md) — suisse à vies, tableaux, GSL, poules, et "
+"lequel choisir."
+msgstr "[Muodot](formats.md) — sveitsiläinen elämillä, kaaviot, GSL, lohkot, ja minkä valita."
+
+#: ../../index.md:51
+msgid ""
+"[Intégrer le moteur](integration.md) — la boucle que le logiciel hôte "
+"écrit, en une page."
+msgstr "[Moottorin liittäminen](integration.md) — silmukka, jonka isäntäohjelma kirjoittaa, yhdellä sivulla."
+
+#: ../../index.md:52
+msgid ""
+"[Comprendre le moteur](comprendre_le_moteur.md) — les décisions de "
+"conception et leurs justifications, les questions fréquentes, les "
+"chiffres de référence."
+msgstr "[Moottorin ymmärtäminen](comprendre_le_moteur.md) — suunnitteluratkaisut ja niiden perustelut, usein kysytyt kysymykset, vertailuluvut."
+
+#: ../../index.md:54
+msgid ""
+"[L'étude des formats](etude_formats.md) — la simulation qui a servi à "
+"choisir."
+msgstr "[Muotojen tutkimus](etude_formats.md) — simulaatio, johon valinnat perustuvat."
+
+#: ../../index.md:55
+msgid ""
+"[La spécification](specification.md) — assez détaillée pour reconstruire "
+"le moteur."
+msgstr "[Määrittely](specification.md) — riittävän yksityiskohtainen moottorin rakentamiseksi uudelleen."
+
+#: ../../index.md:57
+msgid "Le nom"
+msgstr "Nimi"
+
+#: ../../index.md:59
+msgid ""
+"Nicomaque était le fils d'Aristote, et le destinataire de l'*Éthique à "
+"Nicomaque*, où il est question de ce qu'est une décision juste. Diriger "
+"un tournoi consiste à en prendre beaucoup, vite, devant des gens qui "
+"attendent."
+msgstr "Nikomakhos oli Aristoteleen poika ja *Nikomakhoksen etiikan* vastaanottaja, jossa kysytään, mikä tekee päätöksestä oikeudenmukaisen. Turnauksen johtaminen tarkoittaa niiden tekemistä hyvin monta, nopeasti, odottavien ihmisten edessä."
+

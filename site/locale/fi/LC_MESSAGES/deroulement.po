@@ -1,0 +1,202 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fi\n"
+"Language-Team: fi <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../deroulement.md:1
+msgid "Le déroulement d'un tournoi"
+msgstr "Turnauksen kulku"
+
+#: ../../deroulement.md:3
+msgid ""
+"Cette page décrit une journée de tournoi du point de vue du directeur, et"
+" ce que le moteur fait à chaque étape. Rien ici ne suppose de savoir "
+"programmer."
+msgstr "Tämä sivu kuvaa turnauspäivän johtajan näkökulmasta ja sen, mitä moottori tekee kussakin vaiheessa. Mikään tässä ei edellytä ohjelmointitaitoa."
+
+#: ../../deroulement.md:6
+msgid "Avant le début : les inscriptions"
+msgstr "Ennen alkua: ilmoittautumiset"
+
+#: ../../deroulement.md:8
+msgid ""
+"Le directeur inscrit les joueurs. Un joueur a un nom, éventuellement un "
+"club et une cote (le PR : plus il est bas, meilleur est le joueur). La "
+"cote est facultative — un joueur sans cote n'est pas un joueur parfait, "
+"et le moteur ne le traite jamais comme tel."
+msgstr "Johtaja ilmoittaa pelaajat. Pelaajalla on nimi, mahdollisesti seura ja luokitus (PR: mitä pienempi, sitä parempi pelaaja). Luokitus on valinnainen — pelaaja ilman luokitusta ei ole täydellinen pelaaja, eikä moottori koskaan kohtele häntä sellaisena."
+
+#: ../../deroulement.md:12
+msgid ""
+"Une liste peut aussi être importée depuis un fichier CSV, celui d'une "
+"billetterie ou d'un tableur, et réexportée pour le tournoi suivant."
+msgstr "Luettelon voi myös tuoda CSV-tiedostosta, lipunmyyntipalvelusta tai taulukkolaskennasta, ja viedä taas ulos seuraavaa turnausta varten."
+
+#: ../../deroulement.md:15
+msgid "Le premier appariement"
+msgstr "Ensimmäinen otteluparien muodostus"
+
+#: ../../deroulement.md:17
+msgid ""
+"Dès qu'il y a deux joueurs libres, le moteur propose un match : deux "
+"noms, une longueur en points, et un numéro de table. Le directeur "
+"confirme ; les joueurs vont s'asseoir."
+msgstr "Heti kun kaksi pelaajaa on vapaana, moottori ehdottaa ottelua: kaksi nimeä, pituus pisteinä ja pöydän numero. Johtaja vahvistaa; pelaajat menevät istumaan."
+
+#: ../../deroulement.md:20
+msgid ""
+"Les tables ne sont pas de simples numéros. Une table peut être "
+"**indisponible** — plateau cassé, table retirée —, ou **réservée** à la "
+"retransmission de la finale. Le moteur les saute, et si aucune table "
+"n'est libre, il le dit au lieu de rester muet."
+msgstr "Pöydät eivät ole pelkkiä numeroita. Pöytä voi olla **poissa käytöstä** — rikkinäinen lauta, poistettu pöytä — tai **varattu** finaalin lähetystä varten. Moottori ohittaa ne, ja jos yhtään pöytää ei ole vapaana, se sanoo sen sen sijaan että vaikenisi."
+
+#: ../../deroulement.md:24
+msgid "Pendant : les résultats"
+msgstr "Kesken kaiken: tulokset"
+
+#: ../../deroulement.md:26
+msgid ""
+"Le directeur saisit les résultats au fur et à mesure : le vainqueur, et "
+"le score s'il le connaît. Le score est facultatif ; ce qui compte, c'est "
+"qui a gagné."
+msgstr "Johtaja syöttää tulokset sitä mukaa kuin niitä tulee: voittajan, ja tuloksen jos tietää sen. Pistemäärä on valinnainen; merkitystä on sillä, kuka voitti."
+
+#: ../../deroulement.md:29
+msgid ""
+"Chaque résultat libère deux joueurs, et le moteur propose aussitôt de "
+"nouveaux matchs. C'est le mode **continu** : on ne fait attendre "
+"personne. Il a un défaut connu — celui qui finit à 14 h 03 pourrait "
+"choisir son adversaire en annonçant à 14 h 04 ou à 14 h 20. Les **micro-"
+"rondes** ferment cette porte : les appariements se font par lots, à heure"
+" fixe, et le moteur affiche le temps qui reste avant le prochain."
+msgstr "Jokainen tulos vapauttaa kaksi pelaajaa, ja moottori ehdottaa heti uusia otteluita. Tämä on **jatkuva** tila: ketään ei jätetä odottamaan. Siinä on tunnettu puute — klo 14.03 lopettanut voisi valita vastustajansa ilmoittamalla klo 14.04 tai klo 14.20. **Mikrokierrokset** sulkevat tämän oven: otteluparit muodostetaan erissä, kiinteinä kellonaikoina, ja moottori näyttää seuraavaan jäljellä olevan ajan."
+
+#: ../../deroulement.md:35
+msgid ""
+"Le contraire du continu, ce sont les **rondes** : tout le monde joue en "
+"même temps, et l'on attend le dernier match avant de repartir. C'est plus"
+" simple à suivre, et beaucoup plus long."
+msgstr "Jatkuvan tilan vastakohta ovat **kierrokset**: kaikki pelaavat samaan aikaan, ja viimeistä ottelua odotetaan ennen jatkoa. Sitä on helpompi seurata, ja se kestää paljon kauemmin."
+
+#: ../../deroulement.md:38
+msgid "Ce qui ne se passe pas comme prévu"
+msgstr "Kun asiat eivät mene suunnitellusti"
+
+#: ../../deroulement.md:40
+msgid ""
+"Un joueur arrive en retard, après le tirage. Le moteur énumère les places"
+" d'exemption encore libres, et l'y installe **sans refaire le tirage**. "
+"S'il n'y a pas de place, il est inscrit quand même et le moteur dit où il"
+" entrera."
+msgstr "Pelaaja saapuu myöhässä, arvonnan jälkeen. Moottori luettelee vielä vapaana olevat vapaakierrospaikat ja sijoittaa hänet sinne **arvontaa uusimatta**. Jos paikkaa ei ole, hänet ilmoitetaan silti ja moottori kertoo, mistä hän tulee mukaan."
+
+#: ../../deroulement.md:44
+msgid ""
+"Un joueur doit partir à 18 h. Il peut se retirer tout de suite — ses "
+"matchs en cours sont perdus par forfait — ou se retirer **après son match"
+" en cours**, qui va alors à son terme."
+msgstr "Pelaajan on lähdettävä klo 18. Hän voi vetäytyä heti — käynnissä olevat ottelut menetetään luovutuksella — tai vetäytyä **käynnissä olevan ottelunsa jälkeen**, joka silloin pelataan loppuun."
+
+#: ../../deroulement.md:47
+msgid ""
+"Un joueur ne se présente pas. C'est un forfait pour ce match seulement : "
+"il n'a pas quitté le tournoi, et suit ensuite le chemin d'un perdant "
+"ordinaire, la consolante par exemple."
+msgstr "Pelaaja ei saavu paikalle. Se on luovutus vain tästä ottelusta: hän ei ole poistunut turnauksesta, ja jatkaa sen jälkeen tavallisen häviäjän polkua, esimerkiksi lohdutuskaavioon."
+
+#: ../../deroulement.md:50
+msgid ""
+"Un match a été lancé par erreur : on l'annule, et sa place redevient "
+"libre."
+msgstr "Ottelu aloitettiin vahingossa: se perutaan, ja sen paikka vapautuu jälleen."
+
+#: ../../deroulement.md:52
+msgid "Une erreur découverte après coup"
+msgstr "Jälkikäteen havaittu virhe"
+
+#: ../../deroulement.md:54
+msgid ""
+"Un résultat était faux. **Le journal n'est jamais modifié** : une "
+"correction est un événement de plus, et l'état est recalculé à partir de "
+"tout ce qui a été enregistré."
+msgstr "Tulos oli väärä. **Päiväkirjaa ei koskaan muuteta**: korjaus on yksi tapahtuma lisää, ja tila lasketaan uudelleen kaikesta kirjatusta."
+
+#: ../../deroulement.md:57
+msgid ""
+"Si le match corrigé était dans un tableau, les matchs suivants ont été "
+"joués par les mauvaises personnes. Le moteur le signale, puis **propose "
+"la réparation** : annuler la demi-finale, annuler la finale, puis "
+"relancer les bons matchs. Le directeur confirme, ou fait autrement. Rien "
+"n'est annulé d'office."
+msgstr "Jos korjattu ottelu oli kaaviossa, seuraavat ottelut pelasivat väärät ihmiset. Moottori ilmoittaa siitä ja **ehdottaa sitten korjausta**: peru välierä, peru finaali, ja käynnistä sitten oikeat ottelut. Johtaja vahvistaa tai toimii toisin. Mitään ei peruta itsestään."
+
+#: ../../deroulement.md:62
+msgid ""
+"Un tournoi déjà clos peut être **rouvert** : le classement final est "
+"effacé, la correction appliquée, et le classement recalculé à la clôture "
+"suivante."
+msgstr "Jo suljetun turnauksen voi **avata uudelleen**: lopputulokset pyyhitään, korjaus otetaan käyttöön ja tulokset lasketaan uudelleen seuraavassa sulkemisessa."
+
+#: ../../deroulement.md:65
+msgid "Le repas"
+msgstr "Ruokailu"
+
+#: ../../deroulement.md:67
+msgid ""
+"Les pauses programmées sont déclarées à l'avance. Un match dont la fin "
+"attendue tomberait pendant la pause est signalé — mais **il reste "
+"proposé**. Le directeur sait si ces deux-là mangeront après."
+msgstr "Suunnitellut tauot ilmoitetaan etukäteen. Ottelu, jonka odotettu päättymisaika osuisi tauolle, merkitään — mutta **se pysyy ehdotettuna**. Johtaja tietää, syövätkö nuo kaksi jälkeenpäin."
+
+#: ../../deroulement.md:71
+msgid "La fin"
+msgstr "Loppu"
+
+#: ../../deroulement.md:73
+msgid ""
+"Le classement se lit à tout moment, pas seulement à la fin. Il place les "
+"joueurs par ce qu'ils ont atteint : vainqueur, finaliste, éliminé à tel "
+"tour, éliminé avec tant de victoires. **Les ex æquo restent ex æquo** : "
+"aucun départage caché ne les sépare."
+msgstr "Tulosluettelon voi lukea milloin tahansa, ei vain lopuksi. Se sijoittaa pelaajat sen mukaan, mihin he pääsivät: voittaja, finalisti, pudonnut siinä kierroksessa, pudonnut niin monella voitolla. **Tasatulokset pysyvät tasatuloksina**: mikään piilotettu ratkaisu ei erota niitä."
+
+#: ../../deroulement.md:77
+msgid ""
+"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue"
+" d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et"
+" non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
+"prix est arrondi à l'unité et le reste va au premier, de sorte que la "
+"somme distribuée égale exactement le pool après retenue. Une consolante "
+"peut avoir ses propres prix, sur son propre classement."
+msgstr "Palkintorahat jaetaan tämän luettelon mukaan. Osallistumismaksu, järjestäjän pidätys, prosenttiosuudet — juliste ilmoittaa ”50/30/20 %” eikä summia, koska potti riippuu ilmoittautuneiden määrästä. Jokainen palkinto pyöristetään yksikköön ja jäännös menee ensimmäiselle, jolloin jaettu summa on täsmälleen potti pidätyksen jälkeen. Lohdutuskaaviolla voi olla omat palkintonsa omalla tulosluettelollaan."
+
+#: ../../deroulement.md:83
+msgid "Ce qui est affiché"
+msgstr "Mitä näytetään"
+
+#: ../../deroulement.md:85
+msgid ""
+"Le moteur produit des pages autonomes : un seul fichier, qui s'ouvre hors"
+" ligne depuis une clé USB sur l'ordinateur de la salle. L'écran mural "
+"montre les actions à faire, la grille des tables, les matchs en cours, "
+"les arbres et le classement. La feuille d'appariements s'imprime sur une "
+"page A4, avec une case vide par joueur pour écrire le score à la main."
+msgstr "Moottori tuottaa itsenäisiä sivuja: yksi tiedosto, joka avautuu ilman verkkoa USB-tikulta salin tietokoneella. Seinänäyttö esittää tehtävät toimet, pöytäruudukon, käynnissä olevat ottelut, kaaviot ja tulosluettelon. Otteluparilomake tulostuu yhdelle A4-sivulle, jokaisella pelaajalla tyhjä ruutu tuloksen kirjoittamiseen käsin."
+

@@ -578,6 +578,38 @@ puis tableau à exemptions avec des matchs plus longs.
 
 # Journal et événements
 
+## Le catalogue des codes
+
+Rien de ce qui sort du moteur n'est destiné à être affiché tel quel. Un logiciel hôte affiche un
+tournoi dans la langue de son utilisateur ; le moteur ne peut donc figer aucune langue, et surtout
+pas dans le journal, qui est conservé pour toujours.
+
+Cinq familles de codes, toutes dans `codes.go` :
+
+| Famille | Type | Où elle apparaît |
+|---|---|---|
+| Libellés | `Label{Kind, N, Losses, Match, Section, Text, Players, Spots, Sub}` | `Event.Label`, `Match.Label`, `Action.Label`, `GMatch.Label` |
+| Notes de classement | `Note{Kind, Wins, Losses, Lives, Section, Qualified, Sub}` | `Rank.Note` |
+| Avertissements | `Warning{Code, Match, Section, Label, A, B, ExpectedA, ExpectedB, Length, ScoreA, ScoreB}` | `State.Warnings`, `Action.Warn` (le code seul) |
+| Informations | `Info{Code, Player, Phase, Section, Label}` | `State.Infos` |
+| Raisons d'attente | `ReasonCode` | `Action.Reason` |
+
+`Label.Sub` compose un libellé dans un autre (« Bloc 2, groupe B : match décisif »). `Label.Text`
+est le **seul** champ texte admis, et il ne contient que ce que le TD a lui-même saisi — le nom
+d'une phase, la lettre d'une poule.
+
+Les valeurs des codes entrent dans le journal : les changer casse les journaux existants. C'est
+la raison d'être de `Event.Version`.
+
+Les **noms de section** (`Section.Name`, `Match.Section`, `Event.Section`) sont eux aussi des
+identifiants et non des libellés : `main`, `conso`, `last`, `gf`, `poule:A`, `barrage:A`, et les
+groupes GSL (`B1G2`). Ils voyagent dans le journal et dans la base de l'hôte.
+
+Un test du dépôt (`codes_test.go`) refuse toute chaîne accentuée ou contenant un espace qui
+sortirait du moteur — propositions, classement, avertissements, informations, journal — hors les
+champs que le TD a saisis (`text`, `name`, `club`). Un autre vérifie que chaque code a un rendu
+français dans `fr.go`, et qu'aucun ne retombe sur sa valeur brute.
+
 ## Structure d'un événement
 
 ```go
@@ -602,28 +634,32 @@ const (
 )
 
 type Event struct {
-    Seq     int       `json:"seq"`
-    Kind    EventKind `json:"kind"`
-    Time    time.Time `json:"time"`
-    Config  *Config   `json:"config,omitempty"`
-    Seed    int64     `json:"seed,omitempty"`
-    Player  *Player   `json:"player,omitempty"`
-    ID      PlayerID  `json:"player_id,omitempty"`
-    MatchID MatchID   `json:"match_id,omitempty"`
-    Phase   int       `json:"phase,omitempty"`
-    Section string    `json:"section,omitempty"`
-    Label   string    `json:"label,omitempty"`
-    Key     string    `json:"key,omitempty"`
-    A       PlayerID  `json:"a,omitempty"`
-    B       PlayerID  `json:"b,omitempty"`
-    Length  int       `json:"length,omitempty"`
-    Table   int       `json:"table,omitempty"`
-    Winner  PlayerID  `json:"winner,omitempty"`
-    ScoreA  int       `json:"score_a,omitempty"`
-    ScoreB  int       `json:"score_b,omitempty"`
-    Forfeit bool      `json:"forfeit,omitempty"`
-    Draw    *Draw     `json:"draw,omitempty"`
-    Text    string    `json:"text,omitempty"`
+    Seq          int       `json:"seq"`
+    Version      int       `json:"version,omitempty"` // format du journal ; 0 = avant les codes
+    Kind         EventKind `json:"kind"`
+    Time         time.Time `json:"time"`
+    Config       *Config   `json:"config,omitempty"`
+    Seed         int64     `json:"seed,omitempty"`
+    Player       *Player   `json:"player,omitempty"`
+    ID           PlayerID  `json:"player_id,omitempty"`
+    MatchID      MatchID   `json:"match_id,omitempty"`
+    Phase        int       `json:"phase,omitempty"`
+    Section      string    `json:"section,omitempty"`
+    Label        Label     `json:"label,omitempty"`   // un CODE, jamais une phrase
+    Round        int       `json:"round,omitempty"`
+    Key          string    `json:"key,omitempty"`
+    A            PlayerID  `json:"a,omitempty"`
+    B            PlayerID  `json:"b,omitempty"`
+    Length       int       `json:"length,omitempty"`
+    Table        int       `json:"table,omitempty"`
+    Winner       PlayerID  `json:"winner,omitempty"`
+    ScoreA       int       `json:"score_a,omitempty"`
+    ScoreB       int       `json:"score_b,omitempty"`
+    Forfeit      bool      `json:"forfeit,omitempty"`
+    AfterCurrent bool      `json:"after_current,omitempty"` // retrait différé
+    Draw         *Draw     `json:"draw,omitempty"`
+    Text         string    `json:"text,omitempty"`
+    Slot         string    `json:"slot,omitempty"` // retardataire : place d'exemption prise
 }
 
 type Journal []Event
@@ -632,6 +668,13 @@ type Journal []Event
 Un événement est une structure « plate » : tous les types partagent les mêmes champs, les champs
 inutiles restant vides. C'est un choix délibéré — il rend le journal lisible et évite la
 désérialisation polymorphe.
+
+`Version` est le format du journal (`JournalVersion`, actuellement 1). Un événement sans ce champ
+vient d'un journal antérieur aux codes structurés et est **converti à la lecture** (voir
+« Compatibilité ascendante » plus bas). Les constructeurs d'événements le posent : un `Event`
+écrit à la main sans version serait relu comme un journal ancien.
+
+`Label` est un **code**, pas une chaîne. Voir « Le catalogue des codes » ci-dessous.
 
 `Seq` est un numéro d'ordre facultatif renseigné par l'hôte (les binaires du dépôt écrivent
 `Seq = len(journal)` avant l'ajout). Le moteur **ne le lit pas** : l'ordre du tableau fait foi.

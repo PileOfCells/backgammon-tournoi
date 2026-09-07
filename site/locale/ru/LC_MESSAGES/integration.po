@@ -1,0 +1,119 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../integration.md:1
+msgid "Intégrer le moteur"
+msgstr "Встроить движок"
+
+#: ../../integration.md:3
+msgid ""
+"Cette page s'adresse à qui écrit le logiciel qui utilisera Nicomaque. "
+"Elle tient en une page ; la [spécification](specification.md) donne le "
+"détail."
+msgstr "Эта страница адресована тому, кто пишет программу, которая будет использовать Nicomaque. Она умещается на одну страницу; подробности даёт [спецификация](specification.md)."
+
+#: ../../integration.md:6
+msgid "Le principe"
+msgstr "Принцип"
+
+#: ../../integration.md:8
+msgid ""
+"Le moteur ne persiste rien et n'affiche rien. L'hôte conserve un "
+"**journal** — une liste ordonnée d'événements — et le moteur en "
+"reconstruit l'état à la demande."
+msgstr "Движок ничего не сохраняет и ничего не показывает. Хозяин хранит **журнал** — упорядоченный список событий, — а движок по запросу восстанавливает из него состояние."
+
+#: ../../integration.md:15
+msgid "Trois appels suffisent à comprendre la boucle :"
+msgstr "Трёх вызовов достаточно, чтобы понять цикл:"
+
+#: ../../integration.md:17
+msgid "`Replay(journal)` reconstruit l'état complet ;"
+msgstr "`Replay(journal)` восстанавливает полное состояние;"
+
+#: ../../integration.md:18
+msgid "`Propose()` — ou `ProposeAt(now)` — dit ce qu'il y a à faire maintenant ;"
+msgstr "`Propose()` — или `ProposeAt(now)` — говорит, что нужно делать сейчас;"
+
+#: ../../integration.md:19
+msgid "`Apply(événement)` applique la décision du directeur."
+msgstr "`Apply(событие)` применяет решение директора."
+
+#: ../../integration.md:21
+msgid "La boucle"
+msgstr "Цикл"
+
+#: ../../integration.md:51
+msgid "Le journal se sérialise en JSON. Une reprise après panne est un `Replay`."
+msgstr "Журнал сериализуется в JSON. Восстановление после сбоя — это `Replay`."
+
+#: ../../integration.md:53
+msgid "Les trois règles à ne pas oublier"
+msgstr "Три правила, о которых нельзя забывать"
+
+#: ../../integration.md:55
+msgid ""
+"**On ne modifie jamais le journal.** Une correction est un événement de "
+"plus (`CorrectionEvent`), un forfait aussi (`PlayerWithdrawnEvent`), une "
+"annulation aussi (`CancelEvent`). Rien n'est effacé, rien n'est réécrit."
+msgstr "**Журнал никогда не изменяется.** Исправление — это ещё одно событие (`CorrectionEvent`), снятие тоже (`PlayerWithdrawnEvent`), отмена тоже (`CancelEvent`). Ничто не стирается и не переписывается."
+
+#: ../../integration.md:59
+msgid ""
+"**Rien de ce qui sort du moteur n'est destiné à l'affichage.** Les "
+"libellés de match, les notes de classement, les avertissements et les "
+"raisons d'attente sont des **codes** structurés. C'est l'hôte qui les "
+"rend, dans la langue de son utilisateur. Un rendu français est fourni "
+"pour la console et les exemples, mais un hôte multilingue l'ignore."
+msgstr "**Ничто из того, что выходит из движка, не предназначено для показа.** Названия матчей, пометки в таблице, предупреждения и причины ожидания — это структурированные **коды**. Отображает их хозяин, на языке своего пользователя. Французское отображение поставляется для консоли и примеров, но многоязычный хозяин его игнорирует."
+
+#: ../../integration.md:64
+msgid ""
+"**Les tirages sont enregistrés, pas recalculés.** L'événement de tirage "
+"porte le placement obtenu. Rejouer un journal ne dépend donc jamais de "
+"l'algorithme d'appariement, et celui-ci peut évoluer sans casser un "
+"journal existant."
+msgstr "**Жеребьёвки записываются, а не пересчитываются.** Событие жеребьёвки несёт полученную расстановку. Поэтому воспроизведение журнала никогда не зависит от алгоритма составления пар, и этот алгоритм может меняться, не ломая существующий журнал."
+
+#: ../../integration.md:68
+msgid "L'affichage"
+msgstr "Отображение"
+
+#: ../../integration.md:70
+msgid ""
+"Le paquet `render` produit des pages autonomes — un seul fichier, feuille"
+" de style embarquée, aucune ressource externe, aucun script. Il prend un "
+"traducteur (`Labeler`) que l'hôte fournit : les codes du moteur et les "
+"mots du rendu lui-même passent tous par là."
+msgstr "Пакет `render` делает самодостаточные страницы — один файл, встроенная таблица стилей, никаких внешних ресурсов, никаких скриптов. Он принимает переводчика (`Labeler`), которого предоставляет хозяин: и коды движка, и слова самого отображения проходят через него."
+
+#: ../../integration.md:74
+msgid ""
+"Il produit l'écran de salle, les arbres de tableaux avec les descentes "
+"vers la consolante, la grille des tables, le tableau des vies, le "
+"classement, et la feuille d'appariements imprimable."
+msgstr "Он делает зальный экран, деревья сеток со спусками в утешительную, сетку столов, таблицу жизней, итоговую таблицу и печатный лист пар."
+
+#: ../../integration.md:77
+msgid "L'essayer sans rien écrire"
+msgstr "Попробовать, ничего не написав"
+

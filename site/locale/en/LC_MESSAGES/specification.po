@@ -1,0 +1,4298 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Nicolas Harmand
+# This file is distributed under the same license as the Nicomaque package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nicomaque \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 09:30+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../specification.md:14
+msgid "Objet du document"
+msgstr ""
+
+#: ../../specification.md:16
+msgid ""
+"Ce document spécifie **complètement** le moteur de tournoi de backgammon "
+"`tournoi`. Il est écrit pour être suffisant à lui seul : un développeur "
+"qui ne dispose que de ce texte doit pouvoir reconstruire une "
+"implémentation qui, à partir du même journal d'événements et de la même "
+"graine, produit **les mêmes propositions, les mêmes états et les mêmes "
+"classements** que l'implémentation de référence."
+msgstr ""
+
+#: ../../specification.md:22
+msgid "Sont spécifiés :"
+msgstr ""
+
+#: ../../specification.md:24
+msgid "le modèle de données complet (types, champs, sérialisation JSON) ;"
+msgstr ""
+
+#: ../../specification.md:25
+msgid "le journal d'événements et la sémantique exacte de chaque événement ;"
+msgstr ""
+
+#: ../../specification.md:26
+msgid "la reconstruction de l'état (`Replay`, recalcul après correction) ;"
+msgstr ""
+
+#: ../../specification.md:27
+msgid ""
+"l'algorithme de proposition d'actions, format par format, au niveau du "
+"détail nécessaire à la reproduction bit à bit (ordres de tri, usage du "
+"générateur aléatoire) ;"
+msgstr ""
+
+#: ../../specification.md:29
+msgid "les graphes de matchs et leur résolution ;"
+msgstr ""
+
+#: ../../specification.md:30
+msgid "le classement, les prix, les exports ;"
+msgstr ""
+
+#: ../../specification.md:31
+msgid "les paquets annexes (simulation, rendu, import de joueurs) ;"
+msgstr ""
+
+#: ../../specification.md:32
+msgid "les invariants vérifiés et le plan de tests."
+msgstr ""
+
+#: ../../specification.md:34
+msgid ""
+"Ne sont **pas** spécifiés : l'interface utilisateur du logiciel hôte, la "
+"persistance, le réseau, l'authentification. Le moteur est une "
+"bibliothèque passive, sans état global, sans entrées-sorties."
+msgstr ""
+
+#: ../../specification.md:37
+msgid "Conventions de rédaction"
+msgstr ""
+
+#: ../../specification.md:39
+msgid ""
+"Le langage de référence est **Go 1.22**, sans dépendance externe "
+"(bibliothèque standard seule)."
+msgstr ""
+
+#: ../../specification.md:40
+msgid ""
+"Le code, les commentaires, les libellés produits et cette spécification "
+"sont **en français** ; seuls les identifiants exportés (noms de types et "
+"de fonctions) sont en anglais."
+msgstr ""
+
+#: ../../specification.md:42
+msgid ""
+"Les noms de champs JSON sont donnés tels quels : ils font partie du "
+"contrat, puisque le journal est un document JSON persistant chez l'hôte."
+msgstr ""
+
+#: ../../specification.md:44
+msgid "« TD » désigne le directeur de tournoi."
+msgstr ""
+
+#: ../../specification.md:45
+msgid ""
+"Les extraits d'algorithme sont donnés en pseudo-code impératif ; quand "
+"l'ordre des opérations influence le résultat (tris, tirages), il est "
+"explicité."
+msgstr ""
+
+#: ../../specification.md:48
+msgid "Statut"
+msgstr ""
+
+#: ../../specification.md:50
+msgid ""
+"Le moteur est fonctionnel et validé par simulation ; il n'a jamais dirigé"
+" de tournoi réel. Les limites connues et le travail restant sont listés "
+"au chapitre « Limites connues et extensions prévues », qui reprend "
+"`docs/RESTE_A_FAIRE.md`."
+msgstr ""
+
+#: ../../specification.md:56
+msgid "Principes de conception"
+msgstr ""
+
+#: ../../specification.md:58
+msgid "Six principes gouvernent l'ensemble ; toute extension doit les respecter."
+msgstr ""
+
+#: ../../specification.md:60
+msgid "Journal d'événements, état dérivé"
+msgstr ""
+
+#: ../../specification.md:62
+msgid ""
+"La **seule** donnée persistante est le journal : une liste ordonnée "
+"d'événements (`Journal`, tableau JSON). Le moteur ne persiste rien lui-"
+"même ; c'est l'hôte qui stocke le journal."
+msgstr ""
+
+#: ../../specification.md:65
+msgid "L'état complet du tournoi est une **fonction pure du journal** :"
+msgstr ""
+
+#: ../../specification.md:71
+msgid "Conséquences :"
+msgstr ""
+
+#: ../../specification.md:73
+msgid "une reprise après panne est un simple `Replay` ;"
+msgstr ""
+
+#: ../../specification.md:74
+msgid ""
+"un journal peut être rejoué à n'importe quel préfixe pour obtenir l'état "
+"à un instant passé (c'est ainsi que sont produites les pages « par étape "
+"») ;"
+msgstr ""
+
+#: ../../specification.md:76
+msgid ""
+"deux exécutions du même journal donnent le même état, y compris les mêmes"
+" propositions."
+msgstr ""
+
+#: ../../specification.md:78
+msgid "On ne modifie jamais le journal"
+msgstr ""
+
+#: ../../specification.md:80
+msgid ""
+"Une erreur du TD ne se corrige jamais en réécrivant ou en supprimant un "
+"événement, mais en **ajoutant** un événement de correction :"
+msgstr ""
+
+#: ../../specification.md
+msgid "Erreur"
+msgstr ""
+
+#: ../../specification.md
+msgid "Événement correctif"
+msgstr ""
+
+#: ../../specification.md
+msgid "Mauvais vainqueur saisi"
+msgstr ""
+
+#: ../../specification.md
+msgid "`result_corrected`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Match lancé par erreur"
+msgstr ""
+
+#: ../../specification.md ../../specification.md:837
+msgid "`match_cancelled`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Joueur qui abandonne"
+msgstr ""
+
+#: ../../specification.md ../../specification.md:764
+msgid "`player_withdrawn`"
+msgstr ""
+
+#: ../../specification.md:89
+msgid ""
+"Ces trois événements déclenchent un **recalcul complet** de la "
+"comptabilité des phases à partir de la liste des matchs (`recompute`), "
+"suivi d'un contrôle de cohérence qui remplit `State.Warnings` (par "
+"exemple : « ce match de tableau a été joué par des joueurs que le tableau"
+" n'attendait pas »)."
+msgstr ""
+
+#: ../../specification.md:93
+msgid "Le moteur propose, le TD dispose"
+msgstr ""
+
+#: ../../specification.md:95
+msgid "Le moteur n'agit jamais de lui-même. Il expose :"
+msgstr ""
+
+#: ../../specification.md:103
+msgid ""
+"Chaque bouton de l'interface hôte produit **exactement un événement**. Le"
+" TD peut confirmer tout, partie, ou rien des actions proposées ; il peut "
+"aussi produire des événements que le moteur n'a pas proposés (forfait, "
+"correction, note)."
+msgstr ""
+
+#: ../../specification.md:107
+msgid "Déterminisme du tirage au sort"
+msgstr ""
+
+#: ../../specification.md:109
+msgid ""
+"`Propose` ne dépend que du journal. Le générateur pseudo-aléatoire "
+"utilisé pour une proposition est"
+msgstr ""
+
+#: ../../specification.md:115
+msgid ""
+"où `Seed` est la graine du tournoi, `NEvents` le nombre d'événements déjà"
+" appliqués et `Current` l'indice de la phase en cours. Deux appels "
+"successifs à `Propose` sans événement intermédiaire renvoient donc **la "
+"même proposition**."
+msgstr ""
+
+#: ../../specification.md:119
+msgid ""
+"De plus, tout tirage réellement décidé (placement dans un tableau, "
+"composition des groupes) est **matérialisé dans l'événement** `draw` sous"
+" la forme d'une structure `Draw`. Rejouer un journal ne fait donc jamais "
+"appel à l'algorithme de tirage : on peut réécrire `drawSlots` ou "
+"`pairGroup` sans casser les journaux existants."
+msgstr ""
+
+#: ../../specification.md:124
+msgid ""
+"Enfin : **toute itération sur une table de hachage (map) dont l'ordre "
+"influencerait une proposition doit passer par un tri stable** "
+"(`sortedIDs`, tri par identifiant croissant). C'est une condition de "
+"correction, pas un détail de style : l'ordre d'itération des maps Go est "
+"délibérément aléatoire."
+msgstr ""
+
+#: ../../specification.md:128
+msgid "Aucun départage"
+msgstr ""
+
+#: ../../specification.md:130
+msgid ""
+"C'est un choix de conception, justifié par l'étude des formats "
+"(`docs/etude_formats.md`) : les égalités ne sont **jamais** tranchées par"
+" un critère arithmétique (Buchholz, différence de points, départage au "
+"rating). Elles sont soit conservées comme **ex æquo** au classement, soit"
+" réglées par un **barrage** joué. Les formats retenus (vies, tableaux, "
+"poules) permettent toujours de conclure."
+msgstr ""
+
+#: ../../specification.md:135
+msgid ""
+"Corollaire : pas de têtes de série par défaut, pas de finale à handicap. "
+"Les têtes de série existent en **option** (`seeding: \"rating\"`, voir "
+"plus bas) pour les organisateurs qui en veulent ; elles sont éteintes "
+"tant qu'on ne les demande pas."
+msgstr ""
+
+#: ../../specification.md:139
+msgid "Les graphes de matchs sont des données"
+msgstr ""
+
+#: ../../specification.md:141
+msgid ""
+"Tableaux, groupes GSL, poules et consolantes sont tous décrits par la "
+"même structure : une `Section` contenant des `GMatch` dont chaque place "
+"est une `Src` — soit un joueur fixé, soit « le vainqueur du match *i* », "
+"soit « le perdant du match *j* de la section *S* ». Une fonction unique "
+"`resolve` propage les résultats jusqu'au point fixe."
+msgstr ""
+
+#: ../../specification.md:146
+msgid ""
+"Ajouter un format de tableau revient donc à écrire **un constructeur de "
+"section**, sans toucher au moteur."
+msgstr ""
+
+#: ../../specification.md:151
+msgid "Vocabulaire"
+msgstr ""
+
+#: ../../specification.md
+msgid "Terme"
+msgstr ""
+
+#: ../../specification.md
+msgid "Définition"
+msgstr ""
+
+#: ../../specification.md
+msgid "**Tournoi**"
+msgstr ""
+
+#: ../../specification.md
+msgid "Une configuration, une graine, un journal."
+msgstr ""
+
+#: ../../specification.md
+msgid "**Phase**"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Une étape du tournoi, d'un type donné (suisse, tableau, GSL, poules). Les"
+" phases s'enchaînent linéairement."
+msgstr ""
+
+#: ../../specification.md
+msgid "**Format**"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Le type d'une phase (`Kind`) : `swiss_lives`, `lives_bracket`, `gsl`, "
+"`bracket`, `round_robin`."
+msgstr ""
+
+#: ../../specification.md
+msgid "**Vie**"
+msgstr ""
+
+#: ../../specification.md
+msgid "Droit à une défaite. Un joueur à 0 vie restante est éliminé de la phase."
+msgstr ""
+
+#: ../../specification.md
+msgid "**Section**"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Un graphe de matchs nommé à l'intérieur d'une phase : `main`, `conso`, "
+"`last`, `gf`, un groupe GSL, une poule, un barrage."
+msgstr ""
+
+#: ../../specification.md
+msgid "**GMatch**"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Une case du graphe : deux places, une longueur, un résultat éventuel. Pas"
+" encore un match joué."
+msgstr ""
+
+#: ../../specification.md
+msgid "**Match**"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Un match réellement lancé : deux joueurs, une table, un horodatage. Relié"
+" à son `GMatch` par le couple (section, clé)."
+msgstr ""
+
+#: ../../specification.md
+msgid "**Bye / exemption**"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Place vide dans un tableau (`BYE`), ou tour sauté par un joueur en ronde "
+"synchrone."
+msgstr ""
+
+#: ../../specification.md
+msgid "**Walkover**"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Victoire acquise sans jouer : contre une exemption, ou contre un joueur "
+"retiré."
+msgstr ""
+
+#: ../../specification.md
+msgid "**Barrage**"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Mini-tournoi à 2 vies entre joueurs à égalité pour départager des places "
+"qualificatives."
+msgstr ""
+
+#: ../../specification.md
+msgid "**Action**"
+msgstr ""
+
+#: ../../specification.md
+msgid "Proposition du moteur au TD."
+msgstr ""
+
+#: ../../specification.md
+msgid "**Événement**"
+msgstr ""
+
+#: ../../specification.md
+msgid "Fait consigné au journal."
+msgstr ""
+
+#: ../../specification.md
+msgid "**PR**"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"*Performance Rating* du backgammon : plus bas = meilleur (2 = très fort, "
+"10 = débutant)."
+msgstr ""
+
+#: ../../specification.md:171
+msgid "Modèle de données"
+msgstr ""
+
+#: ../../specification.md:173
+msgid "Tous les types de ce chapitre appartiennent au paquet `tournoi`."
+msgstr ""
+
+#: ../../specification.md:175
+msgid "Identifiants et joueurs"
+msgstr ""
+
+#: ../../specification.md:189
+msgid ""
+"`BYE` est une valeur réservée : aucun joueur inscrit ne peut porter cet "
+"identifiant. Le moteur ne le vérifie pas ; c'est à l'hôte de l'interdire."
+msgstr ""
+
+#: ../../specification.md:192
+msgid ""
+"Le `Rating` n'est **jamais** utilisé par le moteur pour apparier ou "
+"classer. Il ne sert qu'à la simulation (`sim`) et à l'affichage. C'est "
+"une conséquence directe du principe « pas de têtes de série »."
+msgstr ""
+
+#: ../../specification.md:196
+msgid "Match"
+msgstr ""
+
+#: ../../specification.md:228
+msgid "Méthodes :"
+msgstr ""
+
+#: ../../specification.md:230
+msgid ""
+"`Loser() PlayerID` : renvoie `B` si `Winner == A`, sinon `A`. **N'est "
+"valide que pour un match terminé** ; sur un match non terminé elle "
+"renvoie `A` (puisque `Winner` est vide)."
+msgstr ""
+
+#: ../../specification.md:232
+msgid "`Has(p PlayerID) bool` : `A == p || B == p`."
+msgstr ""
+
+#: ../../specification.md:234
+msgid ""
+"Un match est relié à son emplacement dans un graphe par le couple "
+"**(`Section`, `Key`)**. Les deux champs sont vides pour un match libre "
+"(suisse continu, barrage, finale GSL)."
+msgstr ""
+
+#: ../../specification.md:237
+msgid "Rang"
+msgstr ""
+
+#: ../../specification.md:247
+msgid ""
+"Les notes sont aujourd'hui du français brut. Une implémentation qui vise "
+"l'internationalisation devrait leur substituer des codes ; le format des "
+"notes n'est pas contractuel."
+msgstr ""
+
+#: ../../specification.md ../../specification.md:250
+msgid "Action"
+msgstr ""
+
+#: ../../specification.md:283
+msgid "`Action.String()` produit une phrase française destinée au TD :"
+msgstr ""
+
+#: ../../specification.md
+msgid "Kind"
+msgstr ""
+
+#: ../../specification.md
+msgid "Phrase"
+msgstr ""
+
+#: ../../specification.md
+msgid "`start_match`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Lancer <Label> : <A> contre <B> en <Length> points, table <Table>`"
+msgstr ""
+
+#: ../../specification.md ../../specification.md:848
+msgid "`bye`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Bye pour <A> (<Label>)`"
+msgstr ""
+
+#: ../../specification.md ../../specification.md:859
+msgid "`draw`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Tirage : <Label>`"
+msgstr ""
+
+#: ../../specification.md ../../specification.md:876
+msgid "`next_phase`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Passer à la phase suivante : <Label>`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`cancel_match`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Annuler <Match> : <A> contre <B> (<Label>), devenu incohérent`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`finish`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Clore le tournoi`"
+msgstr ""
+
+#: ../../specification.md
+msgid "(autre)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Attendre : <Reason>`"
+msgstr ""
+
+#: ../../specification.md:295
+msgid "Tirage"
+msgstr ""
+
+#: ../../specification.md:305
+msgid ""
+"`Slots` a **toujours une longueur puissance de 2 ≥ 2** ; la paire *i* du "
+"premier tour est `(Slots[2i], Slots[2i+1])`."
+msgstr ""
+
+#: ../../specification.md:308
+msgid ""
+"`Lives` est purement informatif (affichage, audit) : il n'est pas relu au"
+" rejeu."
+msgstr ""
+
+#: ../../specification.md:310
+msgid ""
+"Le tirage étant **matérialisé** dans l'événement, l'algorithme qui le "
+"produit peut changer sans casser un journal existant. C'est ce qui a "
+"permis d'ajouter les têtes de série optionnelles (`seeding`) après coup :"
+" un journal écrit avant se rejoue place pour place."
+msgstr ""
+
+#: ../../specification.md:314
+msgid "État"
+msgstr ""
+
+#: ../../specification.md:337
+msgid ""
+"`Phases` ne contient que les phases **atteintes** : à la création, une "
+"seule (`Phases[0]`) ; une phase est ajoutée à chaque `next_phase`. "
+"`Config.Phases` contient la liste complète prévue."
+msgstr ""
+
+#: ../../specification.md:360
+msgid ""
+"Un `PhaseState` neuf est créé par `newPhaseState(i, cfg)` : toutes les "
+"maps initialisées vides, `Length = cfg.Length`, tout le reste à zéro."
+msgstr ""
+
+#: ../../specification.md:363
+msgid "Graphe de matchs"
+msgstr ""
+
+#: ../../specification.md:402
+msgid "Règles :"
+msgstr ""
+
+#: ../../specification.md:404
+msgid ""
+"une `Src` est **soit** `Player` non vide (place fixée), **soit** `From ≥ "
+"0` (place héritée) ; `From = -1` avec `Player` vide signifie « place "
+"définitivement vide », ce qui n'arrive pas dans les constructeurs actuels"
+" (les places vides sont représentées par `Player: BYE`) ;"
+msgstr ""
+
+#: ../../specification.md:407
+msgid "`Section` vide signifie « le match *From* de la section courante » ;"
+msgstr ""
+
+#: ../../specification.md:408
+msgid ""
+"une section est **acyclique** : un `GMatch` ne référence que des matchs "
+"d'indice inférieur dans sa propre section, ou des matchs d'une section "
+"construite avant elle."
+msgstr ""
+
+#: ../../specification.md:411
+msgid ""
+"**Match conditionnel** (`Cond`) : le match n'existe que si le vainqueur "
+"du match `CondFrom` (même section) est le joueur qui occupait la place "
+"`CondSide` de ce match. Sert exclusivement à la recharge de la double "
+"élimination : la grande finale de repêchage n'a lieu que si le vainqueur "
+"de la consolante (place 1) a gagné la première grande finale."
+msgstr ""
+
+#: ../../specification.md:416
+msgid "Sérialisation"
+msgstr ""
+
+#: ../../specification.md:418
+msgid ""
+"`Journal.Bytes() ([]byte, error)` : `json.MarshalIndent(j, \"\", \" \")` "
+"— un tableau JSON."
+msgstr ""
+
+#: ../../specification.md:419
+msgid "`ParseJournal([]byte) (Journal, error)`."
+msgstr ""
+
+#: ../../specification.md:420
+msgid ""
+"`ParseConfig([]byte) (*Config, error)` : désérialise puis **valide** "
+"(voir chapitre suivant)."
+msgstr ""
+
+#: ../../specification.md:422
+msgid ""
+"`State` est sérialisable en JSON (champs exportés) mais **n'est pas** un "
+"format d'échange : il est toujours reconstruit depuis le journal. Le "
+"champ privé `nextID` n'est pas sérialisé ; il est recalculé par le rejeu "
+"(incrémenté à chaque `match_started`)."
+msgstr ""
+
+#: ../../specification.md:428
+msgid "Configuration"
+msgstr ""
+
+#: ../../specification.md:430
+msgid "Structures"
+msgstr ""
+
+#: ../../specification.md:471
+msgid "Signification des champs de phase"
+msgstr ""
+
+#: ../../specification.md
+msgid "Champ"
+msgstr ""
+
+#: ../../specification.md
+msgid "Formats concernés"
+msgstr ""
+
+#: ../../specification.md
+msgid "Signification"
+msgstr ""
+
+#: ../../specification.md
+msgid "`kind`"
+msgstr ""
+
+#: ../../specification.md
+msgid "tous"
+msgstr ""
+
+#: ../../specification.md
+msgid "`swiss_lives`, `lives_bracket`, `gsl`, `bracket`, `round_robin`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`name`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Nom affiché ; rempli par défaut si vide"
+msgstr ""
+
+#: ../../specification.md
+msgid "`lives`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`swiss_lives`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Nombre de vies (défaut 2). Forcé à 2 pour `gsl`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`length`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Longueur des matchs en points (obligatoire, > 0)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`final_length`"
+msgstr ""
+
+#: ../../specification.md
+msgid "tableaux"
+msgstr ""
+
+#: ../../specification.md
+msgid "Longueur du dernier tour (0 = `length`)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`lengths`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Longueur tour par tour, **du dernier tour vers le premier** "
+"(`[15,13,11,9]` = finale 15, demies 13, quarts 11, reste 9). Plus précis "
+"que `final_length` et l'emporte sur lui ; une liste plus courte que le "
+"tableau retombe sur `length`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`length_late`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Longueur des matchs de fin de phase, quand il reste au plus "
+"`late_threshold` joueurs en vie. Sans effet sans seuil (refusé par "
+"`Validate`) ; un `length_changed` du TD l'emporte"
+msgstr ""
+
+#: ../../specification.md
+msgid "`late_threshold`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Nombre de joueurs en vie à partir duquel `length_late` s'applique"
+msgstr ""
+
+#: ../../specification.md
+msgid "`mode`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`continuous` (défaut) ou `rounds`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`batch_minutes`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`swiss_lives` continu"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Micro-rondes : les joueurs libres attendent l'échéance du prochain lot, "
+"puis tous ceux d'un même groupe de défaites sont appariés d'un coup. 0 = "
+"appariement au fil de l'eau. Refusé en mode `rounds` — une ronde EST un "
+"lot"
+msgstr ""
+
+#: ../../specification.md
+msgid "`pairing`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"`random` (défaut) ou `wins` (apparier d'abord les joueurs les plus "
+"victorieux du groupe)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`avoid_clubs`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Éviter les rencontres entre joueurs d'un même club quand c'est possible"
+msgstr ""
+
+#: ../../specification.md
+msgid "`allow_rematch`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Autoriser une seconde rencontre entre deux mêmes joueurs"
+msgstr ""
+
+#: ../../specification.md
+msgid "`target`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`swiss_lives`, `gsl`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Figer la phase quand Σ vies ≤ `target` (puissance de 2)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`consolation`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`bracket`, `lives_bracket`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Consolante progressive alimentée par les perdants du principal"
+msgstr ""
+
+#: ../../specification.md
+msgid "`last_chance`"
+msgstr ""
+
+#: ../../specification.md
+msgid "idem"
+msgstr ""
+
+#: ../../specification.md
+msgid "Dernière chance alimentée par les perdants de la consolante"
+msgstr ""
+
+#: ../../specification.md
+msgid "`reconciliation`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Le vainqueur de la consolante affronte celui du principal (grande finale)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`recharge`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Double élimination vraie : le vainqueur du principal doit être battu deux"
+" fois"
+msgstr ""
+
+#: ../../specification.md
+msgid "`group_size`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`round_robin`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Taille des poules (défaut 4)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`qualifiers`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Qualifiés par poule (défaut 2)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`entry`"
+msgstr ""
+
+#: ../../specification.md
+msgid "toutes sauf la première"
+msgstr ""
+
+#: ../../specification.md
+msgid "`survivors` (défaut), `all`, `top:N`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`seeding`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"`\"\"` (défaut) : tirage intégralement aléatoire. `\"rating\"` : "
+"placement classique par cote d'entrée (1 contre 16, 2 contre 15…). **Le "
+"défaut vide est un choix de conception**, pas un oubli : l'étude conclut "
+"« pas de têtes de série protégées », c'est la culture actuelle du "
+"backgammon. Refusé sur un format sans tirage de tableau"
+msgstr ""
+
+#: ../../specification.md:498
+msgid "Validation et valeurs par défaut"
+msgstr ""
+
+#: ../../specification.md:500
+msgid ""
+"`Config.Validate() error` **modifie la configuration en place** pour y "
+"écrire les défauts, et renvoie une erreur au premier problème. Elle est "
+"appelée par `New`, par `ParseConfig` et par `Apply(created)` : une "
+"configuration invalide ne peut donc pas entrer dans un journal."
+msgstr ""
+
+#: ../../specification.md:504
+msgid "Algorithme :"
+msgstr ""
+
+#: ../../specification.md:538
+msgid ""
+"Le test de puissance de deux est `Target & (Target-1) == 0` (vrai aussi "
+"pour 0, d'où la garde `Target != 0`)."
+msgstr ""
+
+#: ../../specification.md:541
+msgid "Noms par défaut :"
+msgstr ""
+
+#: ../../specification.md
+msgid "Nom"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Suisse <Lives> vies`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`lives_bracket`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Tableau final`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`gsl`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Blocs GSL`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`bracket` avec `reconciliation`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Double élimination`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`bracket` sinon"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Tableau`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Poules`"
+msgstr ""
+
+#: ../../specification.md:552
+msgid ""
+"**Note d'implémentation importante** : `Validate` étant idempotente et "
+"appliquée au rejeu, la configuration écrite dans l'événement `created` "
+"peut être partielle ; le rejeu produira la même configuration complétée. "
+"Une implémentation qui changerait les défauts changerait donc le sens des"
+" journaux anciens : les défauts font partie du contrat."
+msgstr ""
+
+#: ../../specification.md:557
+msgid "Configurations types"
+msgstr ""
+
+#: ../../specification.md:559
+msgid ""
+"Les deux binaires de démonstration partagent le même catalogue nommé (il "
+"doit rester cohérent entre eux) :"
+msgstr ""
+
+#: ../../specification.md
+msgid "Phases"
+msgstr ""
+
+#: ../../specification.md
+msgid "`suisse`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`swiss_lives` 7 points"
+msgstr ""
+
+#: ../../specification.md
+msgid "`suisse_rondes`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`swiss_lives` 7 points, `mode: rounds`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`suisse_tableau`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`swiss_lives` 7 pts `target: 16`, puis `lives_bracket` 9 pts, finale 11"
+msgstr ""
+
+#: ../../specification.md
+msgid "`gsl` 7 pts `target: 16`, puis `lives_bracket` 9 pts"
+msgstr ""
+
+#: ../../specification.md
+msgid "`elim`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`bracket` 9 pts, finale 11"
+msgstr ""
+
+#: ../../specification.md
+msgid "`conso`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`bracket` 9 pts, `consolation` + `last_chance`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`double`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`bracket` 7 pts, `consolation` + `reconciliation` + `recharge`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`poules`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`round_robin` 5 pts (poules de 4, 2 qualifiés), puis `bracket` 9 pts"
+msgstr ""
+
+#: ../../specification.md:573
+msgid ""
+"**Format recommandé par l'étude** : `suisse_tableau` — suisse 2 vies en "
+"continu, appariement aléatoire dans le groupe de même nombre de défaites,"
+" sans rematch, bascule à Σ vies = 16 ou 32, puis tableau à exemptions "
+"avec des matchs plus longs."
+msgstr ""
+
+#: ../../specification.md:579
+msgid "Journal et événements"
+msgstr ""
+
+#: ../../specification.md:581
+msgid "Le catalogue des codes"
+msgstr ""
+
+#: ../../specification.md:583
+msgid ""
+"Rien de ce qui sort du moteur n'est destiné à être affiché tel quel. Un "
+"logiciel hôte affiche un tournoi dans la langue de son utilisateur ; le "
+"moteur ne peut donc figer aucune langue, et surtout pas dans le journal, "
+"qui est conservé pour toujours."
+msgstr ""
+
+#: ../../specification.md:587
+msgid "Cinq familles de codes, toutes dans `codes.go` :"
+msgstr ""
+
+#: ../../specification.md
+msgid "Famille"
+msgstr ""
+
+#: ../../specification.md
+msgid "Type"
+msgstr ""
+
+#: ../../specification.md
+msgid "Où elle apparaît"
+msgstr ""
+
+#: ../../specification.md
+msgid "Libellés"
+msgstr ""
+
+#: ../../specification.md
+#, python-brace-format
+msgid "`Label{Kind, N, Losses, Match, Section, Text, Players, Spots, Sub}`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Event.Label`, `Match.Label`, `Action.Label`, `GMatch.Label`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Notes de classement"
+msgstr ""
+
+#: ../../specification.md
+#, python-brace-format
+msgid "`Note{Kind, Wins, Losses, Lives, Section, Qualified, Sub}`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Rank.Note`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Avertissements"
+msgstr ""
+
+#: ../../specification.md
+#, python-brace-format
+msgid ""
+"`Warning{Code, Match, Section, Label, A, B, ExpectedA, ExpectedB, Length,"
+" ScoreA, ScoreB}`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`State.Warnings`, `Action.Warn` (le code seul)"
+msgstr ""
+
+#: ../../specification.md
+msgid "Informations"
+msgstr ""
+
+#: ../../specification.md
+#, python-brace-format
+msgid "`Info{Code, Player, Phase, Section, Label}`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`State.Infos`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Raisons d'attente"
+msgstr ""
+
+#: ../../specification.md
+msgid "`ReasonCode`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Action.Reason`"
+msgstr ""
+
+#: ../../specification.md:597
+msgid ""
+"`Label.Sub` compose un libellé dans un autre (« Bloc 2, groupe B : match "
+"décisif »). `Label.Text` est le **seul** champ texte admis, et il ne "
+"contient que ce que le TD a lui-même saisi — le nom d'une phase, la "
+"lettre d'une poule."
+msgstr ""
+
+#: ../../specification.md:601
+msgid ""
+"Les valeurs des codes entrent dans le journal : les changer casse les "
+"journaux existants. C'est la raison d'être de `Event.Version`."
+msgstr ""
+
+#: ../../specification.md:604
+msgid ""
+"Les **noms de section** (`Section.Name`, `Match.Section`, "
+"`Event.Section`) sont eux aussi des identifiants et non des libellés : "
+"`main`, `conso`, `last`, `gf`, `poule:A`, `barrage:A`, et les groupes GSL"
+" (`B1G2`). Ils voyagent dans le journal et dans la base de l'hôte."
+msgstr ""
+
+#: ../../specification.md:608
+msgid ""
+"Un test du dépôt (`codes_test.go`) refuse toute chaîne accentuée ou "
+"contenant un espace qui sortirait du moteur — propositions, classement, "
+"avertissements, informations, journal — hors les champs que le TD a "
+"saisis (`text`, `name`, `club`). Un autre vérifie que chaque code a un "
+"rendu français dans `fr.go`, et qu'aucun ne retombe sur sa valeur brute."
+msgstr ""
+
+#: ../../specification.md:613
+msgid "Structure d'un événement"
+msgstr ""
+
+#: ../../specification.md:668
+msgid ""
+"Un événement est une structure « plate » : tous les types partagent les "
+"mêmes champs, les champs inutiles restant vides. C'est un choix délibéré "
+"— il rend le journal lisible et évite la désérialisation polymorphe."
+msgstr ""
+
+#: ../../specification.md:672
+msgid ""
+"`Version` est le format du journal (`JournalVersion`, actuellement 1). Un"
+" événement sans ce champ vient d'un journal antérieur aux codes "
+"structurés et est **converti à la lecture** (voir « Compatibilité "
+"ascendante » plus bas). Les constructeurs d'événements le posent : un "
+"`Event` écrit à la main sans version serait relu comme un journal ancien."
+msgstr ""
+
+#: ../../specification.md:677
+msgid ""
+"`Label` est un **code**, pas une chaîne. Voir « Le catalogue des codes » "
+"ci-dessous."
+msgstr ""
+
+#: ../../specification.md:679
+msgid ""
+"`Seq` est un numéro d'ordre facultatif renseigné par l'hôte (les binaires"
+" du dépôt écrivent `Seq = len(journal)` avant l'ajout). Le moteur **ne le"
+" lit pas** : l'ordre du tableau fait foi."
+msgstr ""
+
+#: ../../specification.md:682
+msgid "`Time` est l'horodatage. Le moteur ne l'utilise que pour :"
+msgstr ""
+
+#: ../../specification.md:684
+msgid "l'horodatage de début et de fin des matchs ;"
+msgstr ""
+
+#: ../../specification.md:685
+msgid "la mise à jour de `State.Last` (le maximum des horodatages vus)."
+msgstr ""
+
+#: ../../specification.md:687
+msgid "Il n'exige pas la monotonie et ne s'en sert jamais pour décider."
+msgstr ""
+
+#: ../../specification.md:689
+msgid "Champs utilisés par type"
+msgstr ""
+
+#: ../../specification.md
+msgid "Champs lus"
+msgstr ""
+
+#: ../../specification.md ../../specification.md:725
+msgid "`created`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Config` (obligatoire), `Seed`"
+msgstr ""
+
+#: ../../specification.md ../../specification.md:738
+msgid "`player_added`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Player` (obligatoire, `ID` non vide)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`ID`"
+msgstr ""
+
+#: ../../specification.md ../../specification.md:780
+msgid "`match_started`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`MatchID`, `Phase`, `Section`, `Label`, `Key`, `A`, `B`, `Length`, `Table`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`result`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`MatchID`, `Winner`, `ScoreA`, `ScoreB`, `Forfeit`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`MatchID`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Phase`, `ID`, `Label`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Phase`, `Section`, `Draw` (obligatoire)"
+msgstr ""
+
+#: ../../specification.md
+msgid "—"
+msgstr ""
+
+#: ../../specification.md ../../specification.md:887
+msgid "`length_changed`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Phase`, `Length`"
+msgstr ""
+
+#: ../../specification.md ../../specification.md:900
+msgid "`config_changed`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Config` (obligatoire, la configuration **entière**)"
+msgstr ""
+
+#: ../../specification.md ../../specification.md:930
+msgid "`reopened`"
+msgstr ""
+
+#: ../../specification.md ../../specification.md:941
+msgid "`finished`"
+msgstr ""
+
+#: ../../specification.md ../../specification.md:951
+msgid "`note`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Text`"
+msgstr ""
+
+#: ../../specification.md:709
+msgid "Sémantique de `Apply`"
+msgstr ""
+
+#: ../../specification.md:711
+msgid ""
+"`func (s *State) Apply(ev Event) error` applique un événement. **Première"
+" règle** : si `ev.Kind != EvCreated` et `s.Current < 0`, erreur « tournoi"
+" non créé ». Aucun événement ne peut précéder la création."
+msgstr ""
+
+#: ../../specification.md:715
+msgid ""
+"À la fin de tout traitement réussi, et pour **tous** les types y compris "
+"`note` :"
+msgstr ""
+
+#: ../../specification.md:722
+msgid ""
+"`NEvents` est donc le nombre d'événements appliqués avec succès ; il "
+"entre dans la graine du générateur, ce qui garantit qu'une nouvelle "
+"proposition suit toujours un tirage différent."
+msgstr ""
+
+#: ../../specification.md:735
+msgid ""
+"Un second `created` dans un journal écraserait la configuration ; le "
+"moteur ne l'interdit pas explicitement, mais l'hôte ne doit jamais le "
+"produire."
+msgstr ""
+
+#: ../../specification.md:753
+msgid "**Retardataires.** Trois chemins, et un seul interdit : refaire le tirage."
+msgstr ""
+
+#: ../../specification.md:755
+msgid ""
+"Le tirage n'a pas eu lieu (ou la phase est un suisse non figé) : le "
+"joueur entre tout de suite, avec toutes ses vies."
+msgstr ""
+
+#: ../../specification.md:757
+msgid ""
+"`ev.Slot` désigne une **place d'exemption libre** d'un tableau déjà tiré "
+"(`State.FreeSlots` les énumère, `PlayerAddedAtSlotEvent` construit "
+"l'événement) : il l'occupe là où elle est, avec une vie — il ne bénéficie"
+" pas de l'exemption qu'il prend. Une place dont le match a été lancé, ou "
+"dont le tour a commencé, ou qui n'existe pas, est **refusée** : `Apply` "
+"renvoie une erreur."
+msgstr ""
+
+#: ../../specification.md:761
+msgid ""
+"Sinon il est enregistré (`Players`, `Order`) sans entrer dans aucune "
+"phase, et `State.Infos` porte un code disant où il entrera (`enters_at`) "
+"ou que rien ne l'admet (`no_entry`)."
+msgstr ""
+
+#: ../../specification.md:776
+msgid ""
+"Le forfait est **général** : le joueur quitte le tournoi. Ses matchs de "
+"graphe non encore lancés seront perdus par walkover lors de la résolution"
+" (voir `resolve`). Il n'existe pas aujourd'hui de forfait limité à un "
+"match, ni de retrait différé « à partir de la ronde suivante »."
+msgstr ""
+
+#: ../../specification.md:782
+msgid "Validations, dans l'ordre :"
+msgstr ""
+
+#: ../../specification.md:792
+msgid ""
+"`busy(p)` : il existe un match de statut `Running` où `p` joue. **Un "
+"joueur ne peut jamais avoir deux matchs en cours.** C'est l'invariant "
+"central de l'ordonnancement."
+msgstr ""
+
+#: ../../specification.md:795
+msgid "Puis :"
+msgstr ""
+
+#: ../../specification.md:809
+#, python-format
+msgid ""
+"`parseRound(label)` lit le motif `\"Ronde %d\"` et renvoie 0 si le "
+"libellé ne correspond pas. C'est le seul mécanisme qui fait avancer le "
+"compteur de rondes du suisse synchrone."
+msgstr ""
+
+#: ../../specification.md:812
+msgid ""
+"`nextMatchID()` renvoie `\"M\" + (nextID+1)`. Comme `nextID` n'est "
+"incrémenté que par `match_started`, les identifiants sont consécutifs à "
+"partir de `M1`, sans trou, y compris après un rejeu partiel."
+msgstr ""
+
+#: ../../specification.md:816
+msgid "`result` et `result_corrected`"
+msgstr ""
+
+#: ../../specification.md:831
+msgid ""
+"Une correction sur un match **annulé** le ramène à l'état `Finished` : "
+"c'est le moyen de revenir sur une annulation."
+msgstr ""
+
+#: ../../specification.md:834
+msgid ""
+"Noter que `result_corrected` sur un match jamais terminé fonctionne aussi"
+" : il vaut alors saisie initiale suivie d'un recalcul complet (plus "
+"coûteux, mais correct)."
+msgstr ""
+
+#: ../../specification.md:845
+msgid ""
+"Le match reste dans `MatchOrder` et dans `Matches` : le journal ne perd "
+"rien. Il est simplement ignoré par tous les calculs (comptabilité, "
+"adversaires rencontrés, graphes)."
+msgstr ""
+
+#: ../../specification.md:856
+msgid ""
+"Un bye ne compte ni victoire ni défaite. Il est mémorisé pour éviter d'en"
+" donner deux au même joueur (voir `pairGroup`)."
+msgstr ""
+
+#: ../../specification.md:867
+msgid "`applyDraw` dispatche selon le format (voir les chapitres de format) :"
+msgstr ""
+
+#: ../../specification.md
+msgid "Traitement"
+msgstr ""
+
+#: ../../specification.md
+msgid "vérifie que `len(Slots)` est une puissance de 2 ≥ 2, puis `buildBracket`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`applyGSLDraw` : nouveau bloc de groupes"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"`applyRRDraw` : poules (`Section` vide) ou barrage (`Section = \"Barrage "
+"<poule>\"`)"
+msgstr ""
+
+#: ../../specification.md
+msgid "autre"
+msgstr ""
+
+#: ../../specification.md
+msgid "erreur « la phase n'a pas de tirage »"
+msgstr ""
+
+#: ../../specification.md:894
+msgid ""
+"Change la longueur des **matchs futurs** de la phase. Les matchs déjà "
+"lancés gardent leur longueur ; les `GMatch` déjà construits (tableau "
+"tiré) gardent la leur aussi, puisqu'elle a été figée à la construction du"
+" graphe. Le champ n'a donc d'effet immédiat que sur les formats à "
+"appariement dynamique (suisse, barrages) et sur les graphes construits "
+"**après** le changement (blocs GSL suivants)."
+msgstr ""
+
+#: ../../specification.md:909
+msgid ""
+"L'événement porte la configuration **entière**, et non le champ à changer"
+" : ce qui est écrit dans le journal est le résultat, pas l'instruction "
+"qui y mène — le même choix que pour `draw`. Un journal se relit alors "
+"sans connaître la règle de composition des retouches successives."
+msgstr ""
+
+#: ../../specification.md:913
+msgid "`acceptConfig` refuse deux choses, et seulement deux :"
+msgstr ""
+
+#: ../../specification.md:915
+msgid ""
+"une configuration qui a **moins de phases** que le tournoi n'en a "
+"ouvertes (une phase ouverte ne se retire pas) ;"
+msgstr ""
+
+#: ../../specification.md:917
+msgid ""
+"un changement de `Kind` sur une phase **terminée, tirée ou commencée**. "
+"Le refus nomme la phase et dit laquelle des trois raisons s'applique."
+msgstr ""
+
+#: ../../specification.md:920
+msgid ""
+"Tout le reste est accepté, y compris ce que le moteur ne peut pas juger :"
+" la bascule (`target`), les longueurs à venir, les tables, les pauses, la"
+" dotation, et une phase **ajoutée après** la phase courante."
+msgstr ""
+
+#: ../../specification.md:924
+msgid ""
+"`setConfig` répercute la nouvelle configuration sur les `PhaseState` déjà"
+" ouverts. La longueur courante d'une phase (`PhaseState.Length`) ne suit "
+"la configuration que si la configuration l'a **effectivement changée** : "
+"sinon, une retouche qui ne touche qu'à la bascule effacerait le "
+"`length_changed` que le TD venait de saisir à la main. Quand le `Kind` "
+"d'une phase non commencée change, les vies de ses entrants sont "
+"recalculées (`livesFor`)."
+msgstr ""
+
+#: ../../specification.md:937
+msgid ""
+"Rouvre un tournoi clos, parce qu'un résultat était faux. Le classement "
+"final figé est effacé et sera recalculé à la clôture suivante ; le "
+"journal, lui, garde tout — la clôture, la réouverture, la correction et "
+"la nouvelle clôture sont quatre événements."
+msgstr ""
+
+#: ../../specification.md:948
+msgid ""
+"Le classement est **figé** dans `Final`. `StandingsCSV` et les fonctions "
+"de rendu utilisent `Final` s'il existe, sinon recalculent `Ranking()`."
+msgstr ""
+
+#: ../../specification.md:953
+msgid ""
+"Sans effet, sinon l'incrément de `NEvents` (ce qui décale le générateur "
+"aléatoire — une note change donc le prochain tirage : c'est sans "
+"conséquence sur la validité, mais à savoir)."
+msgstr ""
+
+#: ../../specification.md:956
+msgid "Construction d'événements"
+msgstr ""
+
+#: ../../specification.md:979
+#, python-brace-format
+msgid ""
+"`EventFromAction` traduit une action confirmée en événement. Base commune"
+" : `Event{Time: now, Phase: a.Phase, Section: a.Section, Label: a.Label, "
+"Key: a.Key}`, puis :"
+msgstr ""
+
+#: ../../specification.md
+msgid "Événement produit"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"`match_started` avec `MatchID = s.nextMatchID()`, `A`, `B`, `Length`, "
+"`Table`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`bye` avec `ID = a.A`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`draw` avec `Draw = a.Draw`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`match_cancelled` avec `MatchID = a.Match`"
+msgstr ""
+
+#: ../../specification.md
+msgid "autre (`wait`)"
+msgstr ""
+
+#: ../../specification.md
+msgid "erreur « action sans événement associé »"
+msgstr ""
+
+#: ../../specification.md:992
+msgid ""
+"**Attention** : l'identifiant de match est attribué au moment de l'appel."
+" Si le TD confirme plusieurs actions `start_match` d'un même lot, il doit"
+" appeler `EventFromAction` puis `Apply` **pour chacune, dans l'ordre**, "
+"sans quoi deux matchs recevraient le même identifiant et le second "
+"`Apply` échouerait."
+msgstr ""
+
+#: ../../specification.md:997
+#, python-brace-format
+msgid ""
+"`ResultEvent` construit simplement `{Kind: result, MatchID, Winner, "
+"ScoreA, ScoreB, Time}`. Pour une correction, l'hôte réutilise la même "
+"structure en changeant `Kind` en `result_corrected`."
+msgstr ""
+
+#: ../../specification.md:1000
+msgid "Boucle d'intégration côté hôte"
+msgstr ""
+
+#: ../../specification.md:1025
+msgid ""
+"`func (s *State) Step(evs ...Event) ([]Action, error)` applique une suite"
+" d'événements puis renvoie `Propose()` ; c'est un raccourci, pas une "
+"primitive."
+msgstr ""
+
+#: ../../specification.md:1028
+msgid ""
+"**Règle d'or de l'hôte** : un événement n'est ajouté au journal **que si "
+"`Apply` a réussi**. Un `Apply` en échec laisse l'état inchangé pour les "
+"validations en tête de traitement ; pour les traitements qui modifient "
+"l'état avant de pouvoir échouer, l'hôte doit repartir d'un `Replay`."
+msgstr ""
+
+#: ../../specification.md:1034
+msgid "Reconstruction de l'état"
+msgstr ""
+
+#: ../../specification.md:1036
+msgid "`Replay` et `New`"
+msgstr ""
+
+#: ../../specification.md:1043
+msgid "`Replay` part d'un état neuf :"
+msgstr ""
+
+#: ../../specification.md:1049
+msgid ""
+"puis applique les événements dans l'ordre. À la première erreur, elle "
+"renvoie l'état partiel **et** une erreur enrichie : `événement <i> "
+"(<kind>) : <erreur>`."
+msgstr ""
+
+#: ../../specification.md:1052
+msgid ""
+"`New` valide la configuration, construit l'événement `created` et "
+"l'applique ; elle renvoie l'état, l'événement (que l'hôte doit ajouter en"
+" tête de journal) et l'erreur éventuelle."
+msgstr ""
+
+#: ../../specification.md:1055
+msgid "Entrée dans une phase"
+msgstr ""
+
+#: ../../specification.md:1061
+msgid ""
+"Ajoute `p` à `ph.Entrants` (sans doublon) et fixe `ph.Lives[p] = lives`. "
+"Si `p` est déjà entrant, **rien n'est modifié** — y compris ses vies."
+msgstr ""
+
+#: ../../specification.md
+msgid "Vies à l'entrée"
+msgstr ""
+
+#: ../../specification.md
+msgid "`cfg.Lives`"
+msgstr ""
+
+#: ../../specification.md
+msgid "2"
+msgstr ""
+
+#: ../../specification.md
+msgid "tout autre"
+msgstr ""
+
+#: ../../specification.md
+msgid "1"
+msgstr ""
+
+#: ../../specification.md:1074
+msgid "Passage d'une phase à la suivante"
+msgstr ""
+
+#: ../../specification.md:1099
+msgid ""
+"C'est ici que se joue la **bascule à vies** : un joueur qui sort d'un "
+"suisse à 2 vies avec ses deux vies intactes entre dans un `lives_bracket`"
+" avec 2 vies, ce qui lui vaudra une **exemption du premier tour**. Un "
+"joueur qui n'a plus qu'une vie entre au premier tour."
+msgstr ""
+
+#: ../../specification.md:1103
+#, python-format
+msgid ""
+"`top:N` est lu par `Sscanf(\"%d\")` ; un suffixe illisible donne `N = 0`,"
+" donc une phase vide. Le préfixe est reconnu par `len(Entry) > 4 && "
+"Entry[:4] == \"top:\"`."
+msgstr ""
+
+#: ../../specification.md:1106
+msgid "Vies restantes, joueurs en vie, survivants"
+msgstr ""
+
+#: ../../specification.md:1120
+msgid "Les entrants (dans l'ordre de `Entrants`) dont `remainingLives > 0`."
+msgstr ""
+
+#: ../../specification.md
+msgid "Kind de la phase quittée"
+msgstr ""
+
+#: ../../specification.md
+msgid "Survivants"
+msgstr ""
+
+#: ../../specification.md
+msgid "`rrQualified(ph)` — les qualifiés des poules, barrages inclus"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"`bracketSurvivors(ph)` — le vainqueur si le tableau est fini, sinon les "
+"joueurs « en cours »"
+msgstr ""
+
+#: ../../specification.md
+msgid "autres (`swiss_lives`, `gsl`)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`alive(ph)`"
+msgstr ""
+
+#: ../../specification.md:1132
+msgid "Comptabilité d'un résultat"
+msgstr ""
+
+#: ../../specification.md:1150
+msgid ""
+"La garde `ph.Lives[loser] > 0` évite d'enregistrer comme « éliminé » un "
+"joueur qui n'était pas entrant de la phase (cas pathologique après "
+"correction)."
+msgstr ""
+
+#: ../../specification.md:1153
+msgid ""
+"`ElimOrder` sert au classement des phases à vies : le **dernier éliminé**"
+" quand il ne reste qu'un joueur en vie est le finaliste."
+msgstr ""
+
+#: ../../specification.md:1156
+msgid "Recalcul complet"
+msgstr ""
+
+#: ../../specification.md:1162
+msgid "Déclenché par `player_withdrawn`, `result_corrected` et `match_cancelled`."
+msgstr ""
+
+#: ../../specification.md:1183
+msgid ""
+"Ce qui **n'est pas** réinitialisé : `Byes` (un bye reste acquis), "
+"`Entrants`, `Lives`, `Round`, `Drawn`, `Sections` (structure) et "
+"`GMatch.MatchID`."
+msgstr ""
+
+#: ../../specification.md:1186
+msgid ""
+"Les **places dérivées** (`GMatch.Players[k]` dont la source est un autre "
+"match) repartent vides à l'étape 1 et sont refaites par `resolve`. Sans "
+"cela, un match qui cesse d'être joué — correction, annulation, ou place "
+"d'exemption prise par un retardataire — laissait derrière lui le joueur "
+"qu'il avait fait avancer, et `resolve` ne le remplaçait jamais. Les "
+"places **fixes** (`Src[k].Player`, un joueur ou un `BYE`) sont restaurées"
+" telles quelles."
+msgstr ""
+
+#: ../../specification.md:1192
+msgid "Contrôle de cohérence"
+msgstr ""
+
+#: ../../specification.md:1198
+#, python-brace-format
+msgid ""
+"Pour chaque match non annulé rattaché à un `GMatch` dont les deux places "
+"sont connues : si l'ensemble `{m.A, m.B}` diffère de `{g.Players[0], "
+"g.Players[1]}`, produire l'avertissement"
+msgstr ""
+
+#: ../../specification.md:1205
+msgid ""
+"Et pour chaque match terminé dont le score dépasse la longueur annoncée, "
+"l'avertissement `score_over_length`. Le score est **enregistré** malgré "
+"tout : pendant un tournoi, c'est la parole du TD qui fait foi ; le moteur"
+" le signale, il ne le refuse pas."
+msgstr ""
+
+#: ../../specification.md:1209
+msgid ""
+"`check` est rappelée après **tout événement qui touche un match** : "
+"`result` et `match_started` directement, les autres (`result_corrected`, "
+"`match_cancelled`, `player_withdrawn`, `config_changed`) par `recompute`,"
+" qui la termine. Un avertissement qui n'apparaîtrait qu'après une "
+"correction sans rapport ne servirait à rien : le TD doit le voir au "
+"moment où il peut encore agir. `length_changed` ne touche que les matchs "
+"FUTURS d'une phase et ne change donc rien à ce que `check` regarde."
+msgstr ""
+
+#: ../../specification.md:1216
+msgid ""
+"Elle parcourt les **graphes** et non les matchs — chaque place connaît "
+"son match par `MatchID` — parce que chercher, pour chaque match, sa place"
+" dans toutes les sections était quadratique : le coût était supportable "
+"une fois par correction, il ne l'est plus à chaque résultat. L'ordre des "
+"avertissements reste celui de `MatchOrder`, qui est celui que le TD lit."
+msgstr ""
+
+#: ../../specification.md:1221
+msgid ""
+"`State.Warnings` **doit être vide** dans un tournoi mené normalement ; "
+"c'est un invariant vérifié par les tests. Sa non-vacuité signale au TD "
+"qu'une correction a désynchronisé un tableau, ou qu'un score est "
+"incohérent."
+msgstr ""
+
+#: ../../specification.md:1227
+msgid "Moteur de propositions"
+msgstr ""
+
+#: ../../specification.md:1229
+msgid "Réparation d'un graphe désaccordé"
+msgstr ""
+
+#: ../../specification.md:1231
+msgid ""
+"Corriger un résultat de tableau après coup recalcule l'état et lève "
+"l'avertissement `bracket_wrong_players`, mais le directeur se retrouvait "
+"devant un arbre faux, avec les matchs suivants déjà joués par les "
+"mauvaises personnes, et rien pour l'aider."
+msgstr ""
+
+#: ../../specification.md:1235
+msgid ""
+"`Propose` émet désormais la réparation comme des propositions ORDINAIRES,"
+" en tête de liste :"
+msgstr ""
+
+#: ../../specification.md:1243
+msgid ""
+"Un demi-finaliste faux fait une finale fausse, même si la finale oppose "
+"bien les deux joueurs que le graphe attendait : elle les attendait pour "
+"de mauvaises raisons. D'où l'annulation **en série**. Les annulations "
+"sont proposées du plus profond au moins profond — on défait le plus "
+"récent d'abord, comme sur le papier."
+msgstr ""
+
+#: ../../specification.md:1248
+msgid ""
+"Les relances correctes ne sont pas fabriquées : une fois les annulations "
+"confirmées, les places redeviennent libres et sont proposées comme "
+"n'importe quel match prêt, à l'appel suivant. Tant que le TD n'a rien "
+"confirmé, il n'y a rien à relancer."
+msgstr ""
+
+#: ../../specification.md:1252
+msgid ""
+"**Rien n'est appliqué d'office.** Ne rien confirmer laisse l'état tel "
+"quel, avertissement compris : un directeur peut préférer laisser le "
+"tableau tel qu'il a été joué et le noter à la main."
+msgstr ""
+
+#: ../../specification.md:1256
+msgid ""
+"Corollaire dans `recompute` : `GMatch.MatchID` repart **vide** au "
+"recalcul, et n'est reposé que pour les matchs non annulés. Sans cela, une"
+" place dont le match vient d'être annulé gardait son identifiant, `ready`"
+" l'écartait, et le tableau restait bloqué à l'endroit même qu'on voulait "
+"rejouer."
+msgstr ""
+
+#: ../../specification.md:1261
+msgid "Micro-rondes et pauses"
+msgstr ""
+
+#: ../../specification.md:1263
+msgid ""
+"Le moteur n'a pas d'horloge. Le temps entre par `ProposeAt(now)` — l'hôte"
+" donne la sienne — ou, à défaut, par l'horodatage du dernier événement du"
+" journal (`Propose()` = `ProposeAt(s.Last)`). Seul ce qui dépend du temps"
+" change avec `now` : les micro-rondes et les pauses. Le reste — "
+"appariements, tirages, passage de phase — ne dépend que du journal, et le"
+" rejeu n'est donc pas affecté : ce qui est rejoué, ce sont les "
+"événements, pas les propositions."
+msgstr ""
+
+#: ../../specification.md:1269
+msgid "Micro-rondes (`batch_minutes`)"
+msgstr ""
+
+#: ../../specification.md:1271
+msgid ""
+"L'appariement au fil de l'eau rend le suisse continu manipulable par "
+"l'heure d'annonce d'un résultat : celui qui finit à 14 h 03 choisit son "
+"adversaire en annonçant à 14 h 04 ou à 14 h 20."
+msgstr ""
+
+#: ../../specification.md:1282
+msgid ""
+"L'horodatage du dernier lot **n'est stocké nulle part** : c'est le départ"
+" du dernier match lancé dans la phase, un lot étant exactement cela — un "
+"paquet de matchs lancés ensemble. Le déduire évite un champ d'état de "
+"plus à tenir juste après une correction ou une annulation."
+msgstr ""
+
+#: ../../specification.md:1286
+msgid ""
+"`Action.Until` porte l'échéance pour que l'hôte affiche un compte à "
+"rebours."
+msgstr ""
+
+#: ../../specification.md:1288
+msgid "Pauses (`Config.Breaks`)"
+msgstr ""
+
+#: ../../specification.md:1296
+msgid ""
+"**Rien n'est bloqué.** Le directeur sait des choses que le moteur ignore "
+"— que ces deux-là mangeront après, que la pause est indicative, que la "
+"salle ferme de toute façon. On le lui dit, il décide ; c'est la règle de "
+"tous les avertissements du moteur."
+msgstr ""
+
+#: ../../specification.md:1300
+msgid ""
+"L'avertissement tombe dès que le match **rencontre** la pause, et pas "
+"seulement s'il s'y termine : un match lancé à midi moins dix et attendu "
+"pour 13 h 30 fait manquer le repas tout autant."
+msgstr ""
+
+#: ../../specification.md:1303
+msgid "`Propose`"
+msgstr ""
+
+#: ../../specification.md:1310
+msgid ""
+"C'est le point d'entrée principal du moteur. Il est **pur** : il ne "
+"modifie pas l'état (à l'exception de l'écriture des numéros de table dans"
+" les actions renvoyées) et ne dépend que du journal déjà appliqué."
+msgstr ""
+
+#: ../../specification.md:1336
+msgid ""
+"L'ordre du repli est important : **attendre la fin des matchs en cours a "
+"priorité sur la clôture de la phase**. Le cas `Wait / aucun appariement "
+"possible` ne devrait pas se produire dans un tournoi sain ; il signale "
+"une impasse (par exemple deux joueurs libres qui se sont déjà rencontrés "
+"et `allow_rematch` désactivé — situation que les replis de `proposeSwiss`"
+" évitent)."
+msgstr ""
+
+#: ../../specification.md:1341
+msgid "Fin de phase"
+msgstr ""
+
+#: ../../specification.md
+msgid "Condition"
+msgstr ""
+
+#: ../../specification.md
+msgid "`swissDone(ph)`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`gslDone(ph)`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`ph.Drawn && ph.allDone() && rrBarragesDone(ph)`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`ph.Drawn && ph.allDone()`"
+msgstr ""
+
+#: ../../specification.md:1354
+msgid ""
+"`ph.allDone()` : tous les `GMatch` de toutes les sections sont `Done` (un"
+" match sauté compte comme fait). Une phase de tableau non encore tirée "
+"n'est jamais « faite »."
+msgstr ""
+
+#: ../../specification.md:1357
+msgid "Matchs en cours"
+msgstr ""
+
+#: ../../specification.md:1365
+msgid "Attribution des tables"
+msgstr ""
+
+#: ../../specification.md:1382
+msgid ""
+"La table proposée est donc toujours **la plus petite libre**. Les actions"
+" au-delà du nombre de tables gardent `Table = 0` : le TD voit qu'il n'a "
+"pas de table disponible, mais l'action reste confirmable (le moteur ne "
+"bloque pas). Il n'existe pas aujourd'hui de notion de table indisponible,"
+" réservée, ni d'événement de changement de table."
+msgstr ""
+
+#: ../../specification.md:1387
+msgid "Générateur pseudo-aléatoire"
+msgstr ""
+
+#: ../../specification.md:1396
+msgid ""
+"Le générateur est **recréé à chaque appel** et dépend uniquement de la "
+"graine, du nombre d'événements et de la phase. Toute implémentation "
+"visant la compatibilité binaire avec la référence doit reproduire le "
+"générateur `math/rand` de Go (source *Additive Lagged Fibonacci* de la "
+"bibliothèque standard) et sa méthode `Shuffle`. **Une implémentation dans"
+" un autre langage ne pourra pas reproduire les propositions à "
+"l'identique** ; elle reproduira en revanche exactement les états et les "
+"classements à partir d'un journal donné, puisque les tirages y sont "
+"matérialisés. C'est la propriété qui compte."
+msgstr ""
+
+#: ../../specification.md:1404
+msgid "Utilitaires d'ordre"
+msgstr ""
+
+#: ../../specification.md:1410
+msgid ""
+"Renvoie une **copie** triée par ordre croissant de l'identifiant "
+"(comparaison de chaînes). C'est le préalable obligatoire à tout mélange "
+"aléatoire ou tri partiel : sans lui, l'ordre d'entrée dépendrait de "
+"l'itération d'une map, et les propositions ne seraient plus "
+"déterministes."
+msgstr ""
+
+#: ../../specification.md:1416
+msgid "Graphes de matchs"
+msgstr ""
+
+#: ../../specification.md:1418
+msgid "Ce chapitre spécifie `graph.go`, commun à tous les formats à graphe."
+msgstr ""
+
+#: ../../specification.md:1420
+msgid "Accès"
+msgstr ""
+
+#: ../../specification.md:1427
+msgid "Résolution"
+msgstr ""
+
+#: ../../specification.md:1433
+msgid ""
+"Fonction centrale : elle propage les résultats dans tous les graphes de "
+"la phase **jusqu'au point fixe**. Elle est idempotente et peut être "
+"appelée aussi souvent qu'on veut."
+msgstr ""
+
+#: ../../specification.md:1473
+msgid "Points d'attention :"
+msgstr ""
+
+#: ../../specification.md:1475
+msgid "l'ordre `(a) (b) (c) (d)` est significatif ;"
+msgstr ""
+
+#: ../../specification.md:1476
+msgid ""
+"`(c)` ne s'applique **pas** si le match a déjà été lancé (`MatchID != "
+"\"\"`) : un match commencé se conclut par un résultat de forfait, pas par"
+" un walkover de graphe ;"
+msgstr ""
+
+#: ../../specification.md:1478
+msgid ""
+"si les deux joueurs sont retirés, l'ordre du tableau tranche "
+"(`Players[0]` gagne) ; le vainqueur fictif sera lui-même éliminé par "
+"walkover au tour suivant ;"
+msgstr ""
+
+#: ../../specification.md:1480
+msgid ""
+"la propagation d'un `BYE` gagnant fait remonter `BYE` comme vainqueur "
+"d'une paire entièrement vide, ce qui vide toute une branche du tableau — "
+"comportement voulu."
+msgstr ""
+
+#: ../../specification.md:1483
+msgid "Sélection des matchs lançables"
+msgstr ""
+
+#: ../../specification.md:1488
+msgid ""
+"Tous les `GMatch`, dans l'ordre des sections puis des matchs, tels que : "
+"non `Done`, sans `MatchID`, deux places connues, aucune place à `BYE`."
+msgstr ""
+
+#: ../../specification.md:1494
+msgid ""
+"Filtre `ready()` : on écarte tout match dont un joueur est déjà occupé "
+"(`busy`) **ou déjà retenu par un match précédent du même lot**. Le "
+"résultat est donc un lot de matchs simultanément lançables, sans conflit "
+"de joueur."
+msgstr ""
+
+#: ../../specification.md:1501
+msgid "Tous les `GMatch` de toutes les sections sont `Done`."
+msgstr ""
+
+#: ../../specification.md:1503
+msgid "Constructeurs de sections"
+msgstr ""
+
+#: ../../specification.md:1505
+msgid ""
+"Un constructeur ne fait que **poser des `Src`** ; il ne consulte jamais "
+"l'état. Ajouter un format de tableau se réduit à écrire un constructeur."
+msgstr ""
+
+#: ../../specification.md:1508
+msgid "Tableau à élimination simple"
+msgstr ""
+
+#: ../../specification.md:1514
+msgid ""
+"La longueur des matchs vient d'un **plan** qui superpose trois sources, "
+"de la plus précise à la plus générale — la liste par tour, la longueur de"
+" finale, la longueur par défaut :"
+msgstr ""
+
+#: ../../specification.md:1531
+msgid ""
+"`plain(l)` est le plan d'une longueur unique (mini-tableaux, dernière "
+"chance) ; `bracketLengths(ph)` celui d'un tableau de la phase."
+msgstr ""
+
+#: ../../specification.md:1534
+msgid "`slots` a une longueur `size` puissance de 2. `rounds = log2(size)`."
+msgstr ""
+
+#: ../../specification.md:1552
+msgid "Libellés de tour :"
+msgstr ""
+
+#: ../../specification.md
+msgid "`rounds - r`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Libellé"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Finale`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Demi-finale`"
+msgstr ""
+
+#: ../../specification.md
+msgid "3"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Quart de finale`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Tour <r+1>`"
+msgstr ""
+
+#: ../../specification.md:1565
+msgid ""
+"Le dernier match de la section (`Matches[len-1]`) est toujours la finale "
+": c'est lui qui désigne le vainqueur de la section."
+msgstr ""
+
+#: ../../specification.md:1568
+msgid "Consolante progressive"
+msgstr ""
+
+#: ../../specification.md:1574
+msgid ""
+"La consolante recueille les perdants du tableau principal au fur et à "
+"mesure. Sa structure alterne un **tour de fusion** (survivants de la "
+"consolante contre les nouveaux perdants du principal) et un **tour "
+"interne** (survivants entre eux)."
+msgstr ""
+
+#: ../../specification.md:1604
+msgid ""
+"L'**ordre inversé** des drops (`drops[len-1-i]`) sert à éviter qu'un "
+"joueur retombant du principal ne retrouve immédiatement l'adversaire qui "
+"vient de le battre, ou un joueur de la même moitié de tableau. Il ne "
+"garantit rien au-delà du tour immédiat ; c'est un point ouvert (mesurer "
+"la fréquence des rematchs par simulation, permuter les drops si "
+"nécessaire — le tirage étant enregistré, l'algorithme peut évoluer sans "
+"casser les journaux)."
+msgstr ""
+
+#: ../../specification.md:1610
+msgid "Tableau construit sur des sources (dernière chance)"
+msgstr ""
+
+#: ../../specification.md:1626
+msgid ""
+"Remplir toutes les places 0 avant les places 1 **répartit les entrants** "
+": avec 5 sources sur 8 places, on obtient trois joueurs exemptés plutôt "
+"qu'un déséquilibre."
+msgstr ""
+
+#: ../../specification.md:1629
+msgid "Groupe GSL"
+msgstr ""
+
+#: ../../specification.md:1635
+msgid ""
+"Le format GSL (groupe de 4 à double élimination, 5 matchs) donne deux "
+"qualifiés : le vainqueur du match des gagnants (0 défaite) et le "
+"vainqueur du match décisif (1 défaite)."
+msgstr ""
+
+#: ../../specification.md:1638
+msgid "Groupe de **4** joueurs `a, b, c, d` — clés `<name>.0` à `<name>.4` :"
+msgstr ""
+
+#: ../../specification.md
+msgid "#"
+msgstr ""
+
+#: ../../specification.md
+msgid "Places"
+msgstr ""
+
+#: ../../specification.md
+msgid "0"
+msgstr ""
+
+#: ../../specification.md
+msgid "Ouverture"
+msgstr ""
+
+#: ../../specification.md
+msgid "`a` — `b`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`c` — `d`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Match des gagnants"
+msgstr ""
+
+#: ../../specification.md
+msgid "vainqueur 0 — vainqueur 1"
+msgstr ""
+
+#: ../../specification.md
+msgid "Match des perdants"
+msgstr ""
+
+#: ../../specification.md
+msgid "perdant 0 — perdant 1"
+msgstr ""
+
+#: ../../specification.md
+msgid "4"
+msgstr ""
+
+#: ../../specification.md
+msgid "Match décisif"
+msgstr ""
+
+#: ../../specification.md
+msgid "perdant 2 — vainqueur 3"
+msgstr ""
+
+#: ../../specification.md:1648
+msgid "`Rounds = [[0,1], [2,3], [4]]`."
+msgstr ""
+
+#: ../../specification.md:1650
+msgid "Groupe de **3** joueurs `a, b, c` :"
+msgstr ""
+
+#: ../../specification.md
+msgid "vainqueur 0 — `c`"
+msgstr ""
+
+#: ../../specification.md:1658
+msgid "`Rounds = [[0], [1], [2]]`."
+msgstr ""
+
+#: ../../specification.md:1660
+msgid "Groupe de **2** : un seul match, libellé `Match`, `Rounds = [[0]]`."
+msgstr ""
+
+#: ../../specification.md:1662
+msgid "Groupe de taille autre : section vide (le cas est écarté en amont)."
+msgstr ""
+
+#: ../../specification.md:1664
+msgid "Mini-tableau à élimination directe"
+msgstr ""
+
+#: ../../specification.md:1670
+msgid ""
+"Pour un groupe de 2 à 4 joueurs **à une vie** (blocs GSL des joueurs déjà"
+" battus une fois) :"
+msgstr ""
+
+#: ../../specification.md:1681
+msgid "Poule toutes rondes (table de Berger)"
+msgstr ""
+
+#: ../../specification.md:1702
+msgid ""
+"Le premier élément reste fixe, les autres tournent d'un cran : c'est la "
+"table de Berger classique. Chaque joueur rencontre chaque autre "
+"exactement une fois, en `n-1` rondes."
+msgstr ""
+
+#: ../../specification.md:1705
+msgid ""
+"Les places d'une poule sont **toutes fixées** (`Src.Player`) : les matchs"
+" sont donc tous lançables dès le tirage, sous la seule contrainte qu'un "
+"joueur ne joue qu'un match à la fois. C'est ce qui donne aux poules leur "
+"souplesse d'ordonnancement."
+msgstr ""
+
+#: ../../specification.md:1711
+msgid "Format `swiss_lives` — suisse à vies"
+msgstr ""
+
+#: ../../specification.md:1713 ../../specification.md:1950
+#: ../../specification.md:2278
+msgid "Principe"
+msgstr ""
+
+#: ../../specification.md:1715
+msgid ""
+"Un suisse à *L* vies est une **double élimination sans tableau** (pour "
+"*L* = 2) : chaque joueur est éliminé après *L* défaites, et l'appariement"
+" se fait toujours **à l'intérieur du groupe des joueurs ayant le même "
+"nombre de défaites**. Tout effectif est admis, la fin est toujours "
+"résoluble sans départage, et il n'y a pas de graphe à construire."
+msgstr ""
+
+#: ../../specification.md:1720
+msgid "Deux modes :"
+msgstr ""
+
+#: ../../specification.md:1722
+msgid ""
+"**`continuous`** (défaut) : dès que deux joueurs du même groupe sont "
+"libres, un match est proposé. C'est le mode recommandé — l'étude montre "
+"que l'attente est le premier gaspillage d'un tournoi (10 à 15 fois plus "
+"d'attente en synchrone qu'en continu)."
+msgstr ""
+
+#: ../../specification.md:1725
+msgid ""
+"**`rounds`** : tous les matchs d'une ronde sont proposés ensemble, byes "
+"compris, et la ronde suivante n'est proposée qu'une fois tous les matchs "
+"terminés."
+msgstr ""
+
+#: ../../specification.md:1728
+msgid "Bascule vers un tableau (`target`)"
+msgstr ""
+
+#: ../../specification.md:1745
+msgid ""
+"L'idée : chaque match consomme exactement une vie. Quand la somme des "
+"vies restantes atteint une puissance de 2, on peut basculer sur un "
+"tableau à exemptions parfaitement équilibré — un joueur à 2 vies occupe "
+"deux places du tableau (il est exempt du premier tour), un joueur à 1 vie"
+" en occupe une. C'est pourquoi `Validate` impose `Lives == 2` avec "
+"`Target`."
+msgstr ""
+
+#: ../../specification.md:1750
+msgid ""
+"Sans `Target`, la phase va jusqu'à son terme naturel : un seul joueur en "
+"vie."
+msgstr ""
+
+#: ../../specification.md:1752
+msgid "Joueurs libres et historique"
+msgstr ""
+
+#: ../../specification.md:1760
+msgid ""
+"`sameClub` : les deux joueurs sont connus, leur club est non vide et "
+"identique."
+msgstr ""
+
+#: ../../specification.md:1762
+msgid "Appariement d'un groupe"
+msgstr ""
+
+#: ../../specification.md:1769
+msgid ""
+"C'est le cœur de l'appariement suisse. Glouton, sur une liste dont "
+"l'ordre a été construit en plusieurs passes :"
+msgstr ""
+
+#: ../../specification.md:1797
+msgid "Propriétés :"
+msgstr ""
+
+#: ../../specification.md:1799
+msgid ""
+"**le tri par byes est le dernier appliqué**, donc le plus fort : un "
+"joueur qui a déjà été exempté passe en tête de liste et sera apparié en "
+"priorité. C'est la règle « pas de second bye tant que d'autres n'en ont "
+"pas eu », appliquée **à l'intérieur d'un groupe** (l'équité entre groupes"
+" différents n'est pas assurée : point ouvert) ;"
+msgstr ""
+
+#: ../../specification.md:1803
+msgid ""
+"`pairing: \"wins\"` ne fait qu'ordonner : il ne calcule aucun score de "
+"type Buchholz. Il rapproche les joueurs de même palmarès dans un même "
+"groupe de défaites ;"
+msgstr ""
+
+#: ../../specification.md:1805
+msgid ""
+"`avoid_clubs` est une préférence, pas une contrainte : si aucun "
+"adversaire d'un autre club n'est disponible, la seconde passe accepte le "
+"même club ;"
+msgstr ""
+
+#: ../../specification.md:1807
+msgid ""
+"l'interdiction de rematch est en revanche une **contrainte dure**, sauf "
+"`allow_rematch` ou appel de repli (`allowRematch = vrai`)."
+msgstr ""
+
+#: ../../specification.md:1810
+msgid "Proposition en mode continu"
+msgstr ""
+
+#: ../../specification.md:1839
+msgid ""
+"`swissLength(ph)` vaut `Cfg.LengthLate` quand la phase porte un "
+"`late_threshold` et qu'il ne reste pas plus de joueurs en vie que lui — "
+"la fin d'un suisse se joue en matchs plus longs. Un `length_changed` posé"
+" à la main par le TD (`ph.Length != Cfg.Length`) l'emporte : c'est lui "
+"qui dirige."
+msgstr ""
+
+#: ../../specification.md:1844
+msgid ""
+"Le **budget** garantit qu'on ne « dépasse » jamais la cible : avec Σ vies"
+" = 18 et `target` 16, un seul match peut être lancé, même si quatre "
+"joueurs sont libres."
+msgstr ""
+
+#: ../../specification.md:1847
+msgid ""
+"**Repli** (quand aucun appariement régulier n'est possible et qu'aucun "
+"match ne tourne) :"
+msgstr ""
+
+#: ../../specification.md:1859
+msgid ""
+"Ce repli est ce qui permet de **toujours conclure** : quand il ne reste "
+"que deux joueurs qui se sont déjà rencontrés, ou deux joueurs de groupes "
+"différents (par exemple un à 0 défaite et un à 1 défaite en fin de suisse"
+" à 2 vies), le moteur propose quand même le match. Les libellés `Finale` "
+"et `Match croisé` sont d'ailleurs reconnus par les tests d'invariants "
+"comme les seules exceptions autorisées à la règle « pas de match entre "
+"groupes différents »."
+msgstr ""
+
+#: ../../specification.md:1865
+msgid "Proposition en mode par rondes"
+msgstr ""
+
+#: ../../specification.md:1886
+msgid "Le repli du mode par rondes :"
+msgstr ""
+
+#: ../../specification.md:1897
+msgid ""
+"**Le compteur de rondes** `ph.Round` n'est pas incrémenté par le moteur :"
+" il est déduit du libellé `\"Ronde k\"` porté par les événements "
+"`match_started` et `bye` (voir `parseRound`). Le mode par rondes propose "
+"donc `Ronde ph.Round+1` ; dès que le TD confirme la première action, "
+"`ph.Round` devient `ph.Round+1` et les actions suivantes du même lot "
+"portent le même numéro."
+msgstr ""
+
+#: ../../specification.md:1902
+msgid ""
+"Le mode `rounds` ne gère pas le budget `Target` aussi finement que le "
+"continu : la somme des vies décroît par paquets d'une ronde entière et "
+"peut « sauter » la cible. C'est un point ouvert (voir le dernier "
+"chapitre)."
+msgstr ""
+
+#: ../../specification.md:1906
+msgid "Classement d'une phase à vies"
+msgstr ""
+
+#: ../../specification.md:1912
+msgid ""
+"Utilisé pour `swiss_lives` **et** `gsl` (et pour toute phase dont le "
+"format n'a pas de classement propre)."
+msgstr ""
+
+#: ../../specification.md:1934
+msgid "Lecture des scores :"
+msgstr ""
+
+#: ../../specification.md
+msgid "Score"
+msgstr ""
+
+#: ../../specification.md
+msgid "`1000 + vies + victoires`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"joueur encore en vie ; plus il a de vies et de victoires, mieux il est "
+"classé"
+msgstr ""
+
+#: ../../specification.md
+msgid "`999`"
+msgstr ""
+
+#: ../../specification.md
+msgid "finaliste (dernier éliminé quand le vainqueur est connu)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`victoires`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"éliminé ; départagé par le nombre de victoires au moment de "
+"l'élimination, ex æquo conservés"
+msgstr ""
+
+#: ../../specification.md
+msgid "`-1`"
+msgstr ""
+
+#: ../../specification.md
+msgid "forfait, classé dernier"
+msgstr ""
+
+#: ../../specification.md:1943
+msgid ""
+"C'est la traduction exacte du principe « pas de départage » : deux "
+"joueurs éliminés avec le même nombre de victoires sont **ex æquo**, "
+"définitivement."
+msgstr ""
+
+#: ../../specification.md:1948
+msgid "Format `gsl` — blocs de groupes"
+msgstr ""
+
+#: ../../specification.md:1952
+msgid ""
+"Le format GSL est un suisse à 2 vies dont **l'appariement est figé par "
+"blocs** : au lieu d'apparier au fil de l'eau (manipulable par l'heure "
+"d'annonce d'un résultat), on constitue des groupes de 4 (ou 3, ou 2) "
+"joueurs et on joue le bloc entier avant d'en constituer un nouveau."
+msgstr ""
+
+#: ../../specification.md:1956
+msgid ""
+"Les joueurs à **0 défaite** sont répartis en groupes GSL (double "
+"élimination interne à 4 : ouverture, gagnants, perdants, décisif)."
+msgstr ""
+
+#: ../../specification.md:1958
+msgid ""
+"Les joueurs à **1 défaite** (une seule vie) sont répartis en mini-"
+"tableaux à élimination directe."
+msgstr ""
+
+#: ../../specification.md:1959
+msgid "`Lives` est forcé à 2 par la validation."
+msgstr ""
+
+#: ../../specification.md:1961
+msgid ""
+"C'est la parade anti-manipulation recommandée par l'étude, et elle a "
+"l'avantage de se caler naturellement sur les créneaux horaires (un bloc "
+"par créneau, repas compris)."
+msgstr ""
+
+#: ../../specification.md:1964
+msgid "Partition d'une liste en groupes"
+msgstr ""
+
+#: ../../specification.md:1970
+msgid ""
+"La liste (**déjà mélangée** par l'appelant) est découpée en groupes de 4 "
+"autant que possible, le reste étant absorbé selon `n mod 4` :"
+msgstr ""
+
+#: ../../specification.md
+msgid "`n mod 4`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Tailles produites"
+msgstr ""
+
+#: ../../specification.md
+msgid "`4, 4, …, 4`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`4, …, 4, 3`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`4, …, 4, 3, 3` si `n ≥ 4` ; sinon `2`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`4, …, 4, 3, 2` si `n ≥ 4` ; sinon `1`"
+msgstr ""
+
+#: ../../specification.md:1980
+msgid ""
+"Les groupes sont ensuite découpés dans l'ordre de la liste "
+"(`g[k:k+taille]`)."
+msgstr ""
+
+#: ../../specification.md:1982
+msgid ""
+"Un groupe de taille 1 (`n == 1`) n'est pas transformé en section : le "
+"joueur passe le bloc sans jouer, sans perdre de vie ni gagner de bye."
+msgstr ""
+
+#: ../../specification.md:1985
+msgid "Fin de bloc, fin de phase"
+msgstr ""
+
+#: ../../specification.md:1990
+msgid "Tous les `GMatch` des sections dont `Block == ph.Round` sont `Done`."
+msgstr ""
+
+#: ../../specification.md:2001 ../../specification.md:2180
+#: ../../specification.md:2402
+msgid "Proposition"
+msgstr ""
+
+#: ../../specification.md:2035
+msgid ""
+"**La finale GSL est un match libre** (sans section) opposant le dernier "
+"joueur invaincu au dernier joueur à une défaite. Si l'invaincu gagne, "
+"l'autre atteint 2 défaites et la phase se termine. S'il perd, les deux "
+"joueurs ont une défaite chacun, `alive` vaut toujours 2, et le moteur "
+"repropose une finale : c'est une **recharge implicite** exactement "
+"équivalente à celle de la double élimination. C'est la raison pour "
+"laquelle un GSL à 64 joueurs produit 126 **ou** 127 matchs."
+msgstr ""
+
+#: ../../specification.md:2041 ../../specification.md:2166
+msgid "Application du tirage"
+msgstr ""
+
+#: ../../specification.md:2059
+msgid ""
+"Le type de section est déterminé par le **premier joueur du groupe** : "
+"c'est correct puisque la partition est faite séparément sur `g0` et `g1`,"
+" un groupe est donc homogène en nombre de défaites."
+msgstr ""
+
+#: ../../specification.md:2062
+msgid "Le classement d'une phase GSL est `livesRanking` (chapitre précédent)."
+msgstr ""
+
+#: ../../specification.md:2066
+msgid "Formats `bracket` et `lives_bracket` — tableaux"
+msgstr ""
+
+#: ../../specification.md:2068
+msgid ""
+"Les deux formats partagent tout le code ; ils ne diffèrent que par les "
+"vies à l'entrée, donc par le tirage :"
+msgstr ""
+
+#: ../../specification.md:2071
+msgid ""
+"**`bracket`** : tous les entrants ont 1 vie ; le tableau est un tableau "
+"classique complété par des exemptions."
+msgstr ""
+
+#: ../../specification.md:2073
+msgid ""
+"**`lives_bracket`** : les entrants arrivent avec les vies héritées de la "
+"phase précédente ; un joueur à 2 vies occupe une paire entière et est "
+"donc **exempt du premier tour**."
+msgstr ""
+
+#: ../../specification.md:2076
+msgid "Utilitaire"
+msgstr ""
+
+#: ../../specification.md:2082
+msgid "Tirage des places"
+msgstr ""
+
+#: ../../specification.md:2113
+msgid "Trois idées :"
+msgstr ""
+
+#: ../../specification.md:2115
+msgid ""
+"**La taille du tableau est dictée par la somme des vies**, pas par le "
+"nombre de joueurs : c'est ce qui rend la bascule depuis un suisse exacte "
+"quand Σ vies est une puissance de 2."
+msgstr ""
+
+#: ../../specification.md:2117
+msgid ""
+"**Les exemptés sont écartés** : en remplissant d'abord une paire sur deux"
+" (indices pairs), on évite que deux joueurs à 2 vies se retrouvent dans "
+"la même moitié de bracket de premier tour."
+msgstr ""
+
+#: ../../specification.md:2119
+msgid ""
+"**Les exemptions surnuméraires** (`extra`) vont en seconde position des "
+"premières paires libres, donc aux joueurs placés en tête de la liste "
+"mélangée — c'est-à-dire au hasard."
+msgstr ""
+
+#: ../../specification.md:2122
+msgid "Construction du tableau"
+msgstr ""
+
+#: ../../specification.md:2156
+msgid ""
+"La **dernière chance** ne recueille que les perdants des tours de "
+"consolante **sauf les deux derniers** : perdre en finale ou en demi-"
+"finale de consolante ne donne pas droit à un troisième tableau."
+msgstr ""
+
+#: ../../specification.md:2160
+msgid ""
+"La **recharge** est le mécanisme de la vraie double élimination : "
+"`CondSide = 1` signifie que le match n'existe que si le vainqueur de la "
+"grande finale est le joueur venu de la place 1, c'est-à-dire le vainqueur"
+" de la consolante (qui a déjà une défaite). Le vainqueur du principal, "
+"invaincu, doit donc être battu deux fois. Si c'est lui qui gagne la "
+"première grande finale, `resolve` marque `gf.1` comme `Skipped` (donc "
+"`Done`) et le tournoi se termine."
+msgstr ""
+
+#: ../../specification.md:2172
+msgid "Pour `bracket` et `lives_bracket` :"
+msgstr ""
+
+#: ../../specification.md:2202
+msgid ""
+"Toutes les sections sont proposées en parallèle : consolante, dernière "
+"chance et principal avancent simultanément dès que les places sont "
+"connues et les joueurs libres."
+msgstr ""
+
+#: ../../specification.md:2205
+msgid "Classement d'un tableau"
+msgstr ""
+
+#: ../../specification.md:2211
+msgid "Priorité des sections (plus haut = mieux classé) :"
+msgstr ""
+
+#: ../../specification.md
+msgid "Section"
+msgstr ""
+
+#: ../../specification.md
+msgid "`prio`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`gf` (grande finale)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`main`, `se`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`last`"
+msgstr ""
+
+#: ../../specification.md:2253
+msgid ""
+"La règle (1) est contre-intuitive mais essentielle : **un joueur est "
+"classé par sa dernière sortie**, c'est-à-dire par la section de plus "
+"faible priorité où il a perdu. Un joueur battu au premier tour du "
+"principal puis en finale de consolante est classé sur sa performance en "
+"consolante, pas sur son élimination du principal."
+msgstr ""
+
+#: ../../specification.md:2258
+msgid ""
+"Le score 5000 attribué aux joueurs « en cours » les place **devant tout "
+"le monde** : c'est voulu, puisque le classement intermédiaire doit "
+"montrer les joueurs encore en course en tête."
+msgstr ""
+
+#: ../../specification.md:2261
+msgid "Survivants d'un tableau"
+msgstr ""
+
+#: ../../specification.md:2276
+msgid "Format `round_robin` — poules"
+msgstr ""
+
+#: ../../specification.md:2280
+msgid ""
+"Les entrants sont répartis en poules ; chaque poule est une toutes rondes"
+" (table de Berger). Les `qualifiers` premiers de chaque poule passent à "
+"la phase suivante. Les égalités à la place qualificative ne sont **pas** "
+"départagées arithmétiquement : elles déclenchent un **barrage** à 2 vies "
+"entre les joueurs concernés."
+msgstr ""
+
+#: ../../specification.md:2285
+msgid "Tirage des poules"
+msgstr ""
+
+#: ../../specification.md:2296
+msgid "La distribution `i mod ng` équilibre les tailles à un joueur près."
+msgstr ""
+
+#: ../../specification.md:2302
+msgid "Avec `section` vide (tirage des poules) :"
+msgstr ""
+
+#: ../../specification.md:2310
+msgid ""
+"Les poules sont nommées `Poule A`, `Poule B`, … (`groupName(i)` = "
+"`\"Poule \" + ('A'+i)`). Au-delà de 26 poules, le caractère produit sort "
+"de l'alphabet : limite connue, sans conséquence fonctionnelle."
+msgstr ""
+
+#: ../../specification.md:2313
+msgid "Décompte et détection des égalités"
+msgstr ""
+
+#: ../../specification.md:2319
+msgid ""
+"Compte les victoires **dans la section** : chaque joueur figurant en "
+"`Src[k].Player` est initialisé à 0 (pour qu'un joueur sans victoire "
+"apparaisse), puis chaque match `Done` et **non `Walkover`** ajoute une "
+"victoire à son vainqueur. Les walkovers (exemptions, forfaits) ne "
+"comptent donc pas."
+msgstr ""
+
+#: ../../specification.md:2341
+msgid ""
+"Résultat : `tied` sont les joueurs à égalité sur la ligne de coupure, "
+"`spots` le nombre de places qu'ils doivent se partager."
+msgstr ""
+
+#: ../../specification.md:2344
+msgid "Barrage"
+msgstr ""
+
+#: ../../specification.md:2346
+msgid ""
+"Un barrage est une `Section` d'un genre particulier : elle n'a **pas de "
+"graphe** (`Matches` vide) ; ses matchs sont appariés dynamiquement, comme"
+" un suisse à 2 vies, jusqu'à ce qu'il ne reste que `Spots` joueurs."
+msgstr ""
+
+#: ../../specification.md:2365
+msgid ""
+"Parcourt `MatchOrder` ; pour les matchs de section `bs.Name` non annulés "
+": compte les `Running` et incrémente `losses[perdant]` pour les autres."
+msgstr ""
+
+#: ../../specification.md:2394
+msgid ""
+"Même logique de budget que le suisse : on ne lance pas un match qui "
+"ferait descendre le nombre de survivants en dessous du nombre de places."
+msgstr ""
+
+#: ../../specification.md:2400
+msgid ""
+"Pour chaque poule ayant une égalité : le barrage doit exister **et** "
+"`len(barrageAlive) <= Spots`."
+msgstr ""
+
+#: ../../specification.md:2426
+msgid ""
+"Les poules qui ont fini avancent donc vers leur barrage pendant que les "
+"autres jouent encore."
+msgstr ""
+
+#: ../../specification.md:2428
+msgid "Qualifiés et classement"
+msgstr ""
+
+#: ../../specification.md:2461
+msgid ""
+"Le bonus de 100 place tous les qualifiés devant tous les non-qualifiés, "
+"quelles que soient les poules — ce qui est correct puisque les poules ne "
+"sont pas comparables entre elles."
+msgstr ""
+
+#: ../../specification.md:2466
+msgid "Classement général et prix"
+msgstr ""
+
+#: ../../specification.md:2468
+msgid "Concaténation des phases"
+msgstr ""
+
+#: ../../specification.md:2474
+msgid ""
+"Le classement général se lit **de la dernière phase atteinte à la "
+"première** : les joueurs éliminés plus tôt sont classés derrière."
+msgstr ""
+
+#: ../../specification.md:2495
+msgid ""
+"L'`offset` s'incrémente de la **taille complète** du classement de phase "
+"(y compris les joueurs déjà vus) : cela garantit qu'aucun joueur d'une "
+"phase antérieure ne peut se glisser devant un joueur d'une phase "
+"postérieure, quelle que soit la répartition des ex æquo."
+msgstr ""
+
+#: ../../specification.md:2499
+msgid ""
+"La renumérotation finale produit un classement dense : 1, 2, 2, 4, 5, 5, "
+"5, 8… (rang = position du premier élément du groupe d'ex æquo)."
+msgstr ""
+
+#: ../../specification.md
+msgid "Fonction"
+msgstr ""
+
+#: ../../specification.md
+msgid "`bracketRanking`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`rrRanking`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`livesRanking`"
+msgstr ""
+
+#: ../../specification.md:2512
+msgid "Prix"
+msgstr ""
+
+#: ../../specification.md:2518
+msgid ""
+"Les prix sont indexés par place : `prizes[0]` est la dotation du premier,"
+" `prizes[1]` du deuxième, etc. Les ex æquo **partagent à parts égales les"
+" prix des places qu'ils occupent** :"
+msgstr ""
+
+#: ../../specification.md:2528
+msgid ""
+"Exemple : deux joueurs ex æquo au rang 3, dotations `[100, 60, 40, 20, "
+"10]` → ils se partagent 40 + 20 = 60, soit 30 chacun ; le joueur suivant "
+"est au rang 5 et reçoit 10."
+msgstr ""
+
+#: ../../specification.md:2531
+msgid ""
+"L'unité est libre (montant, pourcentage, part) : le moteur ne fait "
+"qu'additionner et diviser. Cette fonction est le partage entre ex æquo, "
+"et rien d'autre ; d'où viennent les montants par place est décrit ci-"
+"dessous."
+msgstr ""
+
+#: ../../specification.md:2535
+msgid "Pool, retenue, barème par section"
+msgstr ""
+
+#: ../../specification.md:2563
+msgid ""
+"Une affiche de tournoi annonce « 50/30/20 % » et non « 216/130/86 € » : "
+"le pool dépend du nombre d'inscrits, qu'on ne connaît qu'à la clôture des"
+" inscriptions."
+msgstr ""
+
+#: ../../specification.md:2571
+msgid ""
+"`PrizeAmounts(sec)` : si le barème donne des `Amounts`, ce sont eux, tels"
+" quels. S'il donne des `Percents`, chaque place vaut `Distributable × "
+"pct/100`, **arrondie à l'unité** — personne ne paie en centimes à une "
+"table de tournoi — et le RESTE, en plus ou en moins, va au **premier**. "
+"C'est la seule façon de garantir que la somme distribuée égale exactement"
+" le pool après retenue, et le premier prix est celui où un euro d'écart "
+"se voit le moins."
+msgstr ""
+
+#: ../../specification.md:2577
+msgid ""
+"`Sections` est indexée par identifiant de section (`main`, `conso`, "
+"`last`, `gf`, `poule:A`…), plus la clé réservée `all` pour le classement "
+"général — celui que `Ranking()` renvoie, et le seul qui existe dans un "
+"tournoi sans tableau."
+msgstr ""
+
+#: ../../specification.md:2581
+msgid ""
+"`SectionRanking(sec)` est le classement PROPRE d'une section : ses "
+"joueurs, par tour atteint dans cette section, le vainqueur en tête. Il "
+"diffère du classement général, qui mélange les sections par priorité (un "
+"vainqueur de consolante passe derrière un demi-finaliste du principal). "
+"Une section de poule ou de barrage se classe par nombre de victoires, "
+"faute de tour atteint. La section est cherchée de la dernière phase vers "
+"la première."
+msgstr ""
+
+#: ../../specification.md:2587
+#, python-format
+msgid ""
+"`Validate` refuse une dotation incohérente : pourcentages ET montants "
+"dans le même barème, pourcentages totalisant plus de 100 % du pool, "
+"retenue hors [0, 100] %, montant négatif. Une dotation fausse ne se voit "
+"qu'au moment de payer, devant les joueurs."
+msgstr ""
+
+#: ../../specification.md:2591
+msgid ""
+"La forme ancienne (`\"prizes\": [100, 60, 40]`, une simple liste de "
+"montants) reste lue et devient le barème du classement général : les "
+"journaux existants n'ont pas à être réécrits."
+msgstr ""
+
+#: ../../specification.md:2594
+msgid "Export CSV"
+msgstr ""
+
+#: ../../specification.md:2600
+msgid ""
+"Séparateur `;`, en-tête `section;rang;id;nom;club;note;prix`. La première"
+" colonne dit à quel classement la ligne appartient : `all` pour le "
+"classement général (puis `Final` s'il existe, sinon `Ranking()`), puis "
+"l'identifiant de chaque **section dotée**, dans l'ordre alphabétique. Les"
+" blocs sont contigus : un tableur les lit comme des tableaux séparés, un "
+"hôte qui n'en veut qu'un filtre sur la colonne. Les sections apparaissent"
+" parce qu'elles ont une dotation — sortir le classement de chaque groupe "
+"GSL d'un tournoi de cent joueurs noierait la feuille affichée au mur. Le "
+"prix est formaté avec deux décimales. Un joueur absent de `Players` est "
+"écrit avec son identifiant en guise de nom et un club vide."
+msgstr ""
+
+#: ../../specification.md:2611
+msgid "Horloge et prévisions"
+msgstr ""
+
+#: ../../specification.md:2616
+msgid ""
+"`Config.MinPerPoint × n` minutes. Avec le défaut de 8 min/point, un match"
+" en 7 points est attendu en 56 minutes. L'étude recommande de compter "
+"**11 min/point pour planifier une ronde** (attente comprise) et 8 "
+"min/point pour l'espérance d'un match."
+msgstr ""
+
+#: ../../specification.md:2623
+msgid ""
+"Les matchs en cours dont la durée écoulée dépasse `facteur × "
+"Expected(Length)`. Le rendu HTML utilise un facteur de 1,5 pour colorer "
+"une ligne en rouge."
+msgstr ""
+
+#: ../../specification.md:2647
+msgid ""
+"Les matchs gagnés par forfait sont exclus des moyennes : ils fausseraient"
+" la mesure."
+msgstr ""
+
+#: ../../specification.md:2651
+msgid "Paquets annexes"
+msgstr ""
+
+#: ../../specification.md:2653
+msgid "`sim` — simulation et prévision"
+msgstr ""
+
+#: ../../specification.md:2655
+msgid ""
+"Le paquet `sim` joue des tournois fictifs avec le moteur. Il sert à trois"
+" choses : les tests d'invariants, la validation des formats (comparaison "
+"avec le simulateur de l'étude) et la prévision de l'heure de fin d'un "
+"tournoi en cours."
+msgstr ""
+
+#: ../../specification.md:2659
+msgid "Modèle probabiliste"
+msgstr ""
+
+#: ../../specification.md:2665
+msgid ""
+"Probabilité que le joueur de PR `a` batte celui de PR `b` en `n` points, "
+"formule Elo/FIBS avec la conversion **3 PR = 100 points Elo** :"
+msgstr ""
+
+#: ../../specification.md:2668
+msgid ""
+"$$ D = \\frac{(b-a)\\times 100}{3} \\qquad P = \\frac{1}{1 + "
+"10^{-D\\sqrt{n}/2000}} $$"
+msgstr ""
+
+#: ../../specification.md:2670
+msgid ""
+"Justification (voir `docs/etude_formats.md`) : sur la base BMAB (33 238 "
+"matchs uniques), 1 PR d'écart vaut 2,8 % à 7–11 points (β = 0,036 pour α "
+"= 0,5 ; théorie 0,039). L'exposant α de la longueur n'est pas "
+"identifiable avec ces données — la vraisemblance est plate entre 0 et "
+"0,7, α = 1 est exclu — mais la mécanique « erreur cumulée ∝ N, chance ∝ "
+"√N » soutient α = 0,5."
+msgstr ""
+
+#: ../../specification.md:2679
+msgid ""
+"Durée d'un match de `n` points : loi **gamma de forme 8** et de moyenne "
+"`minPerPoint × n`, obtenue en moyennant huit tirages exponentiels. La "
+"forme 8 donne un coefficient de variation d'environ 35 %, proche de "
+"l'observation."
+msgstr ""
+
+#: ../../specification.md:2683
+msgid "Exécution d'un tournoi"
+msgstr ""
+
+#: ../../specification.md:2707
+msgid "Boucle de simulation :"
+msgstr ""
+
+#: ../../specification.md:2723
+msgid ""
+"Le score du vainqueur est `n` ; celui du perdant est tiré uniformément "
+"dans `[0, n-1]`."
+msgstr ""
+
+#: ../../specification.md:2725
+msgid ""
+"`Hook` est appelé après chaque événement appliqué : c'est le point "
+"d'accroche des tests d'invariants. Une erreur renvoyée par le hook "
+"interrompt la simulation."
+msgstr ""
+
+#: ../../specification.md:2732
+msgid ""
+"Crée `P` joueurs de PR tirés dans une loi normale `N(mu, sigma)` tronquée"
+" à `[min, max]`, **triés du meilleur au moins bon** : `P1` est toujours "
+"le meilleur joueur du champ. Les clubs sont affectés cycliquement (`Club "
+"0` à `Club 4`) pour exercer `avoid_clubs`. Le champ de référence de "
+"l'étude est `Champ(64, 6, 2, 2, 10)`."
+msgstr ""
+
+#: ../../specification.md:2737
+msgid "Prévision de fin"
+msgstr ""
+
+#: ../../specification.md:2744
+msgid ""
+"Rejoue le journal, puis simule `K` fins de tournoi à partir de `now`. "
+"Renvoie les durées restantes en minutes, **triées croissantes** : la "
+"médiane est `out[K/2]`, le quantile 90 % `out[9K/10]`."
+msgstr ""
+
+#: ../../specification.md:2747
+msgid "Particularités :"
+msgstr ""
+
+#: ../../specification.md:2749
+msgid ""
+"les PR inconnus (0) sont remplacés par la moyenne des PR connus, ou 6 "
+"s'il n'y en a aucun ;"
+msgstr ""
+
+#: ../../specification.md:2750
+#, python-format
+msgid ""
+"pour un match déjà en cours, la durée restante est un tirage neuf moins "
+"le temps déjà écoulé, **plancher à 10 % de la durée attendue** ;"
+msgstr ""
+
+#: ../../specification.md:2752
+msgid "un tournoi déjà terminé renvoie `[0]`."
+msgstr ""
+
+#: ../../specification.md:2754
+msgid "`render` — affichage"
+msgstr ""
+
+#: ../../specification.md:2756
+msgid ""
+"Fonctions **pures** produisant du HTML et du SVG. Rien n'y est écrit en "
+"dur dans une langue : le moteur ne produit que des codes, et ce paquet "
+"les traduit par un `Labeler` que l'hôte fournit — y compris ses propres "
+"mots (« Joueur », « Table », « libre »), qui sont eux aussi des codes "
+"(`Term`). `French()` est fourni pour la console, la démo et les tests."
+msgstr ""
+
+#: ../../specification.md
+msgid "Méthode"
+msgstr ""
+
+#: ../../specification.md
+msgid "Produit"
+msgstr ""
+
+#: ../../specification.md
+msgid "`BracketBoardSVG(st, ph)`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"**Toutes** les sections en graphe d'une phase dans un seul SVG, côte à "
+"côte, avec les descentes d'une section à l'autre"
+msgstr ""
+
+#: ../../specification.md
+msgid "`LivesBoard(st, ph, now)`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Colonnes de joueurs par nombre de défaites : état, temps d'attente, "
+"adversaires déjà rencontrés"
+msgstr ""
+
+#: ../../specification.md
+msgid "`TableGrid(st, now)`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Une case par table : son match et sa durée, ou libre, indisponible, "
+"réservée"
+msgstr ""
+
+#: ../../specification.md
+msgid "`RunningTable(st, now)`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"Les matchs en cours : table, libellé, joueurs, points, durée (classe "
+"`lent` au-delà de 1,5 × attendu)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`ActionsList(st, acts)`"
+msgstr ""
+
+#: ../../specification.md
+msgid "La liste ordonnée des actions proposées"
+msgstr ""
+
+#: ../../specification.md
+msgid "`StandingsTable(st)`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Le classement avec club, note et prix"
+msgstr ""
+
+#: ../../specification.md
+msgid "`PairingSheet(st, round)`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"La feuille d'appariements d'un lot, imprimable A4, une case de score par "
+"joueur — page autonome"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Page(st, acts, now)`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"La page d'écran de salle, autonome, rafraîchie toutes les 30 s par une "
+"méta (pas de script)"
+msgstr ""
+
+#: ../../specification.md:2793
+msgid ""
+"**Une page produite est autonome** : un seul fichier, feuille de style "
+"embarquée, aucune ressource externe — pas de police distante, pas de "
+"script, pas d'image liée. Elle doit s'ouvrir hors ligne, depuis une clé "
+"USB, sur l'ordinateur de la salle. Un crédit figure en pied de page."
+msgstr ""
+
+#: ../../specification.md:2797
+msgid ""
+"**Les lots.** `Batches(st)` groupe les matchs de la phase courante par "
+"instant de départ. Un lot est ce qu'un directeur appelle une ronde dans "
+"un suisse par rondes, un bloc dans un GSL, un tour dans un tableau, une "
+"micro-ronde dans un suisse à `batch_minutes`. Le moteur n'a pas de mot "
+"pour cela et n'en a pas besoin : l'instant de départ le dit. "
+"`PairingSheet(st, n)` imprime le n-ième ; `0` ou un numéro au-delà du "
+"dernier donne le plus récent."
+msgstr ""
+
+#: ../../specification.md:2803
+msgid ""
+"**Mise en page du SVG.** Une colonne par tour (`Rounds`), boîte de 190 × "
+"44 px, écart horizontal 60 px, vertical 12 px, et 40 px entre deux "
+"sections. Chaque section occupe sa propre bande de colonnes, si bien que "
+"deux arbres ne peuvent pas se chevaucher. L'ordonnée d'un match est la "
+"**moyenne des ordonnées de ses matchs sources de la même section** ; les "
+"chevauchements sont ensuite corrigés en décalant vers le bas (nécessaire "
+"pour les groupes GSL, où le match des gagnants et celui des perdants "
+"partagent des sources). Les liaisons sont tracées **sous** les boîtes ; "
+"celles qui traversent une section — les descentes du principal vers la "
+"consolante — sont en pointillé et d'une autre couleur. Une paire "
+"d'exemptions (`BYE` contre `BYE`) n'est pas dessinée. Le fond d'une boîte"
+" est blanc (match à venir), jaune pâle (en cours) ou vert pâle (terminé)."
+msgstr ""
+
+#: ../../specification.md:2814
+msgid ""
+"Le nom affiché d'un joueur est `Player.Name`, ou l'identifiant à défaut —"
+" un nom est saisi par le TD et ne se traduit pas. `BYE` et une place "
+"inconnue passent, eux, par le `Labeler`. Tout texte issu des données "
+"passe par `html.EscapeString`."
+msgstr ""
+
+#: ../../specification.md:2818
+msgid ""
+"Les rendus sont figés par des **fichiers témoins** dans "
+"`render/testdata/` : toute modification du rendu fait échouer les tests, "
+"et `go test ./render -update` les régénère une fois le changement relu."
+msgstr ""
+
+#: ../../specification.md:2822
+msgid "`players` — import CSV"
+msgstr ""
+
+#: ../../specification.md:2828
+msgid "Import souple destiné aux exports HelloAsso, FFBG ou tableur :"
+msgstr ""
+
+#: ../../specification.md:2830
+msgid "BOM UTF-8 retiré ;"
+msgstr ""
+
+#: ../../specification.md:2831
+msgid ""
+"séparateur **détecté** sur la première ligne parmi `;`, `,` et tabulation"
+" (celui qui apparaît le plus souvent ; `,` par défaut) ;"
+msgstr ""
+
+#: ../../specification.md:2833
+msgid "lecture tolérante (`FieldsPerRecord = -1`, `LazyQuotes`) ;"
+msgstr ""
+
+#: ../../specification.md:2834
+msgid ""
+"colonnes reconnues par **inclusion de sous-chaîne**, en minuscules : `id`"
+" ; nom (`nom complet`, `name`, `nom`) ; prénom (`prénom`, `prenom`, "
+"`first`) ; nom de famille (`nom de famille`, `last`) ; `club` ; PR (`pr`,"
+" `rating`, `elo`) ;"
+msgstr ""
+
+#: ../../specification.md:2837
+msgid "si ni colonne de nom ni colonne de prénom : erreur ;"
+msgstr ""
+
+#: ../../specification.md:2838
+msgid ""
+"le nom est la colonne « nom », sauf si prénom et nom de famille existent "
+"tous deux et que le prénom est renseigné — auquel cas c'est leur "
+"concaténation ;"
+msgstr ""
+
+#: ../../specification.md:2840
+msgid "une ligne sans nom est ignorée ;"
+msgstr ""
+
+#: ../../specification.md:2841
+msgid ""
+"l'identifiant est la colonne `id` si elle est renseignée, sinon un "
+"**slug** du nom ; en cas de collision, un suffixe `-2`, `-3`… est ajouté "
+";"
+msgstr ""
+
+#: ../../specification.md:2843
+msgid ""
+"le PR accepte la virgule décimale ; une valeur illisible laisse `Rating` "
+"à 0."
+msgstr ""
+
+#: ../../specification.md:2845
+msgid ""
+"Le slug conserve les minuscules ASCII, les chiffres et les caractères "
+"non-ASCII (donc les lettres accentuées), remplace espace, tiret, souligné"
+" et apostrophe par un tiret, supprime le reste, puis élague les tirets "
+"aux extrémités."
+msgstr ""
+
+#: ../../specification.md:2849
+msgid "Binaires de démonstration"
+msgstr ""
+
+#: ../../specification.md:2851
+msgid "`cmd/tournoi-demo`"
+msgstr ""
+
+#: ../../specification.md:2853
+msgid "Simule un tournoi complet et écrit ses sorties dans un dossier."
+msgstr ""
+
+#: ../../specification.md
+msgid "Option"
+msgstr ""
+
+#: ../../specification.md
+msgid "Rôle"
+msgstr ""
+
+#: ../../specification.md
+msgid "`-format`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"une clé du catalogue (`suisse`, `suisse_tableau`, `gsl`, `elim`, `conso`,"
+" `double`, `poules`)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`-joueurs`"
+msgstr ""
+
+#: ../../specification.md
+msgid "effectif (défaut 32)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`-graine`"
+msgstr ""
+
+#: ../../specification.md
+msgid "graine (défaut 1)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`-sortie`"
+msgstr ""
+
+#: ../../specification.md
+msgid "dossier de sortie (défaut `demo`)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`-etapes`"
+msgstr ""
+
+#: ../../specification.md
+#, python-format
+msgid "écrire aussi les pages d'affichage à 15 %, 40 %, 70 % et 100 % du journal"
+msgstr ""
+
+#: ../../specification.md
+msgid "`-rejouer`"
+msgstr ""
+
+#: ../../specification.md
+msgid ""
+"rejouer un journal et afficher l'état, les actions proposées et les "
+"avertissements"
+msgstr ""
+
+#: ../../specification.md:2869
+msgid ""
+"Fichiers produits : `journal.json`, `affichage.html`, `classement.csv`, "
+"un SVG par section, `affichage_mi_tournoi.html` (rejeu des deux tiers du "
+"journal) et, avec `-etapes`, les pages `etapeK_*`. La console affiche en "
+"outre une prévision de fin (`Forecast` sur 50 tirages) comparée à la "
+"durée réellement observée."
+msgstr ""
+
+#: ../../specification.md:2874
+msgid "`cmd/tournoi-td`"
+msgstr ""
+
+#: ../../specification.md:2876
+msgid ""
+"Console interactive de direction de tournoi, pour éprouver le moteur à la"
+" main. Le journal est réécrit après chaque commande et `affichage.html` "
+"régénéré à côté ; relancer la commande sur le même fichier reprend le "
+"tournoi."
+msgstr ""
+
+#: ../../specification.md
+msgid "Commande"
+msgstr ""
+
+#: ../../specification.md
+msgid "Effet"
+msgstr ""
+
+#: ../../specification.md
+msgid "`ajoute <nom> [club] [pr]`"
+msgstr ""
+
+#: ../../specification.md
+msgid "inscrire un joueur (identifiant = nom en minuscules)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`import <fichier.csv>`"
+msgstr ""
+
+#: ../../specification.md
+msgid "inscrire depuis un CSV"
+msgstr ""
+
+#: ../../specification.md
+msgid "`propose`"
+msgstr ""
+
+#: ../../specification.md
+msgid "afficher les actions proposées, numérotées"
+msgstr ""
+
+#: ../../specification.md
+msgid "`ok [n | tous]`"
+msgstr ""
+
+#: ../../specification.md
+msgid "confirmer une proposition, ou toutes"
+msgstr ""
+
+#: ../../specification.md
+msgid "`resultat <match> <vainqueur> [scoreA scoreB]`"
+msgstr ""
+
+#: ../../specification.md
+msgid "saisir un résultat"
+msgstr ""
+
+#: ../../specification.md
+msgid "`corrige <match> <vainqueur> [scoreA scoreB]`"
+msgstr ""
+
+#: ../../specification.md
+msgid "corriger un résultat déjà saisi"
+msgstr ""
+
+#: ../../specification.md
+msgid "`annule <match>`"
+msgstr ""
+
+#: ../../specification.md
+msgid "annuler un match lancé par erreur"
+msgstr ""
+
+#: ../../specification.md
+msgid "`forfait <joueur>`"
+msgstr ""
+
+#: ../../specification.md
+msgid "retrait du tournoi"
+msgstr ""
+
+#: ../../specification.md
+msgid "`longueur <points>`"
+msgstr ""
+
+#: ../../specification.md
+msgid "changer la longueur des prochains matchs de la phase"
+msgstr ""
+
+#: ../../specification.md
+msgid "`matchs`, `vies`, `classement`, `etat`"
+msgstr ""
+
+#: ../../specification.md
+msgid "consultations"
+msgstr ""
+
+#: ../../specification.md
+msgid "`simule`"
+msgstr ""
+
+#: ../../specification.md
+msgid "jouer au hasard tous les matchs en cours"
+msgstr ""
+
+#: ../../specification.md
+msgid "`aide`, `quitte`"
+msgstr ""
+
+#: ../../specification.md:2899
+msgid ""
+"Le joueur peut être désigné par son identifiant ou par une sous-chaîne de"
+" son nom (erreur si ambiguë). `ok tous` s'interrompt après une action "
+"`draw`, `next_phase` ou `finish`, puisque l'état a changé et que les "
+"propositions suivantes sont caduques."
+msgstr ""
+
+#: ../../specification.md:2905
+msgid "Invariants et plan de tests"
+msgstr ""
+
+#: ../../specification.md:2907
+msgid "Nature des tests"
+msgstr ""
+
+#: ../../specification.md:2909
+msgid ""
+"Les tests **ne sont pas des tests unitaires** : ce sont des **tests "
+"d'invariants par simulation**. Un nouveau format ou une nouvelle option "
+"s'ajoute dans la liste `configs()` et se trouve automatiquement couvert "
+"par toutes les vérifications."
+msgstr ""
+
+#: ../../specification.md:2921
+msgid "Invariants vérifiés"
+msgstr ""
+
+#: ../../specification.md:2923
+msgid ""
+"`TestFormatsInvariants` joue **toutes les configurations de `configs()` ×"
+" 8 effectifs (2, 3, 5, 8, 13, 32, 64, 100) × 8 graines**, et vérifie "
+"après chaque événement puis à la fin. En mode `-short` la matrice est "
+"réduite à six effectifs (2, 3, 5, 8, 13, 32) et trois graines, ce qui la "
+"ramène sous les trois secondes : c'est la boucle qu'on lance à chaque "
+"sauvegarde, la matrice entière tournant en intégration continue."
+msgstr ""
+
+#: ../../specification.md:2929
+msgid "**Terminaison** : aucune simulation ne dépasse `MaxSteps`, aucun blocage."
+msgstr ""
+
+#: ../../specification.md:2930
+msgid ""
+"**Vainqueur unique** : `Final` existe et contient exactement un joueur au"
+" rang 1."
+msgstr ""
+
+#: ../../specification.md:2931
+msgid ""
+"**Classement complet** : `len(Final) == P` — tous les inscrits sont "
+"classés."
+msgstr ""
+
+#: ../../specification.md:2932
+msgid ""
+"**Rejeu identique** : `Replay(journal)` produit exactement le même "
+"`Final` (comparaison JSON)."
+msgstr ""
+
+#: ../../specification.md:2933
+msgid "**Aucun avertissement** après rejeu : `len(Warnings) == 0`."
+msgstr ""
+
+#: ../../specification.md:2934
+msgid ""
+"**Aucun joueur éliminé ne joue** : dans une phase à vies, à l'instant où "
+"un match démarre, `Losses[p] < Lives[p]` pour les deux joueurs."
+msgstr ""
+
+#: ../../specification.md:2936
+msgid ""
+"**Pas de match entre groupes différents** : dans une phase à vies, "
+"`Losses[A] == Losses[B]`, sauf pour les libellés `Finale` et `Match "
+"croisé` (les replis)."
+msgstr ""
+
+#: ../../specification.md:2938
+msgid ""
+"**Peu de rematchs** : en suisse, le nombre de secondes rencontres reste "
+"sous `graines × (Lives + 3)` dès que `P ≥ 8`."
+msgstr ""
+
+#: ../../specification.md:2941
+msgid "Fuzzing"
+msgstr ""
+
+#: ../../specification.md:2943
+msgid ""
+"Deux cibles gardent `Apply` contre ce qu'aucun test écrit à la main ne "
+"cherche :"
+msgstr ""
+
+#: ../../specification.md:2945
+msgid ""
+"`FuzzApply` applique des suites d'événements tirées au hasard. Les octets"
+" ne sont pas du JSON mais un **plan** : chaque triplet choisit un type "
+"d'événement et ses paramètres parmi ce que l'état contient. Du JSON "
+"aléatoire n'atteindrait presque jamais un événement valide, et ne "
+"testerait donc que le décodeur."
+msgstr ""
+
+#: ../../specification.md:2949
+msgid ""
+"`FuzzReplayJournal` rejoue des octets quelconques présentés comme un "
+"journal — le fichier que l'hôte a stocké et qui revient tronqué, "
+"réordonné ou corrompu."
+msgstr ""
+
+#: ../../specification.md:2952
+msgid ""
+"Dans les deux cas, **une erreur est une réponse acceptable** ; un `panic`"
+" ou un état incohérent n'en est pas une. L'état est vérifié après chaque "
+"application : autant de matchs que d'identifiants ordonnés et aucun "
+"doublon, aucun match d'un joueur contre lui-même, un vainqueur qui "
+"appartient à son match, aucun entrant inconnu, aucun compteur négatif, "
+"aucun joueur deux fois au classement, et `Propose` qui ne panique pas."
+msgstr ""
+
+#: ../../specification.md:2958
+msgid "Compatibilité ascendante"
+msgstr ""
+
+#: ../../specification.md:2960
+msgid ""
+"`testdata/journal_v0.json` est un journal complet écrit dans la forme "
+"d'avant les codes structurés — aucun champ `version`, aucun champ "
+"`round`, un `label` qui était une chaîne française. Le test le rejoue et "
+"compare le classement **place par place**. Cette fixture ne se régénère "
+"pas : elle vaut par le fait qu'elle n'a pas bougé."
+msgstr ""
+
+#: ../../specification.md:2965
+msgid "`TestMatchCounts` fixe les comptes de matchs sur 64 joueurs :"
+msgstr ""
+
+#: ../../specification.md
+msgid "Format"
+msgstr ""
+
+#: ../../specification.md
+msgid "Matchs attendus"
+msgstr ""
+
+#: ../../specification.md
+msgid "Suisse 2 vies continu"
+msgstr ""
+
+#: ../../specification.md
+msgid "126 ou 127"
+msgstr ""
+
+#: ../../specification.md
+msgid "Élimination simple"
+msgstr ""
+
+#: ../../specification.md
+msgid "63"
+msgstr ""
+
+#: ../../specification.md
+msgid "Double élimination avec recharge"
+msgstr ""
+
+#: ../../specification.md
+msgid "Blocs GSL"
+msgstr ""
+
+#: ../../specification.md:2974
+msgid ""
+"(126 = 2 × 64 − 2 ; le 127ᵉ est la recharge, jouée une fois sur deux "
+"environ.)"
+msgstr ""
+
+#: ../../specification.md:2976
+msgid ""
+"`TestCorrection` vérifie qu'après l'inversion du premier résultat d'un "
+"tournoi par `result_corrected`, la somme des défaites de la phase égale "
+"le nombre de matchs terminés — c'est-à-dire que `recompute` a bien tout "
+"reconstruit."
+msgstr ""
+
+#: ../../specification.md:2980
+msgid ""
+"`TestWithdrawnAfterDraw` vérifie qu'un joueur retiré **après** le tirage "
+"d'un tableau n'est plus jamais proposé, que ses matchs non lancés sont "
+"perdus par walkover, que le tableau se termine et qu'aucun avertissement "
+"n'est produit."
+msgstr ""
+
+#: ../../specification.md:2984
+#, python-format
+msgid ""
+"`TestParity` (long, sauté en mode court) mesure sur 1 500 tournois de 64 "
+"joueurs par format : P(le meilleur gagne), P(un des quatre meilleurs "
+"gagne), le nombre moyen de matchs et la durée moyenne. Ces valeurs sont à"
+" comparer à celles de `docs/etude_formats.md` ; **tout changement "
+"d'algorithme d'appariement doit être validé par ce test**. Ordre de "
+"grandeur attendu : une fin de semaine ne fait gagner le meilleur joueur "
+"que 4 à 9 % du temps (64 ou 32 joueurs), contre 1,6 à 3 % au hasard."
+msgstr ""
+
+#: ../../specification.md:2991
+msgid "Invariants structurels à préserver"
+msgstr ""
+
+#: ../../specification.md:2993
+msgid "Une réimplémentation doit maintenir, à tout instant :"
+msgstr ""
+
+#: ../../specification.md:2995
+msgid "un joueur a **au plus un match en cours** ;"
+msgstr ""
+
+#: ../../specification.md:2996
+msgid ""
+"`MatchOrder` est en bijection avec les clés de `Matches`, dans l'ordre de"
+" lancement ;"
+msgstr ""
+
+#: ../../specification.md:2997
+msgid "les identifiants de matchs sont `M1`, `M2`, … consécutifs sans trou ;"
+msgstr ""
+
+#: ../../specification.md:2998
+msgid ""
+"`sum(Losses)` sur une phase = nombre de matchs terminés (non annulés) de "
+"cette phase ;"
+msgstr ""
+
+#: ../../specification.md:2999
+msgid "`remainingLives(p) = Lives[p] − Losses[p]`, borné à 0 ;"
+msgstr ""
+
+#: ../../specification.md:3000
+msgid ""
+"un `GMatch` `Done` a `Winner` et `Loser` renseignés, sauf s'il est "
+"`Skipped` ;"
+msgstr ""
+
+#: ../../specification.md:3001
+msgid "`resolve` est idempotente : l'appeler deux fois de suite ne change rien ;"
+msgstr ""
+
+#: ../../specification.md:3002
+msgid "`Replay(journal)` est une fonction pure du journal."
+msgstr ""
+
+#: ../../specification.md:3006
+msgid "Limites connues et extensions prévues"
+msgstr ""
+
+#: ../../specification.md:3008
+msgid ""
+"Reprise priorisée de `docs/RESTE_A_FAIRE.md`. Ces points ne sont **pas** "
+"implémentés : une reconstruction fidèle du moteur ne doit pas les inclure"
+" sans le dire."
+msgstr ""
+
+#: ../../specification.md:3011
+msgid "Avant un premier tournoi réel"
+msgstr ""
+
+#: ../../specification.md:3013
+msgid ""
+"**Interface TD dans le logiciel hôte** : le moteur ne fournit que "
+"`Propose` / `Apply`. Il faut une page listant les actions avec un bouton "
+"de confirmation par action, une saisie de résultat par match en cours, et"
+" les boutons correction / annulation / forfait. Contrat : un bouton = un "
+"événement ; vérification : `Replay` donne le même état, sans "
+"avertissement."
+msgstr ""
+
+#: ../../specification.md:3017
+msgid ""
+"**Persistance du journal côté hôte** (une ligne JSON par événement, en "
+"ajout). Tester une coupure en plein tournoi."
+msgstr ""
+
+#: ../../specification.md:3019
+msgid ""
+"**Validation manuelle** sur un tournoi de club de 16 à 32 joueurs, en "
+"doublant sur papier."
+msgstr ""
+
+#: ../../specification.md:3020
+msgid ""
+"**Règle anti-manipulation du continu** : aujourd'hui `Propose` apparie "
+"tous les joueurs libres à chaque appel ; l'hôte doit l'appeler à "
+"intervalle fixe pour obtenir un effet micro-rondes. À implémenter "
+"proprement : paramètre `batch_minutes` et horodatage du dernier lot dans "
+"`phase_swiss.go`."
+msgstr ""
+
+#: ../../specification.md:3024
+msgid ""
+"**Tables** : pas de table indisponible, réservée, ni de changement de "
+"table d'un match en cours (événement `table_changed` à créer)."
+msgstr ""
+
+#: ../../specification.md:3027
+msgid "Fonctions attendues d'un logiciel de tournoi"
+msgstr ""
+
+#: ../../specification.md:3029
+msgid ""
+"**Forfaits fins** : il manque le forfait pour un seul match sans retrait,"
+" et le retrait « à partir de la ronde suivante »."
+msgstr ""
+
+#: ../../specification.md:3031
+msgid ""
+"**Pauses programmées** : `Propose` ne doit pas lancer un match dont la "
+"fin attendue dépasse l'heure de la pause. Paramètre `Config.Breaks "
+"[]TimeRange`."
+msgstr ""
+
+#: ../../specification.md:3033
+msgid ""
+"**Équité des byes entre groupes** : la règle « pas de second bye tant que"
+" d'autres n'en ont pas eu » n'est appliquée qu'à l'intérieur d'un groupe "
+"de défaites."
+msgstr ""
+
+#: ../../specification.md:3035
+msgid ""
+"**Options de saut** pour la consolante et la dernière chance (perdants du"
+" tour 1 seulement, jusqu'au tour *k*, consolante à tirage avec heure "
+"limite d'entrée)."
+msgstr ""
+
+#: ../../specification.md:3037
+msgid ""
+"**Têtes de série optionnelles** (`seeding: \"rating\"` dans `drawSlots`),"
+" écartées en v1 par choix."
+msgstr ""
+
+#: ../../specification.md:3038
+msgid ""
+"**Classement des places non gagnantes** : règles à valider avec la FFBG ;"
+" codes traduisibles à substituer aux notes en français brut."
+msgstr ""
+
+#: ../../specification.md:3040
+msgid ""
+"**Prix** : structures en pourcentage du pool, retenue d'organisation, "
+"arrondi, prix séparés par section."
+msgstr ""
+
+#: ../../specification.md:3042
+msgid ""
+"**Exports** : feuille d'appariements imprimable par ronde ou par bloc ; "
+"import CSV avec ratings FFBG."
+msgstr ""
+
+#: ../../specification.md:3045
+msgid "Moteur : robustesse"
+msgstr ""
+
+#: ../../specification.md:3047
+msgid ""
+"**Correction d'un résultat de tableau après coup** : l'avertissement "
+"existe, la réparation n'est pas outillée (rejouer le match, annuler la "
+"suite en série)."
+msgstr ""
+
+#: ../../specification.md:3049
+msgid ""
+"**Rematchs dans les consolantes** : l'ordre inversé des drops n'évite que"
+" les rencontres immédiates. À mesurer par simulation."
+msgstr ""
+
+#: ../../specification.md:3051
+msgid ""
+"**Poules** : le cas d'égalité à trois pour deux places n'a pas été "
+"éprouvé sur un tournoi réel (durée du barrage)."
+msgstr ""
+
+#: ../../specification.md:3053
+msgid ""
+"**Bascule Σ vies = 2^k en mode `rounds`** : la somme décroît par paquets "
+"et la ronde peut ne pas se lancer si elle ferait passer sous la cible ; à"
+" corriger dans le budget de `proposeSwissRound`."
+msgstr ""
+
+#: ../../specification.md:3056
+msgid ""
+"**API stable** : versionner le format du journal (champ `version` dans "
+"`Event`), documenter la compatibilité ascendante, fuzzer `Apply` sur des "
+"journaux aléatoires."
+msgstr ""
+
+#: ../../specification.md:3058
+msgid ""
+"**Rendu** : pas de tests (prévoir des fichiers témoins SVG/HTML), pas de "
+"vue double élimination côte à côte, pas d'écran joueur."
+msgstr ""
+
+#: ../../specification.md:3063
+msgid "Annexes"
+msgstr ""
+
+#: ../../specification.md:3065
+msgid "A. Récapitulatif de l'API publique"
+msgstr ""
+
+#: ../../specification.md:3067
+msgid "Types"
+msgstr ""
+
+#: ../../specification.md:3069
+msgid ""
+"`PlayerID`, `Player`, `MatchID`, `MatchStatus`, `Match`, `Rank`, "
+"`ActionKind`, `Action`, `Draw`, `EventKind`, `Event`, `Journal`, "
+"`Config`, `PhaseConfig`, `Tables`, `TableRule`, `State`, `PhaseState`, "
+"`Section`, `GMatch`, `Src`, `Slot`, `Clock`."
+msgstr ""
+
+#: ../../specification.md:3073
+msgid ""
+"Codes (voir `codes.go`, aucun texte destiné à l'affichage ne sort du "
+"moteur) : `LabelKind`, `Label`, `NoteKind`, `Note`, `WarningCode`, "
+"`Warning`, `InfoCode`, `Info`, `ReasonCode`."
+msgstr ""
+
+#: ../../specification.md:3076
+msgid "Constantes"
+msgstr ""
+
+#: ../../specification.md:3078
+msgid ""
+"`BYE` ; `Running`, `Finished`, `Cancelled` ; `ActStartMatch`, `ActBye`, "
+"`ActDraw`, `ActNextPhase`, `ActFinish`, `ActWait` ; `EvCreated`, "
+"`EvPlayerAdded`, `EvPlayerWithdrawn`, `EvMatchStarted`, `EvResult`, "
+"`EvResultCorrected`, `EvMatchCancelled`, `EvBye`, `EvDraw`, "
+"`EvNextPhase`, `EvLengthChanged`, `EvTableChanged`, `EvFinished`, "
+"`EvNote` ; `KindSwissLives`, `KindLivesBracket`, `KindGSL`, "
+"`KindBracket`, `KindRoundRobin` ; `JournalVersion` ; les codes `Label*`, "
+"`Note*`, `Warn*`, `Info*`, `Reason*`."
+msgstr ""
+
+#: ../../specification.md:3085
+msgid "Fonctions et méthodes"
+msgstr ""
+
+#: ../../specification.md:3136
+msgid ""
+"Tout le reste (`pairGroup`, `drawSlots`, `resolve`, `bracketSection`…) "
+"est **non exporté** : ce sont des détails d'implémentation que l'on doit "
+"pouvoir changer sans casser les journaux."
+msgstr ""
+
+#: ../../specification.md:3139
+msgid "B. Exemple de journal"
+msgstr ""
+
+#: ../../specification.md:3167
+msgid "C. Nomenclature des clés"
+msgstr ""
+
+#: ../../specification.md
+msgid "Objet"
+msgstr ""
+
+#: ../../specification.md
+msgid "Forme de la clé"
+msgstr ""
+
+#: ../../specification.md
+msgid "Exemple"
+msgstr ""
+
+#: ../../specification.md
+msgid "Match réel"
+msgstr ""
+
+#: ../../specification.md
+msgid "`M<n>`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`M17`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`GMatch` de tableau"
+msgstr ""
+
+#: ../../specification.md
+msgid "`<section>.<tour>.<indice>`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`main.2.1`, `conso.3.0`, `last.0.2`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`GMatch` de grande finale"
+msgstr ""
+
+#: ../../specification.md
+msgid "`gf.<n>`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`gf.0`, `gf.1`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`GMatch` de groupe GSL"
+msgstr ""
+
+#: ../../specification.md
+msgid "`<section>.<n>`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`B2G3.4`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`GMatch` de poule"
+msgstr ""
+
+#: ../../specification.md
+msgid "`<section>.<ronde>.<indice>`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Poule A.1.0`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Section de bloc GSL"
+msgstr ""
+
+#: ../../specification.md
+msgid "`B<bloc>G<groupe>`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`B2G3`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Section de poule"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Poule <lettre>`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Poule C`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Section de barrage"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Barrage <poule>`"
+msgstr ""
+
+#: ../../specification.md
+msgid "`Barrage Poule C`"
+msgstr ""
+
+#: ../../specification.md:3180
+msgid "D. Documents liés"
+msgstr ""
+
+#: ../../specification.md
+msgid "Fichier"
+msgstr ""
+
+#: ../../specification.md
+msgid "Contenu"
+msgstr ""
+
+#: ../../specification.md
+msgid "`README.md`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Présentation courte et mode d'emploi"
+msgstr ""
+
+#: ../../specification.md
+msgid "`doc.go`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Documentation du paquet, exemple d'intégration"
+msgstr ""
+
+#: ../../specification.md
+msgid "`CLAUDE.md`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Guide de contribution (commandes, architecture, conventions)"
+msgstr ""
+
+#: ../../specification.md
+msgid "`docs/etude_formats.md`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Synthèse de l'étude par simulation qui justifie les choix de format"
+msgstr ""
+
+#: ../../specification.md
+msgid "`docs/RESTE_A_FAIRE.md`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Liste priorisée du travail restant"
+msgstr ""
+
+#: ../../specification.md
+msgid "`exemples/index.html`"
+msgstr ""
+
+#: ../../specification.md
+msgid "Galerie de tournois simulés rendus à quatre stades, pour sept formats"
+msgstr ""
+
