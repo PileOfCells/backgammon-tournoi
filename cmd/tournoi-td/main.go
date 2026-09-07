@@ -149,6 +149,8 @@ func help() {
   annule <match>               annuler un match lancé par erreur
   forfait <joueur>             retrait du tournoi (ses matchs en cours sont perdus)
   longueur <points>            changer la longueur des prochains matchs de la phase
+  configure <fichier.json>     remplacer la configuration entière (bascule, phase ajoutée…)
+  rouvre                       annuler la clôture d'un tournoi terminé
   matchs                       matchs en cours
   vies                         joueurs par nombre de défaites (phase à vies)
   classement                   classement courant
@@ -382,6 +384,30 @@ func (t *td) exec(f []string) error {
 		for _, wn := range t.st.Warnings {
 			fmt.Println("  !", wn)
 		}
+		t.propose()
+	case "configure":
+		// La configuration change ENTIÈRE : le TD envoie le même formulaire qu'à la création.
+		if len(f) < 2 {
+			return fmt.Errorf("configure <fichier.json>")
+		}
+		b, err := os.ReadFile(f[1])
+		if err != nil {
+			return err
+		}
+		cfg, err := tournoi.ParseConfig(b)
+		if err != nil {
+			return err
+		}
+		if err := t.apply(tournoi.ConfigChangedEvent(*cfg, now)); err != nil {
+			return err
+		}
+		fmt.Printf("  configuration remplacée : %d phase(s)\n", len(cfg.Phases))
+		t.propose()
+	case "rouvre":
+		if err := t.apply(tournoi.ReopenedEvent(now)); err != nil {
+			return err
+		}
+		fmt.Println("  tournoi rouvert : corrigez, puis proposez la clôture")
 		t.propose()
 	case "annule":
 		if len(f) < 2 {

@@ -39,6 +39,12 @@ où intervenir et comment vérifier.
   vers le premier (`[15,13,11,9]`) et passe par `lengthPlan` (graph.go), qui superpose la liste,
   `FinalLength` et `Length`. La fin d'un suisse s'allonge avec `LengthLate` + `LateThreshold`
   (`swissLength`, phase_swiss.go) ; un `length_changed` du TD l'emporte.
+- [x] **Configuration modifiable en cours, et réouverture** (issue #4). `EvConfigChanged` porte
+  la configuration ENTIÈRE ; `acceptConfig` (reconfig.go) refuse seulement deux choses — retirer
+  une phase ouverte, et changer le `Kind` d'une phase terminée, tirée ou commencée — en nommant
+  la phase et la raison. La bascule, les longueurs, les tables, la dotation et une phase ajoutée
+  après la courante passent. `EvReopened` annule la clôture et efface `Final`, recalculé à la
+  clôture suivante. `EvLengthChanged` reste lu.
 - [ ] **Pauses programmées** (repas) : `Propose` ne doit pas lancer de match dont la fin
   attendue dépasse l'heure de la pause, ou doit l'indiquer. Pour les blocs GSL, caler un bloc par
   créneau. Paramètre `Config.Breaks []TimeRange`, prise en compte dans `engine.go`.

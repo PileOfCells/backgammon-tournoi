@@ -32,7 +32,7 @@ go run ./cmd/tournoi-td -journal montournoi.json -format suisse_tableau
 
 ### Journal d'événements, état dérivé
 
-Tout passe par un **journal** (`Journal`, tableau JSON d'`Event`) que l'hôte stocke ; le moteur ne persiste rien. `Replay(journal)` reconstruit l'état complet ; `State.Apply(ev)` applique un événement. **On ne modifie jamais le journal** : une correction est un événement `EvResultCorrected`, un forfait `EvPlayerWithdrawn`, un match lancé par erreur `EvMatchCancelled`. Ces trois événements déclenchent `recompute()` (state.go) qui rejoue toute la comptabilité des phases à partir des matchs et remplit `State.Warnings` (par exemple un match de tableau joué par le mauvais joueur).
+Tout passe par un **journal** (`Journal`, tableau JSON d'`Event`) que l'hôte stocke ; le moteur ne persiste rien. `Replay(journal)` reconstruit l'état complet ; `State.Apply(ev)` applique un événement. **On ne modifie jamais le journal** : une correction est un événement `EvResultCorrected`, un forfait `EvPlayerWithdrawn`, un match lancé par erreur `EvMatchCancelled`, un changement de configuration `EvConfigChanged` (la configuration ENTIÈRE, voir `reconfig.go`), une clôture annulée `EvReopened`. Ces trois événements déclenchent `recompute()` (state.go) qui rejoue toute la comptabilité des phases à partir des matchs et remplit `State.Warnings` (par exemple un match de tableau joué par le mauvais joueur).
 
 Boucle côté hôte (exemple complet dans `doc.go`) :
 

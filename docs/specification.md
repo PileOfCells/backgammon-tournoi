@@ -575,6 +575,8 @@ const (
     EvDraw            EventKind = "draw"
     EvNextPhase       EventKind = "next_phase"
     EvLengthChanged   EventKind = "length_changed"
+    EvConfigChanged   EventKind = "config_changed"
+    EvReopened        EventKind = "reopened"
     EvFinished        EventKind = "finished"
     EvNote            EventKind = "note"
 )
@@ -636,6 +638,8 @@ Il n'exige pas la monotonie et ne s'en sert jamais pour décider.
 | `draw` | `Phase`, `Section`, `Draw` (obligatoire) |
 | `next_phase` | — |
 | `length_changed` | `Phase`, `Length` |
+| `config_changed` | `Config` (obligatoire, la configuration **entière**) |
+| `reopened` | — |
 | `finished` | — |
 | `note` | `Text` |
 
@@ -830,6 +834,47 @@ construction du graphe. Le champ n'a donc d'effet immédiat que sur les formats 
 dynamique (suisse, barrages) et sur les graphes construits **après** le changement (blocs GSL
 suivants).
 
+### `config_changed`
+
+```
+si ev.Config == nil → erreur
+cfg := copie profonde de *ev.Config ; cfg.Validate() → erreur éventuelle
+acceptConfig(cfg) → erreur éventuelle
+setConfig(cfg) ; recompute()
+```
+
+L'événement porte la configuration **entière**, et non le champ à changer : ce qui est écrit
+dans le journal est le résultat, pas l'instruction qui y mène — le même choix que pour `draw`.
+Un journal se relit alors sans connaître la règle de composition des retouches successives.
+
+`acceptConfig` refuse deux choses, et seulement deux :
+
+- une configuration qui a **moins de phases** que le tournoi n'en a ouvertes (une phase ouverte
+  ne se retire pas) ;
+- un changement de `Kind` sur une phase **terminée, tirée ou commencée**. Le refus nomme la
+  phase et dit laquelle des trois raisons s'applique.
+
+Tout le reste est accepté, y compris ce que le moteur ne peut pas juger : la bascule (`target`),
+les longueurs à venir, les tables, les pauses, la dotation, et une phase **ajoutée après** la
+phase courante.
+
+`setConfig` répercute la nouvelle configuration sur les `PhaseState` déjà ouverts. La longueur
+courante d'une phase (`PhaseState.Length`) ne suit la configuration que si la configuration l'a
+**effectivement changée** : sinon, une retouche qui ne touche qu'à la bascule effacerait le
+`length_changed` que le TD venait de saisir à la main. Quand le `Kind` d'une phase non commencée
+change, les vies de ses entrants sont recalculées (`livesFor`).
+
+### `reopened`
+
+```
+si !s.Finished → erreur « le tournoi n'est pas clos »
+s.Finished = false ; s.Final = nil
+```
+
+Rouvre un tournoi clos, parce qu'un résultat était faux. Le classement final figé est effacé et
+sera recalculé à la clôture suivante ; le journal, lui, garde tout — la clôture, la réouverture,
+la correction et la nouvelle clôture sont quatre événements.
+
 ### `finished`
 
 ```
@@ -861,6 +906,8 @@ func ForfeitEvent(id MatchID, winner PlayerID, now time.Time) Event
 func CorrectionEvent(id MatchID, winner PlayerID, scoreA, scoreB int, now time.Time) Event
 func CancelEvent(id MatchID, now time.Time) Event
 func LengthChangedEvent(phase, length int, now time.Time) Event
+func ConfigChangedEvent(cfg Config, now time.Time) Event
+func ReopenedEvent(now time.Time) Event
 func TableChangedEvent(id MatchID, table int, now time.Time) Event
 func NoteEvent(text string, now time.Time) Event
 func (e Event) WithNote(text string) Event

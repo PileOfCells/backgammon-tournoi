@@ -38,6 +38,7 @@ grille par tour lue **du dernier tour vers le premier** (`[15,13,11,9]`), `lengt
 - `phase_swiss.go`, `phase_bracket.go`, `phase_gsl.go`, `phase_rr.go` : les formats.
 - `standings.go` (rangs, prix partagés, CSV), `clock.go` (durées, matchs lents), `tables.go` (tables indisponibles, réservées).
 - `retardataire.go` : places d'exemption libres (`FreeSlots`) et entrée d'un joueur arrivé après le tirage, sans jamais refaire le tirage.
+- `reconfig.go` : configuration modifiable en cours (`ConfigChangedEvent`, la configuration entière) et réouverture d'un tournoi clos (`ReopenedEvent`).
 - `render/` : SVG des arbres, tableau des vies, matchs en cours, classement, page complète.
 - `sim/` : simulation (tests d'invariants, comparaison avec le simulateur de l'étude, prévision de fin).
 - `players/` : import et export CSV d'une liste de joueurs (l'annuaire de l'hôte fait l'aller-retour).
@@ -59,7 +60,8 @@ go run ./cmd/tournoi-td -journal montournoi.json -format suisse_tableau
 ```
 
 Dans la console : `ajoute Alice Paris 4.2` (ou `import joueurs.csv`), `propose`, `ok tous`,
-`resultat M1 alice 7 3`, `corrige M1 bob`, `forfait chloe`, `matchs`, `vies`, `classement`,
+`resultat M1 alice 7 3`, `corrige M1 bob`, `forfait chloe`, `configure nouvelle.json`,
+`rouvre`, `exporte joueurs.csv`, `matchs`, `vies`, `classement`,
 `simule` (joue au hasard les matchs en cours), `quitte`. Le journal est écrit après chaque
 commande ; relancer la même commande reprend le tournoi. La page `affichage.html` à côté du
 journal est régénérée à chaque commande : ouvrez-la dans un navigateur.
