@@ -186,6 +186,37 @@ func TestTemoinsDesComposants(t *testing.T) {
 	témoin(t, "appariements.html", r.PairingSheet(sw, 1))
 }
 
+// Une proposition qui attend une table libre porte Table = 0. « Table 0 » sur l'affichage d'une
+// salle est un numéro que les joueurs vont chercher entre la 1 et la 2 : la table ne se nomme
+// que lorsqu'elle est attribuée.
+func TestPasDeTableZeroDansLesActions(t *testing.T) {
+	r := New(French())
+	// Huit tables pour trente-deux joueurs : seize matchs proposés, huit lancés, huit en
+	// attente d'une table.
+	cfg := suisseRondes()
+	cfg.Tables = tournoi.Tables{Count: 8}
+	st, now := étatAvantLot(t, cfg, 32, 1)
+	acts := st.ProposeAt(now)
+
+	attente := 0
+	for _, a := range acts {
+		if a.Kind == tournoi.ActStartMatch && a.Table == 0 {
+			attente++
+		}
+	}
+	if attente == 0 {
+		t.Fatal("le cas ne se produit pas : le test ne prouve rien")
+	}
+	html := r.ActionsList(st, acts)
+	if strings.Contains(html, "Table 0") {
+		t.Errorf("une action nomme la table 0 :\n%s", html)
+	}
+	// Et la table attribuée, elle, est toujours nommée.
+	if !strings.Contains(html, "Table 1") {
+		t.Errorf("une action dont la table est attribuée ne la nomme plus :\n%s", html)
+	}
+}
+
 // TestPageAutonome : la page doit s'ouvrir hors ligne, depuis une clé USB, sur l'ordinateur de
 // la salle. Aucune ressource externe, aucun script.
 func TestPageAutonome(t *testing.T) {
