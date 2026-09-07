@@ -1152,8 +1152,25 @@ l'ensemble `{m.A, m.B}` diffère de `{g.Players[0], g.Players[1]}`, produire l'a
 match <ID> (<section> <label>) : joueurs <A>/<B> mais le tableau attend <P0>/<P1>
 ```
 
+Et pour chaque match terminé dont le score dépasse la longueur annoncée, l'avertissement
+`score_over_length`. Le score est **enregistré** malgré tout : pendant un tournoi, c'est la
+parole du TD qui fait foi ; le moteur le signale, il ne le refuse pas.
+
+`check` est rappelée après **tout événement qui touche un match** : `result` et `match_started`
+directement, les autres (`result_corrected`, `match_cancelled`, `player_withdrawn`,
+`config_changed`) par `recompute`, qui la termine. Un avertissement qui n'apparaîtrait qu'après
+une correction sans rapport ne servirait à rien : le TD doit le voir au moment où il peut encore
+agir. `length_changed` ne touche que les matchs FUTURS d'une phase et ne change donc rien à ce
+que `check` regarde.
+
+Elle parcourt les **graphes** et non les matchs — chaque place connaît son match par `MatchID` —
+parce que chercher, pour chaque match, sa place dans toutes les sections était quadratique : le
+coût était supportable une fois par correction, il ne l'est plus à chaque résultat. L'ordre des
+avertissements reste celui de `MatchOrder`, qui est celui que le TD lit.
+
 `State.Warnings` **doit être vide** dans un tournoi mené normalement ; c'est un invariant vérifié
-par les tests. Sa non-vacuité signale au TD qu'une correction a désynchronisé un tableau.
+par les tests. Sa non-vacuité signale au TD qu'une correction a désynchronisé un tableau, ou
+qu'un score est incohérent.
 
 ---
 
