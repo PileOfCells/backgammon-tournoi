@@ -67,7 +67,16 @@ func main() {
 		fmt.Fprintln(os.Stderr, "format inconnu")
 		os.Exit(1)
 	}
-	cfg.Prizes = []float64{40, 20, 10, 5, 5, 5, 5, 5, 2.5, 2.5}
+	// Une affiche de tournoi annonce des pourcentages, pas des montants : le pool dépend du
+	// nombre d'inscrits. La consolante a sa propre dotation, sur son propre classement.
+	cfg.Prizes = tournoi.PrizePool{
+		EntryFee:  20,
+		Retention: tournoi.Retention{Percent: 10},
+		Sections: map[string]tournoi.PrizeScale{
+			tournoi.PrizeSectionAll: {Percents: []float64{35, 20, 12, 8, 5, 5, 5, 5}},
+			"conso":                 {Percents: []float64{3, 2}},
+		},
+	}
 	players := sim.Champ(*P, 6, 2, 2, 10, rand.New(rand.NewSource(*seed)))
 	r := sim.Run(cfg, players, sim.Options{Seed: *seed})
 	if r.Err != nil {

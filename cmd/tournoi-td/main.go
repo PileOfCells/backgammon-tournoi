@@ -449,7 +449,7 @@ func (t *td) exec(f []string) error {
 		if r == nil {
 			r = t.st.Ranking()
 		}
-		pr := tournoi.Prizes(r, t.st.Config.Prizes)
+		pr := t.st.SectionPrizes(tournoi.PrizeSectionAll)
 		for _, x := range r {
 			fmt.Printf("  %2d. %-30s %s  %.0f\n", x.Rank, t.name(x.Player), x.Note, pr[x.Player])
 		}

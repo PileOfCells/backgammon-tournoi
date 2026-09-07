@@ -86,7 +86,9 @@ Un `Match` (state.go, joué, avec table et horodatages) est relié à son `GMatc
 
 ### Classement et prix
 
-`Ranking()` concatène les classements de phases de la dernière à la première (`phaseRanking` par format), puis renumérote avec ex æquo conservés. Pas de départage par principe : les égalités restent des ex æquo ou se règlent par barrage. `standings.go` partage les prix entre ex æquo et exporte le CSV.
+`Ranking()` concatène les classements de phases de la dernière à la première (`phaseRanking` par format), puis renumérote avec ex æquo conservés. `SectionRanking(sec)` donne le classement PROPRE d'une section (par tour atteint), sur lequel la dotation de cette section se répartit. Pas de départage par principe : les égalités restent des ex æquo ou se règlent par barrage.
+
+`prizes.go` porte la dotation (`Config.Prizes` est un `PrizePool` : droit d'entrée, retenue, barème par section en pourcentages ou en montants ; arrondi à l'unité, reste au premier). `standings.go` partage les prix entre ex æquo et exporte le CSV, une section par bloc.
 
 ### Paquets annexes
 

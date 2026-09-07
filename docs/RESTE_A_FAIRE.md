@@ -64,9 +64,13 @@ où intervenir et comment vérifier.
   dans les tableaux, par victoires à l'élimination dans les suisses, ex æquo partagés). Les
   notes de classement sont désormais des **codes** (`Note`, `codes.go`), traduisibles par
   l'hôte ; restent les règles de classement elles-mêmes, à valider avec la FFBG.
-- [ ] **Prix** : `Prizes` gère des montants par place ; ajouter les structures en pourcentage
-  du pool, la retenue d'organisation, l'arrondi, et les prix séparés par section (consolante,
-  dernière chance) : aujourd'hui un seul classement général.
+- [x] **Prix** (issue #9). `Config.Prizes` est un `PrizePool` (`prizes.go`) : droit d'entrée,
+  retenue (montant et/ou pourcentage), barème par section en pourcentages du pool distribuable ou
+  en montants fixes. `State.PrizeAmounts(sec)` arrondit à l'unité et met le reste au premier, de
+  sorte que la somme distribuée égale exactement le pool après retenue ; `SectionRanking(sec)`
+  donne le classement propre d'une section (par tour atteint) et `StandingsCSV` sort une section
+  par bloc. La forme ancienne (`"prizes": [100, 60, 40]`) reste lue. Reste à valider avec la FFBG
+  les règles de classement des places non gagnantes (point ci-dessus).
 - [x] **Export / import des joueurs** (issue #12). `players.ToCSV` écrit l'annuaire dans le
   format que `players.FromCSV` relit sans perte (colonnes `nom;club;cote`, colonne `id` seulement
   quand l'identifiant ne se déduit pas du nom) ; la console TD a la commande `exporte`. Au

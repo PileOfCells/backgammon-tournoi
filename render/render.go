@@ -219,7 +219,7 @@ func StandingsTable(st *tournoi.State) string {
 	if ranking == nil {
 		ranking = st.Ranking()
 	}
-	prizes := tournoi.Prizes(ranking, st.Config.Prizes)
+	prizes := st.SectionPrizes(tournoi.PrizeSectionAll)
 	var b strings.Builder
 	b.WriteString(`<table class="standings"><tr><th>#</th><th>Joueur</th><th>Club</th><th></th><th>Prix</th></tr>`)
 	for _, r := range ranking {

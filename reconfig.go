@@ -81,7 +81,7 @@ func (c Config) clone() Config {
 	for i := range out.Phases {
 		out.Phases[i].Lengths = append([]int(nil), c.Phases[i].Lengths...)
 	}
-	out.Prizes = append([]float64(nil), c.Prizes...)
+	out.Prizes = c.Prizes.clone()
 	out.Tables.Unavailable = append([]int(nil), c.Tables.Unavailable...)
 	out.Tables.Reserved = append([]TableRule(nil), c.Tables.Reserved...)
 	return out

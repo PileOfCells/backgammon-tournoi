@@ -20,7 +20,10 @@ type Config struct {
 	Phases      []PhaseConfig `json:"phases"`
 	MinPerPoint float64       `json:"min_per_point,omitempty"` // durée moyenne d'un point (minutes), défaut 8
 	Tables      Tables        `json:"tables,omitempty"`        // les tables de la salle (tables.go)
-	Prizes      []float64     `json:"prizes,omitempty"`        // dotation par place (fractions ou montants)
+	// Prizes : droit d'entrée, retenue d'organisation et barème par section (prizes.go). La
+	// forme ancienne — une simple liste de montants — reste lue et devient le barème du
+	// classement général.
+	Prizes PrizePool `json:"prizes,omitempty"`
 }
 
 // PhaseConfig paramètre une phase. Les champs inutiles pour un type sont ignorés.
@@ -67,6 +70,9 @@ func (c *Config) Validate() error {
 	}
 	if c.MinPerPoint <= 0 {
 		c.MinPerPoint = 8
+	}
+	if err := c.Prizes.validate(); err != nil {
+		return err
 	}
 	for i := range c.Phases {
 		p := &c.Phases[i]
