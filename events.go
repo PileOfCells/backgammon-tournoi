@@ -94,6 +94,9 @@ func (s *State) EventFromAction(a Action, now time.Time) (Event, error) {
 	case ActDraw:
 		ev.Kind = EvDraw
 		ev.Draw = a.Draw
+	case ActCancelMatch:
+		ev.Kind = EvMatchCancelled
+		ev.MatchID = a.Match
 	case ActNextPhase:
 		ev.Kind = EvNextPhase
 	case ActFinish:

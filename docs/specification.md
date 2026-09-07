@@ -252,26 +252,31 @@ devrait leur substituer des codes ; le format des notes n'est pas contractuel.
 ```go
 type ActionKind string
 const (
-    ActStartMatch ActionKind = "start_match" // lancer un match
-    ActBye        ActionKind = "bye"         // donner un bye (ronde synchrone)
-    ActDraw       ActionKind = "draw"       // effectuer un tirage (le tirage est joint)
-    ActNextPhase  ActionKind = "next_phase"  // passer à la phase suivante
-    ActFinish     ActionKind = "finish"      // clore le tournoi
-    ActWait       ActionKind = "wait"        // rien à faire : attendre
+    ActStartMatch  ActionKind = "start_match"  // lancer un match
+    ActBye         ActionKind = "bye"          // donner un bye (ronde synchrone)
+    ActDraw        ActionKind = "draw"         // effectuer un tirage (le tirage est joint)
+    ActNextPhase   ActionKind = "next_phase"   // passer à la phase suivante
+    ActCancelMatch ActionKind = "cancel_match" // annuler un match devenu incohérent
+    ActFinish      ActionKind = "finish"       // clore le tournoi
+    ActWait        ActionKind = "wait"         // rien à faire : attendre
 )
 
 type Action struct {
-    Kind    ActionKind `json:"kind"`
-    Phase   int        `json:"phase"`
-    Section string     `json:"section,omitempty"`
-    Label   string     `json:"label,omitempty"`
-    Key     string     `json:"key,omitempty"`
-    A       PlayerID   `json:"a,omitempty"`
-    B       PlayerID   `json:"b,omitempty"`
-    Length  int        `json:"length,omitempty"`
-    Table   int        `json:"table,omitempty"`
-    Draw    *Draw      `json:"draw,omitempty"`
-    Reason  string     `json:"reason,omitempty"` // ActWait : pourquoi
+    Kind    ActionKind  `json:"kind"`
+    Phase   int         `json:"phase"`
+    Section string      `json:"section,omitempty"`
+    Label   Label       `json:"label,omitempty"`
+    Round   int         `json:"round,omitempty"`
+    Key     string      `json:"key,omitempty"`
+    Match   MatchID     `json:"match,omitempty"`  // cancel_match : le match à annuler
+    A       PlayerID    `json:"a,omitempty"`
+    B       PlayerID    `json:"b,omitempty"`
+    Length  int         `json:"length,omitempty"`
+    Table   int         `json:"table,omitempty"`
+    Draw    *Draw       `json:"draw,omitempty"`
+    Reason  ReasonCode  `json:"reason,omitempty"` // ActWait : pourquoi
+    Until   time.Time   `json:"until,omitempty"`  // waiting_batch : échéance du prochain lot
+    Warn    WarningCode `json:"warn,omitempty"`   // ce que le moteur remarque sans rien bloquer
 }
 ```
 
@@ -283,6 +288,7 @@ type Action struct {
 | `bye` | `Bye pour <A> (<Label>)` |
 | `draw` | `Tirage : <Label>` |
 | `next_phase` | `Passer à la phase suivante : <Label>` |
+| `cancel_match` | `Annuler <Match> : <A> contre <B> (<Label>), devenu incohérent` |
 | `finish` | `Clore le tournoi` |
 | (autre) | `Attendre : <Reason>` |
 
@@ -935,6 +941,7 @@ func (e Event) WithNote(text string) Event
 | `start_match` | `match_started` avec `MatchID = s.nextMatchID()`, `A`, `B`, `Length`, `Table` |
 | `bye` | `bye` avec `ID = a.A` |
 | `draw` | `draw` avec `Draw = a.Draw` |
+| `cancel_match` | `match_cancelled` avec `MatchID = a.Match` |
 | `next_phase` | `next_phase` |
 | `finish` | `finished` |
 | autre (`wait`) | erreur « action sans événement associé » |
@@ -1175,6 +1182,38 @@ qu'un score est incohérent.
 ---
 
 # Moteur de propositions
+
+## Réparation d'un graphe désaccordé
+
+Corriger un résultat de tableau après coup recalcule l'état et lève l'avertissement
+`bracket_wrong_players`, mais le directeur se retrouvait devant un arbre faux, avec les matchs
+suivants déjà joués par les mauvaises personnes, et rien pour l'aider.
+
+`Propose` émet désormais la réparation comme des propositions ORDINAIRES, en tête de liste :
+
+```
+1. les places dont le match n'a pas été joué par les joueurs que la place attendait
+2. + tout ce qui en descend (point fixe sur les Src, sections traversées comprises)
+3. → une action cancel_match par place, de la plus profonde à la moins profonde
+```
+
+Un demi-finaliste faux fait une finale fausse, même si la finale oppose bien les deux joueurs que
+le graphe attendait : elle les attendait pour de mauvaises raisons. D'où l'annulation **en
+série**. Les annulations sont proposées du plus profond au moins profond — on défait le plus
+récent d'abord, comme sur le papier.
+
+Les relances correctes ne sont pas fabriquées : une fois les annulations confirmées, les places
+redeviennent libres et sont proposées comme n'importe quel match prêt, à l'appel suivant. Tant
+que le TD n'a rien confirmé, il n'y a rien à relancer.
+
+**Rien n'est appliqué d'office.** Ne rien confirmer laisse l'état tel quel, avertissement
+compris : un directeur peut préférer laisser le tableau tel qu'il a été joué et le noter à la
+main.
+
+Corollaire dans `recompute` : `GMatch.MatchID` repart **vide** au recalcul, et n'est reposé que
+pour les matchs non annulés. Sans cela, une place dont le match vient d'être annulé gardait son
+identifiant, `ready` l'écartait, et le tableau restait bloqué à l'endroit même qu'on voulait
+rejouer.
 
 ## Micro-rondes et pauses
 

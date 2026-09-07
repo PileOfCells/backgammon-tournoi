@@ -82,6 +82,9 @@ const (
 	ActNextPhase  ActionKind = "next_phase"  // passer à la phase suivante
 	ActFinish     ActionKind = "finish"      // clore le tournoi
 	ActWait       ActionKind = "wait"        // rien à faire : attendre la fin de matchs en cours
+	// ActCancelMatch : annuler un match devenu incohérent après une correction (reparation.go).
+	// Comme toute action, elle est PROPOSÉE : rien n'est annulé d'office.
+	ActCancelMatch ActionKind = "cancel_match"
 )
 
 // Action est une proposition du moteur ; le TD la confirme en ajoutant l'événement correspondant
@@ -93,6 +96,7 @@ type Action struct {
 	Label   Label      `json:"label,omitempty"`
 	Round   int        `json:"round,omitempty"` // ronde suisse (0 = sans objet) ; remplace la relecture du libellé
 	Key     string     `json:"key,omitempty"`
+	Match   MatchID    `json:"match,omitempty"` // cancel_match : le match à annuler
 	A       PlayerID   `json:"a,omitempty"`
 	B       PlayerID   `json:"b,omitempty"`
 	Length  int        `json:"length,omitempty"`

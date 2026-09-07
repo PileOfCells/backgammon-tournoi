@@ -42,6 +42,11 @@ func (s *State) ProposeAt(now time.Time) []Action {
 	case KindRoundRobin:
 		acts = s.proposeRR(ph)
 	}
+	// La réparation d'un graphe désaccordé passe DEVANT : on annule avant de relancer
+	// (reparation.go). Elle est vide dans un tournoi mené normalement.
+	if rep := s.proposeRepair(ph); len(rep) > 0 {
+		acts = append(rep, acts...)
+	}
 	if len(acts) == 0 {
 		if s.runningInPhase(ph) > 0 {
 			return []Action{{Kind: ActWait, Phase: ph.Index, Reason: ReasonMatchesRunning}}
@@ -162,6 +167,8 @@ func (a Action) String() string {
 		return fmt.Sprintf("Tirage : %s", a.Label)
 	case ActNextPhase:
 		return fmt.Sprintf("Passer à la phase suivante : %s", a.Label)
+	case ActCancelMatch:
+		return fmt.Sprintf("Annuler %s : %s contre %s (%s), devenu incohérent", a.Match, a.A, a.B, a.Label)
 	case ActFinish:
 		return "Clore le tournoi"
 	}
