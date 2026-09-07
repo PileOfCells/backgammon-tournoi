@@ -447,8 +447,14 @@ func (r *Renderer) ActionsList(st *tournoi.State, acts []tournoi.Action) string 
 		var s string
 		switch a.Kind {
 		case tournoi.ActStartMatch:
-			s = fmt.Sprintf("%s %d — %s : %s %s %s, %d %s", r.t(TermTable, 0), a.Table, r.L.Label(a.Label),
+			// La table n'est nommée que si elle est attribuée : une proposition qui attend
+			// une table libre porte Table = 0, et « Table 0 » sur l'affichage d'une salle est
+			// un numéro que les joueurs vont chercher.
+			s = fmt.Sprintf("%s : %s %s %s, %d %s", r.L.Label(a.Label),
 				r.name(st, a.A), r.t(TermVersus, 0), r.name(st, a.B), a.Length, r.t(TermPoints, a.Length))
+			if a.Table > 0 {
+				s = fmt.Sprintf("%s %d — %s", r.t(TermTable, 0), a.Table, s)
+			}
 		case tournoi.ActCancelMatch:
 			s = fmt.Sprintf("%s %s — %s : %s %s %s", r.t(TermCancel, 0), a.Match, r.L.Label(a.Label),
 				r.name(st, a.A), r.t(TermVersus, 0), r.name(st, a.B))
