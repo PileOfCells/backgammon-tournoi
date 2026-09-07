@@ -32,10 +32,10 @@ où intervenir et comment vérifier.
   (accepté seulement en suisse avant bascule) — issue #6. Les forfaits fins sont faits : le
   forfait d'un seul match sans retrait (`ForfeitEvent`) et le retrait différé
   (`PlayerWithdrawnAfterCurrentEvent`, le joueur finit son match en cours).
-- [ ] **Longueurs de match par tour** dans les tableaux (par exemple 9 / 11 / 13 / 15) :
-  aujourd'hui `Length` + `FinalLength` seulement. Ajouter `Lengths []int` (du dernier tour vers
-  le premier) dans `PhaseConfig`, utilisé par `bracketSection`. Idem pour la fin du suisse
-  (allonger quand il reste peu de joueurs : `LengthLate` + seuil).
+- [x] **Longueurs de match par tour** (issue #5). `PhaseConfig.Lengths` se lit du dernier tour
+  vers le premier (`[15,13,11,9]`) et passe par `lengthPlan` (graph.go), qui superpose la liste,
+  `FinalLength` et `Length`. La fin d'un suisse s'allonge avec `LengthLate` + `LateThreshold`
+  (`swissLength`, phase_swiss.go) ; un `length_changed` du TD l'emporte.
 - [ ] **Pauses programmées** (repas) : `Propose` ne doit pas lancer de match dont la fin
   attendue dépasse l'heure de la pause, ou doit l'indiquer. Pour les blocs GSL, caler un bloc par
   créneau. Paramètre `Config.Breaks []TimeRange`, prise en compte dans `engine.go`.

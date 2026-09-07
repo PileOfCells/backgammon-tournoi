@@ -25,14 +25,25 @@ type Config struct {
 
 // PhaseConfig paramètre une phase. Les champs inutiles pour un type sont ignorés.
 type PhaseConfig struct {
-	Kind           string `json:"kind"`
-	Name           string `json:"name,omitempty"`
-	Lives          int    `json:"lives,omitempty"`        // swiss_lives : nombre de vies (défaut 2)
-	Length         int    `json:"length"`                 // longueur des matchs (points)
-	FinalLength    int    `json:"final_length,omitempty"` // longueur de la finale (tableaux), 0 = Length
-	Mode           string `json:"mode,omitempty"`         // swiss_lives : "continuous" (défaut) ou "rounds"
-	Pairing        string `json:"pairing,omitempty"`      // swiss_lives : "random" (défaut) ou "wins"
-	AvoidClubs     bool   `json:"avoid_clubs,omitempty"`  // éviter les joueurs du même club quand c'est possible
+	Kind        string `json:"kind"`
+	Name        string `json:"name,omitempty"`
+	Lives       int    `json:"lives,omitempty"`        // swiss_lives : nombre de vies (défaut 2)
+	Length      int    `json:"length"`                 // longueur des matchs (points)
+	FinalLength int    `json:"final_length,omitempty"` // longueur de la finale (tableaux), 0 = Length
+	// Lengths donne la longueur tour par tour d'un tableau, DU DERNIER TOUR VERS LE PREMIER
+	// (« 15, 13, 11, 9 » = finale en 15, demies en 13, quarts en 11, reste en 9). L'ordre est
+	// celui dans lequel un organisateur annonce son tournoi, et il ne dépend pas de la taille
+	// du tableau : la même liste sert un tableau de 16 et un tableau de 64, où elle allonge les
+	// quatre derniers tours. Une liste plus courte que le tableau retombe sur Length.
+	Lengths []int `json:"lengths,omitempty"`
+	// LengthLate allonge les matchs de la fin d'un suisse, quand il ne reste plus que
+	// LateThreshold joueurs en vie ou moins. Les deux vont ensemble : l'un sans l'autre ne fait
+	// rien. Un changement de longueur décidé à la main par le TD (EvLengthChanged) l'emporte.
+	LengthLate     int    `json:"length_late,omitempty"`
+	LateThreshold  int    `json:"late_threshold,omitempty"`
+	Mode           string `json:"mode,omitempty"`        // swiss_lives : "continuous" (défaut) ou "rounds"
+	Pairing        string `json:"pairing,omitempty"`     // swiss_lives : "random" (défaut) ou "wins"
+	AvoidClubs     bool   `json:"avoid_clubs,omitempty"` // éviter les joueurs du même club quand c'est possible
 	AllowRematch   bool   `json:"allow_rematch,omitempty"`
 	Target         int    `json:"target,omitempty"`         // swiss_lives / gsl : figer quand la somme des vies vaut Target (puissance de 2)
 	Consolation    bool   `json:"consolation,omitempty"`    // bracket : consolante progressive (perdants du tableau principal)
@@ -56,6 +67,14 @@ func (c *Config) Validate() error {
 		p := &c.Phases[i]
 		if p.Length <= 0 {
 			return fmt.Errorf("phase %d : longueur de match manquante", i)
+		}
+		for k, l := range p.Lengths {
+			if l <= 0 {
+				return fmt.Errorf("phase %d : lengths[%d] = %d, une longueur de match est positive", i, k, l)
+			}
+		}
+		if p.LengthLate > 0 && p.LateThreshold <= 0 {
+			return fmt.Errorf("phase %d : length_late sans late_threshold — à partir de combien de joueurs ?", i)
 		}
 		switch p.Kind {
 		case KindSwissLives:

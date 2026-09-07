@@ -100,6 +100,19 @@ func (s *State) pairGroup(ph *PhaseState, g []PlayerID, rng *rand.Rand, allowRem
 	return pairs, rest
 }
 
+// swissLength : longueur des matchs à lancer maintenant dans un suisse.
+//
+// Un suisse s'allonge quand il ne reste qu'une poignée de joueurs : les derniers matchs
+// décident du tournoi et méritent d'être plus longs. La règle est automatique, mais un
+// changement décidé à la main par le TD (EvLengthChanged) l'emporte — c'est lui qui dirige,
+// et il a pu allonger ou raccourcir pour une raison que le moteur ignore (l'horaire de la salle).
+func (s *State) swissLength(ph *PhaseState) int {
+	if ph.Cfg.LengthLate > 0 && ph.Length == ph.Cfg.Length && len(s.alive(ph)) <= ph.Cfg.LateThreshold {
+		return ph.Cfg.LengthLate
+	}
+	return ph.Length
+}
+
 func (s *State) proposeSwiss(ph *PhaseState) []Action {
 	if s.swissDone(ph) {
 		return nil
@@ -133,7 +146,7 @@ func (s *State) proposeSwiss(ph *PhaseState) []Action {
 			if budget <= 0 {
 				break
 			}
-			acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Label: label(pr[0]), A: pr[0], B: pr[1], Length: ph.Length})
+			acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Label: label(pr[0]), A: pr[0], B: pr[1], Length: s.swissLength(ph)})
 			budget--
 		}
 	}
@@ -149,7 +162,7 @@ func (s *State) proposeSwiss(ph *PhaseState) []Action {
 			pairs, _ := s.pairGroup(ph, g, rng, true)
 			if len(pairs) > 0 {
 				pr := pairs[0]
-				return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelRematch}, A: pr[0], B: pr[1], Length: ph.Length}}
+				return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelRematch}, A: pr[0], B: pr[1], Length: s.swissLength(ph)}}
 			}
 		}
 		fr := sortedIDs(free)
@@ -158,7 +171,7 @@ func (s *State) proposeSwiss(ph *PhaseState) []Action {
 		if len(fr) > 2 {
 			lbl = Label{Kind: LabelCrossed}
 		}
-		return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: lbl, A: fr[0], B: fr[1], Length: ph.Length}}
+		return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: lbl, A: fr[0], B: fr[1], Length: s.swissLength(ph)}}
 	}
 	return acts
 }
@@ -181,7 +194,7 @@ func (s *State) proposeSwissRound(ph *PhaseState) []Action {
 		}
 		pairs, rest := s.pairGroup(ph, g, rng, false)
 		for _, pr := range pairs {
-			acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelRound, N: ph.Round + 1}, Round: ph.Round + 1, A: pr[0], B: pr[1], Length: ph.Length})
+			acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelRound, N: ph.Round + 1}, Round: ph.Round + 1, A: pr[0], B: pr[1], Length: s.swissLength(ph)})
 		}
 		restes = append(restes, rest...)
 	}
@@ -204,10 +217,10 @@ func (s *State) proposeSwissContinuousFallback(ph *PhaseState, free []PlayerID, 
 		}
 		pairs, _ := s.pairGroup(ph, g, rng, true)
 		if len(pairs) > 0 {
-			return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelRematch}, A: pairs[0][0], B: pairs[0][1], Length: ph.Length}}
+			return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelRematch}, A: pairs[0][0], B: pairs[0][1], Length: s.swissLength(ph)}}
 		}
 	}
 	fr := sortedIDs(free)
 	sort.SliceStable(fr, func(i, j int) bool { return ph.Losses[fr[i]] < ph.Losses[fr[j]] })
-	return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelFinal}, A: fr[0], B: fr[1], Length: ph.Length}}
+	return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelFinal}, A: fr[0], B: fr[1], Length: s.swissLength(ph)}}
 }

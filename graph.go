@@ -153,9 +153,41 @@ func (ph *PhaseState) allDone() bool {
 
 // ---- constructeurs de graphes ----
 
+// lengthPlan dit la longueur des matchs d'un tableau, tour par tour.
+//
+// Trois sources se superposent, de la plus précise à la plus générale : la liste par tour
+// (PhaseConfig.Lengths, du dernier tour vers le premier), la longueur de finale
+// (FinalLength), et la longueur par défaut de la phase. Le calcul est ici, en un seul
+// endroit, parce qu'il vaut pour le principal comme pour les mini-tableaux : un tour de
+// tableau ne doit pas avoir à savoir d'où vient sa longueur.
+type lengthPlan struct {
+	def     int   // longueur par défaut de la phase
+	final   int   // longueur de la finale ; 0 = def
+	byRound []int // du DERNIER tour vers le premier ; plus courte que le tableau = complétée par def
+}
+
+// plain : une longueur unique pour tous les tours (mini-tableaux, dernière chance).
+func plain(length int) lengthPlan { return lengthPlan{def: length} }
+
+// bracketLengths : le plan d'un tableau de la phase ph.
+func bracketLengths(ph *PhaseState) lengthPlan {
+	return lengthPlan{def: ph.Length, final: ph.Cfg.FinalLength, byRound: ph.Cfg.Lengths}
+}
+
+// at : longueur du tour r d'un tableau de `rounds` tours (0 = premier tour).
+func (lp lengthPlan) at(r, rounds int) int {
+	if i := rounds - 1 - r; i >= 0 && i < len(lp.byRound) && lp.byRound[i] > 0 {
+		return lp.byRound[i]
+	}
+	if r == rounds-1 && lp.final > 0 {
+		return lp.final
+	}
+	return lp.def
+}
+
 // bracketSection construit un tableau à élimination simple de 2^k places à partir des slots
 // (BYE = place vide). Les labels de tour sont classiques.
-func bracketSection(name, kind string, slots []PlayerID, length, finalLength int) *Section {
+func bracketSection(name, kind string, slots []PlayerID, lp lengthPlan) *Section {
 	size := len(slots)
 	sec := &Section{Name: name, Kind: kind}
 	rounds := 0
@@ -166,19 +198,15 @@ func bracketSection(name, kind string, slots []PlayerID, length, finalLength int
 	var prevIdx []int
 	for i := 0; i < size/2; i++ {
 		sec.Matches = append(sec.Matches, GMatch{Key: fmt.Sprintf("%s.%d.%d", name, 0, i), Label: roundLabel(0, rounds),
-			Length: length, Src: [2]Src{{Player: slots[2*i], From: -1}, {Player: slots[2*i+1], From: -1}}})
+			Length: lp.at(0, rounds), Src: [2]Src{{Player: slots[2*i], From: -1}, {Player: slots[2*i+1], From: -1}}})
 		prevIdx = append(prevIdx, len(sec.Matches)-1)
 	}
 	sec.Rounds = append(sec.Rounds, prevIdx)
 	for r := 1; r < rounds; r++ {
 		var idx []int
 		for i := 0; i < len(prevIdx)/2; i++ {
-			l := length
-			if r == rounds-1 && finalLength > 0 {
-				l = finalLength
-			}
 			sec.Matches = append(sec.Matches, GMatch{Key: fmt.Sprintf("%s.%d.%d", name, r, i), Label: roundLabel(r, rounds),
-				Length: l, Src: [2]Src{{From: prevIdx[2*i]}, {From: prevIdx[2*i+1]}}})
+				Length: lp.at(r, rounds), Src: [2]Src{{From: prevIdx[2*i]}, {From: prevIdx[2*i+1]}}})
 			idx = append(idx, len(sec.Matches)-1)
 		}
 		sec.Rounds = append(sec.Rounds, idx)
@@ -290,7 +318,7 @@ func seSection(name string, players []PlayerID, length int) *Section {
 	default:
 		return &Section{Name: name, Kind: secKindSE}
 	}
-	sec := bracketSection(name, "se", slots, length, 0)
+	sec := bracketSection(name, "se", slots, plain(length))
 	for i := range sec.Matches {
 		sec.Matches[i].Label = Label{Kind: LabelSingleElim}
 	}

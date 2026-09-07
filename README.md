@@ -26,6 +26,10 @@ go get github.com/PileOfCells/backgammon-tournoi
 
 Les phases s'enchaînent (`entry` : `survivors` avec leurs vies, `all`, `top:N`).
 
+Longueurs de match : `length` partout, `final_length` pour le dernier tour, `lengths` pour une
+grille par tour lue **du dernier tour vers le premier** (`[15,13,11,9]`), `length_late` +
+`late_threshold` pour allonger la fin d'un suisse.
+
 ## Fichiers
 
 - `types.go`, `events.go`, `state.go`, `engine.go` : modèle, journal, état, propositions.
