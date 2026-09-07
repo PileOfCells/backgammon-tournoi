@@ -46,7 +46,7 @@ func (s *State) StandingsCSV() []byte {
 		if p != nil {
 			name, club = p.Name, p.Club
 		}
-		_ = w.Write([]string{strconv.Itoa(r.Rank), string(r.Player), name, club, r.Note, fmt.Sprintf("%.2f", pr[r.Player])})
+		_ = w.Write([]string{strconv.Itoa(r.Rank), string(r.Player), name, club, r.Note.String(), fmt.Sprintf("%.2f", pr[r.Player])})
 	}
 	w.Flush()
 	return buf.Bytes()

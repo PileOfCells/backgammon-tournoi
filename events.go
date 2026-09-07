@@ -6,6 +6,10 @@ import (
 	"time"
 )
 
+// JournalVersion est la version du format du journal écrite dans chaque nouvel événement.
+// 0 (champ absent) désigne les journaux antérieurs aux codes structurés, toujours rejouables.
+const JournalVersion = 1
+
 // EventKind est le type d'un événement du journal.
 type EventKind string
 
@@ -28,6 +32,7 @@ const (
 // Event est une entrée du journal. Les champs inutiles pour un type restent vides.
 type Event struct {
 	Seq     int       `json:"seq"`
+	Version int       `json:"version,omitempty"` // format du journal ; 0 = avant les codes structurés
 	Kind    EventKind `json:"kind"`
 	Time    time.Time `json:"time"`
 	Config  *Config   `json:"config,omitempty"`
@@ -37,7 +42,8 @@ type Event struct {
 	MatchID MatchID   `json:"match_id,omitempty"`
 	Phase   int       `json:"phase,omitempty"`
 	Section string    `json:"section,omitempty"`
-	Label   string    `json:"label,omitempty"`
+	Label   Label     `json:"label,omitempty"`
+	Round   int       `json:"round,omitempty"`
 	Key     string    `json:"key,omitempty"`
 	A       PlayerID  `json:"a,omitempty"`
 	B       PlayerID  `json:"b,omitempty"`
@@ -69,7 +75,7 @@ func ParseJournal(b []byte) (Journal, error) {
 // EventFromAction construit l'événement qui confirme une action proposée.
 // Pour ActStartMatch, l'identifiant de match est attribué par le moteur (prochain numéro).
 func (s *State) EventFromAction(a Action, now time.Time) (Event, error) {
-	ev := Event{Time: now, Phase: a.Phase, Section: a.Section, Label: a.Label, Key: a.Key}
+	ev := Event{Version: JournalVersion, Time: now, Phase: a.Phase, Section: a.Section, Label: a.Label, Round: a.Round, Key: a.Key}
 	switch a.Kind {
 	case ActStartMatch:
 		ev.Kind = EvMatchStarted
@@ -93,5 +99,61 @@ func (s *State) EventFromAction(a Action, now time.Time) (Event, error) {
 
 // ResultEvent construit l'événement de résultat d'un match.
 func ResultEvent(id MatchID, winner PlayerID, scoreA, scoreB int, now time.Time) Event {
-	return Event{Kind: EvResult, Time: now, MatchID: id, Winner: winner, ScoreA: scoreA, ScoreB: scoreB}
+	return Event{Version: JournalVersion, Kind: EvResult, Time: now, MatchID: id, Winner: winner, ScoreA: scoreA, ScoreB: scoreB}
+}
+
+// upgraded convertit un événement d'un journal antérieur aux codes structurés (Version 0) vers
+// la forme courante : le libellé texte devient un code quand il est reconnaissable, et le
+// numéro de ronde passe du texte au champ Round. Un événement déjà à jour est renvoyé tel quel.
+// La conversion a lieu à la LECTURE du journal, si bien que le reste du moteur ne connaît que
+// les codes.
+func (e Event) upgraded() Event {
+	if e.Version >= 1 || e.Label.Text == "" {
+		return e
+	}
+	if r := legacyRound(e.Label.Text); r > 0 {
+		if e.Round == 0 {
+			e.Round = r
+		}
+		e.Label = Label{Kind: LabelRound, N: r}
+	}
+	return e
+}
+
+// ---- Constructeurs d'événements ----
+//
+// Tout événement porte la version du format. Ces constructeurs existent pour qu'on ne puisse pas
+// l'oublier : un événement fabriqué à la main sans Version serait relu comme un journal ancien.
+
+// PlayerAddedEvent : inscription d'un joueur. slot désigne, s'il est non vide, la place
+// d'exemption qu'un retardataire vient prendre dans un tableau déjà tiré.
+func PlayerAddedEvent(p Player, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvPlayerAdded, Time: now, Player: &p}
+}
+
+// PlayerWithdrawnEvent : retrait d'un joueur du tournoi.
+func PlayerWithdrawnEvent(id PlayerID, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvPlayerWithdrawn, Time: now, ID: id}
+}
+
+// CorrectionEvent : correction du résultat d'un match déjà terminé. Le journal n'est jamais
+// modifié : la correction est un événement de plus, et l'état est recalculé.
+func CorrectionEvent(id MatchID, winner PlayerID, scoreA, scoreB int, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvResultCorrected, Time: now, MatchID: id,
+		Winner: winner, ScoreA: scoreA, ScoreB: scoreB}
+}
+
+// CancelEvent : annulation d'un match lancé par erreur.
+func CancelEvent(id MatchID, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvMatchCancelled, Time: now, MatchID: id}
+}
+
+// LengthChangedEvent : nouvelle longueur pour les matchs à venir d'une phase.
+func LengthChangedEvent(phase, length int, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvLengthChanged, Time: now, Phase: phase, Length: length}
+}
+
+// NoteEvent : annotation libre du directeur de tournoi, horodatée.
+func NoteEvent(text string, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvNote, Time: now, Text: text}
 }

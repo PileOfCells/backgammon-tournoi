@@ -82,7 +82,7 @@ func (s *State) proposeGSL(ph *PhaseState) []Action {
 				continue
 			}
 			acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Section: r.sec.Name, Key: r.g.Key,
-				Label: fmt.Sprintf("Bloc %d, %s : %s", r.sec.Block, r.sec.Name, r.g.Label), A: r.g.Players[0], B: r.g.Players[1], Length: r.g.Length})
+				Label: Label{Kind: LabelInBlock, N: r.sec.Block, Section: r.sec.Name}.with(r.g.Label), A: r.g.Players[0], B: r.g.Players[1], Length: r.g.Length})
 		}
 		return acts
 	}
@@ -101,7 +101,7 @@ func (s *State) proposeGSL(ph *PhaseState) []Action {
 		}
 	}
 	if len(g0) == 1 && len(g1) == 1 { // finale (recharge implicite : si le 1 défaite gagne, ils rejouent)
-		return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: "Finale", A: g0[0], B: g1[0], Length: ph.Length}}
+		return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelFinal}, A: g0[0], B: g1[0], Length: ph.Length}}
 	}
 	var groups [][]PlayerID
 	for _, g := range [][]PlayerID{g0, g1} {
@@ -109,7 +109,7 @@ func (s *State) proposeGSL(ph *PhaseState) []Action {
 		rng.Shuffle(len(g), func(i, j int) { g[i], g[j] = g[j], g[i] })
 		groups = append(groups, partition(g)...)
 	}
-	return []Action{{Kind: ActDraw, Phase: ph.Index, Label: fmt.Sprintf("Bloc %d : %d groupes", ph.Round+1, len(groups)),
+	return []Action{{Kind: ActDraw, Phase: ph.Index, Label: Label{Kind: LabelDrawBlock, N: ph.Round + 1, Players: len(groups)},
 		Draw: &Draw{Groups: groups, Lives: copyLives(ph)}}}
 }
 

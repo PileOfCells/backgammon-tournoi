@@ -187,23 +187,11 @@ func bracketSection(name, kind string, slots []PlayerID, length, finalLength int
 	return sec
 }
 
-func roundLabel(r, rounds int) string {
-	switch rounds - r {
-	case 1:
-		return "Finale"
-	case 2:
-		return "Demi-finale"
-	case 3:
-		return "Quart de finale"
-	}
-	return fmt.Sprintf("Tour %d", r+1)
-}
-
 // consolationSection construit la consolante progressive d'un tableau principal `main` de 2^k
 // places : ronde 0 = perdants du tour 1 entre eux ; ronde 2r-2 = survivants contre perdants du
 // tour r+1 du principal ; ronde 2r-1 = entre survivants. Renvoie la section (vainqueur = dernier match).
 func consolationSection(name string, main *Section, length int) *Section {
-	sec := &Section{Name: name, Kind: "conso"}
+	sec := &Section{Name: name, Kind: secConso}
 	rounds := len(main.Rounds)
 	if rounds < 2 {
 		return sec
@@ -212,7 +200,7 @@ func consolationSection(name string, main *Section, length int) *Section {
 	var prev []int
 	first := main.Rounds[0]
 	for i := 0; i+1 < len(first); i += 2 {
-		sec.Matches = append(sec.Matches, GMatch{Key: fmt.Sprintf("%s.%d.%d", name, 0, i/2), Label: "Consolante tour 1", Length: length,
+		sec.Matches = append(sec.Matches, GMatch{Key: fmt.Sprintf("%s.%d.%d", name, 0, i/2), Label: Label{Kind: LabelConsolationRound, N: 1}, Length: length,
 			Src: [2]Src{{From: first[i], Section: main.Name, Loser: true}, {From: first[i+1], Section: main.Name, Loser: true}}})
 		prev = append(prev, len(sec.Matches)-1)
 	}
@@ -228,7 +216,7 @@ func consolationSection(name string, main *Section, length int) *Section {
 		var idx []int
 		for i := 0; i < len(prev); i++ {
 			d := drops[len(drops)-1-i]
-			sec.Matches = append(sec.Matches, GMatch{Key: fmt.Sprintf("%s.%d.%d", name, cr, i), Label: fmt.Sprintf("Consolante tour %d", cr+1), Length: length,
+			sec.Matches = append(sec.Matches, GMatch{Key: fmt.Sprintf("%s.%d.%d", name, cr, i), Label: Label{Kind: LabelConsolationRound, N: cr + 1}, Length: length,
 				Src: [2]Src{{From: prev[i]}, {From: d, Section: main.Name, Loser: true}}})
 			idx = append(idx, len(sec.Matches)-1)
 		}
@@ -241,7 +229,7 @@ func consolationSection(name string, main *Section, length int) *Section {
 		// tour interne
 		idx = nil
 		for i := 0; i+1 < len(prev); i += 2 {
-			sec.Matches = append(sec.Matches, GMatch{Key: fmt.Sprintf("%s.%d.%d", name, cr, i/2), Label: fmt.Sprintf("Consolante tour %d", cr+1), Length: length,
+			sec.Matches = append(sec.Matches, GMatch{Key: fmt.Sprintf("%s.%d.%d", name, cr, i/2), Label: Label{Kind: LabelConsolationRound, N: cr + 1}, Length: length,
 				Src: [2]Src{{From: prev[i]}, {From: prev[i+1]}}})
 			idx = append(idx, len(sec.Matches)-1)
 		}
@@ -250,7 +238,7 @@ func consolationSection(name string, main *Section, length int) *Section {
 		cr++
 	}
 	if n := len(sec.Matches); n > 0 {
-		sec.Matches[n-1].Label = "Finale consolante"
+		sec.Matches[n-1].Label = Label{Kind: LabelConsolationFinal}
 	}
 	return sec
 }
@@ -258,29 +246,29 @@ func consolationSection(name string, main *Section, length int) *Section {
 // gslSection construit un groupe GSL de 4 (5 matchs), 3 (3 matchs) ou 2 (1 match) joueurs.
 // Sorties : vainqueur du match des gagnants (0 défaite), vainqueur du décisif (1 défaite).
 func gslSection(name string, players []PlayerID, length int) *Section {
-	sec := &Section{Name: name, Kind: "gsl"}
+	sec := &Section{Name: name, Kind: secKindGSL}
 	k := func(i int) string { return fmt.Sprintf("%s.%d", name, i) }
 	switch len(players) {
 	case 4:
 		a, b, c, d := players[0], players[1], players[2], players[3]
 		sec.Matches = []GMatch{
-			{Key: k(0), Label: "Ouverture", Length: length, Src: [2]Src{{Player: a, From: -1}, {Player: b, From: -1}}},
-			{Key: k(1), Label: "Ouverture", Length: length, Src: [2]Src{{Player: c, From: -1}, {Player: d, From: -1}}},
-			{Key: k(2), Label: "Match des gagnants", Length: length, Src: [2]Src{{From: 0}, {From: 1}}},
-			{Key: k(3), Label: "Match des perdants", Length: length, Src: [2]Src{{From: 0, Loser: true}, {From: 1, Loser: true}}},
-			{Key: k(4), Label: "Match décisif", Length: length, Src: [2]Src{{From: 2, Loser: true}, {From: 3}}},
+			{Key: k(0), Label: Label{Kind: LabelOpening}, Length: length, Src: [2]Src{{Player: a, From: -1}, {Player: b, From: -1}}},
+			{Key: k(1), Label: Label{Kind: LabelOpening}, Length: length, Src: [2]Src{{Player: c, From: -1}, {Player: d, From: -1}}},
+			{Key: k(2), Label: Label{Kind: LabelWinnersMatch}, Length: length, Src: [2]Src{{From: 0}, {From: 1}}},
+			{Key: k(3), Label: Label{Kind: LabelLosersMatch}, Length: length, Src: [2]Src{{From: 0, Loser: true}, {From: 1, Loser: true}}},
+			{Key: k(4), Label: Label{Kind: LabelDecider}, Length: length, Src: [2]Src{{From: 2, Loser: true}, {From: 3}}},
 		}
 		sec.Rounds = [][]int{{0, 1}, {2, 3}, {4}}
 	case 3:
 		a, b, c := players[0], players[1], players[2]
 		sec.Matches = []GMatch{
-			{Key: k(0), Label: "Ouverture", Length: length, Src: [2]Src{{Player: a, From: -1}, {Player: b, From: -1}}},
-			{Key: k(1), Label: "Match des gagnants", Length: length, Src: [2]Src{{From: 0}, {Player: c, From: -1}}},
-			{Key: k(2), Label: "Match décisif", Length: length, Src: [2]Src{{From: 0, Loser: true}, {From: 1, Loser: true}}},
+			{Key: k(0), Label: Label{Kind: LabelOpening}, Length: length, Src: [2]Src{{Player: a, From: -1}, {Player: b, From: -1}}},
+			{Key: k(1), Label: Label{Kind: LabelWinnersMatch}, Length: length, Src: [2]Src{{From: 0}, {Player: c, From: -1}}},
+			{Key: k(2), Label: Label{Kind: LabelDecider}, Length: length, Src: [2]Src{{From: 0, Loser: true}, {From: 1, Loser: true}}},
 		}
 		sec.Rounds = [][]int{{0}, {1}, {2}}
 	case 2:
-		sec.Matches = []GMatch{{Key: k(0), Label: "Match", Length: length, Src: [2]Src{{Player: players[0], From: -1}, {Player: players[1], From: -1}}}}
+		sec.Matches = []GMatch{{Key: k(0), Label: Label{Kind: LabelSingleMatch}, Length: length, Src: [2]Src{{Player: players[0], From: -1}, {Player: players[1], From: -1}}}}
 		sec.Rounds = [][]int{{0}}
 	}
 	return sec
@@ -300,18 +288,18 @@ func seSection(name string, players []PlayerID, length int) *Section {
 	case 2:
 		slots = []PlayerID{players[0], players[1]}
 	default:
-		return &Section{Name: name, Kind: "se"}
+		return &Section{Name: name, Kind: secKindSE}
 	}
 	sec := bracketSection(name, "se", slots, length, 0)
 	for i := range sec.Matches {
-		sec.Matches[i].Label = "Élimination directe"
+		sec.Matches[i].Label = Label{Kind: LabelSingleElim}
 	}
 	return sec
 }
 
 // rrSection : poule toutes rondes (table de Berger) pour n joueurs.
 func rrSection(name string, players []PlayerID, length int) *Section {
-	sec := &Section{Name: name, Kind: "poule"}
+	sec := &Section{Name: name, Kind: secKindPool}
 	n := len(players)
 	ids := append([]PlayerID{}, players...)
 	if n%2 == 1 {
@@ -325,7 +313,7 @@ func rrSection(name string, players []PlayerID, length int) *Section {
 			if a == BYE || b == BYE {
 				continue
 			}
-			sec.Matches = append(sec.Matches, GMatch{Key: fmt.Sprintf("%s.%d.%d", name, r, i), Label: fmt.Sprintf("Poule, ronde %d", r+1), Length: length,
+			sec.Matches = append(sec.Matches, GMatch{Key: fmt.Sprintf("%s.%d.%d", name, r, i), Label: Label{Kind: LabelPoolRound, N: r + 1}, Length: length,
 				Src: [2]Src{{Player: a, From: -1}, {Player: b, From: -1}}})
 			idx = append(idx, len(sec.Matches)-1)
 		}

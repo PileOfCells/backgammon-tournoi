@@ -1,7 +1,6 @@
 package tournoi
 
 import (
-	"fmt"
 	"math/rand"
 	"sort"
 )
@@ -119,8 +118,8 @@ func (s *State) proposeSwiss(ph *PhaseState) []Action {
 			return nil
 		}
 	}
-	label := func(a PlayerID) string {
-		return fmt.Sprintf("%d défaite(s), match %d", ph.Losses[a], ph.Wins[a]+ph.Losses[a]+1)
+	label := func(a PlayerID) Label {
+		return Label{Kind: LabelSwissGroup, Losses: ph.Losses[a], Match: ph.Wins[a] + ph.Losses[a] + 1}
 	}
 	for l := 0; l < L && budget > 0; l++ {
 		var g []PlayerID
@@ -150,14 +149,14 @@ func (s *State) proposeSwiss(ph *PhaseState) []Action {
 			pairs, _ := s.pairGroup(ph, g, rng, true)
 			if len(pairs) > 0 {
 				pr := pairs[0]
-				return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: label(pr[0]) + " (rematch)", A: pr[0], B: pr[1], Length: ph.Length}}
+				return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelRematch}, A: pr[0], B: pr[1], Length: ph.Length}}
 			}
 		}
 		fr := sortedIDs(free)
 		sort.SliceStable(fr, func(i, j int) bool { return ph.Losses[fr[i]] < ph.Losses[fr[j]] })
-		lbl := "Finale"
+		lbl := Label{Kind: LabelFinal}
 		if len(fr) > 2 {
-			lbl = "Match croisé"
+			lbl = Label{Kind: LabelCrossed}
 		}
 		return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: lbl, A: fr[0], B: fr[1], Length: ph.Length}}
 	}
@@ -182,7 +181,7 @@ func (s *State) proposeSwissRound(ph *PhaseState) []Action {
 		}
 		pairs, rest := s.pairGroup(ph, g, rng, false)
 		for _, pr := range pairs {
-			acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Label: fmt.Sprintf("Ronde %d", ph.Round+1), A: pr[0], B: pr[1], Length: ph.Length})
+			acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelRound, N: ph.Round + 1}, Round: ph.Round + 1, A: pr[0], B: pr[1], Length: ph.Length})
 		}
 		restes = append(restes, rest...)
 	}
@@ -190,7 +189,7 @@ func (s *State) proposeSwissRound(ph *PhaseState) []Action {
 		return s.proposeSwissContinuousFallback(ph, free, rng)
 	}
 	for _, p := range restes {
-		acts = append(acts, Action{Kind: ActBye, Phase: ph.Index, Label: fmt.Sprintf("Ronde %d", ph.Round+1), A: p})
+		acts = append(acts, Action{Kind: ActBye, Phase: ph.Index, Label: Label{Kind: LabelRound, N: ph.Round + 1}, Round: ph.Round + 1, A: p})
 	}
 	return acts
 }
@@ -205,10 +204,10 @@ func (s *State) proposeSwissContinuousFallback(ph *PhaseState, free []PlayerID, 
 		}
 		pairs, _ := s.pairGroup(ph, g, rng, true)
 		if len(pairs) > 0 {
-			return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: "Rematch", A: pairs[0][0], B: pairs[0][1], Length: ph.Length}}
+			return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelRematch}, A: pairs[0][0], B: pairs[0][1], Length: ph.Length}}
 		}
 	}
 	fr := sortedIDs(free)
 	sort.SliceStable(fr, func(i, j int) bool { return ph.Losses[fr[i]] < ph.Losses[fr[j]] })
-	return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: "Finale", A: fr[0], B: fr[1], Length: ph.Length}}
+	return []Action{{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelFinal}, A: fr[0], B: fr[1], Length: ph.Length}}
 }

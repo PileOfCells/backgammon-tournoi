@@ -82,31 +82,31 @@ func drawSlots(entrants []PlayerID, lives map[PlayerID]int, rng *rand.Rand) []Pl
 // buildBracket crée les sections d'un tableau à partir des places tirées.
 func (s *State) buildBracket(ph *PhaseState, slots []PlayerID) {
 	cfg := ph.Cfg
-	main := bracketSection("main", "main", slots, ph.Length, cfg.FinalLength)
+	main := bracketSection(secMain, secMain, slots, ph.Length, cfg.FinalLength)
 	ph.Sections = []*Section{main}
 	if cfg.Consolation && len(main.Rounds) >= 2 {
-		conso := consolationSection("conso", main, ph.Length)
+		conso := consolationSection(secConso, main, ph.Length)
 		ph.Sections = append(ph.Sections, conso)
 		if cfg.LastChance && len(conso.Rounds) >= 3 {
 			// dernière chance : perdants des rondes de consolante sauf les deux dernières
 			var srcs []Src
 			for r := 0; r < len(conso.Rounds)-2; r++ {
 				for _, i := range conso.Rounds[r] {
-					srcs = append(srcs, Src{From: i, Section: "conso", Loser: true})
+					srcs = append(srcs, Src{From: i, Section: secConso, Loser: true})
 				}
 			}
-			ph.Sections = append(ph.Sections, bracketFromSrcs("last", "last", srcs, ph.Length))
+			ph.Sections = append(ph.Sections, bracketFromSrcs(secLast, secLast, srcs, ph.Length))
 		}
 		if cfg.Reconciliation {
-			gf := &Section{Name: "gf", Kind: "gf"}
+			gf := &Section{Name: secGrandFinal, Kind: secGrandFinal}
 			mf, cf := len(main.Matches)-1, len(conso.Matches)-1
-			gf.Matches = append(gf.Matches, GMatch{Key: "gf.0", Label: "Grande finale", Length: ph.Length,
-				Src: [2]Src{{From: mf, Section: "main"}, {From: cf, Section: "conso"}}})
+			gf.Matches = append(gf.Matches, GMatch{Key: "gf.0", Label: Label{Kind: LabelGrandFinal}, Length: ph.Length,
+				Src: [2]Src{{From: mf, Section: secMain}, {From: cf, Section: secConso}}})
 			if cfg.FinalLength > 0 {
 				gf.Matches[0].Length = cfg.FinalLength
 			}
 			if cfg.Recharge {
-				gf.Matches = append(gf.Matches, GMatch{Key: "gf.1", Label: "Grande finale (recharge)", Length: gf.Matches[0].Length,
+				gf.Matches = append(gf.Matches, GMatch{Key: "gf.1", Label: Label{Kind: LabelGrandFinalRecharge}, Length: gf.Matches[0].Length,
 					Src: [2]Src{{From: 0}, {From: 0, Loser: true}}, Cond: true, CondFrom: 0, CondSide: 1})
 			}
 			gf.Rounds = [][]int{{0}}
@@ -148,9 +148,9 @@ func bracketFromSrcs(name, kind string, srcs []Src, length int) *Section {
 	}
 	for i := range sec.Matches {
 		if i < len(sec.Rounds[0]) {
-			sec.Matches[i].Label = "Dernière chance, tour 1"
+			sec.Matches[i].Label = Label{Kind: LabelLastChance}
 		} else {
-			sec.Matches[i].Label = "Dernière chance, " + sec.Matches[i].Label
+			sec.Matches[i].Label = Label{Kind: LabelLastChance}.with(sec.Matches[i].Label)
 		}
 	}
 	return sec
@@ -179,16 +179,15 @@ func (s *State) proposeBracket(ph *PhaseState) []Action {
 			return nil
 		}
 		slots := drawSlots(ph.Entrants, ph.Lives, s.rng())
-		return []Action{{Kind: ActDraw, Phase: ph.Index, Label: fmt.Sprintf("%s : tableau de %d places", ph.Cfg.Name, len(slots)),
-			Draw: &Draw{Slots: slots, Lives: copyLives(ph)}}}
+		return []Action{{Kind: ActDraw, Phase: ph.Index,
+			Label: Label{Kind: LabelDrawBracket, N: len(slots)}.with(Label{Kind: LabelPhase, Text: PhaseName(ph.Cfg)}),
+			Draw:  &Draw{Slots: slots, Lives: copyLives(ph)}}}
 	}
 	var acts []Action
 	for _, r := range s.readyFree(ph) {
 		lbl := r.g.Label
-		if r.sec.Kind == "conso" || r.sec.Kind == "last" || r.sec.Kind == "gf" {
-			lbl = r.g.Label
-		} else if r.sec.Kind == "main" && len(ph.Sections) > 1 {
-			lbl = "Principal, " + r.g.Label
+		if r.sec.Kind == secMain && len(ph.Sections) > 1 {
+			lbl = Label{Kind: LabelMainDraw}.with(r.g.Label)
 		}
 		acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Section: r.sec.Name, Key: r.g.Key, Label: lbl,
 			A: r.g.Players[0], B: r.g.Players[1], Length: r.g.Length})
@@ -206,20 +205,20 @@ func copyLives(ph *PhaseState) map[PlayerID]int {
 
 // bracketRanking : vainqueur (grande finale ou principal), puis par section et profondeur atteinte.
 func (s *State) bracketRanking(ph *PhaseState) []Rank {
-	prio := map[string]int{"gf": 4, "main": 3, "conso": 2, "last": 1, "se": 3}
+	prio := map[string]int{secGrandFinal: 4, secMain: 3, secConso: 2, secLast: 1, "se": 3}
 	type sc struct {
 		p     PlayerID
 		score int
-		note  string
+		note  Note
 	}
 	scores := map[PlayerID]sc{}
 	for _, p := range ph.Entrants {
-		scores[p] = sc{p, -1, "non classé"}
+		scores[p] = sc{p, -1, Note{Kind: NoteUnranked}}
 	}
 	if !ph.Drawn {
 		var out []Rank
 		for _, p := range ph.Entrants {
-			out = append(out, Rank{Player: p, Rank: 1, Note: "en attente du tirage"})
+			out = append(out, Rank{Player: p, Rank: 1, Note: Note{Kind: NoteAwaitingDraw}})
 		}
 		return out
 	}
@@ -236,7 +235,7 @@ func (s *State) bracketRanking(ph *PhaseState) []Rank {
 				cur := scores[g.Loser]
 				sc2 := prio[sec.Kind]*1000 + depth
 				if cur.score < 0 || prio[sec.Kind] < cur.score/1000 || (prio[sec.Kind] == cur.score/1000 && sc2 > cur.score) {
-					scores[g.Loser] = sc{g.Loser, sc2, fmt.Sprintf("%s, %s", sec.Name, g.Label)}
+					scores[g.Loser] = sc{g.Loser, sc2, Note{Kind: NoteSectionExit, Section: sec.Name, Sub: labelPtr(g.Label)}}
 				}
 			}
 		}
@@ -247,7 +246,7 @@ func (s *State) bracketRanking(ph *PhaseState) []Rank {
 			continue
 		}
 		last := sec.Matches[len(sec.Matches)-1]
-		if sec.Kind == "gf" {
+		if sec.Kind == secGrandFinal {
 			// vainqueur de la GF = celui qui a gagné le dernier match joué de la section
 			for i := len(sec.Matches) - 1; i >= 0; i-- {
 				if sec.Matches[i].Done && !sec.Matches[i].Skipped {
@@ -260,12 +259,12 @@ func (s *State) bracketRanking(ph *PhaseState) []Rank {
 			w := last.Winner
 			cur := scores[w]
 			sc2 := prio[sec.Kind]*1000 + 999
-			if cur.score < 0 || sc2 > cur.score || sec.Kind == "gf" {
-				scores[w] = sc{w, sc2, "vainqueur " + sec.Name}
+			if cur.score < 0 || sc2 > cur.score || sec.Kind == secGrandFinal {
+				scores[w] = sc{w, sc2, Note{Kind: NoteSectionWinner, Section: sec.Name}}
 			}
-			if sec.Kind == "gf" { // le perdant de la GF est finaliste, devant tout le monde
+			if sec.Kind == secGrandFinal { // le perdant de la GF est finaliste, devant tout le monde
 				l := last.Loser
-				scores[l] = sc{l, prio["gf"]*1000 + 998, "finaliste"}
+				scores[l] = sc{l, prio[secGrandFinal]*1000 + 998, Note{Kind: NoteFinalist}}
 			}
 		}
 	}
@@ -273,12 +272,12 @@ func (s *State) bracketRanking(ph *PhaseState) []Rank {
 	for _, p := range ph.Entrants {
 		v := scores[p]
 		if s.Withdrawn[p] && v.score < 0 {
-			v.note = "forfait"
+			v.note = Note{Kind: NoteForfeit}
 		}
 		if v.score < 0 {
 			v.score = 0
-			if v.note == "non classé" {
-				v.note = "en cours"
+			if v.note.Kind == NoteUnranked {
+				v.note = Note{Kind: NoteRunning}
 				v.score = 5000
 			}
 		}
@@ -307,7 +306,7 @@ func (s *State) bracketSurvivors(ph *PhaseState) []PlayerID {
 	}
 	var out []PlayerID
 	for _, rk := range r {
-		if rk.Note == "en cours" {
+		if rk.Note.Kind == NoteRunning {
 			out = append(out, rk.Player)
 		}
 	}

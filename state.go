@@ -22,7 +22,7 @@ type State struct {
 	Final      []Rank               `json:"final,omitempty"`
 	NEvents    int                  `json:"n_events"`
 	Last       time.Time            `json:"last"`
-	Warnings   []string             `json:"warnings,omitempty"`
+	Warnings   []Warning            `json:"warnings,omitempty"`
 	nextID     int
 }
 
@@ -49,7 +49,7 @@ type PhaseState struct {
 // (tableau, groupe GSL, poule, barrage).
 type Section struct {
 	Name    string     `json:"name"`
-	Kind    string     `json:"kind"` // main, conso, last, gf, gsl, se, poule, barrage
+	Kind    string     `json:"kind"` // secMain, secConso, secLast, secGrandFinal, secKindGSL, secKindSE, secKindPool, secKindBarrage
 	Group   int        `json:"group,omitempty"`
 	Block   int        `json:"block,omitempty"`
 	Matches []GMatch   `json:"matches"`
@@ -61,7 +61,7 @@ type Section struct {
 // GMatch est un match d'un graphe : ses deux places viennent de joueurs fixés ou d'autres matchs.
 type GMatch struct {
 	Key      string      `json:"key"`
-	Label    string      `json:"label,omitempty"`
+	Label    Label       `json:"label,omitempty"`
 	Length   int         `json:"length"`
 	Src      [2]Src      `json:"src"`
 	Players  [2]PlayerID `json:"players"`
@@ -94,7 +94,9 @@ func newPhaseState(i int, cfg PhaseConfig) *PhaseState {
 func Replay(j Journal) (*State, error) {
 	s := &State{Players: map[PlayerID]*Player{}, Withdrawn: map[PlayerID]bool{}, Matches: map[MatchID]*Match{}, Current: -1}
 	for i := range j {
-		if err := s.Apply(j[i]); err != nil {
+		// Un journal antérieur aux codes structurés est converti à la lecture, pour que le
+		// moteur ne voie jamais de libellé texte (voir upgrade dans events.go).
+		if err := s.Apply(j[i].upgraded()); err != nil {
 			return s, fmt.Errorf("événement %d (%s) : %w", i, j[i].Kind, err)
 		}
 	}
@@ -106,7 +108,7 @@ func New(cfg Config, seed int64, now time.Time) (*State, Event, error) {
 	if err := cfg.Validate(); err != nil {
 		return nil, Event{}, err
 	}
-	ev := Event{Kind: EvCreated, Time: now, Config: &cfg, Seed: seed}
+	ev := Event{Version: JournalVersion, Kind: EvCreated, Time: now, Config: &cfg, Seed: seed}
 	s := &State{Players: map[PlayerID]*Player{}, Withdrawn: map[PlayerID]bool{}, Matches: map[MatchID]*Match{}, Current: -1}
 	if err := s.Apply(ev); err != nil {
 		return nil, ev, err
@@ -198,8 +200,8 @@ func (s *State) Apply(ev Event) error {
 		s.nextID++
 		if ph := s.phaseOf(ev.Phase); ph != nil {
 			ph.Started = true
-			if r := parseRound(ev.Label); r > ph.Round && ph.Cfg.Kind == KindSwissLives {
-				ph.Round = r
+			if ev.Round > ph.Round && ph.Cfg.Kind == KindSwissLives {
+				ph.Round = ev.Round
 			}
 			ph.Opponents[m.A] = append(ph.Opponents[m.A], m.B)
 			ph.Opponents[m.B] = append(ph.Opponents[m.B], m.A)
@@ -240,8 +242,8 @@ func (s *State) Apply(ev Event) error {
 			return fmt.Errorf("phase %d inconnue", ev.Phase)
 		}
 		ph.Byes[ev.ID]++
-		if r := parseRound(ev.Label); r > ph.Round && ph.Cfg.Kind == KindSwissLives {
-			ph.Round = r
+		if ev.Round > ph.Round && ph.Cfg.Kind == KindSwissLives {
+			ph.Round = ev.Round
 		}
 	case EvDraw:
 		ph := s.phaseOf(ev.Phase)
@@ -442,8 +444,8 @@ func (s *State) recompute() {
 }
 
 // check signale les incohérences (après correction d'un résultat, par exemple).
-func (s *State) check() []string {
-	var w []string
+func (s *State) check() []Warning {
+	var w []Warning
 	for _, id := range s.MatchOrder {
 		m := s.Matches[id]
 		if m.Status == Cancelled {
@@ -455,8 +457,12 @@ func (s *State) check() []string {
 		}
 		if g := ph.gmatch(m.Section, m.Key); g != nil {
 			if g.Players[0] != "" && g.Players[1] != "" && !((g.Players[0] == m.A && g.Players[1] == m.B) || (g.Players[0] == m.B && g.Players[1] == m.A)) {
-				w = append(w, fmt.Sprintf("match %s (%s %s) : joueurs %s/%s mais le tableau attend %s/%s", m.ID, m.Section, m.Label, m.A, m.B, g.Players[0], g.Players[1]))
+				w = append(w, Warning{Code: WarnBracketWrongPlayers, Match: m.ID, Section: m.Section, Label: m.Label,
+					A: m.A, B: m.B, ExpectedA: g.Players[0], ExpectedB: g.Players[1]})
 			}
+		}
+		if m.Status == Finished && m.Length > 0 && (m.ScoreA > m.Length || m.ScoreB > m.Length) {
+			w = append(w, Warning{Code: WarnScoreOverLength, Match: m.ID, Length: m.Length, ScoreA: m.ScoreA, ScoreB: m.ScoreB})
 		}
 	}
 	return w
@@ -513,23 +519,23 @@ func (s *State) livesRanking(ph *PhaseState) []Rank {
 	type sc struct {
 		p     PlayerID
 		score float64
-		note  string
+		note  Note
 	}
 	var list []sc
 	alive := s.alive(ph)
 	for _, p := range ph.Entrants {
 		v := float64(ph.Wins[p])
-		note := fmt.Sprintf("%d victoires, %d défaites", ph.Wins[p], ph.Losses[p])
+		note := Note{Kind: NoteRecord, Wins: ph.Wins[p], Losses: ph.Losses[p]}
 		if s.remainingLives(ph, p) > 0 {
 			v += 1000 + float64(s.remainingLives(ph, p))
-			note = fmt.Sprintf("en vie (%d vies)", s.remainingLives(ph, p))
+			note = Note{Kind: NoteAlive, Lives: s.remainingLives(ph, p)}
 			if len(alive) == 1 {
-				note = "vainqueur"
+				note = Note{Kind: NoteWinner}
 			}
 		}
 		if s.Withdrawn[p] {
 			v = -1
-			note = "forfait"
+			note = Note{Kind: NoteForfeit}
 		}
 		list = append(list, sc{p, v, note})
 	}
@@ -537,7 +543,7 @@ func (s *State) livesRanking(ph *PhaseState) []Rank {
 		last := ph.ElimOrder[len(ph.ElimOrder)-1]
 		for i := range list {
 			if list[i].p == last {
-				list[i].score, list[i].note = 999, "finaliste"
+				list[i].score, list[i].note = 999, Note{Kind: NoteFinalist}
 			}
 		}
 	}
@@ -553,11 +559,11 @@ func (s *State) livesRanking(ph *PhaseState) []Rank {
 	return out
 }
 
-// parseRound lit le numéro dans un libellé « Ronde k » (0 sinon).
-func parseRound(label string) int {
-	var r int
-	if n, _ := fmt.Sscanf(label, "Ronde %d", &r); n == 1 {
-		return r
+// labelPtr : copie adressable d'un libellé, pour les champs Sub.
+func labelPtr(l Label) *Label {
+	if l.Empty() {
+		return nil
 	}
-	return 0
+	c := l
+	return &c
 }
