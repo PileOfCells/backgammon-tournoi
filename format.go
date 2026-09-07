@@ -24,6 +24,10 @@ type Config struct {
 	// forme ancienne — une simple liste de montants — reste lue et devient le barème du
 	// classement général.
 	Prizes PrizePool `json:"prizes,omitempty"`
+	// Breaks : les pauses programmées de la journée (repas, remise des prix). Rien n'est
+	// bloqué : une proposition dont le match rencontrerait une pause porte l'avertissement
+	// WarnEndsInBreak, et le directeur décide (horaires.go).
+	Breaks []TimeRange `json:"breaks,omitempty"`
 }
 
 // PhaseConfig paramètre une phase. Les champs inutiles pour un type sont ignorés.
@@ -42,8 +46,12 @@ type PhaseConfig struct {
 	// LengthLate allonge les matchs de la fin d'un suisse, quand il ne reste plus que
 	// LateThreshold joueurs en vie ou moins. Les deux vont ensemble : l'un sans l'autre ne fait
 	// rien. Un changement de longueur décidé à la main par le TD (EvLengthChanged) l'emporte.
-	LengthLate     int    `json:"length_late,omitempty"`
-	LateThreshold  int    `json:"late_threshold,omitempty"`
+	LengthLate    int `json:"length_late,omitempty"`
+	LateThreshold int `json:"late_threshold,omitempty"`
+	// BatchMinutes : micro-rondes d'un suisse continu. Les joueurs libres attendent l'échéance,
+	// puis tous ceux d'un même groupe de défaites sont appariés d'un coup. 0 = appariement au
+	// fil de l'eau. L'échéance est dérivée du journal (horaires.go), jamais stockée à part.
+	BatchMinutes   int    `json:"batch_minutes,omitempty"`
 	Mode           string `json:"mode,omitempty"`        // swiss_lives : "continuous" (défaut) ou "rounds"
 	Pairing        string `json:"pairing,omitempty"`     // swiss_lives : "random" (défaut) ou "wins"
 	AvoidClubs     bool   `json:"avoid_clubs,omitempty"` // éviter les joueurs du même club quand c'est possible
@@ -73,6 +81,11 @@ func (c *Config) Validate() error {
 	}
 	if err := c.Prizes.validate(); err != nil {
 		return err
+	}
+	for i, b := range c.Breaks {
+		if !b.End.After(b.Start) {
+			return fmt.Errorf("pause %d : elle finit avant de commencer (%s → %s)", i, b.Start, b.End)
+		}
 	}
 	for i := range c.Phases {
 		p := &c.Phases[i]
@@ -107,6 +120,12 @@ func (c *Config) Validate() error {
 			if p.Target != 0 && p.Lives != 2 {
 				return fmt.Errorf("phase %d : la bascule vers un tableau à vies suppose 2 vies", i)
 			}
+			if p.BatchMinutes < 0 {
+				return fmt.Errorf("phase %d : batch_minutes négatif (%d)", i, p.BatchMinutes)
+			}
+			if p.BatchMinutes > 0 && p.Mode == "rounds" {
+				return fmt.Errorf("phase %d : batch_minutes en mode rondes — une ronde EST un lot", i)
+			}
 		case KindLivesBracket, KindBracket:
 			if p.Seeding != "" && p.Seeding != SeedingRating {
 				return fmt.Errorf("phase %d : seeding %q inconnu (vide ou %q)", i, p.Seeding, SeedingRating)
@@ -137,6 +156,9 @@ func (c *Config) Validate() error {
 		}
 		if p.Entry == "" {
 			p.Entry = "survivors"
+		}
+		if p.BatchMinutes != 0 && p.Kind != KindSwissLives {
+			return fmt.Errorf("phase %d : batch_minutes ne s'applique qu'au suisse continu, pas à %q", i, p.Kind)
 		}
 		if p.Seeding != "" && p.Kind != KindBracket && p.Kind != KindLivesBracket {
 			return fmt.Errorf("phase %d : seeding ne s'applique qu'aux tableaux, pas à %q", i, p.Kind)

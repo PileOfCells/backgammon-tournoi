@@ -100,6 +100,9 @@ type Action struct {
 	Draw    *Draw      `json:"draw,omitempty"`
 	Reason  ReasonCode `json:"reason,omitempty"`
 	Until   time.Time  `json:"until,omitempty"` // waiting_batch : échéance du prochain lot
+	// Warn signale ce que le moteur a remarqué sur CETTE proposition sans rien bloquer — la
+	// fin attendue tombe pendant une pause, par exemple. Le TD décide (voir horaires.go).
+	Warn WarningCode `json:"warn,omitempty"`
 }
 
 // Draw est le résultat d'un tirage (placement dans un tableau ou composition de groupes),

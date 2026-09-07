@@ -98,7 +98,7 @@ func Run(cfg tournoi.Config, players []tournoi.Player, opt Options) Result {
 		if steps > opt.MaxSteps {
 			return Result{Err: fmt.Errorf("simulation sans fin (%d étapes)", steps), Journal: journal, State: st}
 		}
-		acts := st.Propose()
+		acts := st.ProposeAt(now)
 		progressed := false
 		for _, a := range acts {
 			if a.Kind == tournoi.ActWait {
@@ -122,7 +122,19 @@ func Run(cfg tournoi.Config, players []tournoi.Player, opt Options) Result {
 		if progressed && len(acts) > 0 && acts[0].Kind != tournoi.ActWait {
 			continue
 		}
+		// Une attente peut porter une échéance (micro-rondes) : c'est le rôle de l'hôte
+		// d'avancer jusque-là, le moteur n'a pas d'horloge.
+		var attente time.Time
+		for _, a := range acts {
+			if a.Kind == tournoi.ActWait && !a.Until.IsZero() && a.Until.After(now) {
+				attente = a.Until
+			}
+		}
 		if len(enCours) == 0 {
+			if !attente.IsZero() {
+				now = attente
+				continue
+			}
 			if !progressed {
 				return Result{Err: fmt.Errorf("blocage : %v", acts), Journal: journal, State: st}
 			}
@@ -130,6 +142,10 @@ func Run(cfg tournoi.Config, players []tournoi.Player, opt Options) Result {
 		}
 		// le match qui finit le premier
 		sort.Slice(enCours, func(i, j int) bool { return enCours[i].end.Before(enCours[j].end) })
+		if !attente.IsZero() && attente.Before(enCours[0].end) {
+			now = attente // l'échéance du prochain lot arrive avant la fin du premier match
+			continue
+		}
 		m := enCours[0]
 		enCours = enCours[1:]
 		if m.end.After(now) {
@@ -221,7 +237,7 @@ func Forecast(j tournoi.Journal, now time.Time, K int, minPerPoint float64, seed
 		steps := 0
 		for !st.Finished && steps < 20000 {
 			steps++
-			acts := st.Propose()
+			acts := st.ProposeAt(t)
 			progressed := false
 			for _, a := range acts {
 				if a.Kind == tournoi.ActWait {
@@ -245,13 +261,27 @@ func Forecast(j tournoi.Journal, now time.Time, K int, minPerPoint float64, seed
 			if progressed && len(acts) > 0 && acts[0].Kind != tournoi.ActWait {
 				continue
 			}
+			var attente time.Time
+			for _, a := range acts {
+				if a.Kind == tournoi.ActWait && !a.Until.IsZero() && a.Until.After(t) {
+					attente = a.Until
+				}
+			}
 			if len(enCours) == 0 {
+				if !attente.IsZero() {
+					t = attente
+					continue
+				}
 				if !progressed {
 					return nil, fmt.Errorf("prévision bloquée")
 				}
 				continue
 			}
 			sort.Slice(enCours, func(i, j int) bool { return enCours[i].end.Before(enCours[j].end) })
+			if !attente.IsZero() && attente.Before(enCours[0].end) {
+				t = attente
+				continue
+			}
 			m := enCours[0]
 			enCours = enCours[1:]
 			if m.end.After(t) {

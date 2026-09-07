@@ -430,6 +430,12 @@ type Config struct {
     MinPerPoint float64  `json:"min_per_point,omitempty"` // minutes/point ; défaut 8
     Tables      Tables        `json:"tables,omitempty"`        // tables de la salle
     Prizes      PrizePool     `json:"prizes,omitempty"`        // dotation (voir « Prix »)
+    Breaks      []TimeRange   `json:"breaks,omitempty"`        // pauses programmées
+}
+
+type TimeRange struct {   // Start incluse, End exclue
+    Start time.Time `json:"start"`
+    End   time.Time `json:"end"`
 }
 
 type PhaseConfig struct {
@@ -469,6 +475,7 @@ type PhaseConfig struct {
 | `length_late` | `swiss_lives` | Longueur des matchs de fin de phase, quand il reste au plus `late_threshold` joueurs en vie. Sans effet sans seuil (refusé par `Validate`) ; un `length_changed` du TD l'emporte |
 | `late_threshold` | `swiss_lives` | Nombre de joueurs en vie à partir duquel `length_late` s'applique |
 | `mode` | `swiss_lives` | `continuous` (défaut) ou `rounds` |
+| `batch_minutes` | `swiss_lives` continu | Micro-rondes : les joueurs libres attendent l'échéance du prochain lot, puis tous ceux d'un même groupe de défaites sont appariés d'un coup. 0 = appariement au fil de l'eau. Refusé en mode `rounds` — une ronde EST un lot |
 | `pairing` | `swiss_lives` | `random` (défaut) ou `wins` (apparier d'abord les joueurs les plus victorieux du groupe) |
 | `avoid_clubs` | `swiss_lives` | Éviter les rencontres entre joueurs d'un même club quand c'est possible |
 | `allow_rematch` | `swiss_lives` | Autoriser une seconde rencontre entre deux mêmes joueurs |
@@ -1152,10 +1159,53 @@ par les tests. Sa non-vacuité signale au TD qu'une correction a désynchronisé
 
 # Moteur de propositions
 
+## Micro-rondes et pauses
+
+Le moteur n'a pas d'horloge. Le temps entre par `ProposeAt(now)` — l'hôte donne la sienne — ou,
+à défaut, par l'horodatage du dernier événement du journal (`Propose()` = `ProposeAt(s.Last)`).
+Seul ce qui dépend du temps change avec `now` : les micro-rondes et les pauses. Le reste —
+appariements, tirages, passage de phase — ne dépend que du journal, et le rejeu n'est donc pas
+affecté : ce qui est rejoué, ce sont les événements, pas les propositions.
+
+### Micro-rondes (`batch_minutes`)
+
+L'appariement au fil de l'eau rend le suisse continu manipulable par l'heure d'annonce d'un
+résultat : celui qui finit à 14 h 03 choisit son adversaire en annonçant à 14 h 04 ou à 14 h 20.
+
+```
+échéance := (départ du dernier match lancé dans la phase) + batch_minutes
+si aucun match lancé          → pas d'échéance : le premier lot part tout de suite
+si now < échéance             → une seule action :
+    {wait, reason: waiting_batch, until: échéance}
+sinon                         → appariement ordinaire du suisse
+```
+
+L'horodatage du dernier lot **n'est stocké nulle part** : c'est le départ du dernier match lancé
+dans la phase, un lot étant exactement cela — un paquet de matchs lancés ensemble. Le déduire
+évite un champ d'état de plus à tenir juste après une correction ou une annulation.
+
+`Action.Until` porte l'échéance pour que l'hôte affiche un compte à rebours.
+
+### Pauses (`Config.Breaks`)
+
+```
+pour chaque action start_match :
+    fin := now + Expected(Length)
+    si [now, fin] rencontre une pause → Action.Warn = ends_in_break
+```
+
+**Rien n'est bloqué.** Le directeur sait des choses que le moteur ignore — que ces deux-là
+mangeront après, que la pause est indicative, que la salle ferme de toute façon. On le lui dit,
+il décide ; c'est la règle de tous les avertissements du moteur.
+
+L'avertissement tombe dès que le match **rencontre** la pause, et pas seulement s'il s'y termine :
+un match lancé à midi moins dix et attendu pour 13 h 30 fait manquer le repas tout autant.
+
 ## `Propose`
 
 ```go
-func (s *State) Propose() []Action
+func (s *State) Propose() []Action              // = ProposeAt(s.Last)
+func (s *State) ProposeAt(now time.Time) []Action
 ```
 
 C'est le point d'entrée principal du moteur. Il est **pur** : il ne modifie pas l'état (à
@@ -2873,7 +2923,8 @@ func (s *State) Apply(ev Event) error
 func (s *State) Step(evs ...Event) ([]Action, error)
 
 // boucle du TD
-func (s *State) Propose() []Action
+func (s *State) Propose() []Action              // = ProposeAt(s.Last)
+func (s *State) ProposeAt(now time.Time) []Action
 func (s *State) EventFromAction(a Action, now time.Time) (Event, error)
 func ResultEvent(id MatchID, winner PlayerID, scoreA, scoreB int, now time.Time) Event
 

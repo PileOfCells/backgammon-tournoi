@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"testing"
+	"time"
 
 	"github.com/PileOfCells/backgammon-tournoi"
 	"github.com/PileOfCells/backgammon-tournoi/sim"
@@ -15,6 +16,15 @@ func configs() map[string]tournoi.Config {
 		"suisse2_continu": {Name: "Suisse 2 vies continu", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindSwissLives, Length: 7}}},
 		"suisse2_rondes":  {Name: "Suisse 2 vies rondes", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindSwissLives, Length: 7, Mode: "rounds", AvoidClubs: true}}},
 		"suisse3_wins":    {Name: "Suisse 3 vies", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindSwissLives, Length: 5, Lives: 3, Pairing: "wins"}}},
+		"suisse_micro_rondes": {Name: "Suisse à micro-rondes",
+			Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindSwissLives, Length: 7, BatchMinutes: 20}}},
+		// La simulation démarre le 1er janvier 2026 à 9 h (sim.Options.Start) : la pause du
+		// déjeuner tombe donc bien au milieu du tournoi simulé.
+		"suisse_pause_repas": {Name: "Suisse avec pause repas",
+			Breaks: []tournoi.TimeRange{{
+				Start: time.Date(2026, 1, 1, 12, 0, 0, 0, time.UTC),
+				End:   time.Date(2026, 1, 1, 13, 0, 0, 0, time.UTC)}},
+			Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindSwissLives, Length: 7}}},
 		"suisse_tableau16": {Name: "Suisse puis tableau à vies", Phases: []tournoi.PhaseConfig{
 			{Kind: tournoi.KindSwissLives, Length: 7, Target: 16},
 			{Kind: tournoi.KindLivesBracket, Length: 9, FinalLength: 11}}},
