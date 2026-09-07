@@ -53,6 +53,11 @@ type PhaseConfig struct {
 	GroupSize      int    `json:"group_size,omitempty"`     // round_robin : taille des poules (défaut 4)
 	Qualifiers     int    `json:"qualifiers,omitempty"`     // round_robin : qualifiés par poule (défaut 2)
 	Entry          string `json:"entry,omitempty"`          // "survivors" (défaut : joueurs encore en vie de la phase précédente), "all", "top:N"
+	// Seeding place les joueurs d'un tableau par cote au lieu de les tirer au hasard :
+	// "" (défaut) ou SeedingRating. Le défaut VIDE est un choix de conception et non un oubli —
+	// l'étude conclut « pas de têtes de série protégées », c'est la culture actuelle du
+	// backgammon. Voir seeding.go.
+	Seeding string `json:"seeding,omitempty"`
 }
 
 // Validate vérifie la cohérence d'une configuration et remplit les défauts.
@@ -97,6 +102,9 @@ func (c *Config) Validate() error {
 				return fmt.Errorf("phase %d : la bascule vers un tableau à vies suppose 2 vies", i)
 			}
 		case KindLivesBracket, KindBracket:
+			if p.Seeding != "" && p.Seeding != SeedingRating {
+				return fmt.Errorf("phase %d : seeding %q inconnu (vide ou %q)", i, p.Seeding, SeedingRating)
+			}
 			if p.Recharge && !p.Reconciliation {
 				return fmt.Errorf("phase %d : recharge sans reconciliation", i)
 			}
@@ -123,6 +131,9 @@ func (c *Config) Validate() error {
 		}
 		if p.Entry == "" {
 			p.Entry = "survivors"
+		}
+		if p.Seeding != "" && p.Kind != KindBracket && p.Kind != KindLivesBracket {
+			return fmt.Errorf("phase %d : seeding ne s'applique qu'aux tableaux, pas à %q", i, p.Kind)
 		}
 	}
 	return nil

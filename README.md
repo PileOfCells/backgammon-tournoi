@@ -26,6 +26,10 @@ go get github.com/PileOfCells/backgammon-tournoi
 
 Les phases s'enchaînent (`entry` : `survivors` avec leurs vies, `all`, `top:N`).
 
+Le tirage d'un tableau est intégralement aléatoire par défaut — c'est la conclusion de l'étude,
+pas un oubli. `seeding: "rating"` sur une phase de tableau active le placement classique par
+cote (1 contre 16, 2 contre 15…) pour l'organisateur qui le veut.
+
 Longueurs de match : `length` partout, `final_length` pour le dernier tour, `lengths` pour une
 grille par tour lue **du dernier tour vers le premier** (`[15,13,11,9]`), `length_late` +
 `late_threshold` pour allonger la fin d'un suisse.
@@ -38,6 +42,7 @@ grille par tour lue **du dernier tour vers le premier** (`[15,13,11,9]`), `lengt
 - `phase_swiss.go`, `phase_bracket.go`, `phase_gsl.go`, `phase_rr.go` : les formats.
 - `standings.go` (rangs, prix partagés, CSV), `clock.go` (durées, matchs lents), `tables.go` (tables indisponibles, réservées).
 - `retardataire.go` : places d'exemption libres (`FreeSlots`) et entrée d'un joueur arrivé après le tirage, sans jamais refaire le tirage.
+- `seeding.go` : têtes de série en option (`seeding: "rating"`), éteintes par défaut.
 - `reconfig.go` : configuration modifiable en cours (`ConfigChangedEvent`, la configuration entière) et réouverture d'un tournoi clos (`ReopenedEvent`).
 - `render/` : SVG des arbres, tableau des vies, matchs en cours, classement, page complète.
 - `sim/` : simulation (tests d'invariants, comparaison avec le simulateur de l'étude, prévision de fin).

@@ -132,7 +132,9 @@ C'est un choix de conception, justifié par l'étude des formats (`docs/etude_fo
 départage au rating). Elles sont soit conservées comme **ex æquo** au classement, soit réglées par
 un **barrage** joué. Les formats retenus (vies, tableaux, poules) permettent toujours de conclure.
 
-Corollaire : pas de têtes de série, pas de finale à handicap.
+Corollaire : pas de têtes de série par défaut, pas de finale à handicap. Les têtes de série
+existent en **option** (`seeding: "rating"`, voir plus bas) pour les organisateurs qui en veulent ;
+elles sont éteintes tant qu'on ne les demande pas.
 
 ## Les graphes de matchs sont des données
 
@@ -298,6 +300,10 @@ type Draw struct {
 `(Slots[2i], Slots[2i+1])`.
 
 `Lives` est purement informatif (affichage, audit) : il n'est pas relu au rejeu.
+
+Le tirage étant **matérialisé** dans l'événement, l'algorithme qui le produit peut changer sans
+casser un journal existant. C'est ce qui a permis d'ajouter les têtes de série optionnelles
+(`seeding`) après coup : un journal écrit avant se rejoue place pour place.
 
 ## État
 
@@ -474,6 +480,7 @@ type PhaseConfig struct {
 | `group_size` | `round_robin` | Taille des poules (défaut 4) |
 | `qualifiers` | `round_robin` | Qualifiés par poule (défaut 2) |
 | `entry` | toutes sauf la première | `survivors` (défaut), `all`, `top:N` |
+| `seeding` | `bracket`, `lives_bracket` | `""` (défaut) : tirage intégralement aléatoire. `"rating"` : placement classique par cote d'entrée (1 contre 16, 2 contre 15…). **Le défaut vide est un choix de conception**, pas un oubli : l'étude conclut « pas de têtes de série protégées », c'est la culture actuelle du backgammon. Refusé sur un format sans tirage de tableau |
 
 ## Validation et valeurs par défaut
 
