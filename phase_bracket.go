@@ -19,7 +19,11 @@ func pow2ceil(n int) int {
 
 // drawSlots tire les places du premier tour. Les joueurs à 2 vies occupent une paire (exempts) ;
 // les BYE supplémentaires sont répartis en seconde position des paires restantes.
-func drawSlots(entrants []PlayerID, lives map[PlayerID]int, rng *rand.Rand) []PlayerID {
+//
+// Avec seeding == SeedingRating, le hasard cède la place au placement classique par cote
+// (seeding.go) ; sans l'option — le défaut — le tirage est intégralement aléatoire, ce qui est
+// un choix de conception et non un oubli (voir SeedingRating).
+func drawSlots(entrants []PlayerID, lives map[PlayerID]int, seeding string, rating func(PlayerID) float64, rng *rand.Rand) []PlayerID {
 	ids := sortedIDs(entrants)
 	rng.Shuffle(len(ids), func(i, j int) { ids[i], ids[j] = ids[j], ids[i] })
 	sum := 0
@@ -36,6 +40,9 @@ func drawSlots(entrants []PlayerID, lives map[PlayerID]int, rng *rand.Rand) []Pl
 	size := pow2ceil(sum)
 	if size < 2 {
 		size = 2
+	}
+	if seeding == SeedingRating {
+		return seededSlots(deux, une, rating, size)
 	}
 	nPairs := size / 2
 	pairs := make([][2]PlayerID, nPairs)
@@ -177,7 +184,7 @@ func (s *State) proposeBracket(ph *PhaseState) []Action {
 		if len(ph.Entrants) < 2 {
 			return nil
 		}
-		slots := drawSlots(ph.Entrants, ph.Lives, s.rng())
+		slots := drawSlots(ph.Entrants, ph.Lives, ph.Cfg.Seeding, s.rating, s.rng())
 		return []Action{{Kind: ActDraw, Phase: ph.Index,
 			Label: Label{Kind: LabelDrawBracket, N: len(slots)}.with(Label{Kind: LabelPhase, Text: PhaseName(ph.Cfg)}),
 			Draw:  &Draw{Slots: slots, Lives: copyLives(ph)}}}

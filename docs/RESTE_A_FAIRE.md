@@ -55,8 +55,11 @@ où intervenir et comment vérifier.
   jusqu'au tour k ; consolante non progressive « à tirage » avec une heure limite d'entrée).
   Les constructeurs `consolationSection` / `bracketFromSrcs` prennent des sources : ajouter un
   filtre par tour d'origine.
-- [ ] **Têtes de série optionnelles** dans les tableaux (écartées en v1 par choix ; à offrir
-  comme option `seeding: "rating"` dans `drawSlots`, avec placement classique 1 vs 16…).
+- [x] **Têtes de série optionnelles** dans les tableaux (issue #10). `PhaseConfig.Seeding` vaut
+  `""` (défaut, tirage intégralement aléatoire — le choix de l'étude) ou `SeedingRating`, qui
+  place les joueurs par cote selon la construction classique (`seeding.go`). Une cote inconnue
+  passe derrière tout le monde ; dans un `lives_bracket`, les joueurs à deux vies passent devant
+  tous les autres, la structure du tableau l'exigeant. Le tirage reste dans `EvDraw`.
 - [ ] **Classement des places non gagnantes** : règles à valider avec la FFBG (par tour atteint
   dans les tableaux, par victoires à l'élimination dans les suisses, ex æquo partagés). Les
   notes de classement sont désormais des **codes** (`Note`, `codes.go`), traduisibles par

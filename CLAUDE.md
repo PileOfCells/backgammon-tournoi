@@ -74,6 +74,8 @@ Un tournoi est une suite de `PhaseConfig` (`Config.Validate` remplit les défaut
 | `bracket`, `lives_bracket` | `phase_bracket.go` | tirage puis sections `main`, `conso`, `last`, `gf` |
 | `round_robin` | `phase_rr.go` | poules (table de Berger), puis sections `barrage` à appariement dynamique en cas d'égalité |
 
+Le tirage d'un tableau (`drawSlots`) est aléatoire par défaut ; `PhaseConfig.Seeding = "rating"` le remplace par le placement classique par cote (`seeding.go`). Le défaut vide est un choix de conception justifié dans `docs/etude_formats.md`, pas un oubli : ne pas l'inverser.
+
 Le passage de phase (`enterFrom`) admet les survivants **avec leurs vies restantes** quand la phase suivante est à vies (`lives_bracket` : 2 vies = exempt du premier tour), sinon `entry` vaut `all` ou `top:N`.
 
 ### Graphes de matchs (`graph.go`)

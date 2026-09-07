@@ -32,6 +32,9 @@ par un TD (papier ou logiciel), aucun match inutile, **aucun départage**.
    contre 1,6 à 3 % au hasard : le format joue sur un facteur 2 à 3.
 
 Choix retenus : pas de finale à handicap, pas de têtes de série protégées (culture actuelle du backgammon).
+Les têtes de série existent depuis en **option** du moteur (`seeding: "rating"` sur une phase de
+tableau), éteintes par défaut : la conclusion de l'étude reste le défaut, l'option est là pour
+l'organisateur qui décide autrement.
 
 ## Format recommandé
 
