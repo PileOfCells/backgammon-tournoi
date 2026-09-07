@@ -16,7 +16,7 @@ type EventKind string
 const (
 	EvCreated         EventKind = "created"          // Config, Seed
 	EvPlayerAdded     EventKind = "player_added"     // Player
-	EvPlayerWithdrawn EventKind = "player_withdrawn" // Player.ID (forfait général)
+	EvPlayerWithdrawn EventKind = "player_withdrawn" // Player.ID ; AfterCurrent = finit son match
 	EvMatchStarted    EventKind = "match_started"    // MatchID, Phase, Section, Label, Key, A, B, Length, Table
 	EvResult          EventKind = "result"           // MatchID, Winner, ScoreA, ScoreB, Forfeit
 	EvResultCorrected EventKind = "result_corrected" // idem, remplace le résultat précédent
@@ -32,30 +32,31 @@ const (
 
 // Event est une entrée du journal. Les champs inutiles pour un type restent vides.
 type Event struct {
-	Seq     int       `json:"seq"`
-	Version int       `json:"version,omitempty"` // format du journal ; 0 = avant les codes structurés
-	Kind    EventKind `json:"kind"`
-	Time    time.Time `json:"time"`
-	Config  *Config   `json:"config,omitempty"`
-	Seed    int64     `json:"seed,omitempty"`
-	Player  *Player   `json:"player,omitempty"`
-	ID      PlayerID  `json:"player_id,omitempty"`
-	MatchID MatchID   `json:"match_id,omitempty"`
-	Phase   int       `json:"phase,omitempty"`
-	Section string    `json:"section,omitempty"`
-	Label   Label     `json:"label,omitempty"`
-	Round   int       `json:"round,omitempty"`
-	Key     string    `json:"key,omitempty"`
-	A       PlayerID  `json:"a,omitempty"`
-	B       PlayerID  `json:"b,omitempty"`
-	Length  int       `json:"length,omitempty"`
-	Table   int       `json:"table,omitempty"`
-	Winner  PlayerID  `json:"winner,omitempty"`
-	ScoreA  int       `json:"score_a,omitempty"`
-	ScoreB  int       `json:"score_b,omitempty"`
-	Forfeit bool      `json:"forfeit,omitempty"`
-	Draw    *Draw     `json:"draw,omitempty"`
-	Text    string    `json:"text,omitempty"`
+	Seq          int       `json:"seq"`
+	Version      int       `json:"version,omitempty"` // format du journal ; 0 = avant les codes structurés
+	Kind         EventKind `json:"kind"`
+	Time         time.Time `json:"time"`
+	Config       *Config   `json:"config,omitempty"`
+	Seed         int64     `json:"seed,omitempty"`
+	Player       *Player   `json:"player,omitempty"`
+	ID           PlayerID  `json:"player_id,omitempty"`
+	MatchID      MatchID   `json:"match_id,omitempty"`
+	Phase        int       `json:"phase,omitempty"`
+	Section      string    `json:"section,omitempty"`
+	Label        Label     `json:"label,omitempty"`
+	Round        int       `json:"round,omitempty"`
+	Key          string    `json:"key,omitempty"`
+	A            PlayerID  `json:"a,omitempty"`
+	B            PlayerID  `json:"b,omitempty"`
+	Length       int       `json:"length,omitempty"`
+	Table        int       `json:"table,omitempty"`
+	Winner       PlayerID  `json:"winner,omitempty"`
+	ScoreA       int       `json:"score_a,omitempty"`
+	ScoreB       int       `json:"score_b,omitempty"`
+	Forfeit      bool      `json:"forfeit,omitempty"`
+	AfterCurrent bool      `json:"after_current,omitempty"` // retrait différé : le joueur finit son match
+	Draw         *Draw     `json:"draw,omitempty"`
+	Text         string    `json:"text,omitempty"`
 }
 
 // Journal est la liste ordonnée des événements d'un tournoi.
@@ -132,9 +133,29 @@ func PlayerAddedEvent(p Player, now time.Time) Event {
 	return Event{Version: JournalVersion, Kind: EvPlayerAdded, Time: now, Player: &p}
 }
 
-// PlayerWithdrawnEvent : retrait d'un joueur du tournoi.
+// PlayerWithdrawnEvent : retrait immédiat d'un joueur. Ses matchs en cours sont perdus par
+// forfait, et ses matchs de graphe non lancés aussi.
 func PlayerWithdrawnEvent(id PlayerID, now time.Time) Event {
 	return Event{Version: JournalVersion, Kind: EvPlayerWithdrawn, Time: now, ID: id}
+}
+
+// PlayerWithdrawnAfterCurrentEvent : retrait différé. Le joueur n'est plus apparié, mais le
+// match qu'il joue va à son terme — le cas de qui doit partir à 18 h.
+func PlayerWithdrawnAfterCurrentEvent(id PlayerID, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvPlayerWithdrawn, Time: now, ID: id, AfterCurrent: true}
+}
+
+// ForfeitEvent : un joueur ne se présente pas pour CE match, sans quitter le tournoi. Il suit
+// ensuite le chemin d'un perdant ordinaire (la consolante, par exemple).
+func ForfeitEvent(id MatchID, winner PlayerID, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvResult, Time: now, MatchID: id, Winner: winner, Forfeit: true}
+}
+
+// WithNote attache une remarque à un événement de résultat (« tombé au temps », « abandon :
+// … »). Rare, et irremplaçable quand elle sert.
+func (e Event) WithNote(text string) Event {
+	e.Text = text
+	return e
 }
 
 // CorrectionEvent : correction du résultat d'un match déjà terminé. Le journal n'est jamais
