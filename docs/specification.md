@@ -2868,16 +2868,20 @@ Un nouveau format ou une nouvelle option s'ajoute dans la liste `configs()` et s
 automatiquement couvert par toutes les vérifications.
 
 ```bash
-go test ./...                        # ≈ 3 s
+go test -short ./...                 # la boucle de travail, ≈ 2 s : matrice réduite
+go test ./...                        # tout : matrice complète et TestParity, ≈ 1 min
 go test -run TestFormatsInvariants ./
-go test -run TestParity -v ./        # long ; sauté avec -short
+go test -run '^$' -fuzz FuzzApply -fuzztime 60s ./   # fuzzing (aussi en intégration continue)
 go vet ./... && gofmt -l .
 ```
 
 ## Invariants vérifiés
 
-`TestFormatsInvariants` joue **11 configurations × 8 effectifs (2, 3, 5, 8, 13, 32, 64, 100) ×
-8 graines**, soit 704 tournois, et vérifie après chaque événement puis à la fin :
+`TestFormatsInvariants` joue **toutes les configurations de `configs()` × 8 effectifs (2, 3, 5,
+8, 13, 32, 64, 100) × 8 graines**, et vérifie après chaque événement puis à la fin. En mode
+`-short` la matrice est réduite à six effectifs (2, 3, 5, 8, 13, 32) et trois graines, ce qui la
+ramène sous les trois secondes : c'est la boucle qu'on lance à chaque sauvegarde, la matrice
+entière tournant en intégration continue.
 
 1. **Terminaison** : aucune simulation ne dépasse `MaxSteps`, aucun blocage.
 2. **Vainqueur unique** : `Final` existe et contient exactement un joueur au rang 1.
@@ -2889,7 +2893,31 @@ go vet ./... && gofmt -l .
 7. **Pas de match entre groupes différents** : dans une phase à vies,
    `Losses[A] == Losses[B]`, sauf pour les libellés `Finale` et `Match croisé` (les replis).
 8. **Peu de rematchs** : en suisse, le nombre de secondes rencontres reste sous
-   `8 × (Lives + 3)` sur 8 graines dès que `P ≥ 8`.
+   `graines × (Lives + 3)` dès que `P ≥ 8`.
+
+## Fuzzing
+
+Deux cibles gardent `Apply` contre ce qu'aucun test écrit à la main ne cherche :
+
+- `FuzzApply` applique des suites d'événements tirées au hasard. Les octets ne sont pas du JSON
+  mais un **plan** : chaque triplet choisit un type d'événement et ses paramètres parmi ce que
+  l'état contient. Du JSON aléatoire n'atteindrait presque jamais un événement valide, et ne
+  testerait donc que le décodeur.
+- `FuzzReplayJournal` rejoue des octets quelconques présentés comme un journal — le fichier que
+  l'hôte a stocké et qui revient tronqué, réordonné ou corrompu.
+
+Dans les deux cas, **une erreur est une réponse acceptable** ; un `panic` ou un état incohérent
+n'en est pas une. L'état est vérifié après chaque application : autant de matchs que
+d'identifiants ordonnés et aucun doublon, aucun match d'un joueur contre lui-même, un vainqueur
+qui appartient à son match, aucun entrant inconnu, aucun compteur négatif, aucun joueur deux fois
+au classement, et `Propose` qui ne panique pas.
+
+## Compatibilité ascendante
+
+`testdata/journal_v0.json` est un journal complet écrit dans la forme d'avant les codes
+structurés — aucun champ `version`, aucun champ `round`, un `label` qui était une chaîne
+française. Le test le rejoue et compare le classement **place par place**. Cette fixture ne se
+régénère pas : elle vaut par le fait qu'elle n'a pas bougé.
 
 `TestMatchCounts` fixe les comptes de matchs sur 64 joueurs :
 

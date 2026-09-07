@@ -13,7 +13,9 @@ Le moteur n'a jamais dirigé de vrai tournoi. Les choix de conception (formats, 
 
 ```bash
 go build ./...
-go test ./...                    # tests courts ≈ 3 s : invariants (11 formats × 8 effectifs × 8 graines), rejeu, corrections
+go test -short ./...             # la boucle de travail, sous 3 s : matrice réduite (6 effectifs × 3 graines)
+go test ./...                    # tout : matrice complète (8 effectifs × 8 graines), rejeu, corrections, TestParity
+go test -run '^$' -fuzz FuzzApply -fuzztime 60s ./   # fuzzing d'Apply ; FuzzReplayJournal pour les journaux
 go test -run TestFormatsInvariants ./          # un seul test
 go test -run TestParity -v ./    # long (1500 tournois de 64 joueurs par format) ; sauté avec -short
 go vet ./... && gofmt -l .
@@ -97,6 +99,15 @@ Un `Match` (state.go, joué, avec table et horodatages) est relié à son `GMatc
 - `players/` : import et export CSV (séparateur détecté, identifiants en slug ; `ToCSV` écrit ce que `FromCSV` relit).
 - `cmd/tournoi-demo`, `cmd/tournoi-td` : chacun a sa propre map `formats` de configurations nommées ; les garder cohérentes si on en ajoute une.
 
+## Intégration continue
+
+`.github/workflows/ci.yml` : trois travaux, et l'en-tête du fichier dit pourquoi chacun est là.
+`tests` fait tourner la suite COMPLÈTE (sans `-short`, donc avec `TestParity`) ; `fuzz` lance
+`FuzzApply` et `FuzzReplayJournal` (60 s par proposition, 300 s le lundi) ; `exemples` régénère
+la galerie et échoue si celle du dépôt n'est plus à jour.
+
 ## Conventions de test
 
-Les tests sont des tests d'invariants par simulation, pas des tests unitaires : un nouveau format ou une nouvelle option s'ajoute dans `configs()` de `sim_test.go` pour être couvert automatiquement (vainqueur unique, classement complet, rejeu identique, aucun match entre joueurs de groupes différents, peu de rematchs). Un changement d'algorithme d'appariement se valide en plus avec `TestParity` (P(meilleur gagne), nombre de matchs, durée) comparé aux valeurs de `docs/etude_formats.md`.
+Les tests sont des tests d'invariants par simulation, pas des tests unitaires : un nouveau format ou une nouvelle option s'ajoute dans `configs()` de `sim_test.go` pour être couvert automatiquement (vainqueur unique, classement complet, rejeu identique, aucun match entre joueurs de groupes différents, peu de rematchs). `-short` réduit la matrice à six effectifs et trois graines pour rester sous trois secondes ; la matrice complète tourne sans `-short`, donc en intégration continue.
+
+Deux cibles de fuzzing gardent `Apply` : `FuzzApply` applique des suites d'événements tirées au hasard (les octets sont un PLAN, pas du JSON — du JSON aléatoire ne testerait que le décodeur), `FuzzReplayJournal` rejoue des octets quelconques présentés comme un journal. Une erreur est une réponse acceptable ; un panic ou un état incohérent, non. `testdata/journal_v0.json` est la fixture d'un journal antérieur aux codes structurés : elle ne se régénère pas. Un changement d'algorithme d'appariement se valide en plus avec `TestParity` (P(meilleur gagne), nombre de matchs, durée) comparé aux valeurs de `docs/etude_formats.md`.

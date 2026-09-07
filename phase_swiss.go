@@ -176,16 +176,36 @@ func (s *State) proposeSwiss(ph *PhaseState) []Action {
 	return acts
 }
 
-// proposeSwissRound : mode par rondes (tous les matchs de la ronde en même temps, byes aux groupes impairs).
+// proposeSwissRound : mode par rondes (tous les matchs de la ronde en même temps, byes aux
+// groupes impairs).
+//
+// La bascule vers un tableau (Target) demande que la somme des vies TOMBE JUSTE sur une
+// puissance de 2. Chaque match la fait décroître d'une unité, mais une ronde en lance beaucoup
+// d'un coup : sans garde-fou, la dernière ronde passe sous la cible et le tableau qui suit
+// n'est plus complet. Mesuré avant correction sur 2 vies et une cible de 16 : la somme
+// atterrissait entre 12 et 15 selon l'effectif, jamais sur 16, et le tableau se remplissait de
+// byes qui n'avaient pas lieu d'être.
+//
+// Le mode continu avait déjà ce budget ; les rondes ne l'avaient pas. La DERNIÈRE ronde d'une
+// phase à bascule est donc tronquée au nombre exact de matchs qui reste à jouer, et ne donne
+// aucun bye : elle est la dernière, et un bye enregistré fausserait l'ordre d'appariement d'une
+// ronde qui n'aura pas lieu.
 func (s *State) proposeSwissRound(ph *PhaseState) []Action {
 	if s.runningInPhase(ph) > 0 {
 		return nil
+	}
+	budget := 1 << 30
+	if ph.Cfg.Target > 0 {
+		budget = s.sumLives(ph) - ph.Cfg.Target // matchs encore lançables avant la bascule
+		if budget <= 0 {
+			return nil
+		}
 	}
 	rng := s.rng()
 	free := s.free(ph)
 	var acts []Action
 	var restes []PlayerID
-	for l := 0; l < ph.Cfg.Lives; l++ {
+	for l := 0; l < ph.Cfg.Lives && budget > 0; l++ {
 		var g []PlayerID
 		for _, p := range free {
 			if ph.Losses[p] == l {
@@ -194,12 +214,19 @@ func (s *State) proposeSwissRound(ph *PhaseState) []Action {
 		}
 		pairs, rest := s.pairGroup(ph, g, rng, false)
 		for _, pr := range pairs {
+			if budget <= 0 {
+				break
+			}
 			acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelRound, N: ph.Round + 1}, Round: ph.Round + 1, A: pr[0], B: pr[1], Length: s.swissLength(ph)})
+			budget--
 		}
 		restes = append(restes, rest...)
 	}
 	if len(acts) == 0 && len(free) >= 2 { // secours comme en continu
 		return s.proposeSwissContinuousFallback(ph, free, rng)
+	}
+	if budget <= 0 {
+		return acts // ronde tronquée par la bascule : c'est la dernière, pas de bye
 	}
 	for _, p := range restes {
 		acts = append(acts, Action{Kind: ActBye, Phase: ph.Index, Label: Label{Kind: LabelRound, N: ph.Round + 1}, Round: ph.Round + 1, A: p})
