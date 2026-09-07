@@ -99,9 +99,12 @@ où intervenir et comment vérifier.
   sections était quadratique, ce qui était supportable une fois par correction et ne l'est plus
   à chaque résultat.
 
-- [ ] **Correction d'un résultat de tableau après coup** : l'état est recalculé et une `Warning`
-  signale un match joué par le mauvais joueur, mais rien ne propose la réparation (rejouer le
-  match, annuler la suite). Définir la procédure et l'outiller (`EvMatchCancelled` en série).
+- [x] **Correction d'un résultat de tableau après coup** (issue #8). `Propose` émet la réparation
+  comme des propositions ordinaires : l'action `cancel_match` annule le match joué par les
+  mauvais joueurs ET tout ce qui en descend, du plus profond au moins profond (`reparation.go`).
+  Rien n'est appliqué d'office ; les relances correctes arrivent à l'appel suivant, une fois les
+  places libérées. Défaut découvert au passage : `recompute` ne remettait pas `GMatch.MatchID` à
+  vide, si bien qu'un match de tableau annulé bloquait sa place pour toujours.
 - [ ] **Rematchs dans les consolantes** : l'ordre inversé des drops évite les rencontres
   immédiates, pas les suivantes. Mesurer la fréquence par simulation et, si besoin, permuter
   les drops (le tirage est enregistré, donc l'algorithme peut évoluer sans casser les journaux).

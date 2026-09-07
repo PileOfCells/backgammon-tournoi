@@ -509,6 +509,11 @@ func (s *State) recompute() {
 			for i := range sec.Matches {
 				g := &sec.Matches[i]
 				g.Done, g.Winner, g.Loser, g.Walkover, g.Skipped = false, "", "", false, false
+				// Le lien vers le match joué repart vide, lui aussi. Sans cela, une place dont
+				// le match vient d'être ANNULÉ gardait son identifiant et n'était plus jamais
+				// proposée (ready l'écarte) : le tableau restait bloqué à l'endroit même qu'on
+				// voulait rejouer. La boucle suivante le repose pour tout match non annulé.
+				g.MatchID = ""
 				// Les places DÉRIVÉES d'un autre match repartent vides : sans cela, un match
 				// qui cesse d'être joué (correction, annulation, place d'exemption prise par un
 				// retardataire) laissait derrière lui le joueur qu'il avait fait avancer, et

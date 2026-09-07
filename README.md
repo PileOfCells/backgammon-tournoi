@@ -42,6 +42,7 @@ grille par tour lue **du dernier tour vers le premier** (`[15,13,11,9]`), `lengt
 - `phase_swiss.go`, `phase_bracket.go`, `phase_gsl.go`, `phase_rr.go` : les formats.
 - `standings.go` (rangs, prix partagés, CSV par section), `prizes.go` (droit d'entrée, retenue, barème par section), `clock.go` (durées, matchs lents), `tables.go` (tables indisponibles, réservées).
 - `retardataire.go` : places d'exemption libres (`FreeSlots`) et entrée d'un joueur arrivé après le tirage, sans jamais refaire le tirage.
+- `reparation.go` : après une correction, `Propose` propose l'annulation en série des matchs devenus incohérents (`cancel_match`) ; rien n'est appliqué d'office.
 - `horaires.go` : micro-rondes (`batch_minutes`, échéance dérivée du journal) et pauses programmées (`Config.Breaks`, avertissement sans blocage).
 - `seeding.go` : têtes de série en option (`seeding: "rating"`), éteintes par défaut.
 - `reconfig.go` : configuration modifiable en cours (`ConfigChangedEvent`, la configuration entière) et réouverture d'un tournoi clos (`ReopenedEvent`).
