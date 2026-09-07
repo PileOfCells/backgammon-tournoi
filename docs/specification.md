@@ -428,8 +428,8 @@ type Config struct {
     Name        string        `json:"name"`
     Phases      []PhaseConfig `json:"phases"`
     MinPerPoint float64  `json:"min_per_point,omitempty"` // minutes/point ; défaut 8
-    Tables      int           `json:"tables,omitempty"`        // 0 = illimité
-    Prizes      []float64     `json:"prizes,omitempty"`        // dotation par place
+    Tables      Tables        `json:"tables,omitempty"`        // tables de la salle
+    Prizes      PrizePool     `json:"prizes,omitempty"`        // dotation (voir « Prix »)
 }
 
 type PhaseConfig struct {
@@ -2380,6 +2380,67 @@ Exemple : deux joueurs ex æquo au rang 3, dotations `[100, 60, 40, 20, 10]` →
 40 + 20 = 60, soit 30 chacun ; le joueur suivant est au rang 5 et reçoit 10.
 
 L'unité est libre (montant, pourcentage, part) : le moteur ne fait qu'additionner et diviser.
+Cette fonction est le partage entre ex æquo, et rien d'autre ; d'où viennent les montants par
+place est décrit ci-dessous.
+
+### Pool, retenue, barème par section
+
+```go
+type PrizeScale struct {
+    Percents []float64 `json:"percents,omitempty"` // % du pool distribuable, place par place
+    Amounts  []float64 `json:"amounts,omitempty"`  // montants fixes, place par place
+}
+
+type Retention struct {
+    Amount  float64 `json:"amount,omitempty"`
+    Percent float64 `json:"percent,omitempty"`
+}
+
+type PrizePool struct {
+    EntryFee  float64               `json:"entry_fee,omitempty"`
+    Retention Retention             `json:"retention,omitempty"`
+    Sections  map[string]PrizeScale `json:"sections,omitempty"`
+}
+
+const PrizeSectionAll = "all"   // clé du classement GÉNÉRAL dans Sections
+
+func (s *State) Pool() float64
+func (s *State) Distributable() float64
+func (s *State) PrizeAmounts(section string) []float64
+func (s *State) SectionPrizes(section string) map[PlayerID]float64
+func (s *State) SectionRanking(section string) []Rank
+```
+
+Une affiche de tournoi annonce « 50/30/20 % » et non « 216/130/86 € » : le pool dépend du nombre
+d'inscrits, qu'on ne connaît qu'à la clôture des inscriptions.
+
+```
+Pool()          = EntryFee × nombre d'inscrits          (les retirés comptent : ils ont payé)
+Distributable() = Pool − Pool × Retention.Percent/100 − Retention.Amount   (jamais négatif)
+```
+
+`PrizeAmounts(sec)` : si le barème donne des `Amounts`, ce sont eux, tels quels. S'il donne des
+`Percents`, chaque place vaut `Distributable × pct/100`, **arrondie à l'unité** — personne ne
+paie en centimes à une table de tournoi — et le RESTE, en plus ou en moins, va au **premier**.
+C'est la seule façon de garantir que la somme distribuée égale exactement le pool après retenue,
+et le premier prix est celui où un euro d'écart se voit le moins.
+
+`Sections` est indexée par identifiant de section (`main`, `conso`, `last`, `gf`, `poule:A`…),
+plus la clé réservée `all` pour le classement général — celui que `Ranking()` renvoie, et le seul
+qui existe dans un tournoi sans tableau.
+
+`SectionRanking(sec)` est le classement PROPRE d'une section : ses joueurs, par tour atteint dans
+cette section, le vainqueur en tête. Il diffère du classement général, qui mélange les sections
+par priorité (un vainqueur de consolante passe derrière un demi-finaliste du principal). Une
+section de poule ou de barrage se classe par nombre de victoires, faute de tour atteint. La
+section est cherchée de la dernière phase vers la première.
+
+`Validate` refuse une dotation incohérente : pourcentages ET montants dans le même barème,
+pourcentages totalisant plus de 100 % du pool, retenue hors [0, 100] %, montant négatif. Une
+dotation fausse ne se voit qu'au moment de payer, devant les joueurs.
+
+La forme ancienne (`"prizes": [100, 60, 40]`, une simple liste de montants) reste lue et devient
+le barème du classement général : les journaux existants n'ont pas à être réécrits.
 
 ## Export CSV
 
@@ -2387,9 +2448,14 @@ L'unité est libre (montant, pourcentage, part) : le moteur ne fait qu'additionn
 func (s *State) StandingsCSV() []byte
 ```
 
-Séparateur `;`, en-tête `rang;id;nom;club;note;prix`. Le classement utilisé est `Final` s'il existe,
-sinon `Ranking()`. Le prix est formaté avec deux décimales. Un joueur absent de `Players` est écrit
-avec son identifiant en guise de nom et un club vide.
+Séparateur `;`, en-tête `section;rang;id;nom;club;note;prix`. La première colonne dit à quel
+classement la ligne appartient : `all` pour le classement général (puis `Final` s'il existe,
+sinon `Ranking()`), puis l'identifiant de chaque **section dotée**, dans l'ordre alphabétique.
+Les blocs sont contigus : un tableur les lit comme des tableaux séparés, un hôte qui n'en veut
+qu'un filtre sur la colonne. Les sections apparaissent parce qu'elles ont une dotation — sortir
+le classement de chaque groupe GSL d'un tournoi de cent joueurs noierait la feuille affichée au
+mur. Le prix est formaté avec deux décimales. Un joueur absent de `Players` est écrit avec son
+identifiant en guise de nom et un club vide.
 
 ---
 
@@ -2816,6 +2882,11 @@ func (s *State) Running() []*Match
 func (s *State) Ranking() []Rank
 func (s *State) FreeSlots() []Slot          // places d'exemption libres (retardataires)
 func (s *State) StandingsCSV() []byte
+func (s *State) SectionRanking(section string) []Rank
+func (s *State) Pool() float64
+func (s *State) Distributable() float64
+func (s *State) PrizeAmounts(section string) []float64
+func (s *State) SectionPrizes(section string) map[PlayerID]float64
 func (s *State) Expected(n int) time.Duration
 func (s *State) SlowMatches(now time.Time, facteur float64) []*Match
 func (s *State) ClockAt(now, start time.Time) Clock

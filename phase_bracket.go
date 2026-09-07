@@ -318,3 +318,92 @@ func (s *State) bracketSurvivors(ph *PhaseState) []PlayerID {
 	}
 	return out
 }
+
+// SectionRanking : le classement propre d'une section (main, conso, last, gf, un groupe GSL, une
+// poule), et non le classement général du tournoi.
+//
+// Une consolante a ses propres prix, donc son propre classement : celui de ses joueurs, par tour
+// atteint DANS CETTE SECTION. Le classement général mélange les sections par priorité (un
+// vainqueur de consolante passe derrière un demi-finaliste du principal) ; ici on ne regarde que
+// la section, et le vainqueur de la consolante est premier de la consolante.
+//
+// La section est cherchée de la dernière phase vers la première : c'est la plus récente qui
+// porte ce nom qui compte, un tournoi pouvant enchaîner deux tableaux.
+func (s *State) SectionRanking(name string) []Rank {
+	for i := len(s.Phases) - 1; i >= 0; i-- {
+		if sec := s.Phases[i].section(name); sec != nil {
+			return s.sectionRanking(s.Phases[i], sec)
+		}
+	}
+	return nil
+}
+
+func (s *State) sectionRanking(ph *PhaseState, sec *Section) []Rank {
+	// Ordre de rencontre dans le graphe : stable, et indépendant de toute map.
+	var ordre []PlayerID
+	vu := map[PlayerID]bool{}
+	for i := range sec.Matches {
+		for _, p := range sec.Matches[i].Players {
+			if p == "" || p == BYE || vu[p] {
+				continue
+			}
+			vu[p] = true
+			ordre = append(ordre, p)
+		}
+	}
+	profondeur := map[PlayerID]int{}
+	notes := map[PlayerID]Note{}
+	if sec.Kind == secKindPool || sec.Kind == secKindBarrage {
+		// Une poule n'a pas de tour atteint : le classement y est le nombre de victoires.
+		for i := range sec.Matches {
+			g := sec.Matches[i]
+			if g.Done && !g.Skipped && g.Winner != BYE {
+				profondeur[g.Winner]++
+			}
+		}
+		for _, p := range ordre {
+			notes[p] = Note{Kind: NotePoolRecord, Section: sec.Name, Wins: profondeur[p]}
+		}
+	} else {
+		for r, idx := range sec.Rounds {
+			for _, i := range idx {
+				g := sec.Matches[i]
+				if !g.Done || g.Skipped || g.Loser == BYE || g.Loser == "" {
+					continue
+				}
+				profondeur[g.Loser] = r
+				notes[g.Loser] = Note{Kind: NoteSectionExit, Section: sec.Name, Sub: labelPtr(g.Label)}
+				if g.Walkover {
+					notes[g.Loser] = Note{Kind: NoteForfeit}
+				}
+			}
+		}
+		// Vainqueur de la section : le gagnant du dernier match joué. Les matchs sont rangés
+		// tour par tour, donc le dernier index joué est le plus profond.
+		for i := len(sec.Matches) - 1; i >= 0; i-- {
+			g := sec.Matches[i]
+			if g.Done && !g.Skipped && g.Winner != BYE && g.Winner != "" {
+				profondeur[g.Winner] = len(sec.Rounds)
+				notes[g.Winner] = Note{Kind: NoteSectionWinner, Section: sec.Name}
+				break
+			}
+		}
+		for _, p := range ordre {
+			if _, sorti := profondeur[p]; !sorti {
+				profondeur[p] = len(sec.Rounds) // encore en course : devant les éliminés
+				notes[p] = Note{Kind: NoteRunning}
+			}
+		}
+	}
+	list := append([]PlayerID(nil), ordre...)
+	sort.SliceStable(list, func(a, b int) bool { return profondeur[list[a]] > profondeur[list[b]] })
+	out := make([]Rank, len(list))
+	rang := 1
+	for i, p := range list {
+		if i > 0 && profondeur[p] != profondeur[list[i-1]] {
+			rang = i + 1
+		}
+		out[i] = Rank{Player: p, Rank: rang, Note: notes[p]}
+	}
+	return out
+}
