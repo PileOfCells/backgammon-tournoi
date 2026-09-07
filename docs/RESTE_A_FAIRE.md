@@ -28,10 +28,10 @@ où intervenir et comment vérifier.
 
 ## 2. Fonctions attendues d'un logiciel de tournoi
 
-- [ ] **Retardataires et forfaits fins.** Un joueur ajouté après le tirage d'un tableau n'entre
-  nulle part (accepté seulement en suisse avant bascule). Le forfait général existe
-  (`EvPlayerWithdrawn`) ; il manque le forfait pour un seul match sans retrait, et le retrait
-  « à partir de la ronde suivante » (le joueur finit son match en cours). Fichier : `state.go`.
+- [ ] **Retardataires.** Un joueur ajouté après le tirage d'un tableau n'entre nulle part
+  (accepté seulement en suisse avant bascule) — issue #6. Les forfaits fins sont faits : le
+  forfait d'un seul match sans retrait (`ForfeitEvent`) et le retrait différé
+  (`PlayerWithdrawnAfterCurrentEvent`, le joueur finit son match en cours).
 - [ ] **Longueurs de match par tour** dans les tableaux (par exemple 9 / 11 / 13 / 15) :
   aujourd'hui `Length` + `FinalLength` seulement. Ajouter `Lengths []int` (du dernier tour vers
   le premier) dans `PhaseConfig`, utilisé par `bracketSection`. Idem pour la fin du suisse

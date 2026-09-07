@@ -9,21 +9,25 @@ import (
 
 // State est l'état complet d'un tournoi, reconstruit à partir du journal.
 type State struct {
-	Config     Config               `json:"config"`
-	Seed       int64                `json:"seed"`
-	Players    map[PlayerID]*Player `json:"players"`
-	Order      []PlayerID           `json:"order"` // ordre d'inscription
-	Withdrawn  map[PlayerID]bool    `json:"withdrawn,omitempty"`
-	Matches    map[MatchID]*Match   `json:"matches"`
-	MatchOrder []MatchID            `json:"match_order"`
-	Phases     []*PhaseState        `json:"phases"`
-	Current    int                  `json:"current"` // index de la phase en cours (-1 avant création)
-	Finished   bool                 `json:"finished"`
-	Final      []Rank               `json:"final,omitempty"`
-	NEvents    int                  `json:"n_events"`
-	Last       time.Time            `json:"last"`
-	Warnings   []Warning            `json:"warnings,omitempty"`
-	nextID     int
+	Config    Config               `json:"config"`
+	Seed      int64                `json:"seed"`
+	Players   map[PlayerID]*Player `json:"players"`
+	Order     []PlayerID           `json:"order"` // ordre d'inscription
+	Withdrawn map[PlayerID]bool    `json:"withdrawn,omitempty"`
+	// WithdrawAfter : retraits différés. Le joueur a demandé à partir mais finit le match qu'il
+	// joue ; il n'est plus apparié (il est occupé), et le retrait devient effectif dès que ce
+	// match est terminé. Un retrait différé sans match en cours est un retrait immédiat.
+	WithdrawAfter map[PlayerID]bool  `json:"withdraw_after,omitempty"`
+	Matches       map[MatchID]*Match `json:"matches"`
+	MatchOrder    []MatchID          `json:"match_order"`
+	Phases        []*PhaseState      `json:"phases"`
+	Current       int                `json:"current"` // index de la phase en cours (-1 avant création)
+	Finished      bool               `json:"finished"`
+	Final         []Rank             `json:"final,omitempty"`
+	NEvents       int                `json:"n_events"`
+	Last          time.Time          `json:"last"`
+	Warnings      []Warning          `json:"warnings,omitempty"`
+	nextID        int
 }
 
 // PhaseState est l'état d'une phase.
@@ -92,7 +96,7 @@ func newPhaseState(i int, cfg PhaseConfig) *PhaseState {
 
 // Replay reconstruit l'état à partir du journal.
 func Replay(j Journal) (*State, error) {
-	s := &State{Players: map[PlayerID]*Player{}, Withdrawn: map[PlayerID]bool{}, Matches: map[MatchID]*Match{}, Current: -1}
+	s := newState()
 	for i := range j {
 		// Un journal antérieur aux codes structurés est converti à la lecture, pour que le
 		// moteur ne voie jamais de libellé texte (voir upgrade dans events.go).
@@ -109,11 +113,39 @@ func New(cfg Config, seed int64, now time.Time) (*State, Event, error) {
 		return nil, Event{}, err
 	}
 	ev := Event{Version: JournalVersion, Kind: EvCreated, Time: now, Config: &cfg, Seed: seed}
-	s := &State{Players: map[PlayerID]*Player{}, Withdrawn: map[PlayerID]bool{}, Matches: map[MatchID]*Match{}, Current: -1}
+	s := newState()
 	if err := s.Apply(ev); err != nil {
 		return nil, ev, err
 	}
 	return s, ev, nil
+}
+
+// newState : un état vide, toutes les cartes initialisées.
+func newState() *State {
+	return &State{Players: map[PlayerID]*Player{}, Withdrawn: map[PlayerID]bool{},
+		WithdrawAfter: map[PlayerID]bool{}, Matches: map[MatchID]*Match{}, Current: -1}
+}
+
+// seen enregistre qu'un événement a été appliqué : compteur et horodatage. Les branches d'Apply
+// qui sortent tôt passent par là pour ne pas fausser le générateur (rng dépend de NEvents).
+func (s *State) seen(ev Event) error {
+	s.NEvents++
+	if ev.Time.After(s.Last) {
+		s.Last = ev.Time
+	}
+	return nil
+}
+
+// promoteDeferred : un retrait différé devient effectif dès que le joueur n'a plus de match en
+// cours. Appelé après chaque résultat.
+func (s *State) promoteDeferred() {
+	for p := range s.WithdrawAfter {
+		if s.busy(p) {
+			continue
+		}
+		delete(s.WithdrawAfter, p)
+		s.Withdrawn[p] = true
+	}
 }
 
 func (s *State) nextMatchID() MatchID { return MatchID(fmt.Sprintf("M%d", s.nextID+1)) }
@@ -165,6 +197,13 @@ func (s *State) Apply(ev Event) error {
 		if _, ok := s.Players[ev.ID]; !ok {
 			return fmt.Errorf("joueur %s inconnu", ev.ID)
 		}
+		if ev.AfterCurrent && s.busy(ev.ID) {
+			// Il finit son match : rien n'est perdu par forfait, et il n'est plus apparié
+			// puisqu'il est occupé. promoteDeferred le retirera quand le match sera fini.
+			s.WithdrawAfter[ev.ID] = true
+			return s.seen(ev)
+		}
+		delete(s.WithdrawAfter, ev.ID)
 		s.Withdrawn[ev.ID] = true
 		for _, id := range s.MatchOrder { // ses matchs en cours sont perdus par forfait
 			m := s.Matches[id]
@@ -228,6 +267,10 @@ func (s *State) Apply(ev Event) error {
 			s.recompute()
 		} else {
 			s.onResult(m)
+		}
+		s.promoteDeferred()
+		if s.Withdrawn[m.A] || s.Withdrawn[m.B] {
+			s.recompute() // un retrait différé vient de prendre effet
 		}
 	case EvMatchCancelled:
 		m, ok := s.Matches[ev.MatchID]
