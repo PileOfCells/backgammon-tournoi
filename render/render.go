@@ -110,7 +110,7 @@ func BracketSVG(st *tournoi.State, sec *tournoi.Section) string {
 				fmt.Fprintf(&b, `<text x="%.0f" y="%.0f" font-weight="%s">%s</text><text x="%.0f" y="%.0f" text-anchor="end">%s</text>`,
 					x+6, y+17+float64(s2)*20, weight, esc(label), x+w-6, y+17+float64(s2)*20, score)
 			}
-			fmt.Fprintf(&b, `<text x="%.0f" y="%.0f" font-size="9" fill="#666">%s · %d pts</text>`, x+6, y-2, esc(g.Label), g.Length)
+			fmt.Fprintf(&b, `<text x="%.0f" y="%.0f" font-size="9" fill="#666">%s · %d pts</text>`, x+6, y-2, esc(g.Label.String()), g.Length)
 			// liaisons
 			for _, src := range g.Src {
 				if src.From >= 0 && src.Section == "" {
@@ -192,7 +192,7 @@ func RunningTable(st *tournoi.State, now time.Time) string {
 		if d > time.Duration(1.5*float64(st.Expected(m.Length))) {
 			slow = ` style="color:#b00"`
 		}
-		fmt.Fprintf(&b, `<tr%s><td>%d</td><td>%s</td><td>%s — %s</td><td>%d</td><td>%s</td></tr>`, slow, m.Table, esc(m.Label), esc(name(st, m.A)), esc(name(st, m.B)), m.Length, d)
+		fmt.Fprintf(&b, `<tr%s><td>%d</td><td>%s</td><td>%s — %s</td><td>%d</td><td>%s</td></tr>`, slow, m.Table, esc(m.Label.String()), esc(name(st, m.A)), esc(name(st, m.B)), m.Length, d)
 	}
 	b.WriteString(`</table>`)
 	return b.String()
@@ -231,7 +231,7 @@ func StandingsTable(st *tournoi.State) string {
 		if v := prizes[r.Player]; v > 0 {
 			prize = fmt.Sprintf("%.2f", v)
 		}
-		fmt.Fprintf(&b, `<tr><td>%d</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>`, r.Rank, esc(name(st, r.Player)), esc(club), esc(r.Note), prize)
+		fmt.Fprintf(&b, `<tr><td>%d</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>`, r.Rank, esc(name(st, r.Player)), esc(club), esc(r.Note.String()), prize)
 	}
 	b.WriteString(`</table>`)
 	return b.String()
@@ -244,7 +244,7 @@ func Page(st *tournoi.State, acts []tournoi.Action, now time.Time) string {
 <style>body{font-family:system-ui,sans-serif;margin:16px;color:#222}table{border-collapse:collapse}td,th{border:1px solid #ccc;padding:3px 8px;text-align:left}h2{margin-top:28px}</style></head><body>`, esc(st.Config.Name))
 	fmt.Fprintf(&b, `<h1>%s</h1><p>%s — %d joueurs, %d matchs joués, %d en cours</p>`, esc(st.Config.Name), now.Format("15:04"), len(st.Order), len(st.MatchOrder)-len(st.Running()), len(st.Running()))
 	if ph := st.Phases[st.Current]; ph != nil {
-		fmt.Fprintf(&b, `<h2>Phase %d : %s</h2>`, ph.Index+1, esc(ph.Cfg.Name))
+		fmt.Fprintf(&b, `<h2>Phase %d : %s</h2>`, ph.Index+1, esc(tournoi.PhaseName(ph.Cfg)))
 		if len(acts) > 0 {
 			b.WriteString(`<h3>À faire</h3>` + ActionsList(st, acts))
 		}

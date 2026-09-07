@@ -25,15 +25,15 @@ func (s *State) Propose() []Action {
 	}
 	if len(acts) == 0 {
 		if s.runningInPhase(ph) > 0 {
-			return []Action{{Kind: ActWait, Phase: ph.Index, Reason: "matchs en cours"}}
+			return []Action{{Kind: ActWait, Phase: ph.Index, Reason: ReasonMatchesRunning}}
 		}
 		if s.phaseDone(ph) {
 			if s.Current+1 < len(s.Config.Phases) {
-				return []Action{{Kind: ActNextPhase, Phase: ph.Index, Label: s.Config.Phases[s.Current+1].Name}}
+				return []Action{{Kind: ActNextPhase, Phase: ph.Index, Label: Label{Kind: LabelPhase, Text: PhaseName(s.Config.Phases[s.Current+1])}}}
 			}
 			return []Action{{Kind: ActFinish, Phase: ph.Index}}
 		}
-		return []Action{{Kind: ActWait, Phase: ph.Index, Reason: "aucun appariement possible"}}
+		return []Action{{Kind: ActWait, Phase: ph.Index, Reason: ReasonNoPairing}}
 	}
 	s.assignTables(acts)
 	return acts

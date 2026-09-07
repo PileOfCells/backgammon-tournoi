@@ -50,7 +50,8 @@ où intervenir et comment vérifier.
   comme option `seeding: "rating"` dans `drawSlots`, avec placement classique 1 vs 16…).
 - [ ] **Classement des places non gagnantes** : règles à valider avec la FFBG (par tour atteint
   dans les tableaux, par victoires à l'élimination dans les suisses, ex æquo partagés). Les
-  notes de classement (`Rank.Note`) sont en français brut ; prévoir des codes traduisibles.
+  notes de classement sont désormais des **codes** (`Note`, `codes.go`), traduisibles par
+  l'hôte ; restent les règles de classement elles-mêmes, à valider avec la FFBG.
 - [ ] **Prix** : `Prizes` gère des montants par place ; ajouter les structures en pourcentage
   du pool, la retenue d'organisation, l'arrondi, et les prix séparés par section (consolante,
   dernière chance) : aujourd'hui un seul classement général.
@@ -80,8 +81,9 @@ où intervenir et comment vérifier.
   ronde ne se lance que si elle laisse Σvies ≥ cible, ce qui peut bloquer sur une ronde impaire.
   À tester (`sim_test.go`, config suisse `rounds` + `Target`) et corriger (`budget` dans
   `proposeSwissRound`).
-- [ ] **API stable** : versionner le format du journal (`Event` : ajouter `version`), documenter
-  la compatibilité ascendante ; fuzzing de `Apply` sur des journaux aléatoires.
+- [x] **API stable** : le format du journal est versionné (`Event.Version`, `JournalVersion`) et
+  un journal `Version: 0` est converti à la lecture (`Event.upgraded`). Reste le fuzzing de
+  `Apply` sur des journaux aléatoires (issue #14).
 - [ ] Renommer le module au chemin définitif du dépôt de l'hôte (`go mod edit -module …`).
 
 ## 5. Étude (simulateur de l'étude, hors dépôt)

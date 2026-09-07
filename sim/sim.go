@@ -87,7 +87,7 @@ func Run(cfg tournoi.Config, players []tournoi.Player, opt Options) Result {
 	}
 	for i := range players {
 		p := players[i]
-		if err := apply(tournoi.Event{Kind: tournoi.EvPlayerAdded, Time: now, Player: &p}); err != nil {
+		if err := apply(tournoi.PlayerAddedEvent(p, now)); err != nil {
 			return Result{Err: err, Journal: journal, State: st}
 		}
 	}

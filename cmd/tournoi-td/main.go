@@ -254,7 +254,7 @@ func (t *td) exec(f []string) error {
 		if len(f) >= 4 {
 			p.Rating, _ = strconv.ParseFloat(strings.ReplaceAll(f[3], ",", "."), 64)
 		}
-		return t.apply(tournoi.Event{Kind: tournoi.EvPlayerAdded, Time: now, Player: &p})
+		return t.apply(tournoi.PlayerAddedEvent(p, now))
 	case "import":
 		if len(f) < 2 {
 			return fmt.Errorf("import <fichier.csv>")
@@ -269,7 +269,7 @@ func (t *td) exec(f []string) error {
 		}
 		for i := range ps {
 			p := ps[i]
-			if err := t.apply(tournoi.Event{Kind: tournoi.EvPlayerAdded, Time: now, Player: &p}); err != nil {
+			if err := t.apply(tournoi.PlayerAddedEvent(p, now)); err != nil {
 				return err
 			}
 		}
@@ -347,7 +347,7 @@ func (t *td) exec(f []string) error {
 		if len(f) < 2 {
 			return fmt.Errorf("annule <match>")
 		}
-		return t.apply(tournoi.Event{Kind: tournoi.EvMatchCancelled, Time: now, MatchID: tournoi.MatchID(strings.ToUpper(f[1]))})
+		return t.apply(tournoi.CancelEvent(tournoi.MatchID(strings.ToUpper(f[1])), now))
 	case "forfait":
 		if len(f) < 2 {
 			return fmt.Errorf("forfait <joueur>")
@@ -356,13 +356,13 @@ func (t *td) exec(f []string) error {
 		if err != nil {
 			return err
 		}
-		return t.apply(tournoi.Event{Kind: tournoi.EvPlayerWithdrawn, Time: now, ID: p})
+		return t.apply(tournoi.PlayerWithdrawnEvent(p, now))
 	case "longueur":
 		if len(f) < 2 {
 			return fmt.Errorf("longueur <points>")
 		}
 		n, _ := strconv.Atoi(f[1])
-		return t.apply(tournoi.Event{Kind: tournoi.EvLengthChanged, Time: now, Phase: t.st.Current, Length: n})
+		return t.apply(tournoi.LengthChangedEvent(t.st.Current, n, now))
 	case "matchs":
 		t.running()
 	case "vies":

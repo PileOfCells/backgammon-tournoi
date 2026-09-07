@@ -38,8 +38,8 @@ const (
 type Match struct {
 	ID      MatchID     `json:"id"`
 	Phase   int         `json:"phase"`
-	Section string      `json:"section,omitempty"` // "main", "conso", "gsl:B2G3", "poule A"…
-	Label   string      `json:"label,omitempty"`   // "Ronde 3", "Quart de finale"…
+	Section string      `json:"section,omitempty"` // identifiant : "main", "conso", "poule:A"…
+	Label   Label       `json:"label,omitempty"`   // libellé structuré (codes.go)
 	Key     string      `json:"key,omitempty"`     // clé interne (position dans un graphe de matchs)
 	A       PlayerID    `json:"a"`
 	B       PlayerID    `json:"b"`
@@ -69,7 +69,7 @@ func (m *Match) Has(p PlayerID) bool { return m.A == p || m.B == p }
 type Rank struct {
 	Player PlayerID `json:"player"`
 	Rank   int      `json:"rank"`
-	Note   string   `json:"note,omitempty"` // "vainqueur", "finaliste", "éliminé 2 défaites (4 victoires)"…
+	Note   Note     `json:"note,omitempty"` // note structurée (codes.go)
 }
 
 // ActionKind est le type d'une action proposée au TD.
@@ -90,14 +90,16 @@ type Action struct {
 	Kind    ActionKind `json:"kind"`
 	Phase   int        `json:"phase"`
 	Section string     `json:"section,omitempty"`
-	Label   string     `json:"label,omitempty"`
+	Label   Label      `json:"label,omitempty"`
+	Round   int        `json:"round,omitempty"` // ronde suisse (0 = sans objet) ; remplace la relecture du libellé
 	Key     string     `json:"key,omitempty"`
 	A       PlayerID   `json:"a,omitempty"`
 	B       PlayerID   `json:"b,omitempty"`
 	Length  int        `json:"length,omitempty"`
 	Table   int        `json:"table,omitempty"`
 	Draw    *Draw      `json:"draw,omitempty"`
-	Reason  string     `json:"reason,omitempty"`
+	Reason  ReasonCode `json:"reason,omitempty"`
+	Until   time.Time  `json:"until,omitempty"` // waiting_batch : échéance du prochain lot
 }
 
 // Draw est le résultat d'un tirage (placement dans un tableau ou composition de groupes),

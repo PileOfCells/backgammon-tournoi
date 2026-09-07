@@ -47,7 +47,10 @@ func hook(t *testing.T, name string, seen map[string]int) func(s *tournoi.State,
 					return fmt.Errorf("%s : %s joue alors qu'il est éliminé (%d défaites)", name, p, ph.Losses[p])
 				}
 			}
-			if ph.Losses[m.A] != ph.Losses[m.B] && m.Label != "Finale" && m.Label != "Match croisé" {
+			// Les matchs de secours (finale, match croisé) apparient volontairement des groupes
+			// différents ; ils se reconnaissent à leur CODE, jamais à leur libellé affiché.
+			crossGroup := m.Label.Kind == tournoi.LabelFinal || m.Label.Kind == tournoi.LabelCrossed
+			if ph.Losses[m.A] != ph.Losses[m.B] && !crossGroup {
 				return fmt.Errorf("%s : match %s entre joueurs de groupes différents (%d vs %d défaites)", name, m.Label, ph.Losses[m.A], ph.Losses[m.B])
 			}
 		}

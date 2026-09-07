@@ -7,7 +7,8 @@ import (
 
 // ---- Poules toutes rondes, qualification sans départage (barrage à 2 vies entre ex æquo) ----
 
-func groupName(i int) string { return fmt.Sprintf("Poule %c", 'A'+i) }
+// groupName : identifiant de la i-ième poule (voir codes.go, « Noms de section »).
+func groupName(i int) string { return poolSectionName(i) }
 
 func (s *State) proposeRR(ph *PhaseState) []Action {
 	if !ph.Drawn {
@@ -26,27 +27,27 @@ func (s *State) proposeRR(ph *PhaseState) []Action {
 		for i, p := range ids {
 			groups[i%ng] = append(groups[i%ng], p)
 		}
-		return []Action{{Kind: ActDraw, Phase: ph.Index, Label: fmt.Sprintf("%d poules", ng), Draw: &Draw{Groups: groups}}}
+		return []Action{{Kind: ActDraw, Phase: ph.Index, Label: Label{Kind: LabelDrawPools, N: ng}, Draw: &Draw{Groups: groups}}}
 	}
 	var acts []Action
 	for _, r := range s.readyFree(ph) {
 		acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Section: r.sec.Name, Key: r.g.Key,
-			Label: fmt.Sprintf("%s, %s", r.sec.Name, r.g.Label), A: r.g.Players[0], B: r.g.Players[1], Length: r.g.Length})
+			Label: Label{Kind: LabelInSection, Section: r.sec.Name}.with(r.g.Label), A: r.g.Players[0], B: r.g.Players[1], Length: r.g.Length})
 	}
 	// barrages
 	for _, sec := range ph.Sections {
-		if sec.Kind != "poule" || !sectionDone(sec) {
+		if sec.Kind != secKindPool || !sectionDone(sec) {
 			continue
 		}
 		tied, spots := s.rrTie(ph, sec)
 		if len(tied) == 0 {
 			continue
 		}
-		bname := "Barrage " + sec.Name
+		bname := barrageSectionName(sec.Name)
 		bs := ph.section(bname)
 		if bs == nil {
 			acts = append(acts, Action{Kind: ActDraw, Phase: ph.Index, Section: bname,
-				Label: fmt.Sprintf("Barrage %s : %d joueurs pour %d place(s)", sec.Name, len(tied), spots), Draw: &Draw{Groups: [][]PlayerID{tied}}})
+				Label: Label{Kind: LabelDrawBarrage, Section: sec.Name, Players: len(tied), Spots: spots}, Draw: &Draw{Groups: [][]PlayerID{tied}}})
 			continue
 		}
 		acts = append(acts, s.proposeBarrage(ph, bs)...)
@@ -159,28 +160,28 @@ func (s *State) proposeBarrage(ph *PhaseState, bs *Section) []Action {
 		g = sortedIDs(g)
 		rng.Shuffle(len(g), func(i, j int) { g[i], g[j] = g[j], g[i] })
 		for i := 0; i+1 < len(g) && budget > 0; i += 2 {
-			acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Section: bs.Name, Label: bs.Name, A: g[i], B: g[i+1], Length: ph.Length})
+			acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Section: bs.Name, Label: Label{Kind: LabelBarrage, Section: bs.Name}, A: g[i], B: g[i+1], Length: ph.Length})
 			budget--
 		}
 	}
 	if len(acts) == 0 && running == 0 && len(free) >= 2 { // croisé : les deux ayant le moins de défaites
 		fr := sortedIDs(free)
 		sort.SliceStable(fr, func(i, j int) bool { return losses[fr[i]] < losses[fr[j]] })
-		acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Section: bs.Name, Label: bs.Name + " (croisé)", A: fr[0], B: fr[1], Length: ph.Length})
+		acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Section: bs.Name, Label: Label{Kind: LabelBarrageCross, Section: bs.Name}, A: fr[0], B: fr[1], Length: ph.Length})
 	}
 	return acts
 }
 
 func (s *State) rrBarragesDone(ph *PhaseState) bool {
 	for _, sec := range ph.Sections {
-		if sec.Kind != "poule" {
+		if sec.Kind != secKindPool {
 			continue
 		}
 		tied, _ := s.rrTie(ph, sec)
 		if len(tied) == 0 {
 			continue
 		}
-		bs := ph.section("Barrage " + sec.Name)
+		bs := ph.section(barrageSectionName(sec.Name))
 		if bs == nil || len(s.barrageAlive(bs)) > bs.Spots {
 			return false
 		}
@@ -203,12 +204,12 @@ func (s *State) applyRRDraw(ph *PhaseState, section string, d *Draw) error {
 		return fmt.Errorf("barrage : un seul groupe attendu")
 	}
 	// places : recalculées à partir de la poule
-	poule := ph.section(section[len("Barrage "):])
+	poule := ph.section(poolOfBarrage(section))
 	if poule == nil {
 		return fmt.Errorf("barrage : poule %q inconnue", section)
 	}
 	_, spots := s.rrTie(ph, poule)
-	ph.Sections = append(ph.Sections, &Section{Name: section, Kind: "barrage", Players: d.Groups[0], Spots: spots})
+	ph.Sections = append(ph.Sections, &Section{Name: section, Kind: secKindBarrage, Players: d.Groups[0], Spots: spots})
 	return nil
 }
 
@@ -216,7 +217,7 @@ func (s *State) applyRRDraw(ph *PhaseState, section string, d *Draw) error {
 func (s *State) rrQualified(ph *PhaseState) []PlayerID {
 	var out []PlayerID
 	for _, sec := range ph.Sections {
-		if sec.Kind != "poule" {
+		if sec.Kind != secKindPool {
 			continue
 		}
 		w := rrWins(sec)
@@ -237,7 +238,7 @@ func (s *State) rrQualified(ph *PhaseState) []PlayerID {
 				out = append(out, p)
 			}
 		}
-		if bs := ph.section("Barrage " + sec.Name); bs != nil {
+		if bs := ph.section(barrageSectionName(sec.Name)); bs != nil {
 			alive := s.barrageAlive(bs)
 			if len(alive) <= spots {
 				out = append(out, alive...)
@@ -254,17 +255,19 @@ func (s *State) rrRanking(ph *PhaseState) []Rank {
 		qual[p] = true
 	}
 	score := map[PlayerID]int{}
-	note := map[PlayerID]string{}
+	note := map[PlayerID]Note{}
 	for _, sec := range ph.Sections {
-		if sec.Kind != "poule" {
+		if sec.Kind != secKindPool {
 			continue
 		}
 		for p, w := range rrWins(sec) {
 			score[p] = w
-			note[p] = fmt.Sprintf("%s, %d victoires", sec.Name, w)
+			note[p] = Note{Kind: NotePoolRecord, Section: sec.Name, Wins: w}
 			if qual[p] {
 				score[p] += 100
-				note[p] += ", qualifié"
+				n := note[p]
+				n.Qualified = true
+				note[p] = n
 			}
 		}
 	}

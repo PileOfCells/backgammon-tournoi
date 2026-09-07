@@ -105,30 +105,8 @@ func (c *Config) Validate() error {
 		if p.Entry == "" {
 			p.Entry = "survivors"
 		}
-		if p.Name == "" {
-			p.Name = defaultPhaseName(p)
-		}
 	}
 	return nil
-}
-
-func defaultPhaseName(p *PhaseConfig) string {
-	switch p.Kind {
-	case KindSwissLives:
-		return fmt.Sprintf("Suisse %d vies", p.Lives)
-	case KindLivesBracket:
-		return "Tableau final"
-	case KindGSL:
-		return "Blocs GSL"
-	case KindBracket:
-		if p.Reconciliation {
-			return "Double élimination"
-		}
-		return "Tableau"
-	case KindRoundRobin:
-		return "Poules"
-	}
-	return p.Kind
 }
 
 // ParseConfig lit une configuration JSON et la valide.

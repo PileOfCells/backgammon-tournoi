@@ -40,6 +40,23 @@ Boucle côté hôte (exemple complet dans `doc.go`) :
 2. Le TD confirme ; `EventFromAction` produit l'`Event`, `Apply` l'applique, l'hôte l'ajoute au journal.
 3. Résultats via `ResultEvent(...)`.
 
+### Codes, pas de phrases
+
+Rien de ce qui sort du moteur n'est destiné à être affiché tel quel : les libellés de match
+(`Label`), les notes de classement (`Note`), les avertissements (`Warning`) et les raisons
+d'attente (`ReasonCode`) sont des **codes structurés** (`codes.go`), parce que le logiciel hôte
+affiche le tournoi dans la langue de son utilisateur — blunderDB en parle neuf. Le rendu
+français vit dans `fr.go` et ne sert que la console, la démo et `render/`.
+
+Les noms de section (`Section.Name`, `Match.Section`) sont des **identifiants** (`main`,
+`conso`, `poule:A`, `barrage:A`), pas des libellés : ils voyagent dans le journal et dans la
+base de l'hôte. Un test (`codes_test.go`) refuse toute chaîne accentuée ou à espaces sortant du
+moteur, hors les champs que le TD a lui-même saisis (nom de joueur, de club, de phase, note).
+
+Le numéro de ronde est le champ `Event.Round` : avant, il était relu dans le texte « Ronde k ».
+Chaque événement porte `Version` (`JournalVersion`) ; les constructeurs de `events.go` la
+posent, et un journal `Version: 0` est converti à la lecture par `Event.upgraded()`.
+
 ### Déterminisme
 
 `Propose` ne dépend que du journal : le générateur aléatoire est `s.rng()` = f(graine, nombre d'événements, phase courante). Les **tirages** (placement dans un tableau, composition des groupes) sont matérialisés dans l'événement `EvDraw` (`Draw{Slots, Groups, Lives}`), si bien que rejouer un journal ne dépend pas de l'algorithme d'appariement : on peut changer `drawSlots`, `pairGroup`, etc. sans casser les journaux existants. Les tests vérifient qu'un rejeu donne le même classement final et aucun `Warning`.
