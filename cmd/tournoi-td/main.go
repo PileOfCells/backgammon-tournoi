@@ -49,7 +49,7 @@ func (t *td) save() {
 	b, _ := t.journal.Bytes()
 	_ = os.WriteFile(t.path, b, 0o644)
 	page := filepath.Join(filepath.Dir(t.path), "affichage.html")
-	_ = os.WriteFile(page, []byte(render.Page(t.st, t.st.ProposeAt(time.Now()), time.Now())), 0o644)
+	_ = os.WriteFile(page, []byte(render.New(render.French()).Page(t.st, t.st.ProposeAt(time.Now()), time.Now())), 0o644)
 }
 
 func (t *td) apply(ev tournoi.Event) error {

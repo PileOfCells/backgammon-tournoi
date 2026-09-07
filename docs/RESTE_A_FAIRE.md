@@ -82,12 +82,19 @@ où intervenir et comment vérifier.
 
 ## 3. Rendu et affichage
 
-- [ ] Style et charte du site hôte pour `render/` (aujourd'hui SVG et HTML bruts sans CSS).
-- [ ] Arbre de double élimination : dessiner principal et consolante côte à côte avec les drops.
-- [ ] Tableau des vies : afficher les adversaires déjà rencontrés et le temps d'attente.
+- [x] **Rendu traduisible, autonome et imprimable** (issue #11). `render.Renderer` prend un
+  `Labeler` (les codes du moteur ET les mots du rendu, `Term`), une feuille de style et un
+  crédit injectés, et une langue de page. Les pages produites sont AUTONOMES : un fichier, CSS
+  embarqué, aucune ressource externe, aucun script. `French()` sert la console, la démo et les
+  tests. Nouveaux composants : `TableGrid` (une case par table), `PairingSheet` (feuille
+  imprimable A4, une case de score par joueur), `BracketBoardSVG` (toutes les sections d'une
+  phase dans un seul SVG).
+- [x] Arbre de double élimination : le principal et la consolante sont dessinés côte à côte,
+  en bandes de colonnes disjointes, avec les descentes en pointillé (`BracketBoardSVG`).
+- [x] Tableau des vies : adversaires déjà rencontrés et temps d'attente.
 - [ ] Écran joueur (téléphone) : « votre prochain match » et « votre table ».
-- [ ] Tests unitaires de `render` (golden files SVG/HTML dans `testdata/`). Ceux de
-  `players/csv.go` existent depuis l'issue #12.
+- [x] Tests de `render` (fichiers témoins dans `render/testdata/`, `go test ./render -update`
+  pour les régénérer). Ceux de `players/csv.go` existent depuis l'issue #12.
 
 ## 4. Moteur : robustesse et qualité
 

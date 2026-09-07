@@ -83,19 +83,22 @@ func main() {
 		fmt.Fprintln(os.Stderr, "erreur :", r.Err)
 		os.Exit(1)
 	}
+	// La démo affiche en français ; un hôte multilingue branche son propre Labeler.
+	rd := render.New(render.French())
 	_ = os.MkdirAll(*out, 0o755)
 	jb, _ := r.Journal.Bytes()
 	_ = os.WriteFile(filepath.Join(*out, "journal.json"), jb, 0o644)
 	now := r.State.Last
-	_ = os.WriteFile(filepath.Join(*out, "affichage.html"), []byte(render.Page(r.State, nil, now)), 0o644)
+	_ = os.WriteFile(filepath.Join(*out, "affichage.html"), []byte(rd.Page(r.State, nil, now)), 0o644)
 	_ = os.WriteFile(filepath.Join(*out, "classement.csv"), r.State.StandingsCSV(), 0o644)
+	// Un SVG par PHASE, et non par section : le principal et sa consolante se dessinent
+	// côte à côte, avec les descentes de l'un vers l'autre.
 	for _, ph := range r.State.Phases {
-		for _, sec := range ph.Sections {
-			if len(sec.Rounds) > 0 {
-				_ = os.WriteFile(filepath.Join(*out, fmt.Sprintf("phase%d_%s.svg", ph.Index+1, sec.Name)), []byte(render.BracketSVG(r.State, sec)), 0o644)
-			}
+		if svg := rd.BracketBoardSVG(r.State, ph); svg != "" {
+			_ = os.WriteFile(filepath.Join(*out, fmt.Sprintf("phase%d.svg", ph.Index+1)), []byte(svg), 0o644)
 		}
 	}
+	_ = os.WriteFile(filepath.Join(*out, "appariements.html"), []byte(rd.PairingSheet(r.State, 0)), 0o644)
 	if *etapes {
 		fractions := []float64{0.15, 0.4, 0.7, 1.0}
 		for k, fr := range fractions {
@@ -109,12 +112,10 @@ func main() {
 				os.Exit(1)
 			}
 			acts := st.Propose()
-			_ = os.WriteFile(filepath.Join(*out, fmt.Sprintf("etape%d_affichage.html", k+1)), []byte(render.Page(st, acts, st.Last)), 0o644)
+			_ = os.WriteFile(filepath.Join(*out, fmt.Sprintf("etape%d_affichage.html", k+1)), []byte(rd.Page(st, acts, st.Last)), 0o644)
 			for _, ph := range st.Phases {
-				for _, sec := range ph.Sections {
-					if len(sec.Rounds) > 0 {
-						_ = os.WriteFile(filepath.Join(*out, fmt.Sprintf("etape%d_phase%d_%s.svg", k+1, ph.Index+1, sec.Name)), []byte(render.BracketSVG(st, sec)), 0o644)
-					}
+				if svg := rd.BracketBoardSVG(st, ph); svg != "" {
+					_ = os.WriteFile(filepath.Join(*out, fmt.Sprintf("etape%d_phase%d.svg", k+1, ph.Index+1)), []byte(svg), 0o644)
 				}
 			}
 		}
@@ -124,7 +125,7 @@ func main() {
 	st, _ := tournoi.Replay(half)
 	mid := st.Last
 	acts := st.Propose()
-	_ = os.WriteFile(filepath.Join(*out, "affichage_mi_tournoi.html"), []byte(render.Page(st, acts, mid)), 0o644)
+	_ = os.WriteFile(filepath.Join(*out, "affichage_mi_tournoi.html"), []byte(rd.Page(st, acts, mid)), 0o644)
 	prev, err := sim.Forecast(half, mid, 50, cfg.MinPerPoint, *seed)
 	if err == nil && len(prev) > 0 {
 		fmt.Printf("À mi-tournoi (%s) : fin prévue dans %.0f min (médiane), %.0f min (90 %%) ; fin réelle %.0f min plus tard\n",

@@ -46,12 +46,16 @@ grille par tour lue **du dernier tour vers le premier** (`[15,13,11,9]`), `lengt
 - `horaires.go` : micro-rondes (`batch_minutes`, échéance dérivée du journal) et pauses programmées (`Config.Breaks`, avertissement sans blocage).
 - `seeding.go` : têtes de série en option (`seeding: "rating"`), éteintes par défaut.
 - `reconfig.go` : configuration modifiable en cours (`ConfigChangedEvent`, la configuration entière) et réouverture d'un tournoi clos (`ReopenedEvent`).
-- `render/` : SVG des arbres, tableau des vies, matchs en cours, classement, page complète.
+- `render/` : rendu traduisible (un `Labeler` injecté rend les codes ET les mots du rendu),
+  feuille de style et crédit injectés. Arbres SVG de toutes les sections d'une phase côte à côte
+  avec les descentes, grille des tables, tableau des vies (adversaires rencontrés, attente),
+  matchs en cours, classement, feuille d'appariements imprimable, page autonome (un fichier, CSS
+  embarqué, aucune ressource externe). Fichiers témoins dans `render/testdata/`.
 - `sim/` : simulation (tests d'invariants, comparaison avec le simulateur de l'étude, prévision de fin).
 - `players/` : import et export CSV d'une liste de joueurs (l'annuaire de l'hôte fait l'aller-retour).
 - `cmd/tournoi-demo` : démonstration (`go run ./cmd/tournoi-demo -format suisse_tableau -joueurs 32 -etapes -sortie demo`, `-rejouer demo/journal.json`).
 - `cmd/tournoi-td` : console interactive pour diriger un tournoi à la main (voir « Tester à la main »).
-- `exemples/` : tournois simulés rendus à quatre stades pour sept formats ; ouvrir `exemples/index.html`.
+- `exemples/` : tournois simulés rendus à quatre stades pour sept formats ; ouvrir `exemples/index.html`. Régénérer avec `scripts/exemples.sh`.
 
 ## Tests
 

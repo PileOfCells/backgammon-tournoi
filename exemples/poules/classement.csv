@@ -1,17 +1,17 @@
-rang;id;nom;club;note;prix
-1;P8;Joueur 8;Club 2;vainqueur main;40.00
-2;P2;Joueur 2;Club 1;main, Finale;20.00
-3;P10;Joueur 10;Club 4;main, Demi-finale;7.50
-3;P13;Joueur 13;Club 2;main, Demi-finale;7.50
-5;P7;Joueur 7;Club 1;main, Quart de finale;5.00
-5;P9;Joueur 9;Club 3;main, Quart de finale;5.00
-5;P4;Joueur 4;Club 3;main, Quart de finale;5.00
-5;P5;Joueur 5;Club 4;main, Quart de finale;5.00
-9;P6;Joueur 6;Club 0;Poule A, 2 victoires;2.50
-10;P1;Joueur 1;Club 0;Poule D, 1 victoires;0.50
-10;P12;Joueur 12;Club 1;Poule C, 1 victoires;0.50
-10;P14;Joueur 14;Club 3;Poule B, 1 victoires;0.50
-10;P16;Joueur 16;Club 0;Poule C, 1 victoires;0.50
-10;P3;Joueur 3;Club 2;Poule D, 1 victoires;0.50
-15;P11;Joueur 11;Club 0;Poule B, 0 victoires;0.00
-15;P15;Joueur 15;Club 4;Poule A, 0 victoires;0.00
+section;rang;id;nom;club;note;prix
+all;1;P1;Joueur 1;Club 0;vainqueur principal;102.00
+all;2;P14;Joueur 14;Club 3;principal, Finale;58.00
+all;3;P11;Joueur 11;Club 0;principal, Demi-finale;29.00
+all;3;P8;Joueur 8;Club 2;principal, Demi-finale;29.00
+all;5;P15;Joueur 15;Club 4;principal, Quart de finale;14.00
+all;5;P4;Joueur 4;Club 3;principal, Quart de finale;14.00
+all;5;P9;Joueur 9;Club 3;principal, Quart de finale;14.00
+all;5;P7;Joueur 7;Club 1;principal, Quart de finale;14.00
+all;9;P13;Joueur 13;Club 2;poule B, 2 victoires;0.00
+all;10;P12;Joueur 12;Club 1;poule D, 1 victoires;0.00
+all;10;P16;Joueur 16;Club 0;poule D, 1 victoires;0.00
+all;10;P2;Joueur 2;Club 1;poule A, 1 victoires;0.00
+all;10;P5;Joueur 5;Club 4;poule A, 1 victoires;0.00
+all;10;P6;Joueur 6;Club 0;poule C, 1 victoires;0.00
+all;15;P10;Joueur 10;Club 4;poule B, 0 victoires;0.00
+all;15;P3;Joueur 3;Club 2;poule C, 0 victoires;0.00

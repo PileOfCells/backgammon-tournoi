@@ -2710,29 +2710,71 @@ Particularités :
 
 ## `render` — affichage
 
-Fonctions **pures** produisant du HTML et du SVG bruts, sans JavaScript ni CSS (hormis quelques
-attributs de style en ligne) : l'hôte les insère dans ses pages et applique sa charte.
+Fonctions **pures** produisant du HTML et du SVG. Rien n'y est écrit en dur dans une langue : le
+moteur ne produit que des codes, et ce paquet les traduit par un `Labeler` que l'hôte fournit —
+y compris ses propres mots (« Joueur », « Table », « libre »), qui sont eux aussi des codes
+(`Term`). `French()` est fourni pour la console, la démo et les tests.
 
-| Fonction | Produit |
+```go
+type Renderer struct {
+    L      Labeler
+    Style  string // vide = DefaultStyle
+    Credit string // vide = DefaultCredit
+    Lang   string // attribut lang de la page ; vide = "fr"
+}
+func New(l Labeler) *Renderer
+
+type Labeler interface {
+    Label(tournoi.Label) string
+    Note(tournoi.Note) string
+    Reason(tournoi.ReasonCode) string
+    Warn(tournoi.WarningCode) string
+    SectionName(string) string
+    PhaseName(tournoi.PhaseConfig) string
+    Term(t Term, count int) string
+}
+func French() Labeler
+```
+
+| Méthode | Produit |
 |---|---|
-| `BracketSVG(st, sec) string` | Le graphe d'une section en SVG (tableau, groupe GSL, poule, consolante) |
-| `LivesBoard(st, ph) string` | Colonnes de joueurs par nombre de défaites, avec état (libre / table / forfait) |
-| `RunningTable(st, now) string` | Les matchs en cours : table, libellé, joueurs, points, durée (rouge au-delà de 1,5 × attendu) |
-| `ActionsList(st, acts) string` | La liste ordonnée des actions proposées, en clair |
-| `StandingsTable(st) string` | Le classement avec club, note et prix |
-| `Page(st, acts, now) string` | Page complète d'écran de salle, auto-rafraîchie toutes les 30 s |
+| `BracketBoardSVG(st, ph)` | **Toutes** les sections en graphe d'une phase dans un seul SVG, côte à côte, avec les descentes d'une section à l'autre |
+| `LivesBoard(st, ph, now)` | Colonnes de joueurs par nombre de défaites : état, temps d'attente, adversaires déjà rencontrés |
+| `TableGrid(st, now)` | Une case par table : son match et sa durée, ou libre, indisponible, réservée |
+| `RunningTable(st, now)` | Les matchs en cours : table, libellé, joueurs, points, durée (classe `lent` au-delà de 1,5 × attendu) |
+| `ActionsList(st, acts)` | La liste ordonnée des actions proposées |
+| `StandingsTable(st)` | Le classement avec club, note et prix |
+| `PairingSheet(st, round)` | La feuille d'appariements d'un lot, imprimable A4, une case de score par joueur — page autonome |
+| `Page(st, acts, now)` | La page d'écran de salle, autonome, rafraîchie toutes les 30 s par une méta (pas de script) |
 
-Mise en page du SVG : une colonne par tour (`Rounds`), boîte de 190 × 44 px, écart horizontal 60 px,
-écart vertical 12 px. L'ordonnée d'un match est la **moyenne des ordonnées de ses matchs sources**
-de la même section ; les chevauchements sont ensuite corrigés en décalant vers le bas (nécessaire
-pour les groupes GSL, où le match des gagnants et celui des perdants partagent des sources). La
-hauteur du SVG est calculée **après** la mise en page, à partir des positions réellement occupées.
-Une paire d'exemptions (`BYE` contre `BYE`) n'est pas dessinée. Le fond d'une boîte est blanc
-(match à venir), jaune pâle (match en cours) ou vert pâle (match terminé).
+**Une page produite est autonome** : un seul fichier, feuille de style embarquée, aucune
+ressource externe — pas de police distante, pas de script, pas d'image liée. Elle doit s'ouvrir
+hors ligne, depuis une clé USB, sur l'ordinateur de la salle. Un crédit figure en pied de page.
 
-Le nom affiché d'un joueur est `Player.Name`, ou l'identifiant à défaut ; `BYE` s'affiche
-« exempt » et une place inconnue « … ». Tout texte issu des données passe par
-`html.EscapeString`.
+**Les lots.** `Batches(st)` groupe les matchs de la phase courante par instant de départ. Un lot
+est ce qu'un directeur appelle une ronde dans un suisse par rondes, un bloc dans un GSL, un tour
+dans un tableau, une micro-ronde dans un suisse à `batch_minutes`. Le moteur n'a pas de mot pour
+cela et n'en a pas besoin : l'instant de départ le dit. `PairingSheet(st, n)` imprime le n-ième ;
+`0` ou un numéro au-delà du dernier donne le plus récent.
+
+**Mise en page du SVG.** Une colonne par tour (`Rounds`), boîte de 190 × 44 px, écart horizontal
+60 px, vertical 12 px, et 40 px entre deux sections. Chaque section occupe sa propre bande de
+colonnes, si bien que deux arbres ne peuvent pas se chevaucher. L'ordonnée d'un match est la
+**moyenne des ordonnées de ses matchs sources de la même section** ; les chevauchements sont
+ensuite corrigés en décalant vers le bas (nécessaire pour les groupes GSL, où le match des
+gagnants et celui des perdants partagent des sources). Les liaisons sont tracées **sous** les
+boîtes ; celles qui traversent une section — les descentes du principal vers la consolante —
+sont en pointillé et d'une autre couleur. Une paire d'exemptions (`BYE` contre `BYE`) n'est pas
+dessinée. Le fond d'une boîte est blanc (match à venir), jaune pâle (en cours) ou vert pâle
+(terminé).
+
+Le nom affiché d'un joueur est `Player.Name`, ou l'identifiant à défaut — un nom est saisi par le
+TD et ne se traduit pas. `BYE` et une place inconnue passent, eux, par le `Labeler`. Tout texte
+issu des données passe par `html.EscapeString`.
+
+Les rendus sont figés par des **fichiers témoins** dans `render/testdata/` : toute modification
+du rendu fait échouer les tests, et `go test ./render -update` les régénère une fois le
+changement relu.
 
 ## `players` — import CSV
 
