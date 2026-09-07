@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Bibliothèque Go (`tournoi`, module `github.com/PileOfCells/backgammon-tournoi`, Go 1.22, **aucune dépendance externe**) : moteur de tournoi de backgammon destiné à être intégré dans un logiciel hôte, dans le même processus. Code, commentaires, identifiants de labels et documentation sont **en français** ; garder cette convention (noms de fonctions exportées en anglais, commentaires et messages en français).
 
 Le moteur n'a jamais dirigé de vrai tournoi. Les choix de conception (formats, absence de départage, pas de têtes de série) sont justifiés dans `docs/etude_formats.md` ; la liste priorisée du travail restant est dans `docs/RESTE_A_FAIRE.md` : consulter ce fichier avant d'ajouter une fonction, et le mettre à jour quand un point est traité.
-`docs/specification.md` (et son PDF) est la spécification complète du moteur : la mettre à jour quand le comportement change.
+`docs/specification.md` (et son PDF) est la spécification complète du moteur : la mettre à jour quand le comportement change. `docs/comprendre_le_moteur.md` est la présentation accessible (décisions de conception, justifications, questions fréquentes, chiffres de référence) : les chiffres du chapitre « Chiffres de référence » viennent de `go test -run TestParity -v ./` et sont à refaire si l'appariement change.
 
 ## Commandes
 
