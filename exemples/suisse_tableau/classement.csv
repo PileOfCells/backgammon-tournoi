@@ -1,33 +1,33 @@
-rang;id;nom;club;note;prix
-1;P14;Joueur 14;Club 3;vainqueur main;40.00
-2;P1;Joueur 1;Club 0;main, Finale;20.00
-3;P23;Joueur 23;Club 2;main, Demi-finale;7.50
-3;P29;Joueur 29;Club 3;main, Demi-finale;7.50
-5;P6;Joueur 6;Club 0;main, Quart de finale;5.00
-5;P13;Joueur 13;Club 2;main, Quart de finale;5.00
-5;P15;Joueur 15;Club 4;main, Quart de finale;5.00
-5;P21;Joueur 21;Club 0;main, Quart de finale;5.00
-9;P10;Joueur 10;Club 4;main, Tour 1;1.00
-9;P18;Joueur 18;Club 2;main, Tour 1;1.00
-9;P19;Joueur 19;Club 3;main, Tour 1;1.00
-9;P22;Joueur 22;Club 1;main, Tour 1;1.00
-9;P30;Joueur 30;Club 4;main, Tour 1;1.00
-14;P7;Joueur 7;Club 1;3 victoires, 2 défaites;0.00
-15;P5;Joueur 5;Club 4;2 victoires, 2 défaites;0.00
-15;P9;Joueur 9;Club 3;2 victoires, 2 défaites;0.00
-15;P11;Joueur 11;Club 0;2 victoires, 2 défaites;0.00
-15;P25;Joueur 25;Club 4;2 victoires, 2 défaites;0.00
-19;P4;Joueur 4;Club 3;1 victoires, 2 défaites;0.00
-19;P16;Joueur 16;Club 0;1 victoires, 2 défaites;0.00
-19;P20;Joueur 20;Club 4;1 victoires, 2 défaites;0.00
-19;P31;Joueur 31;Club 0;1 victoires, 2 défaites;0.00
-23;P2;Joueur 2;Club 1;0 victoires, 2 défaites;0.00
-23;P3;Joueur 3;Club 2;0 victoires, 2 défaites;0.00
-23;P8;Joueur 8;Club 2;0 victoires, 2 défaites;0.00
-23;P12;Joueur 12;Club 1;0 victoires, 2 défaites;0.00
-23;P17;Joueur 17;Club 1;0 victoires, 2 défaites;0.00
-23;P24;Joueur 24;Club 3;0 victoires, 2 défaites;0.00
-23;P26;Joueur 26;Club 0;0 victoires, 2 défaites;0.00
-23;P27;Joueur 27;Club 1;0 victoires, 2 défaites;0.00
-23;P28;Joueur 28;Club 2;0 victoires, 2 défaites;0.00
-23;P32;Joueur 32;Club 1;0 victoires, 2 défaites;0.00
+section;rang;id;nom;club;note;prix
+all;1;P11;Joueur 11;Club 0;vainqueur principal;201.00
+all;2;P30;Joueur 30;Club 4;principal, Finale;115.00
+all;3;P15;Joueur 15;Club 4;principal, Demi-finale;57.50
+all;3;P27;Joueur 27;Club 1;principal, Demi-finale;57.50
+all;5;P2;Joueur 2;Club 1;principal, Quart de finale;29.00
+all;5;P12;Joueur 12;Club 1;principal, Quart de finale;29.00
+all;5;P14;Joueur 14;Club 3;principal, Quart de finale;29.00
+all;5;P32;Joueur 32;Club 1;principal, Quart de finale;29.00
+all;9;P10;Joueur 10;Club 4;principal, Tour 1;0.00
+all;9;P22;Joueur 22;Club 1;principal, Tour 1;0.00
+all;9;P23;Joueur 23;Club 2;principal, Tour 1;0.00
+all;9;P26;Joueur 26;Club 0;principal, Tour 1;0.00
+all;9;P28;Joueur 28;Club 2;principal, Tour 1;0.00
+all;14;P6;Joueur 6;Club 0;2 victoires, 2 défaites;0.00
+all;14;P16;Joueur 16;Club 0;2 victoires, 2 défaites;0.00
+all;14;P19;Joueur 19;Club 3;2 victoires, 2 défaites;0.00
+all;14;P25;Joueur 25;Club 4;2 victoires, 2 défaites;0.00
+all;14;P31;Joueur 31;Club 0;2 victoires, 2 défaites;0.00
+all;19;P3;Joueur 3;Club 2;1 victoires, 2 défaites;0.00
+all;19;P7;Joueur 7;Club 1;1 victoires, 2 défaites;0.00
+all;19;P21;Joueur 21;Club 0;1 victoires, 2 défaites;0.00
+all;22;P1;Joueur 1;Club 0;0 victoires, 2 défaites;0.00
+all;22;P4;Joueur 4;Club 3;0 victoires, 2 défaites;0.00
+all;22;P5;Joueur 5;Club 4;0 victoires, 2 défaites;0.00
+all;22;P8;Joueur 8;Club 2;0 victoires, 2 défaites;0.00
+all;22;P9;Joueur 9;Club 3;0 victoires, 2 défaites;0.00
+all;22;P13;Joueur 13;Club 2;0 victoires, 2 défaites;0.00
+all;22;P17;Joueur 17;Club 1;0 victoires, 2 défaites;0.00
+all;22;P18;Joueur 18;Club 2;0 victoires, 2 défaites;0.00
+all;22;P20;Joueur 20;Club 4;0 victoires, 2 défaites;0.00
+all;22;P24;Joueur 24;Club 3;0 victoires, 2 défaites;0.00
+all;22;P29;Joueur 29;Club 3;0 victoires, 2 défaites;0.00

@@ -97,6 +97,11 @@ func (l Label) String() string {
 	return string(l.Kind)
 }
 
+// SectionName rend le nom interne d'une section en français. Exportée parce que le paquet
+// render en a besoin : un nom de section est un identifiant, et le traduire est le travail du
+// Labeler de l'hôte — French() délègue ici.
+func SectionName(name string) string { return sectionName(name) }
+
 // sectionName rend le nom interne d'une section en français. Les noms de tableau sont des
 // identifiants ASCII ; les poules portent leur lettre.
 func sectionName(name string) string {

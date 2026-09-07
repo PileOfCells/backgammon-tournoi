@@ -26,7 +26,7 @@ go run ./cmd/tournoi-demo -rejouer demo/journal.json          # rejoue un journa
 go run ./cmd/tournoi-td -journal montournoi.json -format suisse_tableau
 ```
 
-`demo/` est ignoré par git. `exemples/` contient les sorties de `tournoi-demo -etapes` pour sept formats (galerie `exemples/index.html`) ; les régénérer avec la démo si le rendu ou les formats changent.
+`demo/` est ignoré par git. `exemples/` contient les sorties de `tournoi-demo -etapes` pour sept formats (galerie `exemples/index.html`) ; les régénérer avec `scripts/exemples.sh` si le rendu ou les formats changent — le script refait aussi la galerie, dont les liens dépendent des noms de fichiers produits.
 
 ## Architecture
 
@@ -93,7 +93,7 @@ Un `Match` (state.go, joué, avec table et horodatages) est relié à son `GMatc
 ### Paquets annexes
 
 - `sim/` : `Run(cfg, players, Options)` joue un tournoi complet avec résultats tirés selon les PR (`PGain`, modèle Elo/FIBS) ; `Options.Hook` est appelé après chaque événement (c'est ainsi que les tests vérifient les invariants) ; `Forecast` prévoit la fin d'un tournoi en cours. Les tests du paquet racine (`sim_test.go`, `parity_test.go`) sont dans `tournoi_test` et reposent entièrement sur `sim`.
-- `render/` : HTML/SVG bruts sans CSS (`BracketSVG`, `LivesBoard`, `RunningTable`, `ActionsList`, `StandingsTable`, `Page`). Pas de tests.
+- `render/` : rendu traduisible. Tout passe par un `Labeler` injecté — les codes du moteur ET les mots du rendu lui-même (`Term`) ; `French()` est fourni pour la console, la démo et les tests. La feuille de style, le crédit et la langue sont injectés ; les pages sont AUTONOMES (un fichier, CSS embarqué, aucune ressource externe, aucun script). `BracketBoardSVG` (toutes les sections d'une phase côte à côte, avec les descentes), `LivesBoard`, `TableGrid`, `RunningTable`, `ActionsList`, `StandingsTable`, `PairingSheet`, `Page`. Fichiers témoins dans `render/testdata/` : `go test ./render -update` pour les régénérer après un changement voulu.
 - `players/` : import et export CSV (séparateur détecté, identifiants en slug ; `ToCSV` écrit ce que `FromCSV` relit).
 - `cmd/tournoi-demo`, `cmd/tournoi-td` : chacun a sa propre map `formats` de configurations nommées ; les garder cohérentes si on en ajoute une.
 

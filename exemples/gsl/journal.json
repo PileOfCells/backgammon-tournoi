@@ -1,6 +1,7 @@
 [
  {
   "seq": 0,
+  "version": 1,
   "kind": "created",
   "time": "2026-01-01T09:00:00Z",
   "config": {
@@ -8,7 +9,6 @@
    "phases": [
     {
      "kind": "gsl",
-     "name": "Blocs GSL",
      "lives": 2,
      "length": 7,
      "target": 16,
@@ -16,333 +16,401 @@
     },
     {
      "kind": "lives_bracket",
-     "name": "Tableau final",
      "length": 9,
      "entry": "survivors"
     }
    ],
    "min_per_point": 8,
-   "prizes": [
-    40,
-    20,
-    10,
-    5,
-    5,
-    5,
-    5,
-    5,
-    2.5,
-    2.5
-   ]
+   "tables": {},
+   "prizes": {
+    "entry_fee": 20,
+    "retention": {
+     "percent": 10
+    },
+    "sections": {
+     "all": {
+      "percents": [
+       35,
+       20,
+       12,
+       8,
+       5,
+       5,
+       5,
+       5
+      ]
+     },
+     "conso": {
+      "percents": [
+       3,
+       2
+      ]
+     }
+    }
+   }
   },
-  "seed": 5
+  "seed": 1,
+  "label": {}
  },
  {
   "seq": 1,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P1",
    "name": "Joueur 1",
    "club": "Club 0",
-   "rating": 2.062518524570881
-  }
+   "rating": 2.9520646549442136
+  },
+  "label": {}
  },
  {
   "seq": 2,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P2",
    "name": "Joueur 2",
    "club": "Club 1",
-   "rating": 2.346234327540732
-  }
+   "rating": 3.532483644804106
+  },
+  "label": {}
  },
  {
   "seq": 3,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P3",
    "name": "Joueur 3",
    "club": "Club 2",
-   "rating": 3.177865896130804
-  }
+   "rating": 3.853640357822495
+  },
+  "label": {}
  },
  {
   "seq": 4,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P4",
    "name": "Joueur 4",
    "club": "Club 3",
-   "rating": 3.3574097345961222
-  }
+   "rating": 4.014513618497126
+  },
+  "label": {}
  },
  {
   "seq": 5,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P5",
    "name": "Joueur 5",
    "club": "Club 4",
-   "rating": 3.604055839657918
-  }
+   "rating": 4.5374339676450415
+  },
+  "label": {}
  },
  {
   "seq": 6,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P6",
    "name": "Joueur 6",
    "club": "Club 0",
-   "rating": 3.6439044003870014
-  }
+   "rating": 4.958010857693699
+  },
+  "label": {}
  },
  {
   "seq": 7,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P7",
    "name": "Joueur 7",
    "club": "Club 1",
-   "rating": 3.816802297760774
-  }
+   "rating": 5.3669255142118235
+  },
+  "label": {}
  },
  {
   "seq": 8,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P8",
    "name": "Joueur 8",
    "club": "Club 2",
-   "rating": 4.083348586582227
-  }
+   "rating": 5.747304978595254
+  },
+  "label": {}
  },
  {
   "seq": 9,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P9",
    "name": "Joueur 9",
    "club": "Club 3",
-   "rating": 4.558914252748244
-  }
+   "rating": 6.317615480352871
+  },
+  "label": {}
  },
  {
   "seq": 10,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P10",
    "name": "Joueur 10",
    "club": "Club 4",
-   "rating": 4.561615033320951
-  }
+   "rating": 6.64561050522316
+  },
+  "label": {}
  },
  {
   "seq": 11,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P11",
    "name": "Joueur 11",
    "club": "Club 0",
-   "rating": 4.779565902196875
-  }
+   "rating": 6.863061437392107
+  },
+  "label": {}
  },
  {
   "seq": 12,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P12",
    "name": "Joueur 12",
    "club": "Club 1",
-   "rating": 4.857445148692604
-  }
+   "rating": 7.054716786119723
+  },
+  "label": {}
  },
  {
   "seq": 13,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P13",
    "name": "Joueur 13",
    "club": "Club 2",
-   "rating": 5.289975272859105
-  }
+   "rating": 7.1801345751993875
+  },
+  "label": {}
  },
  {
   "seq": 14,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P14",
    "name": "Joueur 14",
    "club": "Club 3",
-   "rating": 5.88800982259886
-  }
+   "rating": 7.372761570071946
+  },
+  "label": {}
  },
  {
   "seq": 15,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P15",
    "name": "Joueur 15",
    "club": "Club 4",
-   "rating": 5.952501227148381
-  }
+   "rating": 7.40024180487997
+  },
+  "label": {}
  },
  {
   "seq": 16,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P16",
    "name": "Joueur 16",
    "club": "Club 0",
-   "rating": 5.969730067921884
-  }
+   "rating": 7.464883851609026
+  },
+  "label": {}
  },
  {
   "seq": 17,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P17",
    "name": "Joueur 17",
    "club": "Club 1",
-   "rating": 6.013291369608776
-  }
+   "rating": 7.676411808841621
+  },
+  "label": {}
  },
  {
   "seq": 18,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P18",
    "name": "Joueur 18",
    "club": "Club 2",
-   "rating": 6.451104261920939
-  }
+   "rating": 7.9784041685911635
+  },
+  "label": {}
  },
  {
   "seq": 19,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P19",
    "name": "Joueur 19",
    "club": "Club 3",
-   "rating": 6.979445135752386
-  }
+   "rating": 7.979420840417063
+  },
+  "label": {}
  },
  {
   "seq": 20,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P20",
    "name": "Joueur 20",
    "club": "Club 4",
-   "rating": 7.127088824413216
-  }
+   "rating": 7.999252242022525
+  },
+  "label": {}
  },
  {
   "seq": 21,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P21",
    "name": "Joueur 21",
    "club": "Club 0",
-   "rating": 7.410750425016817
-  }
+   "rating": 8.201458387500042
+  },
+  "label": {}
  },
  {
   "seq": 22,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P22",
    "name": "Joueur 22",
    "club": "Club 1",
-   "rating": 7.422194757673367
-  }
+   "rating": 8.597681695034868
+  },
+  "label": {}
  },
  {
   "seq": 23,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P23",
    "name": "Joueur 23",
    "club": "Club 2",
-   "rating": 8.774226529382329
-  }
+   "rating": 9.170807924561245
+  },
+  "label": {}
  },
  {
   "seq": 24,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P24",
    "name": "Joueur 24",
    "club": "Club 3",
-   "rating": 9.394287266187327
-  }
+   "rating": 9.778928412526962
+  },
+  "label": {}
  },
  {
   "seq": 25,
+  "version": 1,
   "kind": "draw",
   "time": "2026-01-01T09:00:00Z",
-  "label": "Bloc 1 : 6 groupes",
+  "label": {
+   "kind": "draw_block",
+   "n": 1,
+   "players": 6
+  },
   "draw": {
    "groups": [
     [
-     "P21",
-     "P1",
+     "P16",
+     "P17",
+     "P22",
+     "P4"
+    ],
+    [
      "P3",
-     "P15"
-    ],
-    [
-     "P12",
+     "P18",
      "P8",
-     "P19",
-     "P16"
+     "P10"
     ],
     [
+     "P5",
+     "P9",
+     "P11",
+     "P23"
+    ],
+    [
+     "P13",
+     "P19",
      "P14",
+     "P20"
+    ],
+    [
      "P2",
-     "P23",
+     "P15",
+     "P21",
      "P6"
     ],
     [
-     "P9",
-     "P4",
-     "P17",
-     "P5"
-    ],
-    [
-     "P22",
-     "P20",
-     "P13",
-     "P24"
-    ],
-    [
-     "P18",
-     "P7",
-     "P11",
-     "P10"
+     "P24",
+     "P1",
+     "P12",
+     "P7"
     ]
    ],
    "lives": {
@@ -375,687 +443,989 @@
  },
  {
   "seq": 26,
+  "version": 1,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M1",
   "section": "B1G1",
-  "label": "Bloc 1, B1G1 : Ouverture",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G1",
+   "sub": {
+    "kind": "opening"
+   }
+  },
   "key": "B1G1.0",
-  "a": "P21",
-  "b": "P1",
+  "a": "P16",
+  "b": "P17",
   "length": 7,
   "table": 1
  },
  {
   "seq": 27,
+  "version": 1,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M2",
   "section": "B1G1",
-  "label": "Bloc 1, B1G1 : Ouverture",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G1",
+   "sub": {
+    "kind": "opening"
+   }
+  },
   "key": "B1G1.1",
-  "a": "P3",
-  "b": "P15",
+  "a": "P22",
+  "b": "P4",
   "length": 7,
   "table": 2
  },
  {
   "seq": 28,
+  "version": 1,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M3",
   "section": "B1G2",
-  "label": "Bloc 1, B1G2 : Ouverture",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G2",
+   "sub": {
+    "kind": "opening"
+   }
+  },
   "key": "B1G2.0",
-  "a": "P12",
-  "b": "P8",
-  "length": 7,
-  "table": 3
- },
- {
-  "seq": 29,
-  "kind": "match_started",
-  "time": "2026-01-01T09:00:00Z",
-  "match_id": "M4",
-  "section": "B1G2",
-  "label": "Bloc 1, B1G2 : Ouverture",
-  "key": "B1G2.1",
-  "a": "P19",
-  "b": "P16",
-  "length": 7,
-  "table": 4
- },
- {
-  "seq": 30,
-  "kind": "match_started",
-  "time": "2026-01-01T09:00:00Z",
-  "match_id": "M5",
-  "section": "B1G3",
-  "label": "Bloc 1, B1G3 : Ouverture",
-  "key": "B1G3.0",
-  "a": "P14",
-  "b": "P2",
-  "length": 7,
-  "table": 5
- },
- {
-  "seq": 31,
-  "kind": "match_started",
-  "time": "2026-01-01T09:00:00Z",
-  "match_id": "M6",
-  "section": "B1G3",
-  "label": "Bloc 1, B1G3 : Ouverture",
-  "key": "B1G3.1",
-  "a": "P23",
-  "b": "P6",
-  "length": 7,
-  "table": 6
- },
- {
-  "seq": 32,
-  "kind": "match_started",
-  "time": "2026-01-01T09:00:00Z",
-  "match_id": "M7",
-  "section": "B1G4",
-  "label": "Bloc 1, B1G4 : Ouverture",
-  "key": "B1G4.0",
-  "a": "P9",
-  "b": "P4",
-  "length": 7,
-  "table": 7
- },
- {
-  "seq": 33,
-  "kind": "match_started",
-  "time": "2026-01-01T09:00:00Z",
-  "match_id": "M8",
-  "section": "B1G4",
-  "label": "Bloc 1, B1G4 : Ouverture",
-  "key": "B1G4.1",
-  "a": "P17",
-  "b": "P5",
-  "length": 7,
-  "table": 8
- },
- {
-  "seq": 34,
-  "kind": "match_started",
-  "time": "2026-01-01T09:00:00Z",
-  "match_id": "M9",
-  "section": "B1G5",
-  "label": "Bloc 1, B1G5 : Ouverture",
-  "key": "B1G5.0",
-  "a": "P22",
-  "b": "P20",
-  "length": 7,
-  "table": 9
- },
- {
-  "seq": 35,
-  "kind": "match_started",
-  "time": "2026-01-01T09:00:00Z",
-  "match_id": "M10",
-  "section": "B1G5",
-  "label": "Bloc 1, B1G5 : Ouverture",
-  "key": "B1G5.1",
-  "a": "P13",
-  "b": "P24",
-  "length": 7,
-  "table": 10
- },
- {
-  "seq": 36,
-  "kind": "match_started",
-  "time": "2026-01-01T09:00:00Z",
-  "match_id": "M11",
-  "section": "B1G6",
-  "label": "Bloc 1, B1G6 : Ouverture",
-  "key": "B1G6.0",
-  "a": "P18",
-  "b": "P7",
-  "length": 7,
-  "table": 11
- },
- {
-  "seq": 37,
-  "kind": "match_started",
-  "time": "2026-01-01T09:00:00Z",
-  "match_id": "M12",
-  "section": "B1G6",
-  "label": "Bloc 1, B1G6 : Ouverture",
-  "key": "B1G6.1",
-  "a": "P11",
-  "b": "P10",
-  "length": 7,
-  "table": 12
- },
- {
-  "seq": 38,
-  "kind": "result",
-  "time": "2026-01-01T09:17:44.80927784Z",
-  "match_id": "M6",
-  "winner": "P6",
-  "score_a": 1,
-  "score_b": 7
- },
- {
-  "seq": 39,
-  "kind": "result",
-  "time": "2026-01-01T09:31:43.041198483Z",
-  "match_id": "M7",
-  "winner": "P9",
-  "score_a": 7,
-  "score_b": 6
- },
- {
-  "seq": 40,
-  "kind": "result",
-  "time": "2026-01-01T09:38:30.425469546Z",
-  "match_id": "M10",
-  "winner": "P24",
-  "score_b": 7
- },
- {
-  "seq": 41,
-  "kind": "result",
-  "time": "2026-01-01T09:44:40.86468299Z",
-  "match_id": "M5",
-  "winner": "P14",
-  "score_a": 7,
-  "score_b": 6
- },
- {
-  "seq": 42,
-  "kind": "match_started",
-  "time": "2026-01-01T09:44:40.86468299Z",
-  "match_id": "M13",
-  "section": "B1G3",
-  "label": "Bloc 1, B1G3 : Match des gagnants",
-  "key": "B1G3.2",
-  "a": "P14",
-  "b": "P6",
-  "length": 7,
-  "table": 5
- },
- {
-  "seq": 43,
-  "kind": "match_started",
-  "time": "2026-01-01T09:44:40.86468299Z",
-  "match_id": "M14",
-  "section": "B1G3",
-  "label": "Bloc 1, B1G3 : Match des perdants",
-  "key": "B1G3.3",
-  "a": "P2",
-  "b": "P23",
-  "length": 7,
-  "table": 6
- },
- {
-  "seq": 44,
-  "kind": "result",
-  "time": "2026-01-01T09:48:27.191770055Z",
-  "match_id": "M1",
-  "winner": "P1",
-  "score_a": 5,
-  "score_b": 7
- },
- {
-  "seq": 45,
-  "kind": "result",
-  "time": "2026-01-01T09:54:48.959218455Z",
-  "match_id": "M8",
-  "winner": "P5",
-  "score_a": 4,
-  "score_b": 7
- },
- {
-  "seq": 46,
-  "kind": "match_started",
-  "time": "2026-01-01T09:54:48.959218455Z",
-  "match_id": "M15",
-  "section": "B1G4",
-  "label": "Bloc 1, B1G4 : Match des gagnants",
-  "key": "B1G4.2",
-  "a": "P9",
-  "b": "P5",
-  "length": 7,
-  "table": 1
- },
- {
-  "seq": 47,
-  "kind": "match_started",
-  "time": "2026-01-01T09:54:48.959218455Z",
-  "match_id": "M16",
-  "section": "B1G4",
-  "label": "Bloc 1, B1G4 : Match des perdants",
-  "key": "B1G4.3",
-  "a": "P4",
-  "b": "P17",
-  "length": 7,
-  "table": 7
- },
- {
-  "seq": 48,
-  "kind": "result",
-  "time": "2026-01-01T09:58:52.569604756Z",
-  "match_id": "M4",
-  "winner": "P16",
-  "score_a": 4,
-  "score_b": 7
- },
- {
-  "seq": 49,
-  "kind": "result",
-  "time": "2026-01-01T10:05:42.946315994Z",
-  "match_id": "M2",
-  "winner": "P15",
-  "score_a": 6,
-  "score_b": 7
- },
- {
-  "seq": 50,
-  "kind": "match_started",
-  "time": "2026-01-01T10:05:42.946315994Z",
-  "match_id": "M17",
-  "section": "B1G1",
-  "label": "Bloc 1, B1G1 : Match des gagnants",
-  "key": "B1G1.2",
-  "a": "P1",
-  "b": "P15",
-  "length": 7,
-  "table": 2
- },
- {
-  "seq": 51,
-  "kind": "match_started",
-  "time": "2026-01-01T10:05:42.946315994Z",
-  "match_id": "M18",
-  "section": "B1G1",
-  "label": "Bloc 1, B1G1 : Match des perdants",
-  "key": "B1G1.3",
-  "a": "P21",
-  "b": "P3",
-  "length": 7,
-  "table": 4
- },
- {
-  "seq": 52,
-  "kind": "result",
-  "time": "2026-01-01T10:08:19.945100517Z",
-  "match_id": "M11",
-  "winner": "P7",
-  "score_a": 2,
-  "score_b": 7
- },
- {
-  "seq": 53,
-  "kind": "result",
-  "time": "2026-01-01T10:21:14.227465058Z",
-  "match_id": "M9",
-  "winner": "P22",
-  "score_a": 7,
-  "score_b": 1
- },
- {
-  "seq": 54,
-  "kind": "match_started",
-  "time": "2026-01-01T10:21:14.227465058Z",
-  "match_id": "M19",
-  "section": "B1G5",
-  "label": "Bloc 1, B1G5 : Match des gagnants",
-  "key": "B1G5.2",
-  "a": "P22",
-  "b": "P24",
-  "length": 7,
-  "table": 8
- },
- {
-  "seq": 55,
-  "kind": "match_started",
-  "time": "2026-01-01T10:21:14.227465058Z",
-  "match_id": "M20",
-  "section": "B1G5",
-  "label": "Bloc 1, B1G5 : Match des perdants",
-  "key": "B1G5.3",
-  "a": "P20",
-  "b": "P13",
-  "length": 7,
-  "table": 9
- },
- {
-  "seq": 56,
-  "kind": "result",
-  "time": "2026-01-01T10:25:50.326458508Z",
-  "match_id": "M12",
-  "winner": "P11",
-  "score_a": 7,
-  "score_b": 6
- },
- {
-  "seq": 57,
-  "kind": "match_started",
-  "time": "2026-01-01T10:25:50.326458508Z",
-  "match_id": "M21",
-  "section": "B1G6",
-  "label": "Bloc 1, B1G6 : Match des gagnants",
-  "key": "B1G6.2",
-  "a": "P7",
-  "b": "P11",
-  "length": 7,
-  "table": 10
- },
- {
-  "seq": 58,
-  "kind": "match_started",
-  "time": "2026-01-01T10:25:50.326458508Z",
-  "match_id": "M22",
-  "section": "B1G6",
-  "label": "Bloc 1, B1G6 : Match des perdants",
-  "key": "B1G6.3",
-  "a": "P18",
-  "b": "P10",
-  "length": 7,
-  "table": 11
- },
- {
-  "seq": 59,
-  "kind": "result",
-  "time": "2026-01-01T10:28:51.283248222Z",
-  "match_id": "M13",
-  "winner": "P6",
-  "score_a": 5,
-  "score_b": 7
- },
- {
-  "seq": 60,
-  "kind": "result",
-  "time": "2026-01-01T10:41:00.79907997Z",
-  "match_id": "M14",
-  "winner": "P2",
-  "score_a": 7,
-  "score_b": 5
- },
- {
-  "seq": 61,
-  "kind": "match_started",
-  "time": "2026-01-01T10:41:00.79907997Z",
-  "match_id": "M23",
-  "section": "B1G3",
-  "label": "Bloc 1, B1G3 : Match décisif",
-  "key": "B1G3.4",
-  "a": "P14",
-  "b": "P2",
-  "length": 7,
-  "table": 5
- },
- {
-  "seq": 62,
-  "kind": "result",
-  "time": "2026-01-01T10:42:41.63359099Z",
-  "match_id": "M3",
-  "winner": "P8",
-  "score_a": 1,
-  "score_b": 7
- },
- {
-  "seq": 63,
-  "kind": "match_started",
-  "time": "2026-01-01T10:42:41.63359099Z",
-  "match_id": "M24",
-  "section": "B1G2",
-  "label": "Bloc 1, B1G2 : Match des gagnants",
-  "key": "B1G2.2",
-  "a": "P8",
-  "b": "P16",
-  "length": 7,
-  "table": 3
- },
- {
-  "seq": 64,
-  "kind": "match_started",
-  "time": "2026-01-01T10:42:41.63359099Z",
-  "match_id": "M25",
-  "section": "B1G2",
-  "label": "Bloc 1, B1G2 : Match des perdants",
-  "key": "B1G2.3",
-  "a": "P12",
-  "b": "P19",
-  "length": 7,
-  "table": 6
- },
- {
-  "seq": 65,
-  "kind": "result",
-  "time": "2026-01-01T10:45:30.24973157Z",
-  "match_id": "M21",
-  "winner": "P11",
-  "score_a": 4,
-  "score_b": 7
- },
- {
-  "seq": 66,
-  "kind": "result",
-  "time": "2026-01-01T10:51:05.305367782Z",
-  "match_id": "M17",
-  "winner": "P1",
-  "score_a": 7,
-  "score_b": 2
- },
- {
-  "seq": 67,
-  "kind": "result",
-  "time": "2026-01-01T10:51:38.910193037Z",
-  "match_id": "M18",
-  "winner": "P3",
-  "score_a": 6,
-  "score_b": 7
- },
- {
-  "seq": 68,
-  "kind": "match_started",
-  "time": "2026-01-01T10:51:38.910193037Z",
-  "match_id": "M26",
-  "section": "B1G1",
-  "label": "Bloc 1, B1G1 : Match décisif",
-  "key": "B1G1.4",
-  "a": "P15",
-  "b": "P3",
-  "length": 7,
-  "table": 2
- },
- {
-  "seq": 69,
-  "kind": "result",
-  "time": "2026-01-01T10:53:35.973121726Z",
-  "match_id": "M16",
-  "winner": "P17",
-  "score_a": 6,
-  "score_b": 7
- },
- {
-  "seq": 70,
-  "kind": "result",
-  "time": "2026-01-01T11:01:52.976796421Z",
-  "match_id": "M15",
-  "winner": "P9",
-  "score_a": 7,
-  "score_b": 2
- },
- {
-  "seq": 71,
-  "kind": "match_started",
-  "time": "2026-01-01T11:01:52.976796421Z",
-  "match_id": "M27",
-  "section": "B1G4",
-  "label": "Bloc 1, B1G4 : Match décisif",
-  "key": "B1G4.4",
-  "a": "P5",
-  "b": "P17",
-  "length": 7,
-  "table": 1
- },
- {
-  "seq": 72,
-  "kind": "result",
-  "time": "2026-01-01T11:10:22.568382769Z",
-  "match_id": "M23",
-  "winner": "P14",
-  "score_a": 7
- },
- {
-  "seq": 73,
-  "kind": "result",
-  "time": "2026-01-01T11:17:21.998642287Z",
-  "match_id": "M20",
-  "winner": "P20",
-  "score_a": 7,
-  "score_b": 6
- },
- {
-  "seq": 74,
-  "kind": "result",
-  "time": "2026-01-01T11:23:37.866618618Z",
-  "match_id": "M26",
-  "winner": "P3",
-  "score_a": 4,
-  "score_b": 7
- },
- {
-  "seq": 75,
-  "kind": "result",
-  "time": "2026-01-01T11:24:34.35331864Z",
-  "match_id": "M24",
-  "winner": "P8",
-  "score_a": 7,
-  "score_b": 1
- },
- {
-  "seq": 76,
-  "kind": "result",
-  "time": "2026-01-01T11:27:19.313668598Z",
-  "match_id": "M19",
-  "winner": "P24",
-  "score_b": 7
- },
- {
-  "seq": 77,
-  "kind": "match_started",
-  "time": "2026-01-01T11:27:19.313668598Z",
-  "match_id": "M28",
-  "section": "B1G5",
-  "label": "Bloc 1, B1G5 : Match décisif",
-  "key": "B1G5.4",
-  "a": "P22",
-  "b": "P20",
-  "length": 7,
-  "table": 2
- },
- {
-  "seq": 78,
-  "kind": "result",
-  "time": "2026-01-01T11:42:53.054021066Z",
-  "match_id": "M22",
-  "winner": "P18",
-  "score_a": 7,
-  "score_b": 3
- },
- {
-  "seq": 79,
-  "kind": "match_started",
-  "time": "2026-01-01T11:42:53.054021066Z",
-  "match_id": "M29",
-  "section": "B1G6",
-  "label": "Bloc 1, B1G6 : Match décisif",
-  "key": "B1G6.4",
-  "a": "P7",
+  "a": "P3",
   "b": "P18",
   "length": 7,
   "table": 3
  },
  {
-  "seq": 80,
-  "kind": "result",
-  "time": "2026-01-01T11:50:03.522232792Z",
-  "match_id": "M25",
-  "winner": "P12",
-  "score_a": 7,
-  "score_b": 3
- },
- {
-  "seq": 81,
+  "seq": 29,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T11:50:03.522232792Z",
-  "match_id": "M30",
+  "time": "2026-01-01T09:00:00Z",
+  "match_id": "M4",
   "section": "B1G2",
-  "label": "Bloc 1, B1G2 : Match décisif",
-  "key": "B1G2.4",
-  "a": "P16",
-  "b": "P12",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G2",
+   "sub": {
+    "kind": "opening"
+   }
+  },
+  "key": "B1G2.1",
+  "a": "P8",
+  "b": "P10",
   "length": 7,
   "table": 4
  },
  {
-  "seq": 82,
-  "kind": "result",
-  "time": "2026-01-01T12:11:58.751334079Z",
-  "match_id": "M28",
-  "winner": "P22",
-  "score_a": 7,
-  "score_b": 5
+  "seq": 30,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:00:00Z",
+  "match_id": "M5",
+  "section": "B1G3",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G3",
+   "sub": {
+    "kind": "opening"
+   }
+  },
+  "key": "B1G3.0",
+  "a": "P5",
+  "b": "P9",
+  "length": 7,
+  "table": 5
  },
  {
-  "seq": 83,
+  "seq": 31,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:00:00Z",
+  "match_id": "M6",
+  "section": "B1G3",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G3",
+   "sub": {
+    "kind": "opening"
+   }
+  },
+  "key": "B1G3.1",
+  "a": "P11",
+  "b": "P23",
+  "length": 7,
+  "table": 6
+ },
+ {
+  "seq": 32,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:00:00Z",
+  "match_id": "M7",
+  "section": "B1G4",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G4",
+   "sub": {
+    "kind": "opening"
+   }
+  },
+  "key": "B1G4.0",
+  "a": "P13",
+  "b": "P19",
+  "length": 7,
+  "table": 7
+ },
+ {
+  "seq": 33,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:00:00Z",
+  "match_id": "M8",
+  "section": "B1G4",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G4",
+   "sub": {
+    "kind": "opening"
+   }
+  },
+  "key": "B1G4.1",
+  "a": "P14",
+  "b": "P20",
+  "length": 7,
+  "table": 8
+ },
+ {
+  "seq": 34,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:00:00Z",
+  "match_id": "M9",
+  "section": "B1G5",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G5",
+   "sub": {
+    "kind": "opening"
+   }
+  },
+  "key": "B1G5.0",
+  "a": "P2",
+  "b": "P15",
+  "length": 7,
+  "table": 9
+ },
+ {
+  "seq": 35,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:00:00Z",
+  "match_id": "M10",
+  "section": "B1G5",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G5",
+   "sub": {
+    "kind": "opening"
+   }
+  },
+  "key": "B1G5.1",
+  "a": "P21",
+  "b": "P6",
+  "length": 7,
+  "table": 10
+ },
+ {
+  "seq": 36,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:00:00Z",
+  "match_id": "M11",
+  "section": "B1G6",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G6",
+   "sub": {
+    "kind": "opening"
+   }
+  },
+  "key": "B1G6.0",
+  "a": "P24",
+  "b": "P1",
+  "length": 7,
+  "table": 11
+ },
+ {
+  "seq": 37,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:00:00Z",
+  "match_id": "M12",
+  "section": "B1G6",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G6",
+   "sub": {
+    "kind": "opening"
+   }
+  },
+  "key": "B1G6.1",
+  "a": "P12",
+  "b": "P7",
+  "length": 7,
+  "table": 12
+ },
+ {
+  "seq": 38,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T12:37:41.761564738Z",
-  "match_id": "M27",
-  "winner": "P5",
+  "time": "2026-01-01T09:25:07.042965582Z",
+  "match_id": "M1",
+  "label": {},
+  "winner": "P16",
   "score_a": 7,
   "score_b": 2
  },
  {
-  "seq": 84,
+  "seq": 39,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T12:48:40.898561428Z",
-  "match_id": "M29",
-  "winner": "P18",
-  "score_a": 5,
+  "time": "2026-01-01T09:35:03.223798528Z",
+  "match_id": "M3",
+  "label": {},
+  "winner": "P3",
+  "score_a": 7,
+  "score_b": 3
+ },
+ {
+  "seq": 40,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T09:36:52.862006036Z",
+  "match_id": "M2",
+  "label": {},
+  "winner": "P4",
+  "score_a": 3,
   "score_b": 7
  },
  {
-  "seq": 85,
+  "seq": 41,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:36:52.862006036Z",
+  "match_id": "M13",
+  "section": "B1G1",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G1",
+   "sub": {
+    "kind": "winners_match"
+   }
+  },
+  "key": "B1G1.2",
+  "a": "P16",
+  "b": "P4",
+  "length": 7,
+  "table": 1
+ },
+ {
+  "seq": 42,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:36:52.862006036Z",
+  "match_id": "M14",
+  "section": "B1G1",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G1",
+   "sub": {
+    "kind": "losers_match"
+   }
+  },
+  "key": "B1G1.3",
+  "a": "P17",
+  "b": "P22",
+  "length": 7,
+  "table": 2
+ },
+ {
+  "seq": 43,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T12:58:41.715724065Z",
-  "match_id": "M30",
-  "winner": "P16",
+  "time": "2026-01-01T09:37:02.132258862Z",
+  "match_id": "M11",
+  "label": {},
+  "winner": "P24",
+  "score_a": 7,
+  "score_b": 6
+ },
+ {
+  "seq": 44,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T09:37:44.512738067Z",
+  "match_id": "M6",
+  "label": {},
+  "winner": "P11",
+  "score_a": 7,
+  "score_b": 6
+ },
+ {
+  "seq": 45,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T09:41:26.237351948Z",
+  "match_id": "M12",
+  "label": {},
+  "winner": "P12",
   "score_a": 7,
   "score_b": 4
  },
  {
+  "seq": 46,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:41:26.237351948Z",
+  "match_id": "M15",
+  "section": "B1G6",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G6",
+   "sub": {
+    "kind": "winners_match"
+   }
+  },
+  "key": "B1G6.2",
+  "a": "P24",
+  "b": "P12",
+  "length": 7,
+  "table": 3
+ },
+ {
+  "seq": 47,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:41:26.237351948Z",
+  "match_id": "M16",
+  "section": "B1G6",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G6",
+   "sub": {
+    "kind": "losers_match"
+   }
+  },
+  "key": "B1G6.3",
+  "a": "P1",
+  "b": "P7",
+  "length": 7,
+  "table": 6
+ },
+ {
+  "seq": 48,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T09:48:58.551270327Z",
+  "match_id": "M5",
+  "label": {},
+  "winner": "P5",
+  "score_a": 7,
+  "score_b": 4
+ },
+ {
+  "seq": 49,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:48:58.551270327Z",
+  "match_id": "M17",
+  "section": "B1G3",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G3",
+   "sub": {
+    "kind": "winners_match"
+   }
+  },
+  "key": "B1G3.2",
+  "a": "P5",
+  "b": "P11",
+  "length": 7,
+  "table": 5
+ },
+ {
+  "seq": 50,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T09:48:58.551270327Z",
+  "match_id": "M18",
+  "section": "B1G3",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G3",
+   "sub": {
+    "kind": "losers_match"
+   }
+  },
+  "key": "B1G3.3",
+  "a": "P9",
+  "b": "P23",
+  "length": 7,
+  "table": 11
+ },
+ {
+  "seq": 51,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T09:54:51.43444498Z",
+  "match_id": "M8",
+  "label": {},
+  "winner": "P14",
+  "score_a": 7
+ },
+ {
+  "seq": 52,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:06:12.833215089Z",
+  "match_id": "M4",
+  "label": {},
+  "winner": "P8",
+  "score_a": 7,
+  "score_b": 6
+ },
+ {
+  "seq": 53,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T10:06:12.833215089Z",
+  "match_id": "M19",
+  "section": "B1G2",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G2",
+   "sub": {
+    "kind": "winners_match"
+   }
+  },
+  "key": "B1G2.2",
+  "a": "P3",
+  "b": "P8",
+  "length": 7,
+  "table": 4
+ },
+ {
+  "seq": 54,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T10:06:12.833215089Z",
+  "match_id": "M20",
+  "section": "B1G2",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G2",
+   "sub": {
+    "kind": "losers_match"
+   }
+  },
+  "key": "B1G2.3",
+  "a": "P18",
+  "b": "P10",
+  "length": 7,
+  "table": 8
+ },
+ {
+  "seq": 55,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:11:04.156832644Z",
+  "match_id": "M10",
+  "label": {},
+  "winner": "P21",
+  "score_a": 7
+ },
+ {
+  "seq": 56,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:31:05.522452635Z",
+  "match_id": "M7",
+  "label": {},
+  "winner": "P19",
+  "score_b": 7
+ },
+ {
+  "seq": 57,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T10:31:05.522452635Z",
+  "match_id": "M21",
+  "section": "B1G4",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G4",
+   "sub": {
+    "kind": "winners_match"
+   }
+  },
+  "key": "B1G4.2",
+  "a": "P19",
+  "b": "P14",
+  "length": 7,
+  "table": 7
+ },
+ {
+  "seq": 58,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T10:31:05.522452635Z",
+  "match_id": "M22",
+  "section": "B1G4",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G4",
+   "sub": {
+    "kind": "losers_match"
+   }
+  },
+  "key": "B1G4.3",
+  "a": "P13",
+  "b": "P20",
+  "length": 7,
+  "table": 10
+ },
+ {
+  "seq": 59,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:32:15.626626849Z",
+  "match_id": "M19",
+  "label": {},
+  "winner": "P3",
+  "score_a": 7,
+  "score_b": 2
+ },
+ {
+  "seq": 60,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:34:06.007533781Z",
+  "match_id": "M16",
+  "label": {},
+  "winner": "P7",
+  "score_b": 7
+ },
+ {
+  "seq": 61,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:34:19.760013277Z",
+  "match_id": "M9",
+  "label": {},
+  "winner": "P2",
+  "score_a": 7,
+  "score_b": 5
+ },
+ {
+  "seq": 62,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T10:34:19.760013277Z",
+  "match_id": "M23",
+  "section": "B1G5",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G5",
+   "sub": {
+    "kind": "winners_match"
+   }
+  },
+  "key": "B1G5.2",
+  "a": "P2",
+  "b": "P21",
+  "length": 7,
+  "table": 4
+ },
+ {
+  "seq": 63,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T10:34:19.760013277Z",
+  "match_id": "M24",
+  "section": "B1G5",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G5",
+   "sub": {
+    "kind": "losers_match"
+   }
+  },
+  "key": "B1G5.3",
+  "a": "P15",
+  "b": "P6",
+  "length": 7,
+  "table": 6
+ },
+ {
+  "seq": 64,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:42:23.180709172Z",
+  "match_id": "M15",
+  "label": {},
+  "winner": "P24",
+  "score_a": 7,
+  "score_b": 2
+ },
+ {
+  "seq": 65,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T10:42:23.180709172Z",
+  "match_id": "M25",
+  "section": "B1G6",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G6",
+   "sub": {
+    "kind": "decider"
+   }
+  },
+  "key": "B1G6.4",
+  "a": "P12",
+  "b": "P7",
+  "length": 7,
+  "table": 3
+ },
+ {
+  "seq": 66,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:49:56.40974836Z",
+  "match_id": "M23",
+  "label": {},
+  "winner": "P21",
+  "score_a": 5,
+  "score_b": 7
+ },
+ {
+  "seq": 67,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:53:15.070412686Z",
+  "match_id": "M14",
+  "label": {},
+  "winner": "P22",
+  "score_a": 6,
+  "score_b": 7
+ },
+ {
+  "seq": 68,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:53:55.215825943Z",
+  "match_id": "M17",
+  "label": {},
+  "winner": "P5",
+  "score_a": 7,
+  "score_b": 1
+ },
+ {
+  "seq": 69,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T11:10:37.11378182Z",
+  "match_id": "M21",
+  "label": {},
+  "winner": "P19",
+  "score_a": 7,
+  "score_b": 2
+ },
+ {
+  "seq": 70,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T11:10:44.530689836Z",
+  "match_id": "M13",
+  "label": {},
+  "winner": "P4",
+  "score_a": 2,
+  "score_b": 7
+ },
+ {
+  "seq": 71,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T11:10:44.530689836Z",
+  "match_id": "M26",
+  "section": "B1G1",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G1",
+   "sub": {
+    "kind": "decider"
+   }
+  },
+  "key": "B1G1.4",
+  "a": "P16",
+  "b": "P22",
+  "length": 7,
+  "table": 1
+ },
+ {
+  "seq": 72,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T11:25:46.143038024Z",
+  "match_id": "M20",
+  "label": {},
+  "winner": "P10",
+  "score_a": 3,
+  "score_b": 7
+ },
+ {
+  "seq": 73,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T11:25:46.143038024Z",
+  "match_id": "M27",
+  "section": "B1G2",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G2",
+   "sub": {
+    "kind": "decider"
+   }
+  },
+  "key": "B1G2.4",
+  "a": "P8",
+  "b": "P10",
+  "length": 7,
+  "table": 2
+ },
+ {
+  "seq": 74,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T11:26:42.369644817Z",
+  "match_id": "M25",
+  "label": {},
+  "winner": "P12",
+  "score_a": 7,
+  "score_b": 5
+ },
+ {
+  "seq": 75,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T11:27:13.991058645Z",
+  "match_id": "M24",
+  "label": {},
+  "winner": "P6",
+  "score_a": 1,
+  "score_b": 7
+ },
+ {
+  "seq": 76,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T11:27:13.991058645Z",
+  "match_id": "M28",
+  "section": "B1G5",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G5",
+   "sub": {
+    "kind": "decider"
+   }
+  },
+  "key": "B1G5.4",
+  "a": "P2",
+  "b": "P6",
+  "length": 7,
+  "table": 3
+ },
+ {
+  "seq": 77,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T11:28:51.350183006Z",
+  "match_id": "M22",
+  "label": {},
+  "winner": "P13",
+  "score_a": 7,
+  "score_b": 2
+ },
+ {
+  "seq": 78,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T11:28:51.350183006Z",
+  "match_id": "M29",
+  "section": "B1G4",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G4",
+   "sub": {
+    "kind": "decider"
+   }
+  },
+  "key": "B1G4.4",
+  "a": "P14",
+  "b": "P13",
+  "length": 7,
+  "table": 4
+ },
+ {
+  "seq": 79,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T11:42:37.025757116Z",
+  "match_id": "M18",
+  "label": {},
+  "winner": "P9",
+  "score_a": 7,
+  "score_b": 1
+ },
+ {
+  "seq": 80,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T11:42:37.025757116Z",
+  "match_id": "M30",
+  "section": "B1G3",
+  "label": {
+   "kind": "in_block",
+   "n": 1,
+   "section": "B1G3",
+   "sub": {
+    "kind": "decider"
+   }
+  },
+  "key": "B1G3.4",
+  "a": "P11",
+  "b": "P9",
+  "length": 7,
+  "table": 5
+ },
+ {
+  "seq": 81,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T12:01:52.309863316Z",
+  "match_id": "M29",
+  "label": {},
+  "winner": "P13",
+  "score_a": 3,
+  "score_b": 7
+ },
+ {
+  "seq": 82,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T12:04:00.042004457Z",
+  "match_id": "M26",
+  "label": {},
+  "winner": "P16",
+  "score_a": 7
+ },
+ {
+  "seq": 83,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T12:27:17.527066356Z",
+  "match_id": "M28",
+  "label": {},
+  "winner": "P6",
+  "score_a": 6,
+  "score_b": 7
+ },
+ {
+  "seq": 84,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T12:52:53.669874128Z",
+  "match_id": "M27",
+  "label": {},
+  "winner": "P8",
+  "score_a": 7,
+  "score_b": 3
+ },
+ {
+  "seq": 85,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T12:54:35.973378032Z",
+  "match_id": "M30",
+  "label": {},
+  "winner": "P11",
+  "score_a": 7
+ },
+ {
   "seq": 86,
+  "version": 1,
   "kind": "draw",
-  "time": "2026-01-01T12:58:41.715724065Z",
-  "label": "Bloc 2 : 4 groupes",
+  "time": "2026-01-01T12:54:35.973378032Z",
+  "label": {
+   "kind": "draw_block",
+   "n": 2,
+   "players": 4
+  },
   "draw": {
    "groups": [
     [
-     "P8",
-     "P6",
-     "P24"
-    ],
-    [
-     "P1",
-     "P11",
-     "P9"
-    ],
-    [
+     "P21",
      "P3",
-     "P16",
-     "P18"
+     "P19"
     ],
     [
-     "P22",
-     "P14",
-     "P5"
+     "P5",
+     "P24",
+     "P4"
+    ],
+    [
+     "P8",
+     "P16",
+     "P11"
+    ],
+    [
+     "P12",
+     "P6",
+     "P13"
     ]
    ],
    "lives": {
@@ -1088,373 +1458,511 @@
  },
  {
   "seq": 87,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T12:58:41.715724065Z",
+  "time": "2026-01-01T12:54:35.973378032Z",
   "match_id": "M31",
   "section": "B2G1",
-  "label": "Bloc 2, B2G1 : Ouverture",
+  "label": {
+   "kind": "in_block",
+   "n": 2,
+   "section": "B2G1",
+   "sub": {
+    "kind": "opening"
+   }
+  },
   "key": "B2G1.0",
-  "a": "P8",
-  "b": "P6",
+  "a": "P21",
+  "b": "P3",
   "length": 7,
   "table": 1
  },
  {
   "seq": 88,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T12:58:41.715724065Z",
+  "time": "2026-01-01T12:54:35.973378032Z",
   "match_id": "M32",
   "section": "B2G2",
-  "label": "Bloc 2, B2G2 : Ouverture",
+  "label": {
+   "kind": "in_block",
+   "n": 2,
+   "section": "B2G2",
+   "sub": {
+    "kind": "opening"
+   }
+  },
   "key": "B2G2.0",
-  "a": "P1",
-  "b": "P11",
+  "a": "P5",
+  "b": "P24",
   "length": 7,
   "table": 2
  },
  {
   "seq": 89,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T12:58:41.715724065Z",
+  "time": "2026-01-01T12:54:35.973378032Z",
   "match_id": "M33",
   "section": "B2G3",
-  "label": "Bloc 2, B2G3 : Élimination directe",
+  "label": {
+   "kind": "in_block",
+   "n": 2,
+   "section": "B2G3",
+   "sub": {
+    "kind": "single_elimination"
+   }
+  },
   "key": "B2G3.0.0",
-  "a": "P3",
+  "a": "P8",
   "b": "P16",
   "length": 7,
   "table": 3
  },
  {
   "seq": 90,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T12:58:41.715724065Z",
+  "time": "2026-01-01T12:54:35.973378032Z",
   "match_id": "M34",
   "section": "B2G4",
-  "label": "Bloc 2, B2G4 : Élimination directe",
+  "label": {
+   "kind": "in_block",
+   "n": 2,
+   "section": "B2G4",
+   "sub": {
+    "kind": "single_elimination"
+   }
+  },
   "key": "B2G4.0.0",
-  "a": "P22",
-  "b": "P14",
+  "a": "P12",
+  "b": "P6",
   "length": 7,
   "table": 4
  },
  {
   "seq": 91,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T13:48:40.074197474Z",
+  "time": "2026-01-01T13:37:10.432724055Z",
   "match_id": "M34",
-  "winner": "P14",
-  "score_a": 6,
+  "label": {},
+  "winner": "P6",
+  "score_a": 3,
   "score_b": 7
  },
  {
   "seq": 92,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T13:48:40.074197474Z",
+  "time": "2026-01-01T13:37:10.432724055Z",
   "match_id": "M35",
   "section": "B2G4",
-  "label": "Bloc 2, B2G4 : Élimination directe",
+  "label": {
+   "kind": "in_block",
+   "n": 2,
+   "section": "B2G4",
+   "sub": {
+    "kind": "single_elimination"
+   }
+  },
   "key": "B2G4.1.0",
-  "a": "P14",
-  "b": "P5",
+  "a": "P6",
+  "b": "P13",
   "length": 7,
   "table": 4
  },
  {
   "seq": 93,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T14:01:07.427830217Z",
+  "time": "2026-01-01T13:38:04.524462803Z",
   "match_id": "M32",
-  "winner": "P1",
+  "label": {},
+  "winner": "P5",
   "score_a": 7,
-  "score_b": 6
+  "score_b": 4
  },
  {
   "seq": 94,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T14:01:07.427830217Z",
+  "time": "2026-01-01T13:38:04.524462803Z",
   "match_id": "M36",
   "section": "B2G2",
-  "label": "Bloc 2, B2G2 : Match des gagnants",
+  "label": {
+   "kind": "in_block",
+   "n": 2,
+   "section": "B2G2",
+   "sub": {
+    "kind": "winners_match"
+   }
+  },
   "key": "B2G2.1",
-  "a": "P1",
-  "b": "P9",
+  "a": "P5",
+  "b": "P4",
   "length": 7,
   "table": 2
  },
  {
   "seq": 95,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T14:07:58.206552551Z",
-  "match_id": "M31",
-  "winner": "P6",
+  "time": "2026-01-01T13:59:57.254994741Z",
+  "match_id": "M33",
+  "label": {},
+  "winner": "P16",
+  "score_a": 5,
   "score_b": 7
  },
  {
   "seq": 96,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T14:07:58.206552551Z",
+  "time": "2026-01-01T13:59:57.254994741Z",
   "match_id": "M37",
-  "section": "B2G1",
-  "label": "Bloc 2, B2G1 : Match des gagnants",
-  "key": "B2G1.1",
-  "a": "P6",
-  "b": "P24",
-  "length": 7,
-  "table": 1
- },
- {
-  "seq": 97,
-  "kind": "result",
-  "time": "2026-01-01T14:22:18.982964807Z",
-  "match_id": "M35",
-  "winner": "P14",
-  "score_a": 7,
-  "score_b": 4
- },
- {
-  "seq": 98,
-  "kind": "result",
-  "time": "2026-01-01T14:27:08.899618294Z",
-  "match_id": "M33",
-  "winner": "P3",
-  "score_a": 7
- },
- {
-  "seq": 99,
-  "kind": "match_started",
-  "time": "2026-01-01T14:27:08.899618294Z",
-  "match_id": "M38",
   "section": "B2G3",
-  "label": "Bloc 2, B2G3 : Élimination directe",
+  "label": {
+   "kind": "in_block",
+   "n": 2,
+   "section": "B2G3",
+   "sub": {
+    "kind": "single_elimination"
+   }
+  },
   "key": "B2G3.1.0",
-  "a": "P3",
-  "b": "P18",
+  "a": "P16",
+  "b": "P11",
   "length": 7,
   "table": 3
  },
  {
-  "seq": 100,
+  "seq": 97,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T14:55:45.114692334Z",
-  "match_id": "M38",
-  "winner": "P18",
-  "score_b": 7
- },
- {
-  "seq": 101,
-  "kind": "result",
-  "time": "2026-01-01T15:03:00.720429442Z",
+  "time": "2026-01-01T14:17:26.07133542Z",
   "match_id": "M36",
-  "winner": "P9",
-  "score_a": 4,
-  "score_b": 7
+  "label": {},
+  "winner": "P5",
+  "score_a": 7,
+  "score_b": 6
  },
  {
-  "seq": 102,
+  "seq": 98,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T15:03:00.720429442Z",
-  "match_id": "M39",
+  "time": "2026-01-01T14:17:26.07133542Z",
+  "match_id": "M38",
   "section": "B2G2",
-  "label": "Bloc 2, B2G2 : Match décisif",
+  "label": {
+   "kind": "in_block",
+   "n": 2,
+   "section": "B2G2",
+   "sub": {
+    "kind": "decider"
+   }
+  },
   "key": "B2G2.2",
-  "a": "P11",
-  "b": "P1",
+  "a": "P24",
+  "b": "P4",
   "length": 7,
   "table": 2
  },
  {
-  "seq": 103,
+  "seq": 99,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T15:41:09.84617695Z",
+  "time": "2026-01-01T14:19:26.280697706Z",
+  "match_id": "M31",
+  "label": {},
+  "winner": "P3",
+  "score_b": 7
+ },
+ {
+  "seq": 100,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T14:19:26.280697706Z",
   "match_id": "M39",
+  "section": "B2G1",
+  "label": {
+   "kind": "in_block",
+   "n": 2,
+   "section": "B2G1",
+   "sub": {
+    "kind": "winners_match"
+   }
+  },
+  "key": "B2G1.1",
+  "a": "P3",
+  "b": "P19",
+  "length": 7,
+  "table": 1
+ },
+ {
+  "seq": 101,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T14:43:16.4670241Z",
+  "match_id": "M37",
+  "label": {},
   "winner": "P11",
+  "score_a": 3,
+  "score_b": 7
+ },
+ {
+  "seq": 102,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T14:49:52.389222003Z",
+  "match_id": "M38",
+  "label": {},
+  "winner": "P4",
+  "score_b": 7
+ },
+ {
+  "seq": 103,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T14:55:29.818062401Z",
+  "match_id": "M39",
+  "label": {},
+  "winner": "P3",
   "score_a": 7,
-  "score_b": 5
+  "score_b": 2
  },
  {
   "seq": 104,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T14:55:29.818062401Z",
+  "match_id": "M40",
+  "section": "B2G1",
+  "label": {
+   "kind": "in_block",
+   "n": 2,
+   "section": "B2G1",
+   "sub": {
+    "kind": "decider"
+   }
+  },
+  "key": "B2G1.2",
+  "a": "P21",
+  "b": "P19",
+  "length": 7,
+  "table": 1
+ },
+ {
+  "seq": 105,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T15:50:16.945559151Z",
-  "match_id": "M37",
+  "time": "2026-01-01T15:04:20.476455067Z",
+  "match_id": "M35",
+  "label": {},
   "winner": "P6",
   "score_a": 7,
   "score_b": 4
  },
  {
-  "seq": 105,
-  "kind": "match_started",
-  "time": "2026-01-01T15:50:16.945559151Z",
-  "match_id": "M40",
-  "section": "B2G1",
-  "label": "Bloc 2, B2G1 : Match décisif",
-  "key": "B2G1.2",
-  "a": "P8",
-  "b": "P24",
-  "length": 7,
-  "table": 1
- },
- {
   "seq": 106,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T16:55:52.606634493Z",
+  "time": "2026-01-01T15:41:04.849849814Z",
   "match_id": "M40",
-  "winner": "P24",
-  "score_a": 3,
-  "score_b": 7
+  "label": {},
+  "winner": "P21",
+  "score_a": 7
  },
  {
   "seq": 107,
+  "version": 1,
   "kind": "next_phase",
-  "time": "2026-01-01T16:55:52.606634493Z",
-  "label": "Tableau final"
+  "time": "2026-01-01T15:41:04.849849814Z",
+  "label": {
+   "kind": "phase",
+   "text": "Tableau final"
+  }
  },
  {
   "seq": 108,
+  "version": 1,
   "kind": "draw",
-  "time": "2026-01-01T16:55:52.606634493Z",
+  "time": "2026-01-01T15:41:04.849849814Z",
   "phase": 1,
-  "label": "Tableau final : tableau de 8 places",
+  "label": {
+   "kind": "draw_bracket",
+   "n": 8,
+   "sub": {
+    "kind": "phase",
+    "text": "Tableau final"
+   }
+  },
   "draw": {
    "slots": [
-    "P9",
+    "P5",
     "BYE",
-    "P18",
-    "P14",
+    "P11",
     "P6",
+    "P3",
     "BYE",
-    "P24",
-    "P11"
+    "P21",
+    "P4"
    ],
    "lives": {
     "P11": 1,
-    "P14": 1,
-    "P18": 1,
-    "P24": 1,
-    "P6": 2,
-    "P9": 2
+    "P21": 1,
+    "P3": 2,
+    "P4": 1,
+    "P5": 2,
+    "P6": 1
    }
   }
  },
  {
   "seq": 109,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T16:55:52.606634493Z",
+  "time": "2026-01-01T15:41:04.849849814Z",
   "match_id": "M41",
   "phase": 1,
   "section": "main",
-  "label": "Quart de finale",
+  "label": {
+   "kind": "quarter_final"
+  },
   "key": "main.0.1",
-  "a": "P18",
-  "b": "P14",
-  "length": 9,
-  "table": 1
- },
- {
-  "seq": 110,
-  "kind": "match_started",
-  "time": "2026-01-01T16:55:52.606634493Z",
-  "match_id": "M42",
-  "phase": 1,
-  "section": "main",
-  "label": "Quart de finale",
-  "key": "main.0.3",
-  "a": "P24",
-  "b": "P11",
-  "length": 9,
-  "table": 2
- },
- {
-  "seq": 111,
-  "kind": "result",
-  "time": "2026-01-01T17:38:27.732985666Z",
-  "match_id": "M41",
-  "winner": "P18",
-  "score_a": 9,
-  "score_b": 1
- },
- {
-  "seq": 112,
-  "kind": "match_started",
-  "time": "2026-01-01T17:38:27.732985666Z",
-  "match_id": "M43",
-  "phase": 1,
-  "section": "main",
-  "label": "Demi-finale",
-  "key": "main.1.0",
-  "a": "P9",
-  "b": "P18",
-  "length": 9,
-  "table": 1
- },
- {
-  "seq": 113,
-  "kind": "result",
-  "time": "2026-01-01T17:51:30.489063049Z",
-  "match_id": "M42",
-  "winner": "P24",
-  "score_a": 9,
-  "score_b": 6
- },
- {
-  "seq": 114,
-  "kind": "match_started",
-  "time": "2026-01-01T17:51:30.489063049Z",
-  "match_id": "M44",
-  "phase": 1,
-  "section": "main",
-  "label": "Demi-finale",
-  "key": "main.1.1",
-  "a": "P6",
-  "b": "P24",
-  "length": 9,
-  "table": 2
- },
- {
-  "seq": 115,
-  "kind": "result",
-  "time": "2026-01-01T18:41:47.848693488Z",
-  "match_id": "M43",
-  "winner": "P9",
-  "score_a": 9,
-  "score_b": 2
- },
- {
-  "seq": 116,
-  "kind": "result",
-  "time": "2026-01-01T19:30:40.270472103Z",
-  "match_id": "M44",
-  "winner": "P6",
-  "score_a": 9,
-  "score_b": 6
- },
- {
-  "seq": 117,
-  "kind": "match_started",
-  "time": "2026-01-01T19:30:40.270472103Z",
-  "match_id": "M45",
-  "phase": 1,
-  "section": "main",
-  "label": "Finale",
-  "key": "main.2.0",
-  "a": "P9",
+  "a": "P11",
   "b": "P6",
   "length": 9,
   "table": 1
  },
  {
-  "seq": 118,
+  "seq": 110,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T15:41:04.849849814Z",
+  "match_id": "M42",
+  "phase": 1,
+  "section": "main",
+  "label": {
+   "kind": "quarter_final"
+  },
+  "key": "main.0.3",
+  "a": "P21",
+  "b": "P4",
+  "length": 9,
+  "table": 2
+ },
+ {
+  "seq": 111,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T20:51:18.113302926Z",
-  "match_id": "M45",
-  "winner": "P9",
+  "time": "2026-01-01T16:36:13.256958879Z",
+  "match_id": "M41",
+  "label": {},
+  "winner": "P6",
+  "score_a": 7,
+  "score_b": 9
+ },
+ {
+  "seq": 112,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T16:36:13.256958879Z",
+  "match_id": "M43",
+  "phase": 1,
+  "section": "main",
+  "label": {
+   "kind": "semi_final"
+  },
+  "key": "main.1.0",
+  "a": "P5",
+  "b": "P6",
+  "length": 9,
+  "table": 1
+ },
+ {
+  "seq": 113,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T17:03:14.66199617Z",
+  "match_id": "M42",
+  "label": {},
+  "winner": "P21",
+  "score_a": 9
+ },
+ {
+  "seq": 114,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T17:03:14.66199617Z",
+  "match_id": "M44",
+  "phase": 1,
+  "section": "main",
+  "label": {
+   "kind": "semi_final"
+  },
+  "key": "main.1.1",
+  "a": "P3",
+  "b": "P21",
+  "length": 9,
+  "table": 2
+ },
+ {
+  "seq": 115,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T17:45:39.225959211Z",
+  "match_id": "M43",
+  "label": {},
+  "winner": "P5",
   "score_a": 9,
-  "score_b": 3
+  "score_b": 8
+ },
+ {
+  "seq": 116,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T18:55:09.89241339Z",
+  "match_id": "M44",
+  "label": {},
+  "winner": "P3",
+  "score_a": 9,
+  "score_b": 7
+ },
+ {
+  "seq": 117,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T18:55:09.89241339Z",
+  "match_id": "M45",
+  "phase": 1,
+  "section": "main",
+  "label": {
+   "kind": "final"
+  },
+  "key": "main.2.0",
+  "a": "P5",
+  "b": "P3",
+  "length": 9,
+  "table": 1
+ },
+ {
+  "seq": 118,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T20:52:27.87953323Z",
+  "match_id": "M45",
+  "label": {},
+  "winner": "P5",
+  "score_a": 9,
+  "score_b": 2
  },
  {
   "seq": 119,
+  "version": 1,
   "kind": "finished",
-  "time": "2026-01-01T20:51:18.113302926Z",
-  "phase": 1
+  "time": "2026-01-01T20:52:27.87953323Z",
+  "phase": 1,
+  "label": {}
  }
 ]

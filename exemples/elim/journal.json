@@ -1,6 +1,7 @@
 [
  {
   "seq": 0,
+  "version": 1,
   "kind": "created",
   "time": "2026-01-01T09:00:00Z",
   "config": {
@@ -8,287 +9,350 @@
    "phases": [
     {
      "kind": "bracket",
-     "name": "Tableau",
      "length": 9,
      "final_length": 11,
      "entry": "survivors"
     }
    ],
    "min_per_point": 8,
-   "prizes": [
-    40,
-    20,
-    10,
-    5,
-    5,
-    5,
-    5,
-    5,
-    2.5,
-    2.5
-   ]
+   "tables": {},
+   "prizes": {
+    "entry_fee": 20,
+    "retention": {
+     "percent": 10
+    },
+    "sections": {
+     "all": {
+      "percents": [
+       35,
+       20,
+       12,
+       8,
+       5,
+       5,
+       5,
+       5
+      ]
+     },
+     "conso": {
+      "percents": [
+       3,
+       2
+      ]
+     }
+    }
+   }
   },
-  "seed": 9
+  "seed": 1,
+  "label": {}
  },
  {
   "seq": 1,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P1",
    "name": "Joueur 1",
    "club": "Club 0",
-   "rating": 2.7241114691281627
-  }
+   "rating": 2.9520646549442136
+  },
+  "label": {}
  },
  {
   "seq": 2,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P2",
    "name": "Joueur 2",
    "club": "Club 1",
-   "rating": 2.9024361543673867
-  }
+   "rating": 3.532483644804106
+  },
+  "label": {}
  },
  {
   "seq": 3,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P3",
    "name": "Joueur 3",
    "club": "Club 2",
-   "rating": 3.3169873567324775
-  }
+   "rating": 3.853640357822495
+  },
+  "label": {}
  },
  {
   "seq": 4,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P4",
    "name": "Joueur 4",
    "club": "Club 3",
-   "rating": 3.592686926743041
-  }
+   "rating": 4.5374339676450415
+  },
+  "label": {}
  },
  {
   "seq": 5,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P5",
    "name": "Joueur 5",
    "club": "Club 4",
-   "rating": 3.626945624256294
-  }
+   "rating": 4.958010857693699
+  },
+  "label": {}
  },
  {
   "seq": 6,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P6",
    "name": "Joueur 6",
    "club": "Club 0",
-   "rating": 4.171930065133413
-  }
+   "rating": 5.3669255142118235
+  },
+  "label": {}
  },
  {
   "seq": 7,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P7",
    "name": "Joueur 7",
    "club": "Club 1",
-   "rating": 4.186857998194821
-  }
+   "rating": 5.747304978595254
+  },
+  "label": {}
  },
  {
   "seq": 8,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P8",
    "name": "Joueur 8",
    "club": "Club 2",
-   "rating": 4.2465873341619975
-  }
+   "rating": 6.317615480352871
+  },
+  "label": {}
  },
  {
   "seq": 9,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P9",
    "name": "Joueur 9",
    "club": "Club 3",
-   "rating": 4.59248704086313
-  }
+   "rating": 6.64561050522316
+  },
+  "label": {}
  },
  {
   "seq": 10,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P10",
    "name": "Joueur 10",
    "club": "Club 4",
-   "rating": 5.039440838458799
-  }
+   "rating": 6.863061437392107
+  },
+  "label": {}
  },
  {
   "seq": 11,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P11",
    "name": "Joueur 11",
    "club": "Club 0",
-   "rating": 5.256135273021524
-  }
+   "rating": 7.054716786119723
+  },
+  "label": {}
  },
  {
   "seq": 12,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P12",
    "name": "Joueur 12",
    "club": "Club 1",
-   "rating": 5.282615963063849
-  }
+   "rating": 7.1801345751993875
+  },
+  "label": {}
  },
  {
   "seq": 13,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P13",
    "name": "Joueur 13",
    "club": "Club 2",
-   "rating": 6.0213791712343
-  }
+   "rating": 7.372761570071946
+  },
+  "label": {}
  },
  {
   "seq": 14,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P14",
    "name": "Joueur 14",
    "club": "Club 3",
-   "rating": 6.533408445697532
-  }
+   "rating": 7.40024180487997
+  },
+  "label": {}
  },
  {
   "seq": 15,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P15",
    "name": "Joueur 15",
    "club": "Club 4",
-   "rating": 6.547913116084853
-  }
+   "rating": 7.464883851609026
+  },
+  "label": {}
  },
  {
   "seq": 16,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P16",
    "name": "Joueur 16",
    "club": "Club 0",
-   "rating": 6.60870533357162
-  }
+   "rating": 7.676411808841621
+  },
+  "label": {}
  },
  {
   "seq": 17,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P17",
    "name": "Joueur 17",
    "club": "Club 1",
-   "rating": 7.402897739821571
-  }
+   "rating": 7.9784041685911635
+  },
+  "label": {}
  },
  {
   "seq": 18,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P18",
    "name": "Joueur 18",
    "club": "Club 2",
-   "rating": 7.434361927016337
-  }
+   "rating": 7.999252242022525
+  },
+  "label": {}
  },
  {
   "seq": 19,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P19",
    "name": "Joueur 19",
    "club": "Club 3",
-   "rating": 7.945492339887224
-  }
+   "rating": 8.597681695034868
+  },
+  "label": {}
  },
  {
   "seq": 20,
+  "version": 1,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
    "id": "P20",
    "name": "Joueur 20",
    "club": "Club 4",
-   "rating": 9.068523001171961
-  }
+   "rating": 9.170807924561245
+  },
+  "label": {}
  },
  {
   "seq": 21,
+  "version": 1,
   "kind": "draw",
   "time": "2026-01-01T09:00:00Z",
-  "label": "Tableau : tableau de 32 places",
+  "label": {
+   "kind": "draw_bracket",
+   "n": 32,
+   "sub": {
+    "kind": "phase",
+    "text": "Tableau"
+   }
+  },
   "draw": {
    "slots": [
+    "P5",
+    "BYE",
+    "P8",
+    "BYE",
     "P15",
+    "BYE",
+    "P1",
+    "BYE",
+    "P14",
+    "BYE",
+    "P11",
+    "BYE",
+    "P17",
     "BYE",
     "P4",
     "BYE",
     "P9",
     "BYE",
-    "P13",
-    "BYE",
-    "P18",
+    "P10",
     "BYE",
     "P7",
     "BYE",
-    "P14",
-    "BYE",
-    "P10",
-    "BYE",
-    "P12",
-    "BYE",
-    "P2",
-    "BYE",
     "P20",
     "BYE",
-    "P11",
-    "BYE",
-    "P8",
-    "P5",
+    "P18",
+    "P12",
     "P6",
+    "P3",
+    "P2",
     "P16",
     "P19",
-    "P1",
-    "P17",
-    "P3"
+    "P13"
    ],
    "lives": {
     "P1": 1,
@@ -316,423 +380,531 @@
  },
  {
   "seq": 22,
+  "version": 1,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M1",
   "section": "main",
-  "label": "Tour 1",
+  "label": {
+   "kind": "bracket_round",
+   "n": 1
+  },
   "key": "main.0.12",
-  "a": "P8",
-  "b": "P5",
+  "a": "P18",
+  "b": "P12",
   "length": 9,
   "table": 1
  },
  {
   "seq": 23,
+  "version": 1,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M2",
   "section": "main",
-  "label": "Tour 1",
+  "label": {
+   "kind": "bracket_round",
+   "n": 1
+  },
   "key": "main.0.13",
   "a": "P6",
-  "b": "P16",
+  "b": "P3",
   "length": 9,
   "table": 2
  },
  {
   "seq": 24,
+  "version": 1,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M3",
   "section": "main",
-  "label": "Tour 1",
+  "label": {
+   "kind": "bracket_round",
+   "n": 1
+  },
   "key": "main.0.14",
-  "a": "P19",
-  "b": "P1",
+  "a": "P2",
+  "b": "P16",
   "length": 9,
   "table": 3
  },
  {
   "seq": 25,
+  "version": 1,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M4",
   "section": "main",
-  "label": "Tour 1",
+  "label": {
+   "kind": "bracket_round",
+   "n": 1
+  },
   "key": "main.0.15",
-  "a": "P17",
-  "b": "P3",
+  "a": "P19",
+  "b": "P13",
   "length": 9,
   "table": 4
  },
  {
   "seq": 26,
+  "version": 1,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M5",
   "section": "main",
-  "label": "Tour 2",
+  "label": {
+   "kind": "bracket_round",
+   "n": 2
+  },
   "key": "main.1.0",
-  "a": "P15",
-  "b": "P4",
+  "a": "P5",
+  "b": "P8",
   "length": 9,
   "table": 5
  },
  {
   "seq": 27,
+  "version": 1,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M6",
   "section": "main",
-  "label": "Tour 2",
+  "label": {
+   "kind": "bracket_round",
+   "n": 2
+  },
   "key": "main.1.1",
-  "a": "P9",
-  "b": "P13",
+  "a": "P15",
+  "b": "P1",
   "length": 9,
   "table": 6
  },
  {
   "seq": 28,
+  "version": 1,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M7",
   "section": "main",
-  "label": "Tour 2",
+  "label": {
+   "kind": "bracket_round",
+   "n": 2
+  },
   "key": "main.1.2",
-  "a": "P18",
-  "b": "P7",
+  "a": "P14",
+  "b": "P11",
   "length": 9,
   "table": 7
  },
  {
   "seq": 29,
+  "version": 1,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M8",
   "section": "main",
-  "label": "Tour 2",
+  "label": {
+   "kind": "bracket_round",
+   "n": 2
+  },
   "key": "main.1.3",
-  "a": "P14",
-  "b": "P10",
+  "a": "P17",
+  "b": "P4",
   "length": 9,
   "table": 8
  },
  {
   "seq": 30,
+  "version": 1,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M9",
   "section": "main",
-  "label": "Tour 2",
+  "label": {
+   "kind": "bracket_round",
+   "n": 2
+  },
   "key": "main.1.4",
-  "a": "P12",
-  "b": "P2",
+  "a": "P9",
+  "b": "P10",
   "length": 9,
   "table": 9
  },
  {
   "seq": 31,
+  "version": 1,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M10",
   "section": "main",
-  "label": "Tour 2",
+  "label": {
+   "kind": "bracket_round",
+   "n": 2
+  },
   "key": "main.1.5",
-  "a": "P20",
-  "b": "P11",
+  "a": "P7",
+  "b": "P20",
   "length": 9,
   "table": 10
  },
  {
   "seq": 32,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T09:37:25.003990147Z",
-  "match_id": "M10",
-  "winner": "P20",
+  "time": "2026-01-01T09:32:17.626670034Z",
+  "match_id": "M1",
+  "label": {},
+  "winner": "P18",
   "score_a": 9,
-  "score_b": 5
+  "score_b": 1
  },
  {
   "seq": 33,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T09:40:38.664295729Z",
-  "match_id": "M1",
-  "winner": "P8",
-  "score_a": 9,
-  "score_b": 5
- },
- {
-  "seq": 34,
-  "kind": "result",
-  "time": "2026-01-01T09:46:59.774574467Z",
-  "match_id": "M2",
-  "winner": "P16",
-  "score_a": 4,
-  "score_b": 9
- },
- {
-  "seq": 35,
-  "kind": "match_started",
-  "time": "2026-01-01T09:46:59.774574467Z",
-  "match_id": "M11",
-  "section": "main",
-  "label": "Tour 2",
-  "key": "main.1.6",
-  "a": "P8",
-  "b": "P16",
-  "length": 9,
-  "table": 1
- },
- {
-  "seq": 36,
-  "kind": "result",
-  "time": "2026-01-01T09:49:15.930408576Z",
-  "match_id": "M7",
-  "winner": "P7",
-  "score_a": 3,
-  "score_b": 9
- },
- {
-  "seq": 37,
-  "kind": "result",
-  "time": "2026-01-01T09:50:26.581430423Z",
-  "match_id": "M9",
-  "winner": "P12",
-  "score_a": 9,
-  "score_b": 4
- },
- {
-  "seq": 38,
-  "kind": "match_started",
-  "time": "2026-01-01T09:50:26.581430423Z",
-  "match_id": "M12",
-  "section": "main",
-  "label": "Quart de finale",
-  "key": "main.2.2",
-  "a": "P12",
-  "b": "P20",
-  "length": 9,
-  "table": 2
- },
- {
-  "seq": 39,
-  "kind": "result",
-  "time": "2026-01-01T09:52:54.125709956Z",
+  "time": "2026-01-01T09:45:04.144883822Z",
   "match_id": "M3",
-  "winner": "P1",
+  "label": {},
+  "winner": "P16",
   "score_a": 7,
   "score_b": 9
  },
  {
-  "seq": 40,
+  "seq": 34,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T10:00:56.256084823Z",
-  "match_id": "M6",
-  "winner": "P13",
-  "score_a": 3,
-  "score_b": 9
- },
- {
-  "seq": 41,
-  "kind": "result",
-  "time": "2026-01-01T10:31:50.002608714Z",
-  "match_id": "M8",
-  "winner": "P14",
-  "score_a": 9,
-  "score_b": 8
- },
- {
-  "seq": 42,
-  "kind": "match_started",
-  "time": "2026-01-01T10:31:50.002608714Z",
-  "match_id": "M13",
-  "section": "main",
-  "label": "Quart de finale",
-  "key": "main.2.1",
-  "a": "P7",
-  "b": "P14",
-  "length": 9,
-  "table": 3
- },
- {
-  "seq": 43,
-  "kind": "result",
-  "time": "2026-01-01T10:43:28.094684202Z",
-  "match_id": "M5",
-  "winner": "P4",
-  "score_a": 2,
-  "score_b": 9
- },
- {
-  "seq": 44,
-  "kind": "match_started",
-  "time": "2026-01-01T10:43:28.094684202Z",
-  "match_id": "M14",
-  "section": "main",
-  "label": "Quart de finale",
-  "key": "main.2.0",
-  "a": "P4",
-  "b": "P13",
-  "length": 9,
-  "table": 5
- },
- {
-  "seq": 45,
-  "kind": "result",
-  "time": "2026-01-01T10:47:16.431023396Z",
-  "match_id": "M11",
-  "winner": "P16",
-  "score_a": 2,
-  "score_b": 9
- },
- {
-  "seq": 46,
-  "kind": "result",
-  "time": "2026-01-01T10:56:39.703937196Z",
-  "match_id": "M4",
+  "time": "2026-01-01T09:47:25.108293475Z",
+  "match_id": "M2",
+  "label": {},
   "winner": "P3",
-  "score_a": 2,
+  "score_a": 5,
   "score_b": 9
  },
  {
-  "seq": 47,
+  "seq": 35,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T10:56:39.703937196Z",
-  "match_id": "M15",
+  "time": "2026-01-01T09:47:25.108293475Z",
+  "match_id": "M11",
   "section": "main",
-  "label": "Tour 2",
-  "key": "main.1.7",
-  "a": "P1",
+  "label": {
+   "kind": "bracket_round",
+   "n": 2
+  },
+  "key": "main.1.6",
+  "a": "P18",
   "b": "P3",
   "length": 9,
   "table": 1
  },
  {
-  "seq": 48,
+  "seq": 36,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T11:11:57.403873149Z",
-  "match_id": "M12",
-  "winner": "P12",
-  "score_a": 9
- },
- {
-  "seq": 49,
-  "kind": "result",
-  "time": "2026-01-01T11:19:22.902595679Z",
-  "match_id": "M14",
-  "winner": "P4",
-  "score_a": 9,
-  "score_b": 4
- },
- {
-  "seq": 50,
-  "kind": "result",
-  "time": "2026-01-01T11:24:00.956092943Z",
-  "match_id": "M15",
+  "time": "2026-01-01T09:48:31.516377515Z",
+  "match_id": "M6",
+  "label": {},
   "winner": "P1",
+  "score_b": 9
+ },
+ {
+  "seq": 37,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:02:58.137347563Z",
+  "match_id": "M5",
+  "label": {},
+  "winner": "P5",
+  "score_a": 9,
+  "score_b": 2
+ },
+ {
+  "seq": 38,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T10:02:58.137347563Z",
+  "match_id": "M12",
+  "section": "main",
+  "label": {
+   "kind": "quarter_final"
+  },
+  "key": "main.2.0",
+  "a": "P5",
+  "b": "P1",
+  "length": 9,
+  "table": 2
+ },
+ {
+  "seq": 39,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:10:31.844286402Z",
+  "match_id": "M8",
+  "label": {},
+  "winner": "P17",
+  "score_a": 9,
+  "score_b": 1
+ },
+ {
+  "seq": 40,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:25:07.9284194Z",
+  "match_id": "M4",
+  "label": {},
+  "winner": "P13",
+  "score_a": 1,
+  "score_b": 9
+ },
+ {
+  "seq": 41,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T10:25:07.9284194Z",
+  "match_id": "M13",
+  "section": "main",
+  "label": {
+   "kind": "bracket_round",
+   "n": 2
+  },
+  "key": "main.1.7",
+  "a": "P16",
+  "b": "P13",
+  "length": 9,
+  "table": 3
+ },
+ {
+  "seq": 42,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:31:22.487356257Z",
+  "match_id": "M10",
+  "label": {},
+  "winner": "P7",
   "score_a": 9,
   "score_b": 3
  },
  {
-  "seq": 51,
+  "seq": 43,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:34:25.708247654Z",
+  "match_id": "M11",
+  "label": {},
+  "winner": "P18",
+  "score_a": 9,
+  "score_b": 6
+ },
+ {
+  "seq": 44,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T10:57:07.100296245Z",
+  "match_id": "M7",
+  "label": {},
+  "winner": "P14",
+  "score_a": 9,
+  "score_b": 4
+ },
+ {
+  "seq": 45,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T11:24:00.956092943Z",
-  "match_id": "M16",
+  "time": "2026-01-01T10:57:07.100296245Z",
+  "match_id": "M14",
   "section": "main",
-  "label": "Quart de finale",
-  "key": "main.2.3",
-  "a": "P16",
-  "b": "P1",
+  "label": {
+   "kind": "quarter_final"
+  },
+  "key": "main.2.1",
+  "a": "P14",
+  "b": "P17",
   "length": 9,
   "table": 1
  },
  {
-  "seq": 52,
+  "seq": 46,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T12:56:32.95864349Z",
+  "time": "2026-01-01T11:01:16.834302784Z",
+  "match_id": "M9",
+  "label": {},
+  "winner": "P10",
+  "score_a": 2,
+  "score_b": 9
+ },
+ {
+  "seq": 47,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T11:01:16.834302784Z",
+  "match_id": "M15",
+  "section": "main",
+  "label": {
+   "kind": "quarter_final"
+  },
+  "key": "main.2.2",
+  "a": "P10",
+  "b": "P7",
+  "length": 9,
+  "table": 4
+ },
+ {
+  "seq": 48,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T12:03:19.33922795Z",
+  "match_id": "M13",
+  "label": {},
+  "winner": "P13",
+  "score_a": 2,
+  "score_b": 9
+ },
+ {
+  "seq": 49,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T12:03:19.33922795Z",
   "match_id": "M16",
+  "section": "main",
+  "label": {
+   "kind": "quarter_final"
+  },
+  "key": "main.2.3",
+  "a": "P18",
+  "b": "P13",
+  "length": 9,
+  "table": 3
+ },
+ {
+  "seq": 50,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T12:04:56.255643921Z",
+  "match_id": "M15",
+  "label": {},
+  "winner": "P7",
+  "score_a": 3,
+  "score_b": 9
+ },
+ {
+  "seq": 51,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T12:15:28.884612675Z",
+  "match_id": "M14",
+  "label": {},
+  "winner": "P14",
+  "score_a": 9,
+  "score_b": 2
+ },
+ {
+  "seq": 52,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T12:17:03.16935049Z",
+  "match_id": "M12",
+  "label": {},
   "winner": "P1",
-  "score_a": 8,
   "score_b": 9
  },
  {
   "seq": 53,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T12:56:32.95864349Z",
+  "time": "2026-01-01T12:17:03.16935049Z",
   "match_id": "M17",
   "section": "main",
-  "label": "Demi-finale",
-  "key": "main.3.1",
-  "a": "P12",
-  "b": "P1",
+  "label": {
+   "kind": "semi_final"
+  },
+  "key": "main.3.0",
+  "a": "P1",
+  "b": "P14",
   "length": 9,
   "table": 1
  },
  {
   "seq": 54,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T13:08:59.358963322Z",
-  "match_id": "M13",
-  "winner": "P7",
+  "time": "2026-01-01T12:42:30.055269709Z",
+  "match_id": "M17",
+  "label": {},
+  "winner": "P1",
   "score_a": 9
  },
  {
   "seq": 55,
-  "kind": "match_started",
-  "time": "2026-01-01T13:08:59.358963322Z",
-  "match_id": "M18",
-  "section": "main",
-  "label": "Demi-finale",
-  "key": "main.3.0",
-  "a": "P4",
-  "b": "P7",
-  "length": 9,
-  "table": 2
- },
- {
-  "seq": 56,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T13:35:59.715576225Z",
-  "match_id": "M17",
-  "winner": "P1",
-  "score_a": 6,
+  "time": "2026-01-01T13:40:54.436992822Z",
+  "match_id": "M16",
+  "label": {},
+  "winner": "P13",
+  "score_a": 3,
   "score_b": 9
  },
  {
-  "seq": 57,
-  "kind": "result",
-  "time": "2026-01-01T14:13:54.029606117Z",
+  "seq": 56,
+  "version": 1,
+  "kind": "match_started",
+  "time": "2026-01-01T13:40:54.436992822Z",
   "match_id": "M18",
-  "winner": "P4",
+  "section": "main",
+  "label": {
+   "kind": "semi_final"
+  },
+  "key": "main.3.1",
+  "a": "P7",
+  "b": "P13",
+  "length": 9,
+  "table": 1
+ },
+ {
+  "seq": 57,
+  "version": 1,
+  "kind": "result",
+  "time": "2026-01-01T15:23:11.54962231Z",
+  "match_id": "M18",
+  "label": {},
+  "winner": "P7",
   "score_a": 9,
-  "score_b": 4
+  "score_b": 3
  },
  {
   "seq": 58,
+  "version": 1,
   "kind": "match_started",
-  "time": "2026-01-01T14:13:54.029606117Z",
+  "time": "2026-01-01T15:23:11.54962231Z",
   "match_id": "M19",
   "section": "main",
-  "label": "Finale",
+  "label": {
+   "kind": "final"
+  },
   "key": "main.4.0",
-  "a": "P4",
-  "b": "P1",
+  "a": "P1",
+  "b": "P7",
   "length": 11,
   "table": 1
  },
  {
   "seq": 59,
+  "version": 1,
   "kind": "result",
-  "time": "2026-01-01T14:58:04.144539309Z",
+  "time": "2026-01-01T16:24:37.152676735Z",
   "match_id": "M19",
-  "winner": "P4",
+  "label": {},
+  "winner": "P1",
   "score_a": 11,
-  "score_b": 2
+  "score_b": 1
  },
  {
   "seq": 60,
+  "version": 1,
   "kind": "finished",
-  "time": "2026-01-01T14:58:04.144539309Z"
+  "time": "2026-01-01T16:24:37.152676735Z",
+  "label": {}
  }
 ]
