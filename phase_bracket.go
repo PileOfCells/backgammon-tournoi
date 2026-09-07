@@ -82,7 +82,7 @@ func drawSlots(entrants []PlayerID, lives map[PlayerID]int, rng *rand.Rand) []Pl
 // buildBracket crée les sections d'un tableau à partir des places tirées.
 func (s *State) buildBracket(ph *PhaseState, slots []PlayerID) {
 	cfg := ph.Cfg
-	main := bracketSection(secMain, secMain, slots, ph.Length, cfg.FinalLength)
+	main := bracketSection(secMain, secMain, slots, bracketLengths(ph))
 	ph.Sections = []*Section{main}
 	if cfg.Consolation && len(main.Rounds) >= 2 {
 		conso := consolationSection(secConso, main, ph.Length)
@@ -100,11 +100,10 @@ func (s *State) buildBracket(ph *PhaseState, slots []PlayerID) {
 		if cfg.Reconciliation {
 			gf := &Section{Name: secGrandFinal, Kind: secGrandFinal}
 			mf, cf := len(main.Matches)-1, len(conso.Matches)-1
-			gf.Matches = append(gf.Matches, GMatch{Key: "gf.0", Label: Label{Kind: LabelGrandFinal}, Length: ph.Length,
+			// la grande finale EST la finale du tournoi : elle prend la longueur de finale,
+			// qu'elle vienne de Lengths ou de FinalLength (lengthPlan.at d'un tableau à un tour).
+			gf.Matches = append(gf.Matches, GMatch{Key: "gf.0", Label: Label{Kind: LabelGrandFinal}, Length: bracketLengths(ph).at(0, 1),
 				Src: [2]Src{{From: mf, Section: secMain}, {From: cf, Section: secConso}}})
-			if cfg.FinalLength > 0 {
-				gf.Matches[0].Length = cfg.FinalLength
-			}
 			if cfg.Recharge {
 				gf.Matches = append(gf.Matches, GMatch{Key: "gf.1", Label: Label{Kind: LabelGrandFinalRecharge}, Length: gf.Matches[0].Length,
 					Src: [2]Src{{From: 0}, {From: 0, Loser: true}}, Cond: true, CondFrom: 0, CondSide: 1})
@@ -131,7 +130,7 @@ func bracketFromSrcs(name, kind string, srcs []Src, length int) *Section {
 	for i := range slots {
 		slots[i] = BYE
 	}
-	sec := bracketSection(name, kind, slots, length, 0)
+	sec := bracketSection(name, kind, slots, plain(length))
 	// remplace les BYE du premier tour par les sources, en première position de chaque paire d'abord
 	k := 0
 	for _, mi := range sec.Rounds[0] {

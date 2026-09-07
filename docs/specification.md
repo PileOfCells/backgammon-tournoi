@@ -431,6 +431,9 @@ type PhaseConfig struct {
     Lives          int    `json:"lives,omitempty"`
     Length         int    `json:"length"`
     FinalLength    int    `json:"final_length,omitempty"`
+    Lengths        []int  `json:"lengths,omitempty"`
+    LengthLate     int    `json:"length_late,omitempty"`
+    LateThreshold  int    `json:"late_threshold,omitempty"`
     Mode           string `json:"mode,omitempty"`
     Pairing        string `json:"pairing,omitempty"`
     AvoidClubs     bool   `json:"avoid_clubs,omitempty"`
@@ -455,6 +458,9 @@ type PhaseConfig struct {
 | `lives` | `swiss_lives` | Nombre de vies (défaut 2). Forcé à 2 pour `gsl` |
 | `length` | tous | Longueur des matchs en points (obligatoire, > 0) |
 | `final_length` | tableaux | Longueur du dernier tour (0 = `length`) |
+| `lengths` | tableaux | Longueur tour par tour, **du dernier tour vers le premier** (`[15,13,11,9]` = finale 15, demies 13, quarts 11, reste 9). Plus précis que `final_length` et l'emporte sur lui ; une liste plus courte que le tableau retombe sur `length` |
+| `length_late` | `swiss_lives` | Longueur des matchs de fin de phase, quand il reste au plus `late_threshold` joueurs en vie. Sans effet sans seuil (refusé par `Validate`) ; un `length_changed` du TD l'emporte |
+| `late_threshold` | `swiss_lives` | Nombre de joueurs en vie à partir duquel `length_late` s'applique |
 | `mode` | `swiss_lives` | `continuous` (défaut) ou `rounds` |
 | `pairing` | `swiss_lives` | `random` (défaut) ou `wins` (apparier d'abord les joueurs les plus victorieux du groupe) |
 | `avoid_clubs` | `swiss_lives` | Éviter les rencontres entre joueurs d'un même club quand c'est possible |
@@ -1275,9 +1281,28 @@ tableau se réduit à écrire un constructeur.
 ### Tableau à élimination simple
 
 ```go
-func bracketSection(name, kind string, slots []PlayerID,
-                    length, finalLength int) *Section
+func bracketSection(name, kind string, slots []PlayerID, lp lengthPlan) *Section
 ```
+
+La longueur des matchs vient d'un **plan** qui superpose trois sources, de la plus précise à la
+plus générale — la liste par tour, la longueur de finale, la longueur par défaut :
+
+```go
+type lengthPlan struct {
+    def     int   // longueur par défaut de la phase (ph.Length)
+    final   int   // Cfg.FinalLength ; 0 = def
+    byRound []int // Cfg.Lengths, du DERNIER tour vers le premier
+}
+
+lp.at(r, rounds) :
+    i := rounds - 1 - r
+    si 0 <= i < len(byRound) et byRound[i] > 0 → byRound[i]
+    si r == rounds-1 et final > 0              → final
+    sinon                                      → def
+```
+
+`plain(l)` est le plan d'une longueur unique (mini-tableaux, dernière chance) ;
+`bracketLengths(ph)` celui d'un tableau de la phase.
 
 `slots` a une longueur `size` puissance de 2. `rounds = log2(size)`.
 
@@ -1285,7 +1310,7 @@ func bracketSection(name, kind string, slots []PlayerID,
 Tour 0 : pour i de 0 à size/2 - 1
     Key    = "<name>.0.<i>"
     Label  = roundLabel(0, rounds)
-    Length = length
+    Length = lp.at(0, rounds)
     Src    = { {Player: slots[2i],   From: -1},
                {Player: slots[2i+1], From: -1} }
 Rounds[0] = les indices de ces matchs
@@ -1293,7 +1318,7 @@ Rounds[0] = les indices de ces matchs
 Tour r, de 1 à rounds-1 : pour i de 0 à len(Rounds[r-1])/2 - 1
     Key    = "<name>.<r>.<i>"
     Label  = roundLabel(r, rounds)
-    Length = finalLength si (r == rounds-1 et finalLength > 0), sinon length
+    Length = lp.at(r, rounds)
     Src    = { {From: Rounds[r-1][2i]}, {From: Rounds[r-1][2i+1]} }
 ```
 
@@ -1422,7 +1447,7 @@ Pour un groupe de 2 à 4 joueurs **à une vie** (blocs GSL des joueurs déjà ba
 3 joueurs → slots = [p0, p1, p2, BYE]
 2 joueurs → slots = [p0, p1]
 autre     → section vide
-sec := bracketSection(name, "se", slots, length, 0)
+sec := bracketSection(name, "se", slots, plain(length))
 tous les libellés ← « Élimination directe »
 ```
 
@@ -1578,11 +1603,16 @@ pour l de 0 à L-1, tant que budget > 0 :
     pour chaque paire, tant que budget > 0 :
         action start_match
             Label  = "<l> défaite(s), match <Wins[a]+Losses[a]+1>"
-            A, B   = la paire ; Length = ph.Length
+            A, B   = la paire ; Length = swissLength(ph)
         budget--
 
 si aucune action, aucun match en cours, et au moins 2 joueurs libres → REPLI
 ```
+
+`swissLength(ph)` vaut `Cfg.LengthLate` quand la phase porte un `late_threshold` et qu'il ne
+reste pas plus de joueurs en vie que lui — la fin d'un suisse se joue en matchs plus longs. Un
+`length_changed` posé à la main par le TD (`ph.Length != Cfg.Length`) l'emporte : c'est lui qui
+dirige.
 
 Le **budget** garantit qu'on ne « dépasse » jamais la cible : avec Σ vies = 18 et `target` 16, un
 seul match peut être lancé, même si quatre joueurs sont libres.
@@ -1869,7 +1899,7 @@ func (s *State) buildBracket(ph *PhaseState, slots []PlayerID)
 ```
 
 ```
-main := bracketSection("main", "main", slots, ph.Length, Cfg.FinalLength)
+main := bracketSection("main", "main", slots, bracketLengths(ph))
 Sections := [main]
 
 si Cfg.Consolation et len(main.Rounds) >= 2 :
@@ -1885,7 +1915,7 @@ si Cfg.Consolation et len(main.Rounds) >= 2 :
         gf := section "gf"
         gf.0  « Grande finale » : vainqueur du dernier match de main
                                   contre vainqueur du dernier match de conso
-              longueur = Cfg.FinalLength si > 0, sinon ph.Length
+              longueur = bracketLengths(ph).at(0, 1) — la longueur de finale
         si Cfg.Recharge :
         gf.1  « Grande finale (recharge) » : vainqueur de gf.0 contre perdant de gf.0
                   Cond = vrai, CondFrom = 0, CondSide = 1
@@ -2636,9 +2666,6 @@ reconstruction fidèle du moteur ne doit pas les inclure sans le dire.
 - **Retardataires** : un joueur ajouté après le tirage d'un tableau n'entre nulle part.
 - **Forfaits fins** : il manque le forfait pour un seul match sans retrait, et le retrait « à partir
   de la ronde suivante ».
-- **Longueurs de match par tour** (9 / 11 / 13 / 15) : aujourd'hui `Length` + `FinalLength`
-  seulement. Prévoir `Lengths []int` du dernier tour vers le premier, et un allongement de fin de
-  suisse (`LengthLate` + seuil).
 - **Pauses programmées** : `Propose` ne doit pas lancer un match dont la fin attendue dépasse
   l'heure de la pause. Paramètre `Config.Breaks []TimeRange`.
 - **Équité des byes entre groupes** : la règle « pas de second bye tant que d'autres n'en ont pas

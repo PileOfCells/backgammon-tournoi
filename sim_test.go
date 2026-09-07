@@ -25,8 +25,11 @@ func configs() map[string]tournoi.Config {
 		"gsl_tableau16": {Name: "GSL puis tableau", Phases: []tournoi.PhaseConfig{
 			{Kind: tournoi.KindGSL, Length: 7, Target: 16},
 			{Kind: tournoi.KindLivesBracket, Length: 9}}},
-		"elim_simple":     {Name: "Élimination simple", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindBracket, Length: 11, FinalLength: 13}}},
-		"elim_conso":      {Name: "Principal + consolante", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindBracket, Length: 9, Consolation: true}}},
+		"elim_simple":    {Name: "Élimination simple", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindBracket, Length: 11, FinalLength: 13}}},
+		"elim_conso":     {Name: "Principal + consolante", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindBracket, Length: 9, Consolation: true}}},
+		"elim_longueurs": {Name: "Tableau à longueurs croissantes", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindBracket, Length: 7, Lengths: []int{15, 13, 11, 9}, Consolation: true}}},
+		"suisse_fin_longue": {Name: "Suisse allongé en fin de phase",
+			Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindSwissLives, Length: 5, LengthLate: 9, LateThreshold: 4}}},
 		"elim_conso_last": {Name: "Principal + consolante + dernière chance", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindBracket, Length: 9, Consolation: true, LastChance: true}}},
 		"double_elim":     {Name: "Double élimination", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindBracket, Length: 7, Consolation: true, Reconciliation: true, Recharge: true}}},
 		"poules_tableau": {Name: "Poules puis tableau", Phases: []tournoi.PhaseConfig{
