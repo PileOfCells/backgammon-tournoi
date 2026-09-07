@@ -266,6 +266,12 @@ func (s *State) Apply(ev Event) error {
 		s.Phases = append(s.Phases, next)
 		s.Current++
 		s.enterFrom(next, ph)
+	case EvTableChanged:
+		m, ok := s.Matches[ev.MatchID]
+		if !ok {
+			return fmt.Errorf("match %s inconnu", ev.MatchID)
+		}
+		m.Table = ev.Table
 	case EvLengthChanged:
 		ph := s.phaseOf(ev.Phase)
 		if ph == nil {

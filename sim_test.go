@@ -18,6 +18,9 @@ func configs() map[string]tournoi.Config {
 		"suisse_tableau16": {Name: "Suisse puis tableau à vies", Phases: []tournoi.PhaseConfig{
 			{Kind: tournoi.KindSwissLives, Length: 7, Target: 16},
 			{Kind: tournoi.KindLivesBracket, Length: 9, FinalLength: 11}}},
+		"suisse_tables_limitees": {Name: "Suisse, salle contrainte",
+			Tables: tournoi.Tables{Count: 3, Unavailable: []int{2}, Reserved: []tournoi.TableRule{{Table: 1, Section: "main", AllPhases: true}}},
+			Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindSwissLives, Length: 7}}},
 		"gsl": {Name: "Blocs GSL", Phases: []tournoi.PhaseConfig{{Kind: tournoi.KindGSL, Length: 7}}},
 		"gsl_tableau16": {Name: "GSL puis tableau", Phases: []tournoi.PhaseConfig{
 			{Kind: tournoi.KindGSL, Length: 7, Target: 16},

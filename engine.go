@@ -75,6 +75,9 @@ func (s *State) Running() []*Match {
 }
 
 // assignTables attribue les plus petites tables libres aux matchs proposés.
+// assignTables attribue une table à chaque match proposé : la plus petite qui soit libre,
+// disponible, et non réservée à autre chose (tables.go). Une proposition qui n'en trouve pas
+// reste dans la file avec ReasonWaitingTable — le TD peut la lancer avec un numéro saisi.
 func (s *State) assignTables(acts []Action) {
 	used := map[int]bool{}
 	for _, m := range s.Running() {
@@ -82,19 +85,28 @@ func (s *State) assignTables(acts []Action) {
 			used[m.Table] = true
 		}
 	}
-	t := 1
+	max := s.Config.Tables.Count
 	for i := range acts {
 		if acts[i].Kind != ActStartMatch || acts[i].Table > 0 {
 			continue
 		}
-		for used[t] {
-			t++
-		}
-		if s.Config.Tables > 0 && t > s.Config.Tables {
+		found := 0
+		for t := 1; max == 0 || t <= max; t++ {
+			if max == 0 && t > len(used)+len(s.Config.Tables.Unavailable)+len(s.Config.Tables.Reserved)+1 {
+				break // salle illimitée : inutile de chercher au-delà
+			}
+			if used[t] || !s.Config.Tables.AvailableFor(t, acts[i].Section, acts[i].Phase) {
+				continue
+			}
+			found = t
 			break
 		}
-		acts[i].Table = t
-		used[t] = true
+		if found == 0 {
+			acts[i].Reason = ReasonWaitingTable
+			continue
+		}
+		acts[i].Table = found
+		used[found] = true
 	}
 }
 

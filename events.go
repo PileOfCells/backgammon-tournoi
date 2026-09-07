@@ -25,6 +25,7 @@ const (
 	EvDraw            EventKind = "draw"             // Phase, Section, Draw
 	EvNextPhase       EventKind = "next_phase"       // passage à la phase suivante
 	EvLengthChanged   EventKind = "length_changed"   // Phase, Length (matchs futurs de la phase)
+	EvTableChanged    EventKind = "table_changed"    // MatchID, Table (match en cours déplacé)
 	EvFinished        EventKind = "finished"
 	EvNote            EventKind = "note" // Text (annotation libre du TD)
 )
@@ -151,6 +152,11 @@ func CancelEvent(id MatchID, now time.Time) Event {
 // LengthChangedEvent : nouvelle longueur pour les matchs à venir d'une phase.
 func LengthChangedEvent(phase, length int, now time.Time) Event {
 	return Event{Version: JournalVersion, Kind: EvLengthChanged, Time: now, Phase: phase, Length: length}
+}
+
+// TableChangedEvent : un match en cours change de table (bruit, lumière, retransmission).
+func TableChangedEvent(id MatchID, table int, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvTableChanged, Time: now, MatchID: id, Table: table}
 }
 
 // NoteEvent : annotation libre du directeur de tournoi, horodatée.

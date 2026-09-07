@@ -22,9 +22,9 @@ où intervenir et comment vérifier.
   pas au fil de l'eau), soit blocs GSL. Aujourd'hui `Propose` apparie tous les joueurs libres à
   chaque appel : l'hôte doit l'appeler à intervalle fixe pour obtenir l'effet micro-rondes.
   À implémenter dans `phase_swiss.go` : paramètre `batch_minutes` et horodatage du dernier lot.
-- [ ] **Tables.** `assignTables` donne la plus petite table libre. Il manque : tables
-  indisponibles, tables réservées (retransmission), changement de table d'un match en cours
-  (événement `table_changed` à ajouter dans `events.go` / `state.go`).
+- [x] **Tables.** `Config.Tables` porte les indisponibles et les réservations (`tables.go`) ;
+  `assignTables` les saute et marque `ReasonWaitingTable` quand aucune table n'est libre ;
+  `table_changed` déplace un match en cours.
 
 ## 2. Fonctions attendues d'un logiciel de tournoi
 
