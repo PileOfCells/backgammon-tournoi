@@ -45,11 +45,17 @@ type PhaseState struct {
 	Opponents map[PlayerID][]PlayerID `json:"opponents"`
 	ElimOrder []PlayerID              `json:"elim_order"` // ordre d'élimination
 	Round     int                     `json:"round"`      // rondes synchrones / blocs
-	Drawn     bool                    `json:"drawn"`
-	Done      bool                    `json:"done"`
-	Sections  []*Section              `json:"sections,omitempty"`
-	Length    int                     `json:"length"` // longueur courante des matchs
-	Started   bool                    `json:"started"`
+	// Roster : suisse par rondes, les joueurs appelés à la ronde Round, relevés au premier
+	// événement de la ronde (match ou bye). La ronde reste ouverte tant que l'un d'eux n'y est
+	// pas engagé : ses appariements restent proposés (phase_swiss.go).
+	Roster []PlayerID `json:"roster,omitempty"`
+	// ByeRounds : les rondes où le joueur a reçu un bye (suisse par rondes).
+	ByeRounds map[PlayerID][]int `json:"bye_rounds,omitempty"`
+	Drawn     bool               `json:"drawn"`
+	Done      bool               `json:"done"`
+	Sections  []*Section         `json:"sections,omitempty"`
+	Length    int                `json:"length"` // longueur courante des matchs
+	Started   bool               `json:"started"`
 }
 
 // Section est un graphe de matchs dont les places se remplissent par les résultats
@@ -94,7 +100,7 @@ type Src struct {
 
 func newPhaseState(i int, cfg PhaseConfig) *PhaseState {
 	return &PhaseState{Index: i, Cfg: cfg, Lives: map[PlayerID]int{}, Losses: map[PlayerID]int{},
-		Wins: map[PlayerID]int{}, Byes: map[PlayerID]int{}, Opponents: map[PlayerID][]PlayerID{}, Length: cfg.Length}
+		Wins: map[PlayerID]int{}, Byes: map[PlayerID]int{}, ByeRounds: map[PlayerID][]int{}, Opponents: map[PlayerID][]PlayerID{}, Length: cfg.Length}
 }
 
 // Replay reconstruit l'état à partir du journal.
@@ -252,7 +258,10 @@ func (s *State) Apply(ev Event) error {
 				return fmt.Errorf("joueur %s a déjà un match en cours", p)
 			}
 		}
-		m := &Match{ID: ev.MatchID, Phase: ev.Phase, Section: ev.Section, Label: ev.Label, Key: ev.Key,
+		if ph := s.phaseOf(ev.Phase); ph != nil {
+			s.openRound(ph, ev.Round) // avant le match : ses deux joueurs sont encore libres
+		}
+		m := &Match{ID: ev.MatchID, Phase: ev.Phase, Section: ev.Section, Label: ev.Label, Key: ev.Key, Round: ev.Round,
 			A: ev.A, B: ev.B, Length: ev.Length, Table: ev.Table, Status: Running, Start: ev.Time}
 		s.Matches[m.ID] = m
 		s.MatchOrder = append(s.MatchOrder, m.ID)
@@ -304,7 +313,11 @@ func (s *State) Apply(ev Event) error {
 		if ph == nil {
 			return fmt.Errorf("phase %d inconnue", ev.Phase)
 		}
+		s.openRound(ph, ev.Round)
 		ph.Byes[ev.ID]++
+		if ev.Round > 0 {
+			ph.ByeRounds[ev.ID] = append(ph.ByeRounds[ev.ID], ev.Round)
+		}
 		if ev.Round > ph.Round && ph.Cfg.Kind == KindSwissLives {
 			ph.Round = ev.Round
 		}

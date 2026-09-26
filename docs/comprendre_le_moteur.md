@@ -157,6 +157,10 @@ est proposé. Personne n'attend que la ronde se termine.
 
 Le mode par rondes reste disponible : il est plus lisible, plus facile à doubler sur papier, et
 insensible à la manipulation. C'est un choix du directeur de tournoi, pas une contrainte du moteur.
+Une ronde plus grande que la salle se joue en plusieurs vagues : tant que tous ses joueurs n'y
+sont pas engagés, le moteur continue de proposer ses appariements — les mêmes, ce qui garde juste
+la feuille imprimée —, et la ronde suivante n'arrive qu'une fois la ronde entière jouée. Un bye
+confirmé seul ne fait pas passer à la ronde suivante.
 
 ## Appariement dans le groupe de même nombre de défaites
 
@@ -408,7 +412,7 @@ résultats et non par l'heure, et l'appariement par lots à intervalle fixe. Le 
 disponible pour qui préfère.
 
 Ces parades ne sont pas gratuites : sur 64 joueurs, les blocs GSL demandent **14 h 25** de salle
-contre 10 h 20 pour le suisse continu, et le mode par rondes 14 h 10 — pour exactement le même
+contre 10 h 20 pour le suisse continu, et le mode par rondes 14 h 12 — pour exactement le même
 nombre de matchs. Synchroniser coûte du temps, quelle que soit la forme que prend la
 synchronisation.
 
@@ -504,7 +508,7 @@ gagne. La durée est le temps de salle simulé, toutes tables confondues.
 |---|---|---|---|---|
 | Élimination simple | 3,8 % | 14,6 % | 63,0 | 7 h 00 |
 | Suisse 2 vies, continu | 3,5 % | 16,5 % | 126,5 | 10 h 20 |
-| Suisse 2 vies, par rondes | 4,9 % | 15,9 % | 126,5 | 14 h 10 |
+| Suisse 2 vies, par rondes | 3,7 % | 15,0 % | 126,5 | 14 h 12 |
 | Suisse 2 vies → tableau 16 | 4,2 % | 15,5 % | 124,3 | 9 h 45 |
 | Blocs GSL | 4,5 % | 15,3 % | 126,5 | 14 h 25 |
 | Double élimination avec recharge | 5,7 % | 18,0 % | 126,5 | 13 h 35 |
@@ -516,14 +520,19 @@ durées de jeu.
 Trois lectures :
 
 - **Le prix de l'attente est directement visible.** Le suisse 2 vies joue exactement le même nombre
-  de matchs en continu et par rondes — 126,5 — mais met **3 h 50 de plus** par rondes. C'est du
+  de matchs en continu et par rondes — 126,5 — mais met **3 h 52 de plus** par rondes. C'est du
   temps de salle pur, sans aucun match supplémentaire. C'est l'argument principal en faveur du
   continu.
 - **Le format recommandé est le meilleur compromis.** Le suisse 2 vies suivi d'un tableau de 16
   obtient une qualité comparable au reste de la famille à deux vies pour la durée la plus courte du
   groupe (9 h 45 contre 13 à 14 h).
-- **Les écarts de qualité sont réels mais modestes.** Sur P(top 4), la famille à deux vies (15,3 à
-  18,0 %) devance nettement l'élimination simple (14,6 %) — l'écart dépasse l'incertitude. Sur
+- **Les écarts de qualité sont réels mais modestes.** Sur P(top 4), la famille à deux vies (15,0 à
+  18,0 %) devance l'élimination simple (14,6 %), nettement pour la double élimination et le suisse
+  continu — l'écart dépasse l'incertitude —, de peu pour le suisse par rondes. Le générateur du
+  mode par rondes a changé en septembre 2026 (un tirage par ronde, pour que les appariements d'une
+  ronde lancée en plusieurs vagues restent les mêmes) : sa ligne a bougé de 4,9 à 3,7 % sur
+  P(meilleur), ce que 9 000 tournois supplémentaires ramènent au bruit de mesure (4,3 % contre
+  4,6 % avant le changement). Sur
   P(meilleur), en revanche, seule la double élimination se détache franchement ; les autres écarts
   sont du même ordre que le bruit de mesure et ne doivent pas être surinterprétés.
 

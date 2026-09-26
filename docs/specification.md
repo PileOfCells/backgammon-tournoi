@@ -211,6 +211,7 @@ type Match struct {
     Section string      `json:"section,omitempty"` // "main", "conso", "B1G3"…
     Label   string      `json:"label,omitempty"`   // "Ronde 3", "Quart de finale"…
     Key     string      `json:"key,omitempty"`     // clé du GMatch dans sa section
+    Round   int         `json:"round,omitempty"`   // ronde suisse (0 = sans objet)
     A       PlayerID    `json:"a"`
     B       PlayerID    `json:"b"`
     Length  int         `json:"length"`            // en points
@@ -349,6 +350,8 @@ type PhaseState struct {
     Opponents map[PlayerID][]PlayerID `json:"opponents"` // adversaires déjà rencontrés
     ElimOrder []PlayerID              `json:"elim_order"`// ordre d'élimination
     Round     int                     `json:"round"`     // ronde synchrone / bloc GSL
+    Roster    []PlayerID              `json:"roster,omitempty"`     // suisse par rondes : appelés à la ronde Round
+    ByeRounds map[PlayerID][]int      `json:"bye_rounds,omitempty"` // rondes où le joueur a eu un bye
     Drawn     bool                    `json:"drawn"`     // le tirage a eu lieu
     Done      bool                    `json:"done"`
     Sections  []*Section              `json:"sections,omitempty"`
@@ -819,19 +822,24 @@ deux matchs en cours.** C'est l'invariant central de l'ordonnancement.
 Puis :
 
 ```
-créer Match{ID, Phase, Section, Label, Key, A, B, Length, Table,
+ph := phaseOf(ev.Phase)   (si elle existe)
+    openRound(ph, ev.Round)   ← suisse par rondes, nouvelle ronde : relever ph.Roster
+créer Match{ID, Phase, Section, Label, Key, Round, A, B, Length, Table,
             Status: Running, Start: ev.Time}
 s.Matches[ID] = m ; s.MatchOrder += ID ; s.nextID++
 
-ph := phaseOf(ev.Phase)   (si elle existe)
+ph (si elle existe) :
     ph.Started = true
-    si ph.Kind == swiss_lives et parseRound(Label) > ph.Round → ph.Round = ce numéro
+    si ph.Kind == swiss_lives et ev.Round > ph.Round → ph.Round = ev.Round
     ph.Opponents[A] += B ; ph.Opponents[B] += A
     si un GMatch (Section, Key) existe → son MatchID = ID
+check()
 ```
 
-`parseRound(label)` lit le motif `"Ronde %d"` et renvoie 0 si le libellé ne correspond pas. C'est
-le seul mécanisme qui fait avancer le compteur de rondes du suisse synchrone.
+`ev.Round` (relu du libellé `"Ronde %d"` pour un journal de version 0, voir `Event.upgraded`) est
+le seul mécanisme qui fait avancer le compteur de rondes du suisse synchrone. `openRound` relève,
+au premier événement d'une ronde et avant de l'appliquer, les joueurs libres de la phase : ce sont
+les joueurs appelés à la ronde (voir « Proposition en mode par rondes »).
 
 `nextMatchID()` renvoie `"M" + (nextID+1)`. Comme `nextID` n'est incrémenté que par
 `match_started`, les identifiants sont consécutifs à partir de `M1`, sans trou, y compris après un
@@ -873,11 +881,14 @@ ignoré par tous les calculs (comptabilité, adversaires rencontrés, graphes).
 
 ```
 ph := phaseOf(ev.Phase) ; si absente → erreur « phase inconnue »
+openRound(ph, ev.Round)
 ph.Byes[ev.ID]++
-si ph.Kind == swiss_lives et parseRound(Label) > ph.Round → ph.Round = ce numéro
+si ev.Round > 0 → ph.ByeRounds[ev.ID] += ev.Round
+si ph.Kind == swiss_lives et ev.Round > ph.Round → ph.Round = ev.Round
 ```
 
-Un bye ne compte ni victoire ni défaite. Il est mémorisé pour éviter d'en donner deux au même
+Un bye ne compte ni victoire ni défaite. Il **appartient à sa ronde** : le confirmer seul ne clôt
+pas la ronde, ses matchs restent proposés. Il est mémorisé pour éviter d'en donner deux au même
 joueur (voir `pairGroup`).
 
 ### `draw`
@@ -1484,7 +1495,8 @@ func (s *State) rng() *rand.Rand {
 ```
 
 Le générateur est **recréé à chaque appel** et dépend uniquement de la graine, du nombre
-d'événements et de la phase. Toute implémentation visant la compatibilité binaire avec la référence
+d'événements et de la phase. Le suisse par rondes a le sien, `roundRng`, qui ne dépend que de la
+graine, de la phase et du numéro de ronde (voir « Proposition en mode par rondes »). Toute implémentation visant la compatibilité binaire avec la référence
 doit reproduire le générateur `math/rand` de Go (source *Additive Lagged Fibonacci* de la
 bibliothèque standard) et sa méthode `Shuffle`. **Une implémentation dans un autre langage ne pourra
 pas reproduire les propositions à l'identique** ; elle reproduira en revanche exactement les états
@@ -1958,20 +1970,75 @@ autorisées à la règle « pas de match entre groupes différents ».
 func (s *State) proposeSwissRound(ph *PhaseState) []Action
 ```
 
+Une ronde reste **ouverte** tant que l'un des joueurs appelés n'y est pas engagé. Une ronde de
+12 matchs dans une salle de 6 tables se lance en deux vagues ; un bye se confirme parfois avant
+les matchs. Tant que la ronde est ouverte, ses appariements non lancés restent proposés — les
+mêmes —, et la ronde suivante ne vient que lorsque la ronde est entièrement engagée et ses matchs
+terminés.
+
 ```
+R := ph.Round
+si R > 0 :
+    rest := roundRest(ph, R)          ← ce qui reste de la ronde ouverte
+    si rest non vide → rest
 si runningInPhase > 0 → nil          ← on attend la fin de la ronde
-rng := s.rng() ; free := free(ph)
-
-pour l de 0 à Lives-1 :
-    g := joueurs libres à l défaites
-    pairs, rest := pairGroup(ph, g, rng, faux)
-    pour chaque paire → action start_match, Label = "Ronde <ph.Round+1>"
-    restes += rest
-
-si aucune action et au moins 2 joueurs libres → repli (identique au continu)
-
-pour chaque joueur de restes → action bye, Label = "Ronde <ph.Round+1>"
+r := R + 1 ; free := free(ph)
+acts, normal := pairRound(ph, r, free, roundRng(ph, r))
+si non normal et au moins 2 joueurs libres → repli (identique au continu, générateur rng())
+→ acts
 ```
+
+`pairRound(v, r, joueurs, rng)` est l'appariement d'une ronde sur l'état `v` :
+
+```
+budget := ∞ ; si Target > 0 : budget := sumLives(v) − Target ; si budget ≤ 0 → (nil, normal)
+pour l de 0 à Lives-1, tant que budget > 0 :
+    g := joueurs à l défaites (dans v)
+    pairs, rest := pairGroup(v, g, rng, faux)
+    pour chaque paire, tant que budget > 0 → start_match, Label = Ronde r, Round = r ; budget--
+    restes += rest
+si aucune action → (nil, non normal)
+si budget ≤ 0 → (actions, normal)              ← ronde tronquée par la bascule : pas de bye
+pour chaque joueur de restes → bye, Label = Ronde r, Round = r
+```
+
+**Les mêmes appariements**, parce qu'ils sont *recalculés à l'identique* plutôt que stockés. Le
+plan d'une ronde ne dépend que de trois choses :
+
+- l'état **d'avant la ronde** : `beforeRound(ph, r)` est la phase dont on a retiré les victoires,
+  défaites et adversaires des matchs de ronde `r` (non annulés), et les byes de ronde `r`
+  (`PhaseState.ByeRounds`) ;
+- les **joueurs appelés** : `PhaseState.Roster`, relevé par `Apply` au premier événement de la
+  ronde (`match_started` ou `bye` dont `Round` dépasse `ph.Round`), avant de l'appliquer —
+  exactement les joueurs libres qu'un `Propose` de cet instant appariait ;
+- un **générateur propre à la ronde** :
+
+```go
+func (s *State) roundRng(ph *PhaseState, r int) *rand.Rand {
+    return rand.New(rand.NewSource(s.Seed*1000003 + int64(ph.Index)*7919 + int64(r)*104729))
+}
+```
+
+Il ne dépend pas du nombre d'événements : confirmer le premier match d'une ronde redistribuait
+sinon les suivants.
+
+`roundRest(ph, R)` recalcule le plan `pairRound(beforeRound(ph, R), R, ph.Roster, roundRng(ph, R))`
+et garde :
+
+- chaque `start_match` dont aucun des deux joueurs n'est **engagé** dans la ronde (un match non
+  annulé de ronde `R`, ou un bye de ronde `R`), ni éliminé ou retiré, ni occupé ; sa longueur est
+  celle d'aujourd'hui (`swissLength`), un `length_changed` ayant pu passer ;
+- chaque `bye` dont le joueur n'est pas engagé.
+
+Les **orphelins** — joueurs du plan prévus contre quelqu'un qui a joué autre chose (un match lancé
+à la main) ou qui est parti — sont appariés entre eux par `pairGroup`, dans le budget de la
+bascule s'il y en a une (`sumLives − matchs en cours − Target − matchs déjà gardés`). Un orphelin
+seul attend la ronde suivante. Un joueur inscrit pendant la ronde n'est pas dans `Roster` : il
+entre à la ronde suivante.
+
+Limites assumées : un joueur retiré en cours de ronde, dans une phase à bascule, change le budget
+et peut donc changer les appariements non lancés ; la ronde reste une ronde (personne n'y joue
+deux fois).
 
 Le repli du mode par rondes :
 
@@ -1980,18 +2047,17 @@ func (s *State) proposeSwissContinuousFallback(ph, free, rng) []Action
 ```
 
 ```
-1. pour l de 0 à Lives-1 : une paire avec allowRematch = VRAI → Label = "Rematch"
-2. sinon : fr trié par défaites croissantes → une action, Label = "Finale"
+1. pour l de 0 à Lives-1 : une paire avec allowRematch = VRAI → Label = rematch
+2. sinon : fr trié par défaites croissantes → une action, Label = final
 ```
 
-**Le compteur de rondes** `ph.Round` n'est pas incrémenté par le moteur : il est déduit du libellé
-`"Ronde k"` porté par les événements `match_started` et `bye` (voir `parseRound`). Le mode par
-rondes propose donc `Ronde ph.Round+1` ; dès que le TD confirme la première action, `ph.Round`
-devient `ph.Round+1` et les actions suivantes du même lot portent le même numéro.
+Les actions du repli ne portent pas de numéro de ronde (`Round = 0`) : elles ne comptent dans
+aucune ronde.
 
-Le mode `rounds` ne gère pas le budget `Target` aussi finement que le continu : la somme des vies
-décroît par paquets d'une ronde entière et peut « sauter » la cible. C'est un point ouvert
-(voir le dernier chapitre).
+**Le compteur de rondes** `ph.Round` n'est pas incrémenté par le moteur : il suit le champ
+`Event.Round` des événements `match_started` et `bye` (relu du libellé `"Ronde k"` pour un journal
+de version 0). Dès que le TD confirme la première action d'une ronde, `ph.Round` prend son numéro
+et `Roster` est relevé. `Match.Round` garde la ronde de chaque match.
 
 ## Classement d'une phase à vies
 

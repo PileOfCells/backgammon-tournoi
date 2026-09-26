@@ -41,6 +41,7 @@ type Match struct {
 	Section string      `json:"section,omitempty"` // identifiant : "main", "conso", "poule:A"…
 	Label   Label       `json:"label,omitempty"`   // libellé structuré (codes.go)
 	Key     string      `json:"key,omitempty"`     // clé interne (position dans un graphe de matchs)
+	Round   int         `json:"round,omitempty"`   // ronde suisse (0 = sans objet)
 	A       PlayerID    `json:"a"`
 	B       PlayerID    `json:"b"`
 	Length  int         `json:"length"`
