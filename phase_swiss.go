@@ -179,6 +179,20 @@ func (s *State) proposeSwiss(ph *PhaseState) []Action {
 // proposeSwissRound : mode par rondes (tous les matchs de la ronde en même temps, byes aux
 // groupes impairs).
 //
+// UNE RONDE RESTE OUVERTE tant que l'un des joueurs appelés n'y est pas engagé. Une ronde de
+// 12 matchs dans une salle de 6 tables se lance en deux vagues ; un bye se confirme avant les
+// matchs. Le moteur ne proposait une ronde qu'avec zéro match en cours, puis appariait « la
+// ronde suivante » : lancer la première vague faisait disparaître la seconde, et confirmer le
+// bye seul faisait passer à la ronde N+1, l'exempté réapparié. Désormais, tant que la ronde
+// Round est ouverte, ses appariements non lancés restent proposés, LES MÊMES ; la ronde suivante
+// ne vient que quand la ronde est entièrement engagée et ses matchs finis.
+//
+// Les mêmes appariements, parce qu'ils sont RECALCULÉS à l'identique plutôt que stockés : le
+// plan d'une ronde est fonction de l'état d'avant la ronde (beforeRound retire ce que la ronde a
+// déjà produit), des joueurs appelés (PhaseState.Roster, relevé au premier événement de la
+// ronde) et d'un générateur propre à la ronde (roundRng). Le journal ne porte que ce qui a été
+// confirmé, comme toujours.
+//
 // La bascule vers un tableau (Target) demande que la somme des vies TOMBE JUSTE sur une
 // puissance de 2. Chaque match la fait décroître d'une unité, mais une ronde en lance beaucoup
 // d'un coup : sans garde-fou, la dernière ronde passe sous la cible et le tableau qui suit
@@ -191,45 +205,201 @@ func (s *State) proposeSwiss(ph *PhaseState) []Action {
 // aucun bye : elle est la dernière, et un bye enregistré fausserait l'ordre d'appariement d'une
 // ronde qui n'aura pas lieu.
 func (s *State) proposeSwissRound(ph *PhaseState) []Action {
+	if ph.Round > 0 {
+		if rest := s.roundRest(ph, ph.Round); len(rest) > 0 {
+			return rest
+		}
+	}
 	if s.runningInPhase(ph) > 0 {
 		return nil
 	}
+	r := ph.Round + 1
+	free := s.free(ph)
+	acts, normal := s.pairRound(ph, r, free, s.roundRng(ph, r))
+	if !normal && len(free) >= 2 { // secours comme en continu
+		return s.proposeSwissContinuousFallback(ph, free, s.rng())
+	}
+	return acts
+}
+
+// roundRng : le générateur d'une ronde. Il ne dépend que de la graine, de la phase et du numéro
+// de ronde — pas du nombre d'événements, sans quoi confirmer le premier match d'une ronde
+// redistribuerait les suivants.
+func (s *State) roundRng(ph *PhaseState, r int) *rand.Rand {
+	return rand.New(rand.NewSource(s.Seed*1000003 + int64(ph.Index)*7919 + int64(r)*104729))
+}
+
+// pairRound : le plan de la ronde r pour ces joueurs, sur l'état v. normal = faux quand aucun
+// appariement n'a été trouvé (le secours est alors l'affaire de l'appelant).
+func (s *State) pairRound(v *PhaseState, r int, players []PlayerID, rng *rand.Rand) (acts []Action, normal bool) {
 	budget := 1 << 30
-	if ph.Cfg.Target > 0 {
-		budget = s.sumLives(ph) - ph.Cfg.Target // matchs encore lançables avant la bascule
+	if v.Cfg.Target > 0 {
+		budget = s.sumLives(v) - v.Cfg.Target // matchs encore lançables avant la bascule
 		if budget <= 0 {
-			return nil
+			return nil, true
 		}
 	}
-	rng := s.rng()
-	free := s.free(ph)
-	var acts []Action
+	lbl := Label{Kind: LabelRound, N: r}
 	var restes []PlayerID
-	for l := 0; l < ph.Cfg.Lives && budget > 0; l++ {
+	for l := 0; l < v.Cfg.Lives && budget > 0; l++ {
 		var g []PlayerID
-		for _, p := range free {
-			if ph.Losses[p] == l {
+		for _, p := range players {
+			if v.Losses[p] == l {
 				g = append(g, p)
 			}
 		}
-		pairs, rest := s.pairGroup(ph, g, rng, false)
+		pairs, rest := s.pairGroup(v, g, rng, false)
 		for _, pr := range pairs {
 			if budget <= 0 {
 				break
 			}
-			acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelRound, N: ph.Round + 1}, Round: ph.Round + 1, A: pr[0], B: pr[1], Length: s.swissLength(ph)})
+			acts = append(acts, Action{Kind: ActStartMatch, Phase: v.Index, Label: lbl, Round: r, A: pr[0], B: pr[1], Length: s.swissLength(v)})
 			budget--
 		}
 		restes = append(restes, rest...)
 	}
-	if len(acts) == 0 && len(free) >= 2 { // secours comme en continu
-		return s.proposeSwissContinuousFallback(ph, free, rng)
+	if len(acts) == 0 {
+		return nil, false
 	}
 	if budget <= 0 {
-		return acts // ronde tronquée par la bascule : c'est la dernière, pas de bye
+		return acts, true // ronde tronquée par la bascule : c'est la dernière, pas de bye
 	}
 	for _, p := range restes {
-		acts = append(acts, Action{Kind: ActBye, Phase: ph.Index, Label: Label{Kind: LabelRound, N: ph.Round + 1}, Round: ph.Round + 1, A: p})
+		acts = append(acts, Action{Kind: ActBye, Phase: v.Index, Label: lbl, Round: r, A: p})
+	}
+	return acts, true
+}
+
+// openRound : au premier événement d'une ronde (match ou bye), relever les joueurs appelés —
+// ceux qu'un Propose de cet instant aurait appariés. Appelée par Apply AVANT d'appliquer
+// l'événement, quand ses joueurs sont encore libres.
+func (s *State) openRound(ph *PhaseState, r int) {
+	if ph.Cfg.Kind != KindSwissLives || ph.Cfg.Mode != "rounds" || r <= ph.Round {
+		return
+	}
+	ph.Roster = s.free(ph)
+}
+
+// engagedIn : les joueurs déjà engagés dans la ronde r de la phase — un match non annulé de
+// cette ronde, ou un bye de cette ronde.
+func (s *State) engagedIn(ph *PhaseState, r int) map[PlayerID]bool {
+	out := map[PlayerID]bool{}
+	for _, id := range s.MatchOrder {
+		m := s.Matches[id]
+		if m.Phase == ph.Index && m.Round == r && m.Status != Cancelled {
+			out[m.A], out[m.B] = true, true
+		}
+	}
+	for p, rs := range ph.ByeRounds {
+		for _, x := range rs {
+			if x == r {
+				out[p] = true
+			}
+		}
+	}
+	return out
+}
+
+// beforeRound : la phase telle qu'elle était avant la ronde r — victoires, défaites,
+// adversaires et byes de la ronde r retirés. C'est l'état sur lequel la ronde a été appariée.
+func (s *State) beforeRound(ph *PhaseState, r int) *PhaseState {
+	v := *ph
+	v.Losses, v.Wins, v.Opponents = map[PlayerID]int{}, map[PlayerID]int{}, map[PlayerID][]PlayerID{}
+	v.Byes = map[PlayerID]int{}
+	for p, n := range ph.Byes {
+		v.Byes[p] = n
+	}
+	for p, rs := range ph.ByeRounds {
+		for _, x := range rs {
+			if x == r {
+				v.Byes[p]--
+			}
+		}
+	}
+	for _, id := range s.MatchOrder {
+		m := s.Matches[id]
+		if m.Phase != ph.Index || m.Status == Cancelled || m.Round == r {
+			continue
+		}
+		v.Opponents[m.A] = append(v.Opponents[m.A], m.B)
+		v.Opponents[m.B] = append(v.Opponents[m.B], m.A)
+		if m.Status == Finished {
+			v.Wins[m.Winner]++
+			v.Losses[m.Loser()]++
+		}
+	}
+	return &v
+}
+
+// roundRest : ce qui reste à confirmer de la ronde r, ouverte. Le plan est recalculé sur l'état
+// d'avant la ronde, pour les joueurs appelés ; on garde ce dont aucun joueur n'est encore
+// engagé, ni retiré, ni occupé. Les ORPHELINS — prévus contre un joueur qui a joué autre chose
+// (un match lancé à la main) ou qui est parti — sont appariés entre eux, dans le budget de la
+// bascule s'il y en a une. Un orphelin seul attend la ronde suivante.
+func (s *State) roundRest(ph *PhaseState, r int) []Action {
+	if len(ph.Roster) == 0 {
+		return nil
+	}
+	engagé := s.engagedIn(ph, r)
+	v := s.beforeRound(ph, r)
+	plan, normal := s.pairRound(v, r, ph.Roster, s.roundRng(ph, r))
+	if !normal {
+		return nil
+	}
+	libre := func(p PlayerID) bool {
+		return !engagé[p] && s.remainingLives(ph, p) > 0 && !s.busy(p)
+	}
+	var acts []Action
+	pris := map[PlayerID]bool{}
+	for _, a := range plan {
+		switch {
+		case a.Kind == ActBye && libre(a.A):
+			acts = append(acts, a)
+			pris[a.A] = true
+		case a.Kind == ActStartMatch && libre(a.A) && libre(a.B):
+			a.Length = s.swissLength(ph) // la longueur est celle d'aujourd'hui (length_changed)
+			acts = append(acts, a)
+			pris[a.A], pris[a.B] = true, true
+		}
+	}
+	var orphelins []PlayerID
+	for _, a := range plan {
+		for _, p := range []PlayerID{a.A, a.B} {
+			if p != "" && !pris[p] && libre(p) {
+				orphelins = append(orphelins, p)
+				pris[p] = true
+			}
+		}
+	}
+	if len(orphelins) < 2 {
+		return acts
+	}
+	budget := 1 << 30
+	if ph.Cfg.Target > 0 {
+		budget = s.sumLives(ph) - s.runningInPhase(ph) - ph.Cfg.Target
+		for _, a := range acts {
+			if a.Kind == ActStartMatch {
+				budget--
+			}
+		}
+	}
+	rng := s.roundRng(ph, r)
+	for l := 0; l < ph.Cfg.Lives && budget > 0; l++ {
+		var g []PlayerID
+		for _, p := range orphelins {
+			if v.Losses[p] == l {
+				g = append(g, p)
+			}
+		}
+		pairs, _ := s.pairGroup(v, g, rng, false)
+		for _, pr := range pairs {
+			if budget <= 0 {
+				break
+			}
+			acts = append(acts, Action{Kind: ActStartMatch, Phase: ph.Index, Label: Label{Kind: LabelRound, N: r}, Round: r,
+				A: pr[0], B: pr[1], Length: s.swissLength(ph)})
+			budget--
+		}
 	}
 	return acts
 }
