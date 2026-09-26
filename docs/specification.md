@@ -2486,7 +2486,9 @@ si non ph.Drawn :
 initialiser score[p] = -1, note = « non classé » pour chaque entrant
 
 (1) SORTIES — pour chaque section, chaque tour r, chaque match g de ce tour :
-    ignorer si non Done, ou Walkover, ou Skipped
+    ignorer si Skipped
+    si non Done : chaque joueur RETIRÉ placé dans g y prend sa sortie (il le perdra par forfait)
+    ignorer si Walkover et que le perdant n'est pas retiré (exemption par BYE)
     candidat := prio[section]*1000 + r         ← pour le PERDANT
     remplacer score[g.Loser] si :
         score actuel < 0
@@ -2518,10 +2520,16 @@ c'est-à-dire par la section de plus faible priorité où il a perdu. Un joueur 
 du principal puis en finale de consolante est classé sur sa performance en consolante, pas sur son
 élimination du principal.
 
-Un joueur **retiré** garde le score de la sortie qu'il a atteinte : une demi-finaliste qui part
-pendant sa demi-finale la perd par forfait, et elle est classée comme une demi-finaliste éliminée —
-sa place en consolante, résolue sans match (walkover), n'entre pas dans le classement. Retiré sans
-avoir joué, il reste en queue (score 0).
+Un joueur **retiré** est classé comme s'il perdait chacun de ses matchs restants : le match
+qu'il perd par forfait (walkover résolu contre lui) est une sortie comme une autre, et la règle (1)
+retient la dernière. Il est donc **ex æquo avec les perdants du match qui l'attendait**. Un joueur
+de `lives_bracket` qui gagne un match puis part est classé avec les perdants du tour de
+consolante où il redescend, et non dernier ; une demi-finaliste qui part pendant sa demi-finale,
+dans un tableau à consolante, est classée avec la perdante du tour de consolante qu'elle aurait
+joué — et non devant la gagnante de la consolante, qui a joué deux matchs de plus. Tant que
+l'adversaire de ce match n'est pas connu, le match qui l'attend tient lieu de sortie : le retiré
+n'est jamais « en cours ». Retiré sans avoir joué, il est classé avec les perdants de son premier
+match (#25).
 
 Le score 5000 attribué aux joueurs « en cours » les place **devant tout le monde** : c'est voulu,
 puisque le classement intermédiaire doit montrer les joueurs encore en course en tête.
@@ -2720,14 +2728,17 @@ qual := ensemble des rrQualified
 pour chaque joueur d'une poule :
     score := victoires dans sa poule
     note  := "<Poule X>, <n> victoires"
-    si qualifié → score += 100 ; note += ", qualifié"
+    si retiré   → note := retiré (withdrawn), avec la poule et ses victoires ; jamais qualifié
+    sinon, si qualifié → score += 100 ; note += ", qualifié"
 
 ids := sortedIDs(Entrants) trié stablement par score décroissant
 rangs avec ex æquo (même score → même rang)
 ```
 
 Le bonus de 100 place tous les qualifiés devant tous les non-qualifiés, quelles que soient les
-poules — ce qui est correct puisque les poules ne sont pas comparables entre elles.
+poules — ce qui est correct puisque les poules ne sont pas comparables entre elles. Un retiré
+n'en bénéficie pas : il est classé sur ses victoires, ex æquo avec les non-qualifiés qui en ont
+autant (#25).
 
 ---
 
@@ -2849,8 +2860,9 @@ qui existe dans un tournoi sans tableau.
 `SectionRanking(sec)` est le classement PROPRE d'une section : ses joueurs, par tour atteint dans
 cette section, le vainqueur en tête. Il diffère du classement général, qui mélange les sections
 par priorité (un vainqueur de consolante passe derrière un demi-finaliste du principal). Une
-section de poule ou de barrage se classe par nombre de victoires, faute de tour atteint. La
-section est cherchée de la dernière phase vers la première.
+section de poule ou de barrage se classe par nombre de victoires, faute de tour atteint. Un
+retiré dont le prochain match attend encore son adversaire est classé au tour de ce match (note
+`withdrawn`), et non « en cours ». La section est cherchée de la dernière phase vers la première.
 
 `Validate` refuse une dotation incohérente : pourcentages ET montants dans le même barème,
 pourcentages totalisant plus de 100 % du pool, retenue hors [0, 100] %, montant négatif. Une

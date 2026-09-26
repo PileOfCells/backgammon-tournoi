@@ -146,6 +146,9 @@ func (n Note) String() string {
 	case NoteForfeit:
 		return "forfait"
 	case NoteWithdrawn:
+		if n.Section != "" && n.Sub == nil { // poule : le parcours est un nombre de victoires
+			return fmt.Sprintf("retiré (%s, %d victoires)", sectionName(n.Section), n.Wins)
+		}
 		if n.Section != "" {
 			return fmt.Sprintf("retiré (%s, %s)", sectionName(n.Section), sub)
 		}

@@ -121,7 +121,7 @@ const (
 	NoteAlive         NoteKind = "alive"          // Lives
 	NoteRecord        NoteKind = "record"         // Wins, Losses
 	NoteForfeit       NoteKind = "forfeit"        // match perdu par forfait (classement d'une section) ; journaux antérieurs : retiré
-	NoteWithdrawn     NoteKind = "withdrawn"      // retiré, classé sur son parcours : Wins, Losses, Lives ; tableau : Section + Sub
+	NoteWithdrawn     NoteKind = "withdrawn"      // retiré, classé sur son parcours : Wins, Losses, Lives ; tableau : Section + Sub ; poule : Section + Wins
 	NoteRunning       NoteKind = "running"        // encore en course, tableau non terminé
 	NoteAwaitingDraw  NoteKind = "awaiting_draw"  // tableau pas encore tiré
 	NoteUnranked      NoteKind = "unranked"       // aucune sortie enregistrée

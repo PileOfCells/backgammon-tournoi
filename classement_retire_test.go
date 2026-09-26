@@ -63,8 +63,11 @@ func TestRetireExAequoAvecLesElimines(t *testing.T) {
 	}
 }
 
-// TestRetireEnDemiFinale (N20, S2) : une demi-finaliste part pendant sa demi-finale. Elle est
-// classée à la place d'une demi-finaliste éliminée, avec la note « retiré », et non dernière.
+// TestRetireEnDemiFinale (N20, S2) : une demi-finaliste part pendant sa demi-finale. Elle n'est
+// pas dernière : elle est classée comme si elle perdait chacun de ses matchs restants — ici le
+// match de consolante qui l'attendait —, ex æquo avec la perdante de ce match-là (#25). Avant
+// #25, le forfait de consolante était ignoré et elle passait devant la gagnante de la
+// consolante, qui a joué deux matchs de plus.
 func TestRetireEnDemiFinale(t *testing.T) {
 	now := time.Date(2026, 9, 26, 22, 0, 0, 0, time.UTC)
 	st := tournoiDeTest(t, tournoi.Config{Name: "T",
@@ -109,11 +112,21 @@ func TestRetireEnDemiFinale(t *testing.T) {
 	if r.Note.Kind != tournoi.NoteWithdrawn {
 		t.Errorf("note de la partante : %+v, attendu %q", r.Note, tournoi.NoteWithdrawn)
 	}
-	if r.Note.Section != "main" {
-		t.Errorf("la note doit dire où elle est sortie (main) : %+v", r.Note)
+	if r.Note.Section == "" || r.Note.Sub == nil {
+		t.Errorf("la note doit dire où elle est sortie : %+v", r.Note)
 	}
-	if r.Rank > 4 {
-		t.Errorf("une demi-finaliste retirée est classée %d/16 : son parcours doit compter", r.Rank)
+	exæquo := false
+	for _, x := range st.Ranking() {
+		if x.Player != partie && x.Rank == r.Rank && x.Note.Kind == tournoi.NoteSectionExit &&
+			x.Note.Section == r.Note.Section && x.Note.Sub != nil && *x.Note.Sub == *r.Note.Sub {
+			exæquo = true
+		}
+		if x.Note.Kind == tournoi.NoteSectionWinner && x.Rank > r.Rank {
+			t.Errorf("la retirée (rang %d) passe devant %s (%+v, rang %d)", r.Rank, x.Player, x.Note, x.Rank)
+		}
+	}
+	if !exæquo || r.Rank >= 16 {
+		t.Errorf("une demi-finaliste retirée est classée %d/16, sans ex æquo à son niveau : %+v", r.Rank, r.Note)
 	}
 	if len(st.Warnings) != 0 {
 		t.Errorf("avertissements : %v", st.Warnings)

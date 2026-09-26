@@ -228,21 +228,36 @@ func (s *State) bracketRanking(ph *PhaseState) []Rank {
 		}
 		return out
 	}
-	// pour chaque joueur, on retient la « sortie » de plus faible priorité (dernière section jouée)
+	// pour chaque joueur, on retient la « sortie » de plus faible priorité (dernière section jouée).
+	// Un match perdu par forfait par un joueur retiré (Walkover résolu contre lui) est une sortie
+	// comme une autre : c'est là que son parcours s'arrête, au niveau des perdants de ce tour. Tant
+	// que son adversaire n'est pas connu, le match qui l'attend tient lieu de sortie (#25).
+	sortie := func(p PlayerID, sec *Section, depth int, g GMatch) {
+		cur := scores[p]
+		sc2 := prio[sec.Kind]*1000 + depth
+		if cur.score < 0 || prio[sec.Kind] < cur.score/1000 || (prio[sec.Kind] == cur.score/1000 && sc2 > cur.score) {
+			scores[p] = sc{p, sc2, Note{Kind: NoteSectionExit, Section: sec.Name, Sub: labelPtr(g.Label)}}
+		}
+	}
 	for _, sec := range ph.Sections {
 		for r, idx := range sec.Rounds {
 			for _, i := range idx {
 				g := sec.Matches[i]
-				if !g.Done || g.Walkover || g.Skipped {
+				if g.Skipped {
 					continue
 				}
-				depth := r
-				// perdant : sortie dans cette section à la profondeur r
-				cur := scores[g.Loser]
-				sc2 := prio[sec.Kind]*1000 + depth
-				if cur.score < 0 || prio[sec.Kind] < cur.score/1000 || (prio[sec.Kind] == cur.score/1000 && sc2 > cur.score) {
-					scores[g.Loser] = sc{g.Loser, sc2, Note{Kind: NoteSectionExit, Section: sec.Name, Sub: labelPtr(g.Label)}}
+				if !g.Done {
+					for _, p := range g.Players {
+						if p != "" && p != BYE && s.Withdrawn[p] {
+							sortie(p, sec, r, g)
+						}
+					}
+					continue
 				}
+				if g.Walkover && !s.Withdrawn[g.Loser] {
+					continue
+				}
+				sortie(g.Loser, sec, r, g)
 			}
 		}
 	}
@@ -278,8 +293,8 @@ func (s *State) bracketRanking(ph *PhaseState) []Rank {
 	for _, p := range ph.Entrants {
 		v := scores[p]
 		if s.Withdrawn[p] {
-			// Retiré : classé sur son parcours (la sortie qu'il a atteinte), avec la note qui le
-			// dit ; sans aucun match joué, il reste en queue.
+			// Retiré : classé sur son parcours (la sortie qu'il a atteinte, forfait compris), avec
+			// la note qui le dit, ex æquo avec les perdants du même tour.
 			v.note = Note{Kind: NoteWithdrawn, Section: v.note.Section, Sub: v.note.Sub}
 		}
 		if v.score < 0 {
@@ -370,7 +385,18 @@ func (s *State) sectionRanking(ph *PhaseState, sec *Section) []Rank {
 		for r, idx := range sec.Rounds {
 			for _, i := range idx {
 				g := sec.Matches[i]
-				if !g.Done || g.Skipped || g.Loser == BYE || g.Loser == "" {
+				if !g.Done && !g.Skipped {
+					// Un retiré qui attend encore son adversaire perdra ce match par forfait : il
+					// n'est plus « en course », et ne passe pas devant les éliminés (#25).
+					for _, p := range g.Players {
+						if p != "" && p != BYE && s.Withdrawn[p] {
+							profondeur[p] = r
+							notes[p] = Note{Kind: NoteWithdrawn, Section: sec.Name, Sub: labelPtr(g.Label)}
+						}
+					}
+					continue
+				}
+				if g.Skipped || g.Loser == BYE || g.Loser == "" {
 					continue
 				}
 				profondeur[g.Loser] = r
