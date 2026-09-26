@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nicomaque \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-07 09:13+0200\n"
+"POT-Creation-Date: 2026-09-26 17:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: it\n"
@@ -123,10 +123,19 @@ msgid ""
 msgstr ""
 
 #: ../../etude_formats.md:39
+msgid ""
+"Un joueur qui se retire est classé sur son parcours — comme éliminé à "
+"l'instant du retrait, par ses victoires (suisse, GSL) ou par la sortie "
+"atteinte (tableaux), ex æquo avec les éliminés au même niveau — et non en"
+" queue de classement : même principe que l'absence de départage, un "
+"retrait n'efface pas ce qui a été joué."
+msgstr ""
+
+#: ../../etude_formats.md:44
 msgid "Format recommandé"
 msgstr ""
 
-#: ../../etude_formats.md:41
+#: ../../etude_formats.md:46
 msgid ""
 "Suisse 2 vies en continu (appariement aléatoire dans le groupe de même "
 "nombre de défaites, pas de rematch, bye au groupe le plus bas), arrêt "
