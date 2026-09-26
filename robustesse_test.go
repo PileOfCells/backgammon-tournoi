@@ -207,7 +207,7 @@ func FuzzApply(f *testing.F) {
 			now = now.Add(time.Minute)
 			a, b, c := plan[i], plan[i+1], plan[i+2]
 			var ev tournoi.Event
-			switch a % 10 {
+			switch a % 14 {
 			case 0: // confirmer une proposition du moteur
 				acts := st.ProposeAt(now)
 				if len(acts) == 0 {
@@ -243,6 +243,18 @@ func FuzzApply(f *testing.F) {
 				cfg.Phases[0].Target = 1 << (int(b) % 4)
 				cfg.Phases[1].Length = 1 + int(c)%20
 				ev = tournoi.ConfigChangedEvent(cfg, now)
+			case 10:
+				ev = tournoi.TableChangedEvent(match(b), int(c)%6, now)
+			case 11:
+				ev = tournoi.PlayerUpdatedEvent(tournoi.Player{ID: joueur(b), Name: "U", Club: fmt.Sprint(c % 3)}, now)
+			case 12:
+				var retour time.Time
+				if c%3 != 0 {
+					retour = now.Add(time.Duration(c) * time.Minute)
+				}
+				ev = tournoi.PlayerUnavailableEvent(joueur(b), retour, now)
+			case 13:
+				ev = tournoi.PlayerAvailableEvent(joueur(b), now)
 			}
 			_ = st.Apply(ev) // une erreur est une réponse acceptable
 			cohérent(t, st)

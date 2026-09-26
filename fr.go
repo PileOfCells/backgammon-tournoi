@@ -183,6 +183,8 @@ func (r ReasonCode) String() string {
 		return "appariement au prochain lot"
 	case ReasonWaitingTable:
 		return "aucune table libre"
+	case ReasonPlayerUnavailable:
+		return "joueur indisponible"
 	}
 	return string(r)
 }

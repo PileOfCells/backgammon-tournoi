@@ -31,11 +31,12 @@ func (s *State) swissDone(ph *PhaseState) bool {
 	return len(s.alive(ph)) <= 1
 }
 
-// free : joueurs en vie sans match en cours.
-func (s *State) free(ph *PhaseState) []PlayerID {
+// free : joueurs en vie sans match en cours, et disponibles pour la ronde r (0 = hors rondes ;
+// voir absence.go).
+func (s *State) free(ph *PhaseState, r int) []PlayerID {
 	var out []PlayerID
 	for _, p := range s.alive(ph) {
-		if !s.busy(p) {
+		if !s.busy(p) && !s.absent(p, r) {
 			out = append(out, p)
 		}
 	}
@@ -122,7 +123,7 @@ func (s *State) proposeSwiss(ph *PhaseState) []Action {
 	}
 	rng := s.rng()
 	L := ph.Cfg.Lives
-	free := s.free(ph)
+	free := s.free(ph, 0)
 	var acts []Action
 	budget := 1 << 30
 	if ph.Cfg.Target > 0 {
@@ -214,7 +215,7 @@ func (s *State) proposeSwissRound(ph *PhaseState) []Action {
 		return nil
 	}
 	r := ph.Round + 1
-	free := s.free(ph)
+	free := s.free(ph, r)
 	acts, normal := s.pairRound(ph, r, free, s.roundRng(ph, r))
 	if !normal && len(free) >= 2 { // secours comme en continu
 		return s.proposeSwissContinuousFallback(ph, free, s.rng())
@@ -277,7 +278,7 @@ func (s *State) openRound(ph *PhaseState, r int) {
 	if ph.Cfg.Kind != KindSwissLives || ph.Cfg.Mode != "rounds" || r <= ph.Round {
 		return
 	}
-	ph.Roster = s.free(ph)
+	ph.Roster = s.free(ph, r)
 }
 
 // engagedIn : les joueurs déjà engagés dans la ronde r de la phase — un match non annulé de
@@ -347,7 +348,7 @@ func (s *State) roundRest(ph *PhaseState, r int) []Action {
 		return nil
 	}
 	libre := func(p PlayerID) bool {
-		return !engagé[p] && s.remainingLives(ph, p) > 0 && !s.busy(p)
+		return !engagé[p] && s.remainingLives(ph, p) > 0 && !s.busy(p) && !s.absent(p, r)
 	}
 	var acts []Action
 	pris := map[PlayerID]bool{}

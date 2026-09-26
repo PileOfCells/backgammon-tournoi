@@ -380,6 +380,14 @@ l'instant où il est parti : au suisse, par ses victoires, à égalité avec les
 autant ; dans un tableau, au tour qu'il avait atteint. Le classement le note « retiré », avec son
 bilan. Le mot « forfait » ne désigne plus que le match qu'il a abandonné en partant.
 
+## « Un joueur doit s'absenter : faut-il le retirer ? »
+
+Non. On le déclare **indisponible** — jusqu'à une heure, jusqu'à une ronde, ou jusqu'à nouvel
+ordre. Il n'est plus apparié pendant ce temps et ne perd rien : ni vie, ni rang, ni place dans le
+tableau. La file le dit (« joueur indisponible, retour à 14 h ») ; dans un tableau, son match reste
+affiché mais retenu. C'est aussi ce qu'on fait pour un joueur qui dispute en ce moment un match
+d'une autre épreuve de la salle.
+
 ## « Pourquoi mes deux joueurs ex æquo ne sont-ils pas départagés ? »
 
 Parce qu'ils ont fait la même chose. Les départager exigerait d'utiliser soit la force de leurs

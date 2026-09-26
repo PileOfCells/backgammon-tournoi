@@ -21,19 +21,23 @@ const (
 	EvPlayerAdded     EventKind = "player_added"     // Player
 	EvPlayerWithdrawn EventKind = "player_withdrawn" // Player.ID ; AfterCurrent = finit son match
 	EvPlayerUpdated   EventKind = "player_updated"   // Player : la fiche ENTIÈRE corrigée, l'état du joueur intact
-	EvMatchStarted    EventKind = "match_started"    // MatchID, Phase, Section, Label, Key, A, B, Length, Table
-	EvResult          EventKind = "result"           // MatchID, Winner, ScoreA, ScoreB, Forfeit
-	EvResultCorrected EventKind = "result_corrected" // idem, remplace le résultat précédent
-	EvMatchCancelled  EventKind = "match_cancelled"  // MatchID (match lancé par erreur)
-	EvBye             EventKind = "bye"              // Phase, Player, Label
-	EvDraw            EventKind = "draw"             // Phase, Section, Draw
-	EvNextPhase       EventKind = "next_phase"       // passage à la phase suivante
-	EvLengthChanged   EventKind = "length_changed"   // Phase, Length (matchs futurs de la phase)
-	EvConfigChanged   EventKind = "config_changed"   // Config (la configuration ENTIÈRE, voir reconfig.go)
-	EvReopened        EventKind = "reopened"         // le tournoi clos est rouvert ; Final sera recalculé
-	EvTableChanged    EventKind = "table_changed"    // MatchID, Table (match en cours déplacé)
-	EvFinished        EventKind = "finished"
-	EvNote            EventKind = "note" // Text (annotation libre du TD)
+	// EvPlayerUnavailable : ID ; Until (heure de retour) ou Round (ronde de retour), ou aucun des
+	// deux (jusqu'à player_available). Le joueur n'est plus apparié, sans rien perdre.
+	EvPlayerUnavailable EventKind = "player_unavailable"
+	EvPlayerAvailable   EventKind = "player_available" // ID : l'indisponibilité est levée
+	EvMatchStarted      EventKind = "match_started"    // MatchID, Phase, Section, Label, Key, A, B, Length, Table
+	EvResult            EventKind = "result"           // MatchID, Winner, ScoreA, ScoreB, Forfeit
+	EvResultCorrected   EventKind = "result_corrected" // idem, remplace le résultat précédent
+	EvMatchCancelled    EventKind = "match_cancelled"  // MatchID (match lancé par erreur)
+	EvBye               EventKind = "bye"              // Phase, Player, Label
+	EvDraw              EventKind = "draw"             // Phase, Section, Draw
+	EvNextPhase         EventKind = "next_phase"       // passage à la phase suivante
+	EvLengthChanged     EventKind = "length_changed"   // Phase, Length (matchs futurs de la phase)
+	EvConfigChanged     EventKind = "config_changed"   // Config (la configuration ENTIÈRE, voir reconfig.go)
+	EvReopened          EventKind = "reopened"         // le tournoi clos est rouvert ; Final sera recalculé
+	EvTableChanged      EventKind = "table_changed"    // MatchID, Table (match en cours déplacé)
+	EvFinished          EventKind = "finished"
+	EvNote              EventKind = "note" // Text (annotation libre du TD)
 )
 
 // Event est une entrée du journal. Les champs inutiles pour un type restent vides.
@@ -66,6 +70,8 @@ type Event struct {
 	// Slot : sur player_added, la clé de la place d'exemption qu'un retardataire vient prendre
 	// dans un tableau déjà tiré (voir retardataire.go). Vide pour une inscription ordinaire.
 	Slot string `json:"slot,omitempty"`
+	// Until : sur player_unavailable, l'heure à laquelle le joueur redevient disponible.
+	Until *time.Time `json:"until,omitempty"`
 }
 
 // Journal est la liste ordonnée des événements d'un tournoi.
@@ -163,6 +169,29 @@ func PlayerAddedAtSlotEvent(p Player, slot Slot, now time.Time) Event {
 // toujours celui du retour d'un joueur retiré.
 func PlayerUpdatedEvent(p Player, now time.Time) Event {
 	return Event{Version: JournalVersion, Kind: EvPlayerUpdated, Time: now, Player: &p}
+}
+
+// PlayerUnavailableEvent : le joueur est indisponible jusqu'à until — il joue dans une autre
+// épreuve, il est parti dîner, il n'arrive que demain. Il n'est plus apparié, et ne perd rien :
+// ni vie, ni rang, ni place. until nul = jusqu'à PlayerAvailableEvent.
+func PlayerUnavailableEvent(id PlayerID, until time.Time, now time.Time) Event {
+	ev := Event{Version: JournalVersion, Kind: EvPlayerUnavailable, Time: now, ID: id}
+	if !until.IsZero() {
+		u := until
+		ev.Until = &u
+	}
+	return ev
+}
+
+// PlayerUnavailableUntilRoundEvent : suisse par rondes, le joueur est absent jusqu'à la ronde
+// round, où il est de nouveau apparié. L'indisponibilité tombe aussi au passage de phase.
+func PlayerUnavailableUntilRoundEvent(id PlayerID, round int, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvPlayerUnavailable, Time: now, ID: id, Round: round}
+}
+
+// PlayerAvailableEvent : l'indisponibilité du joueur est levée, quelle qu'elle soit.
+func PlayerAvailableEvent(id PlayerID, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvPlayerAvailable, Time: now, ID: id}
 }
 
 // PlayerWithdrawnEvent : retrait immédiat d'un joueur. Ses matchs en cours sont perdus par
