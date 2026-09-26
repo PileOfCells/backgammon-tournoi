@@ -1,7 +1,7 @@
 ---
 title: "Comprendre le moteur de tournoi"
 subtitle: "Ce qu'il fait, pourquoi il le fait ainsi, et ce qu'il ne fait pas encore"
-date: "7 septembre 2026"
+date: "26 septembre 2026"
 lang: fr
 toc: true
 toc-depth: 2

@@ -28,17 +28,17 @@ page absente.
 | `formats.md` | 36 | les neuf langues |
 | `integration.md` | 18 | les neuf langues |
 | `sphinx` (le sélecteur de langue) | 1 | les neuf langues |
-| `comprendre_le_moteur.md` | 243 | **français seulement** |
+| `comprendre_le_moteur.md` | 246 | **français seulement** |
 | `etude_formats.md` | 18 | **français seulement** |
-| `specification.md` | 819 | **français seulement** |
+| `specification.md` | 867 | **français seulement** |
 
 Autrement dit : **les pages d'accueil et d'introduction sont traduites dans les neuf langues**,
 et les trois documents longs restent en français dans toutes. Ce n'est pas un oubli, c'est un
 ordre de priorité : ce sont les pages d'introduction qu'un joueur ou un organisateur ouvre, et
 les trois documents longs s'adressent à qui intègre le moteur ou à qui veut le détail des choix.
 
-Reste donc à traduire, dans huit langues : 243 + 18 + 819 = **1 080 msgid**, soit environ
-8 600 chaînes. C'est un travail de traduction, pas un travail de programmation, et il peut se
+Reste donc à traduire, dans huit langues : 246 + 18 + 867 = **1 131 msgid**, soit environ
+9 050 chaînes. C'est un travail de traduction, pas un travail de programmation, et il peut se
 faire document par document sans rien casser — chaque `msgstr` rempli apparaît en ligne à la
 poussée suivante.
 

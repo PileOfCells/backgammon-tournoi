@@ -1,7 +1,7 @@
 [
  {
   "seq": 0,
-  "version": 1,
+  "version": 2,
   "kind": "created",
   "time": "2026-01-01T09:00:00Z",
   "config": {
@@ -48,7 +48,7 @@
  },
  {
   "seq": 1,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -61,7 +61,7 @@
  },
  {
   "seq": 2,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -74,7 +74,7 @@
  },
  {
   "seq": 3,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -87,7 +87,7 @@
  },
  {
   "seq": 4,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -100,7 +100,7 @@
  },
  {
   "seq": 5,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -113,7 +113,7 @@
  },
  {
   "seq": 6,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -126,7 +126,7 @@
  },
  {
   "seq": 7,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -139,7 +139,7 @@
  },
  {
   "seq": 8,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -152,7 +152,7 @@
  },
  {
   "seq": 9,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -165,7 +165,7 @@
  },
  {
   "seq": 10,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -178,7 +178,7 @@
  },
  {
   "seq": 11,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -191,7 +191,7 @@
  },
  {
   "seq": 12,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -204,7 +204,7 @@
  },
  {
   "seq": 13,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -217,7 +217,7 @@
  },
  {
   "seq": 14,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -230,7 +230,7 @@
  },
  {
   "seq": 15,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -243,7 +243,7 @@
  },
  {
   "seq": 16,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -256,7 +256,7 @@
  },
  {
   "seq": 17,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -269,7 +269,7 @@
  },
  {
   "seq": 18,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -282,7 +282,7 @@
  },
  {
   "seq": 19,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -295,7 +295,7 @@
  },
  {
   "seq": 20,
-  "version": 1,
+  "version": 2,
   "kind": "player_added",
   "time": "2026-01-01T09:00:00Z",
   "player": {
@@ -308,7 +308,7 @@
  },
  {
   "seq": 21,
-  "version": 1,
+  "version": 2,
   "kind": "draw",
   "time": "2026-01-01T09:00:00Z",
   "label": {
@@ -380,7 +380,7 @@
  },
  {
   "seq": 22,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M1",
@@ -397,7 +397,7 @@
  },
  {
   "seq": 23,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M2",
@@ -414,7 +414,7 @@
  },
  {
   "seq": 24,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M3",
@@ -431,7 +431,7 @@
  },
  {
   "seq": 25,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M4",
@@ -448,7 +448,7 @@
  },
  {
   "seq": 26,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M5",
@@ -465,7 +465,7 @@
  },
  {
   "seq": 27,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M6",
@@ -482,7 +482,7 @@
  },
  {
   "seq": 28,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M7",
@@ -499,7 +499,7 @@
  },
  {
   "seq": 29,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M8",
@@ -516,7 +516,7 @@
  },
  {
   "seq": 30,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M9",
@@ -533,7 +533,7 @@
  },
  {
   "seq": 31,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T09:00:00Z",
   "match_id": "M10",
@@ -550,7 +550,7 @@
  },
  {
   "seq": 32,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T09:32:17.626670034Z",
   "match_id": "M1",
@@ -561,7 +561,7 @@
  },
  {
   "seq": 33,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T09:45:04.144883822Z",
   "match_id": "M3",
@@ -572,7 +572,7 @@
  },
  {
   "seq": 34,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T09:47:25.108293475Z",
   "match_id": "M2",
@@ -583,7 +583,7 @@
  },
  {
   "seq": 35,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T09:47:25.108293475Z",
   "match_id": "M11",
@@ -600,7 +600,7 @@
  },
  {
   "seq": 36,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T09:48:31.516377515Z",
   "match_id": "M6",
@@ -610,7 +610,7 @@
  },
  {
   "seq": 37,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T10:02:58.137347563Z",
   "match_id": "M5",
@@ -621,7 +621,7 @@
  },
  {
   "seq": 38,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T10:02:58.137347563Z",
   "match_id": "M12",
@@ -637,7 +637,7 @@
  },
  {
   "seq": 39,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T10:10:31.844286402Z",
   "match_id": "M8",
@@ -648,7 +648,7 @@
  },
  {
   "seq": 40,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T10:25:07.9284194Z",
   "match_id": "M4",
@@ -659,7 +659,7 @@
  },
  {
   "seq": 41,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T10:25:07.9284194Z",
   "match_id": "M13",
@@ -676,7 +676,7 @@
  },
  {
   "seq": 42,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T10:31:22.487356257Z",
   "match_id": "M10",
@@ -687,7 +687,7 @@
  },
  {
   "seq": 43,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T10:34:25.708247654Z",
   "match_id": "M11",
@@ -698,7 +698,7 @@
  },
  {
   "seq": 44,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T10:57:07.100296245Z",
   "match_id": "M7",
@@ -709,7 +709,7 @@
  },
  {
   "seq": 45,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T10:57:07.100296245Z",
   "match_id": "M14",
@@ -725,7 +725,7 @@
  },
  {
   "seq": 46,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T11:01:16.834302784Z",
   "match_id": "M9",
@@ -736,7 +736,7 @@
  },
  {
   "seq": 47,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T11:01:16.834302784Z",
   "match_id": "M15",
@@ -752,7 +752,7 @@
  },
  {
   "seq": 48,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T12:03:19.33922795Z",
   "match_id": "M13",
@@ -763,7 +763,7 @@
  },
  {
   "seq": 49,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T12:03:19.33922795Z",
   "match_id": "M16",
@@ -779,7 +779,7 @@
  },
  {
   "seq": 50,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T12:04:56.255643921Z",
   "match_id": "M15",
@@ -790,7 +790,7 @@
  },
  {
   "seq": 51,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T12:15:28.884612675Z",
   "match_id": "M14",
@@ -801,7 +801,7 @@
  },
  {
   "seq": 52,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T12:17:03.16935049Z",
   "match_id": "M12",
@@ -811,7 +811,7 @@
  },
  {
   "seq": 53,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T12:17:03.16935049Z",
   "match_id": "M17",
@@ -827,7 +827,7 @@
  },
  {
   "seq": 54,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T12:42:30.055269709Z",
   "match_id": "M17",
@@ -837,7 +837,7 @@
  },
  {
   "seq": 55,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T13:40:54.436992822Z",
   "match_id": "M16",
@@ -848,7 +848,7 @@
  },
  {
   "seq": 56,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T13:40:54.436992822Z",
   "match_id": "M18",
@@ -864,7 +864,7 @@
  },
  {
   "seq": 57,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T15:23:11.54962231Z",
   "match_id": "M18",
@@ -875,7 +875,7 @@
  },
  {
   "seq": 58,
-  "version": 1,
+  "version": 2,
   "kind": "match_started",
   "time": "2026-01-01T15:23:11.54962231Z",
   "match_id": "M19",
@@ -891,7 +891,7 @@
  },
  {
   "seq": 59,
-  "version": 1,
+  "version": 2,
   "kind": "result",
   "time": "2026-01-01T16:24:37.152676735Z",
   "match_id": "M19",
@@ -902,7 +902,7 @@
  },
  {
   "seq": 60,
-  "version": 1,
+  "version": 2,
   "kind": "finished",
   "time": "2026-01-01T16:24:37.152676735Z",
   "label": {}

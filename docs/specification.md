@@ -1,7 +1,7 @@
 ---
 title: "Moteur de tournoi de backgammon — spécification"
 subtitle: "Document de reconstruction complète (bibliothèque `tournoi`)"
-date: "7 septembre 2026"
+date: "26 septembre 2026"
 lang: fr
 toc: true
 toc-depth: 3

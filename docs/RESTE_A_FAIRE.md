@@ -1,6 +1,6 @@
 # Reste à faire
 
-État au 6 septembre 2026. Le moteur Go est fonctionnel et testé par simulation ;
+État au 26 septembre 2026. Le moteur Go est fonctionnel et testé par simulation ;
 il n'a jamais dirigé un vrai tournoi. Les points sont classés par priorité ; chaque entrée dit
 où intervenir et comment vérifier.
 
@@ -26,6 +26,12 @@ où intervenir et comment vérifier.
 - [x] **Tables.** `Config.Tables` porte les indisponibles et les réservations (`tables.go`) ;
   `assignTables` les saute et marque `ReasonWaitingTable` quand aucune table n'est libre ;
   `table_changed` déplace un match en cours.
+- [x] **Salle partagée** (issues #15, #22, simulation blunderDB 2026-09). Un `table_changed` vers
+  une table occupée reste accepté et lève `table_shared` (`Warning.Table`, `Warning.Other`), qui
+  tombe dès que l'un des deux matchs se termine. `ProposeWith(now, External{BusyTables})` dit au
+  moteur les tables où joue une autre épreuve de la salle : il ne les propose pas, et ce qui n'a
+  plus de table attend (`waiting_table`). Ce n'est pas un événement : l'occupation extérieure
+  n'appartient pas à l'histoire du tournoi.
 
 ## 2. Fonctions attendues d'un logiciel de tournoi
 
@@ -50,6 +56,17 @@ où intervenir et comment vérifier.
   match rencontrerait une pause porte `Action.Warn = WarnEndsInBreak` et RESTE proposée — rien
   n'est bloqué, le directeur décide. Reste à caler un bloc GSL par créneau, qui est un autre
   sujet (l'ordonnancement, pas l'avertissement).
+- [x] **Indisponibilité sans retrait** (issue #21). `player_unavailable` (jusqu'à une heure, une
+  ronde, ou nouvel ordre) et `player_available` : l'absent n'est plus apparié et ne perd rien.
+  Au suisse, la file porte une attente `player_unavailable` par absent ; dans un graphe, son
+  match reste proposé mais retenu, sans table (`absence.go`).
+- [x] **Correction de fiche** (issue #23). `player_updated` corrige nom, club et cote sans
+  toucher à l'état — un retiré reste retiré. `player_added` sur un identifiant connu garde son
+  sens (réinscription) pour les journaux existants.
+- [x] **Classement des retirés** (issue #20). Un retiré est classé sur son parcours — au suisse
+  par ses victoires, ex æquo avec les éliminés au même nombre ; dans un tableau à la sortie
+  atteinte — avec la note `withdrawn`. `forfeit` ne désigne plus que le match perdu par forfait.
+  Défaut corrigé en chemin : `recompute` marquait « walkover » un match joué avant un retrait.
 - [ ] **Byes et exemptions équitables sur plusieurs rondes** : en mode `rounds`, le bye va au
   joueur du groupe le plus bas n'en ayant pas eu ; vérifier la règle « pas de second bye tant que
   d'autres n'en ont pas eu » entre groupes différents (aujourd'hui par groupe). `pairGroup`.
@@ -112,6 +129,16 @@ où intervenir et comment vérifier.
   Rien n'est appliqué d'office ; les relances correctes arrivent à l'appel suivant, une fois les
   places libérées. Défaut découvert au passage : `recompute` ne remettait pas `GMatch.MatchID` à
   vide, si bien qu'un match de tableau annulé bloquait sa place pour toujours.
+- [x] **Mode rondes : la ronde reste ouverte** (issues #17, #18). Une ronde plus grande que la
+  salle se lance en plusieurs vagues, et un bye confirmé seul ne clôt plus la ronde : tant qu'un
+  joueur appelé (`PhaseState.Roster`) n'y est pas engagé, ses appariements restent proposés —
+  les mêmes, recalculés sur l'état d'avant la ronde avec un générateur propre à la ronde.
+- [x] **Correction au suisse** (issue #19). `correction_eliminates_running` (avec l'annulation du
+  match proposée) et `correction_revives` disent ce qu'une correction a changé aux vies.
+- [x] **Options de tableau figées au tirage** (issue #16). Consolante, dernière chance,
+  réconciliation, recharge et têtes de série d'un tableau tiré ne changent plus : refus typé
+  `*ConfigRefusal`, prévisualisation `CheckConfig`. Journal en version 2 ; un événement de
+  version 1 qui le faisait se rejoue comme il a été joué.
 - [ ] **Rematchs dans les consolantes** : l'ordre inversé des drops évite les rencontres
   immédiates, pas les suivantes. Mesurer la fréquence par simulation et, si besoin, permuter
   les drops (le tirage est enregistré, donc l'algorithme peut évoluer sans casser les journaux).
@@ -144,13 +171,13 @@ où intervenir et comment vérifier.
   chaque poussée sur `main` (`.github/workflows/pages.yml`). Français source, huit catalogues
   gettext ; une chaîne non traduite retombe sur le français. Les quatre pages d'introduction
   (accueil, déroulement, formats, intégration) sont traduites dans les neuf langues ; les trois
-  documents longs restent en français partout — 1 080 msgid restant à traduire, détaillés dans
+  documents longs restent en français partout — 1 131 msgid restant à traduire, détaillés dans
   `site/README.md`.
 - [ ] **Activer GitHub Pages** dans les réglages du dépôt (Settings → Pages → Source : GitHub
   Actions). Cela demande les droits d'administration du dépôt ; le workflow, lui, est en place et
   se déclenche déjà.
-- [ ] Traduire `comprendre_le_moteur.md` (243 msgid), `etude_formats.md` (18) et
-  `specification.md` (819) dans les huit langues. Travail de traduction, document par document,
+- [ ] Traduire `comprendre_le_moteur.md` (246 msgid), `etude_formats.md` (18) et
+  `specification.md` (867) dans les huit langues. Travail de traduction, document par document,
   qui ne casse rien : chaque `msgstr` rempli apparaît en ligne à la poussée suivante.
 
 ## 6. Étude (simulateur de l'étude, hors dépôt)
