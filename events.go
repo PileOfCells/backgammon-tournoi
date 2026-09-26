@@ -17,6 +17,7 @@ const (
 	EvCreated         EventKind = "created"          // Config, Seed
 	EvPlayerAdded     EventKind = "player_added"     // Player
 	EvPlayerWithdrawn EventKind = "player_withdrawn" // Player.ID ; AfterCurrent = finit son match
+	EvPlayerUpdated   EventKind = "player_updated"   // Player : la fiche ENTIÈRE corrigée, l'état du joueur intact
 	EvMatchStarted    EventKind = "match_started"    // MatchID, Phase, Section, Label, Key, A, B, Length, Table
 	EvResult          EventKind = "result"           // MatchID, Winner, ScoreA, ScoreB, Forfeit
 	EvResultCorrected EventKind = "result_corrected" // idem, remplace le résultat précédent
@@ -146,6 +147,19 @@ func PlayerAddedEvent(p Player, now time.Time) Event {
 func PlayerAddedAtSlotEvent(p Player, slot Slot, now time.Time) Event {
 	return Event{Version: JournalVersion, Kind: EvPlayerAdded, Time: now, Player: &p,
 		Phase: slot.Phase, Section: slot.Section, Slot: slot.Key}
+}
+
+// PlayerUpdatedEvent : correction de la fiche d'un joueur déjà inscrit — nom, club, cote. La
+// fiche est ENTIÈRE, comme la configuration de config_changed : ce qui est écrit est le
+// résultat. Rien d'autre ne change : un retiré reste retiré, ses vies, ses matchs et sa place
+// dans les phases sont intacts. Un identifiant inconnu est refusé : inscrire, c'est
+// PlayerAddedEvent.
+//
+// player_added sur un identifiant connu reste lu comme avant (mise à jour de la fiche ET
+// réinscription d'un retiré) : c'était le seul chemin des journaux antérieurs, et c'est
+// toujours celui du retour d'un joueur retiré.
+func PlayerUpdatedEvent(p Player, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvPlayerUpdated, Time: now, Player: &p}
 }
 
 // PlayerWithdrawnEvent : retrait immédiat d'un joueur. Ses matchs en cours sont perdus par

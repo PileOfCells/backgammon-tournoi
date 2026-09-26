@@ -619,6 +619,7 @@ const (
     EvCreated         EventKind = "created"
     EvPlayerAdded     EventKind = "player_added"
     EvPlayerWithdrawn EventKind = "player_withdrawn"
+    EvPlayerUpdated   EventKind = "player_updated"
     EvMatchStarted    EventKind = "match_started"
     EvResult          EventKind = "result"
     EvResultCorrected EventKind = "result_corrected"
@@ -694,6 +695,7 @@ Il n'exige pas la monotonie et ne s'en sert jamais pour décider.
 | `created` | `Config` (obligatoire), `Seed` |
 | `player_added` | `Player` (obligatoire, `ID` non vide) |
 | `player_withdrawn` | `ID` |
+| `player_updated` | `Player` (obligatoire, `ID` d'un joueur inscrit) |
 | `match_started` | `MatchID`, `Phase`, `Section`, `Label`, `Key`, `A`, `B`, `Length`, `Table` |
 | `result` | `MatchID`, `Winner`, `ScoreA`, `ScoreB`, `Forfeit` |
 | `result_corrected` | idem |
@@ -762,6 +764,26 @@ sinon si ph.Index == 0 et non ph.Drawn et (ph.Kind == swiss_lives ou non ph.Star
    dont le tour a commencé, ou qui n'existe pas, est **refusée** : `Apply` renvoie une erreur.
 3. Sinon il est enregistré (`Players`, `Order`) sans entrer dans aucune phase, et `State.Infos`
    porte un code disant où il entrera (`enters_at`) ou que rien ne l'admet (`no_entry`).
+
+### `player_updated`
+
+```
+si ev.Player == nil ou ev.Player.ID == "" → erreur « joueur sans identifiant »
+si l'identifiant est inconnu              → erreur (une inscription est un player_added)
+s.Players[id] = copie de *ev.Player
+```
+
+La **correction d'une fiche** — nom, club, cote — et rien d'autre. La fiche est entière, comme la
+configuration de `config_changed` : ce qui est écrit est le résultat. L'état du joueur n'est pas
+touché : un retiré reste retiré, ses vies, ses victoires, ses matchs et sa place dans les phases
+sont intacts.
+
+Ce n'est **pas une réinscription**, et c'est ce qui la distingue de `player_added` sur un
+identifiant connu, qui met la fiche à jour **et** annule un retrait. Avant cet événement, corriger
+le club d'une joueuse retirée passait par `player_added` et la remettait en jeu ; un hôte devait
+réécrire le retrait juste après, et le journal portait deux événements pour un seul geste.
+`player_added` garde son sens pour les journaux existants — c'est aussi le chemin du retour d'un
+joueur retiré.
 
 ### `player_withdrawn`
 
@@ -980,6 +1002,7 @@ func ResultEvent(id MatchID, winner PlayerID, scoreA, scoreB int, now time.Time)
 // Event littéral sans version, il serait relu comme un journal ancien)
 func PlayerAddedEvent(p Player, now time.Time) Event
 func PlayerAddedAtSlotEvent(p Player, slot Slot, now time.Time) Event
+func PlayerUpdatedEvent(p Player, now time.Time) Event          // correction de fiche
 func PlayerWithdrawnEvent(id PlayerID, now time.Time) Event
 func PlayerWithdrawnAfterCurrentEvent(id PlayerID, now time.Time) Event
 func ForfeitEvent(id MatchID, winner PlayerID, now time.Time) Event
@@ -3109,7 +3132,7 @@ Codes (voir `codes.go`, aucun texte destiné à l'affichage ne sort du moteur) :
 ### Constantes
 
 `BYE` ; `Running`, `Finished`, `Cancelled` ; `ActStartMatch`, `ActBye`, `ActDraw`, `ActNextPhase`,
-`ActFinish`, `ActWait` ; `EvCreated`, `EvPlayerAdded`, `EvPlayerWithdrawn`, `EvMatchStarted`,
+`ActFinish`, `ActWait` ; `EvCreated`, `EvPlayerAdded`, `EvPlayerUpdated`, `EvPlayerWithdrawn`, `EvMatchStarted`,
 `EvResult`, `EvResultCorrected`, `EvMatchCancelled`, `EvBye`, `EvDraw`, `EvNextPhase`,
 `EvLengthChanged`, `EvTableChanged`, `EvFinished`, `EvNote` ; `KindSwissLives`,
 `KindLivesBracket`, `KindGSL`, `KindBracket`, `KindRoundRobin` ; `JournalVersion` ; les codes
