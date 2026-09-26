@@ -160,7 +160,7 @@ func TestRenduFrancaisCouvreLesCodes(t *testing.T) {
 	}
 	for _, r := range []tournoi.ReasonCode{
 		tournoi.ReasonMatchesRunning, tournoi.ReasonNoPairing,
-		tournoi.ReasonWaitingBatch, tournoi.ReasonWaitingTable, tournoi.ReasonPlayerUnavailable,
+		tournoi.ReasonWaitingBatch, tournoi.ReasonWaitingTable, tournoi.ReasonPlayerUnavailable, tournoi.ReasonPlayerBusy,
 	} {
 		if s := r.String(); s == "" || s == string(r) {
 			t.Errorf("raison %s : pas de rendu français (%q)", r, s)

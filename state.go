@@ -41,6 +41,10 @@ type State struct {
 	// fait une copie à son heure) ou de l'événement en cours d'application. Seules les
 	// indisponibilités à échéance en dépendent.
 	clock time.Time
+	// ailleurs : les joueurs qui jouent en ce moment dans une autre épreuve de la salle
+	// (External.BusyPlayers). Posé sur la copie que fait ProposeWith, jamais par Apply : ce
+	// n'est pas l'histoire du tournoi, et un appariement à la main reste accepté.
+	ailleurs map[PlayerID]bool
 }
 
 // PhaseState est l'état d'une phase.

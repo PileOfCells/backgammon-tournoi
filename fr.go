@@ -185,6 +185,8 @@ func (r ReasonCode) String() string {
 		return "aucune table libre"
 	case ReasonPlayerUnavailable:
 		return "joueur indisponible"
+	case ReasonPlayerBusy:
+		return "joueur occupé dans une autre épreuve"
 	}
 	return string(r)
 }

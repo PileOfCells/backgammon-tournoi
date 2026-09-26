@@ -24,18 +24,24 @@ func (s *State) Propose() []Action { return s.ProposeAt(s.Last) }
 func (s *State) ProposeAt(now time.Time) []Action { return s.ProposeWith(now, External{}) }
 
 // External décrit ce que l'hôte sait de la salle et que le journal de CE tournoi ignore : les
-// tables où joue, en ce moment, une autre épreuve dirigée à côté. Ce n'est pas un événement :
-// l'occupation par l'extérieur change à chaque match de l'autre épreuve, elle n'appartient pas
-// à l'histoire de celle-ci, et le rejeu n'en a pas besoin — le match_started confirmé porte,
-// lui, la table effectivement prise.
+// tables où joue, en ce moment, une autre épreuve dirigée à côté, et les joueurs de ce tournoi
+// qui y jouent. Ce n'est pas un événement : l'occupation par l'extérieur change à chaque match
+// de l'autre épreuve, elle n'appartient pas à l'histoire de celle-ci, et le rejeu n'en a pas
+// besoin — le match_started confirmé porte, lui, la table et les joueurs effectivement pris.
 type External struct {
 	// BusyTables : tables occupées hors de ce tournoi. L'attribution les saute ; une proposition
 	// qui ne trouve plus de table attend (ReasonWaitingTable) au lieu de collisionner.
 	BusyTables []int `json:"busy_tables,omitempty"`
+	// BusyPlayers : joueurs de CE tournoi (ses PlayerID ; l'hôte traduit ceux de l'autre
+	// épreuve) qui jouent en ce moment ailleurs. Au suisse et en barrage ils ne sont pas
+	// appariés, et la file porte une attente ReasonPlayerBusy par joueur ; dans un graphe, où la
+	// place est fixée, leur match reste proposé, sans table, avec cette raison. Un identifiant
+	// inconnu est ignoré.
+	BusyPlayers []PlayerID `json:"busy_players,omitempty"`
 }
 
-// ProposeWith est ProposeAt avec ce que l'hôte sait de l'extérieur (External). Seule
-// l'attribution des tables en dépend ; les appariements, tirages et passages de phase restent
+// ProposeWith est ProposeAt avec ce que l'hôte sait de l'extérieur (External). L'attribution des
+// tables et la disponibilité des joueurs en dépendent ; les tirages et passages de phase restent
 // fonction du seul journal.
 func (s *State) ProposeWith(now time.Time, ext External) []Action {
 	if s.Current < 0 || s.Finished {
@@ -45,6 +51,14 @@ func (s *State) ProposeWith(now time.Time, ext External) []Action {
 	// dépendent, et Propose ne modifie pas l'état (un hôte peut l'appeler sous verrou de lecture).
 	v := *s
 	v.clock = now
+	if len(ext.BusyPlayers) > 0 {
+		v.ailleurs = make(map[PlayerID]bool, len(ext.BusyPlayers))
+		for _, p := range ext.BusyPlayers {
+			if _, ok := s.Players[p]; ok {
+				v.ailleurs[p] = true
+			}
+		}
+	}
 	return v.propose(now, ext)
 }
 
@@ -87,6 +101,7 @@ func (s *State) propose(now time.Time, ext External) []Action {
 	}
 	if ph.Cfg.Kind != KindSwissLives {
 		s.holdAbsent(acts) // un suisse n'apparie pas les absents ; un graphe les retient
+		s.holdElsewhere(acts)
 	}
 	s.assignTables(acts, ext.BusyTables)
 	s.flagBreaks(acts, now)
