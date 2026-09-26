@@ -41,6 +41,14 @@ func (s *State) ProposeWith(now time.Time, ext External) []Action {
 	if s.Current < 0 || s.Finished {
 		return nil
 	}
+	// Une copie superficielle, à l'heure de la proposition : les indisponibilités à échéance en
+	// dépendent, et Propose ne modifie pas l'état (un hôte peut l'appeler sous verrou de lecture).
+	v := *s
+	v.clock = now
+	return v.propose(now, ext)
+}
+
+func (s *State) propose(now time.Time, ext External) []Action {
 	ph := s.phase()
 	var acts []Action
 	switch ph.Cfg.Kind {
@@ -48,7 +56,7 @@ func (s *State) ProposeWith(now time.Time, ext External) []Action {
 		if éch, lot := s.batchDeadline(ph); lot && now.Before(éch) && !s.swissDone(ph) {
 			// Micro-rondes : les joueurs libres attendent l'échéance. L'action porte
 			// l'échéance pour que l'hôte affiche un compte à rebours.
-			return []Action{{Kind: ActWait, Phase: ph.Index, Reason: ReasonWaitingBatch, Until: éch}}
+			return s.withAbsences(ph, []Action{{Kind: ActWait, Phase: ph.Index, Reason: ReasonWaitingBatch, Until: éch}})
 		}
 		acts = s.proposeSwiss(ph)
 	case KindGSL:
@@ -67,7 +75,7 @@ func (s *State) ProposeWith(now time.Time, ext External) []Action {
 	}
 	if len(acts) == 0 {
 		if s.runningInPhase(ph) > 0 {
-			return []Action{{Kind: ActWait, Phase: ph.Index, Reason: ReasonMatchesRunning}}
+			return s.withAbsences(ph, []Action{{Kind: ActWait, Phase: ph.Index, Reason: ReasonMatchesRunning}})
 		}
 		if s.phaseDone(ph) {
 			if s.Current+1 < len(s.Config.Phases) {
@@ -75,11 +83,14 @@ func (s *State) ProposeWith(now time.Time, ext External) []Action {
 			}
 			return []Action{{Kind: ActFinish, Phase: ph.Index}}
 		}
-		return []Action{{Kind: ActWait, Phase: ph.Index, Reason: ReasonNoPairing}}
+		return s.withAbsences(ph, []Action{{Kind: ActWait, Phase: ph.Index, Reason: ReasonNoPairing}})
+	}
+	if ph.Cfg.Kind != KindSwissLives {
+		s.holdAbsent(acts) // un suisse n'apparie pas les absents ; un graphe les retient
 	}
 	s.assignTables(acts, ext.BusyTables)
 	s.flagBreaks(acts, now)
-	return acts
+	return s.withAbsences(ph, acts)
 }
 
 // phaseDone : la phase n'a plus rien à jouer.
@@ -135,8 +146,8 @@ func (s *State) assignTables(acts []Action, dehors []int) {
 	}
 	max := s.Config.Tables.Count
 	for i := range acts {
-		if acts[i].Kind != ActStartMatch || acts[i].Table > 0 {
-			continue
+		if acts[i].Kind != ActStartMatch || acts[i].Table > 0 || acts[i].Reason != ReasonNone {
+			continue // déjà placée, ou retenue (player_unavailable) : pas de table
 		}
 		found := 0
 		for t := 1; max == 0 || t <= max; t++ {

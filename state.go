@@ -33,7 +33,14 @@ type State struct {
 	// Revived : joueurs qu'une correction a rendus à la vie dans un suisse, jusqu'à ce qu'ils
 	// rejouent (WarnCorrectionRevives).
 	Revived map[PlayerID]bool `json:"revived,omitempty"`
-	nextID  int
+	// Unavailable : les indisponibilités déclarées (player_unavailable), levées par
+	// player_available, par l'heure ou par la ronde de retour (absence.go).
+	Unavailable map[PlayerID]Absence `json:"unavailable,omitempty"`
+	nextID      int
+	// clock : l'heure à laquelle on regarde l'état — celle de la proposition (ProposeWith en
+	// fait une copie à son heure) ou de l'événement en cours d'application. Seules les
+	// indisponibilités à échéance en dépendent.
+	clock time.Time
 }
 
 // PhaseState est l'état d'une phase.
@@ -180,6 +187,7 @@ func (s *State) Apply(ev Event) error {
 	if ev.Kind != EvCreated && s.Current < 0 {
 		return fmt.Errorf("tournoi non créé")
 	}
+	s.clock = ev.Time
 	switch ev.Kind {
 	case EvCreated:
 		if ev.Config == nil {
@@ -222,6 +230,10 @@ func (s *State) Apply(ev Event) error {
 		}
 		p := *ev.Player
 		s.Players[p.ID] = &p
+	case EvPlayerUnavailable, EvPlayerAvailable:
+		if err := s.applyAbsence(ev); err != nil {
+			return err
+		}
 	case EvPlayerWithdrawn:
 		if _, ok := s.Players[ev.ID]; !ok {
 			return fmt.Errorf("joueur %s inconnu", ev.ID)

@@ -225,6 +225,10 @@ const (
 	ReasonNoPairing      ReasonCode = "no_pairing"
 	ReasonWaitingBatch   ReasonCode = "waiting_batch"
 	ReasonWaitingTable   ReasonCode = "waiting_table"
+	// ReasonPlayerUnavailable : un joueur est indisponible (player_unavailable). Sur une attente
+	// (A = le joueur, Until ou Round = son retour) dans un suisse ; sur la proposition de match
+	// d'un graphe, qui reste dans la file sans table.
+	ReasonPlayerUnavailable ReasonCode = "player_unavailable"
 )
 
 // ---- Noms de section ----

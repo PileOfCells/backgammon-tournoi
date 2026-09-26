@@ -332,6 +332,7 @@ type State struct {
     Warnings   []Warning            `json:"warnings,omitempty"` // incohérences (codes)
     Infos      []Info               `json:"infos,omitempty"`    // inscrits qui ne jouent nulle part
     Revived    map[PlayerID]bool    `json:"revived,omitempty"`  // rendus à la vie par une correction, jusqu'à ce qu'ils rejouent
+    Unavailable map[PlayerID]Absence `json:"unavailable,omitempty"` // indisponibilités déclarées
     nextID     int                  // interne : compteur de matchs
 }
 ```
@@ -624,6 +625,8 @@ const (
     EvPlayerAdded     EventKind = "player_added"
     EvPlayerWithdrawn EventKind = "player_withdrawn"
     EvPlayerUpdated   EventKind = "player_updated"
+    EvPlayerUnavailable EventKind = "player_unavailable"
+    EvPlayerAvailable   EventKind = "player_available"
     EvMatchStarted    EventKind = "match_started"
     EvResult          EventKind = "result"
     EvResultCorrected EventKind = "result_corrected"
@@ -666,6 +669,7 @@ type Event struct {
     Draw         *Draw     `json:"draw,omitempty"`
     Text         string    `json:"text,omitempty"`
     Slot         string    `json:"slot,omitempty"` // retardataire : place d'exemption prise
+    Until        *time.Time `json:"until,omitempty"` // player_unavailable : heure de retour
 }
 
 type Journal []Event
@@ -700,6 +704,8 @@ Il n'exige pas la monotonie et ne s'en sert jamais pour décider.
 | `player_added` | `Player` (obligatoire, `ID` non vide) |
 | `player_withdrawn` | `ID` |
 | `player_updated` | `Player` (obligatoire, `ID` d'un joueur inscrit) |
+| `player_unavailable` | `ID` ; `Until` (heure de retour) ou `Round` (ronde de retour), ou aucun des deux |
+| `player_available` | `ID` |
 | `match_started` | `MatchID`, `Phase`, `Section`, `Label`, `Key`, `A`, `B`, `Length`, `Table` |
 | `result` | `MatchID`, `Winner`, `ScoreA`, `ScoreB`, `Forfeit` |
 | `result_corrected` | idem |
@@ -788,6 +794,49 @@ le club d'une joueuse retirée passait par `player_added` et la remettait en jeu
 réécrire le retrait juste après, et le journal portait deux événements pour un seul geste.
 `player_added` garde son sens pour les journaux existants — c'est aussi le chemin du retour d'un
 joueur retiré.
+
+### `player_unavailable` et `player_available`
+
+```
+si ID inconnu → erreur
+player_available   : supprimer s.Unavailable[ID]
+player_unavailable :
+    a := Absence{Until: *ev.Until (si présent), Round: ev.Round, Phase: s.Current}
+    si Until et Round sont tous deux renseignés → erreur (une heure OU une ronde)
+    si Round > 0 et la phase courante n'est pas un suisse par rondes → erreur
+    s.Unavailable[ID] = a                 (remplace une absence précédente)
+```
+
+Un joueur **indisponible** n'est plus apparié, et ne perd rien : ni vie, ni victoire, ni rang, ni
+place dans un tableau. C'est le joueur qui ne revient que dimanche à 14 h, celui qui dîne, celui
+qui joue en ce moment dans une autre épreuve de la salle. Les trois chemins d'avant étaient faux :
+le retirer puis le réinscrire (« forfait » au classement pendant l'absence), ne rien faire (son
+appariement glisse, ou « tout lancer » le lance), ou un forfait (une vie perdue).
+
+```go
+type Absence struct {
+    Until time.Time `json:"until,omitempty"` // heure de retour ; zéro = pas d'échéance horaire
+    Round int       `json:"round,omitempty"` // suisse par rondes : ronde de retour
+    Phase int       `json:"phase"`           // phase où elle a été déclarée
+}
+```
+
+L'absence tombe :
+
+- à l'heure `Until` (comparée à l'heure de la proposition, `ProposeAt(now)`, ou de l'événement en
+  cours d'application) ;
+- quand la ronde appariée atteint `Round`, ou au passage à une autre phase ;
+- sans échéance, à `player_available`, qui lève aussi toute absence avant son terme.
+
+Effets, tous dérivés :
+
+- **suisse** : `free(ph, r)` écarte les absents — en continu comme par rondes (la ronde `r` est
+  celle qu'on apparie). Un absent n'est pas dans le `Roster` de la ronde : la ronde se termine
+  sans lui, **sans bye**. La file porte une attente par absent en vie (`wait`, raison
+  `player_unavailable`, `A` = le joueur, `Until` ou `Round` = son retour) ;
+- **graphes** (tableaux, GSL, poules, barrages) : la place est fixée, le match d'un absent reste
+  donc proposé, mais **retenu** — raison `player_unavailable`, sans table. Le TD peut le lancer
+  quand même.
 
 ### `player_withdrawn`
 
@@ -1052,6 +1101,9 @@ func ResultEvent(id MatchID, winner PlayerID, scoreA, scoreB int, now time.Time)
 func PlayerAddedEvent(p Player, now time.Time) Event
 func PlayerAddedAtSlotEvent(p Player, slot Slot, now time.Time) Event
 func PlayerUpdatedEvent(p Player, now time.Time) Event          // correction de fiche
+func PlayerUnavailableEvent(id PlayerID, until time.Time, now time.Time) Event // until nul = jusqu'à nouvel ordre
+func PlayerUnavailableUntilRoundEvent(id PlayerID, round int, now time.Time) Event
+func PlayerAvailableEvent(id PlayerID, now time.Time) Event
 func PlayerWithdrawnEvent(id PlayerID, now time.Time) Event
 func PlayerWithdrawnAfterCurrentEvent(id PlayerID, now time.Time) Event
 func ForfeitEvent(id MatchID, winner PlayerID, now time.Time) Event
@@ -1459,8 +1511,9 @@ si acts est vide :
         sinon                        → [ Finish ]
     → [ Wait, raison « aucun appariement possible » ]
 
-assignTables(acts, ext.BusyTables)
-→ acts
+si la phase n'est pas un suisse : holdAbsent(acts)   ← match d'un absent : raison player_unavailable
+assignTables(acts, ext.BusyTables)                  ← une action retenue n'a pas de table
+→ acts + une attente player_unavailable par absent en vie (suisse)
 ```
 
 L'ordre du repli est important : **attendre la fin des matchs en cours a priorité sur la clôture de
@@ -3275,7 +3328,7 @@ reconstruction fidèle du moteur ne doit pas les inclure sans le dire.
 
 `PlayerID`, `Player`, `MatchID`, `MatchStatus`, `Match`, `Rank`, `ActionKind`, `Action`, `Draw`,
 `EventKind`, `Event`, `Journal`, `Config`, `PhaseConfig`, `Tables`, `TableRule`, `State`,
-`PhaseState`, `Section`, `GMatch`, `Src`, `Slot`, `Clock`, `External`, `ConfigRefusal`.
+`PhaseState`, `Section`, `GMatch`, `Src`, `Slot`, `Clock`, `External`, `ConfigRefusal`, `Absence`.
 
 Codes (voir `codes.go`, aucun texte destiné à l'affichage ne sort du moteur) : `LabelKind`,
 `Label`, `NoteKind`, `Note`, `WarningCode`, `Warning`, `InfoCode`, `Info`, `ReasonCode`
@@ -3284,7 +3337,8 @@ Codes (voir `codes.go`, aucun texte destiné à l'affichage ne sort du moteur) :
 ### Constantes
 
 `BYE` ; `Running`, `Finished`, `Cancelled` ; `ActStartMatch`, `ActBye`, `ActDraw`, `ActNextPhase`,
-`ActFinish`, `ActWait` ; `EvCreated`, `EvPlayerAdded`, `EvPlayerUpdated`, `EvPlayerWithdrawn`, `EvMatchStarted`,
+`ActFinish`, `ActWait` ; `EvCreated`, `EvPlayerAdded`, `EvPlayerUpdated`, `EvPlayerUnavailable`,
+`EvPlayerAvailable`, `EvPlayerWithdrawn`, `EvMatchStarted`,
 `EvResult`, `EvResultCorrected`, `EvMatchCancelled`, `EvBye`, `EvDraw`, `EvNextPhase`,
 `EvLengthChanged`, `EvTableChanged`, `EvFinished`, `EvNote` ; `KindSwissLives`,
 `KindLivesBracket`, `KindGSL`, `KindBracket`, `KindRoundRobin` ; `JournalVersion` ; les codes
