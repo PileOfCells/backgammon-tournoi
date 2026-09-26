@@ -216,6 +216,10 @@ func (w Warning) String() string {
 			return "deux matchs en cours sur la même table"
 		}
 		return fmt.Sprintf("table %d : %s et %s y sont en cours tous les deux", w.Table, w.Other, w.Match)
+	case WarnCorrectionEliminatesRunning:
+		return fmt.Sprintf("match %s : %s n'a plus de vie depuis une correction, et joue encore", w.Match, w.Player)
+	case WarnCorrectionRevives:
+		return fmt.Sprintf("%s retrouve une vie après une correction : de nouveau appariable", w.Player)
 	}
 	return string(w.Code)
 }

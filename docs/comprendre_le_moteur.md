@@ -262,7 +262,10 @@ Le logiciel recalcule alors tout, et **signale ce qui n'est plus cohérent** —
 match M17 a été joué par Alice et Bob, mais le tableau attend maintenant Alice et Chloé ». Le
 directeur de tournoi voit immédiatement l'étendue des dégâts.
 
-Ce que le moteur ne fait pas encore : proposer la réparation. C'est une limite connue.
+Il propose aussi la réparation — annuler le match joué par les mauvais joueurs et tout ce qui en
+descend —, sans rien appliquer d'office. Dans un suisse, où il n'y a pas d'arbre, il dit ce que la
+correction a changé aux vies : « Salomé n'a plus de vie, et elle joue encore » (avec l'annulation
+de ce match proposée), ou « Léa retrouve une vie : de nouveau appariable ».
 
 ## Le moteur propose, le directeur dispose
 

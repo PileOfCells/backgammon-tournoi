@@ -60,7 +60,9 @@ func (s *State) ProposeWith(now time.Time, ext External) []Action {
 	}
 	// La réparation d'un graphe désaccordé passe DEVANT : on annule avant de relancer
 	// (reparation.go). Elle est vide dans un tournoi mené normalement.
-	if rep := s.proposeRepair(ph); len(rep) > 0 {
+	rep := s.proposeRepair(ph)
+	rep = append(rep, s.proposeSwissRepair(ph)...)
+	if len(rep) > 0 {
 		acts = append(rep, acts...)
 	}
 	if len(acts) == 0 {
