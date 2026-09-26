@@ -83,19 +83,23 @@ func (s *State) roundProposed(ph *PhaseState) int {
 }
 
 // withAbsences : dans un suisse, une attente par joueur en vie indisponible — la file dit
-// pourquoi il n'est pas apparié, et quand il revient (Until ou Round).
+// pourquoi il n'est pas apparié, et quand il revient (Until ou Round) — puis une par joueur en
+// vie qui joue dans une autre épreuve de la salle (player_busy). L'indisponibilité, écrite au
+// journal, l'emporte : un joueur n'a qu'une attente.
 func (s *State) withAbsences(ph *PhaseState, acts []Action) []Action {
-	if ph.Cfg.Kind != KindSwissLives || len(s.Unavailable) == 0 {
+	if ph.Cfg.Kind != KindSwissLives || (len(s.Unavailable) == 0 && len(s.ailleurs) == 0) {
 		return acts
 	}
 	r := s.roundProposed(ph)
 	for _, p := range s.alive(ph) {
-		if !s.absent(p, r) {
-			continue
+		switch {
+		case s.absent(p, r):
+			a := s.Unavailable[p]
+			acts = append(acts, Action{Kind: ActWait, Phase: ph.Index, Reason: ReasonPlayerUnavailable, A: p,
+				Until: a.Until, Round: a.Round})
+		case s.ailleurs[p] && !s.busy(p):
+			acts = append(acts, Action{Kind: ActWait, Phase: ph.Index, Reason: ReasonPlayerBusy, A: p})
 		}
-		a := s.Unavailable[p]
-		acts = append(acts, Action{Kind: ActWait, Phase: ph.Index, Reason: ReasonPlayerUnavailable, A: p,
-			Until: a.Until, Round: a.Round})
 	}
 	return acts
 }
@@ -109,6 +113,20 @@ func (s *State) holdAbsent(acts []Action) {
 	for i := range acts {
 		if acts[i].Kind == ActStartMatch && acts[i].Reason == ReasonNone && (s.absent(acts[i].A, 0) || s.absent(acts[i].B, 0)) {
 			acts[i].Reason = ReasonPlayerUnavailable
+		}
+	}
+}
+
+// holdElsewhere : dans un graphe, le match d'un joueur qui joue dans une autre épreuve de la
+// salle reste proposé mais retenu : raison player_busy, pas de table. Passe après holdAbsent,
+// dont la raison l'emporte.
+func (s *State) holdElsewhere(acts []Action) {
+	if len(s.ailleurs) == 0 {
+		return
+	}
+	for i := range acts {
+		if acts[i].Kind == ActStartMatch && acts[i].Reason == ReasonNone && (s.ailleurs[acts[i].A] || s.ailleurs[acts[i].B]) {
+			acts[i].Reason = ReasonPlayerBusy
 		}
 	}
 }

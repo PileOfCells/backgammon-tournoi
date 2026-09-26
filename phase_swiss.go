@@ -31,12 +31,12 @@ func (s *State) swissDone(ph *PhaseState) bool {
 	return len(s.alive(ph)) <= 1
 }
 
-// free : joueurs en vie sans match en cours, et disponibles pour la ronde r (0 = hors rondes ;
-// voir absence.go).
+// free : joueurs en vie sans match en cours, ni ici ni dans une autre épreuve de la salle, et
+// disponibles pour la ronde r (0 = hors rondes ; voir absence.go).
 func (s *State) free(ph *PhaseState, r int) []PlayerID {
 	var out []PlayerID
 	for _, p := range s.alive(ph) {
-		if !s.busy(p) && !s.absent(p, r) {
+		if !s.busy(p) && !s.absent(p, r) && !s.ailleurs[p] {
 			out = append(out, p)
 		}
 	}
@@ -348,7 +348,7 @@ func (s *State) roundRest(ph *PhaseState, r int) []Action {
 		return nil
 	}
 	libre := func(p PlayerID) bool {
-		return !engagé[p] && s.remainingLives(ph, p) > 0 && !s.busy(p) && !s.absent(p, r)
+		return !engagé[p] && s.remainingLives(ph, p) > 0 && !s.busy(p) && !s.absent(p, r) && !s.ailleurs[p]
 	}
 	var acts []Action
 	pris := map[PlayerID]bool{}

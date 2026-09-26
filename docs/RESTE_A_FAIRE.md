@@ -32,6 +32,10 @@ où intervenir et comment vérifier.
   moteur les tables où joue une autre épreuve de la salle : il ne les propose pas, et ce qui n'a
   plus de table attend (`waiting_table`). Ce n'est pas un événement : l'occupation extérieure
   n'appartient pas à l'histoire du tournoi.
+- [x] **Joueur occupé dans une autre épreuve** (issue #24, blunderDB ADR-0056).
+  `External.BusyPlayers` : au suisse et en barrage le joueur n'est pas apparié et la file porte
+  une attente `player_busy` ; dans un graphe son match reste proposé, retenu, sans table. Rien
+  n'est écrit au journal ; un appariement à la main reste accepté.
 
 ## 2. Fonctions attendues d'un logiciel de tournoi
 

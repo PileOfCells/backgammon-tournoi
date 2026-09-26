@@ -385,8 +385,13 @@ bilan. Le mot « forfait » ne désigne plus que le match qu'il a abandonné en 
 Non. On le déclare **indisponible** — jusqu'à une heure, jusqu'à une ronde, ou jusqu'à nouvel
 ordre. Il n'est plus apparié pendant ce temps et ne perd rien : ni vie, ni rang, ni place dans le
 tableau. La file le dit (« joueur indisponible, retour à 14 h ») ; dans un tableau, son match reste
-affiché mais retenu. C'est aussi ce qu'on fait pour un joueur qui dispute en ce moment un match
-d'une autre épreuve de la salle.
+affiché mais retenu.
+
+Un joueur qui dispute en ce moment un match d'une autre épreuve de la salle n'a rien à déclarer :
+le logiciel hôte, qui dirige les deux épreuves, le dit au moteur à chaque proposition
+(`External.BusyPlayers`). La file affiche « joueur occupé dans une autre épreuve » et le reprend
+dès que ce match est fini ; rien n'entre au journal, parce que ce qui se passe à la table d'à côté
+n'appartient pas à l'histoire de ce tournoi.
 
 ## « Pourquoi mes deux joueurs ex æquo ne sont-ils pas départagés ? »
 

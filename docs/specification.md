@@ -1479,7 +1479,8 @@ func (s *State) ProposeAt(now time.Time) []Action // = ProposeWith(now, External
 func (s *State) ProposeWith(now time.Time, ext External) []Action
 
 type External struct {
-    BusyTables []int `json:"busy_tables,omitempty"` // tables occupées hors de ce tournoi
+    BusyTables  []int      `json:"busy_tables,omitempty"`  // tables occupées hors de ce tournoi
+    BusyPlayers []PlayerID `json:"busy_players,omitempty"` // joueurs de ce tournoi qui jouent ailleurs
 }
 ```
 
@@ -1488,6 +1489,15 @@ où joue, en ce moment, **une autre épreuve** dirigée dans la même salle. Ce 
 événement : l'occupation par l'extérieur change à chaque match de l'autre épreuve, elle
 n'appartient pas à l'histoire de celle-ci, et le rejeu n'en a pas besoin — le `match_started`
 confirmé porte la table effectivement prise. Seule l'attribution des tables en dépend.
+
+`BusyPlayers` dit quels joueurs de **ce** tournoi jouent en ce moment dans une autre épreuve de la
+salle — un joueur inscrit à deux épreuves y a deux `PlayerID`, et c'est l'hôte qui les relie. Un
+identifiant inconnu est ignoré. Ces joueurs sont écartés des appariements dynamiques (suisse,
+barrages de poule) et la file porte, au suisse, une attente par joueur en vie (`wait`, raison
+`player_busy`, `A` = le joueur) ; dans un graphe, leur match reste proposé mais **retenu** —
+raison `player_busy`, sans table. Une indisponibilité (`player_unavailable`), écrite au journal,
+l'emporte dans la raison. Rien n'est écrit : le TD qui lance quand même le match à la main est
+obéi, et le rejeu l'ignore.
 
 C'est le point d'entrée principal du moteur. Il est **pur** : il ne modifie pas l'état (à
 l'exception de l'écriture des numéros de table dans les actions renvoyées) et ne dépend que du
@@ -1512,8 +1522,10 @@ si acts est vide :
     → [ Wait, raison « aucun appariement possible » ]
 
 si la phase n'est pas un suisse : holdAbsent(acts)   ← match d'un absent : raison player_unavailable
+                                  holdElsewhere(acts) ← joueur dans ext.BusyPlayers : raison player_busy
 assignTables(acts, ext.BusyTables)                  ← une action retenue n'a pas de table
 → acts + une attente player_unavailable par absent en vie (suisse)
+       + une attente player_busy par joueur en vie occupé ailleurs, ni absent ni en match ici
 ```
 
 L'ordre du repli est important : **attendre la fin des matchs en cours a priorité sur la clôture de
@@ -3356,7 +3368,7 @@ func (s *State) Step(evs ...Event) ([]Action, error)
 // boucle du TD
 func (s *State) Propose() []Action              // = ProposeAt(s.Last)
 func (s *State) ProposeAt(now time.Time) []Action
-func (s *State) ProposeWith(now time.Time, ext External) []Action // tables prises par une autre épreuve
+func (s *State) ProposeWith(now time.Time, ext External) []Action // tables et joueurs pris par une autre épreuve
 func (s *State) EventFromAction(a Action, now time.Time) (Event, error)
 func ResultEvent(id MatchID, winner PlayerID, scoreA, scoreB int, now time.Time) Event
 func (s *State) CheckConfig(next Config) error  // prévisualisation ; refus = *ConfigRefusal

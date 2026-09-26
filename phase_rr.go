@@ -145,7 +145,7 @@ func (s *State) proposeBarrage(ph *PhaseState, bs *Section) []Action {
 	rng := s.rng()
 	var free []PlayerID
 	for _, p := range alive {
-		if !s.busy(p) {
+		if !s.busy(p) && !s.ailleurs[p] {
 			free = append(free, p)
 		}
 	}

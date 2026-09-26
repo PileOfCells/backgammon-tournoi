@@ -229,6 +229,10 @@ const (
 	// (A = le joueur, Until ou Round = son retour) dans un suisse ; sur la proposition de match
 	// d'un graphe, qui reste dans la file sans table.
 	ReasonPlayerUnavailable ReasonCode = "player_unavailable"
+	// ReasonPlayerBusy : un joueur joue en ce moment dans une autre épreuve de la salle
+	// (External.BusyPlayers). Sur une attente (A = le joueur) dans un suisse ; sur la proposition
+	// de match d'un graphe, qui reste dans la file sans table. Jamais écrit au journal.
+	ReasonPlayerBusy ReasonCode = "player_busy"
 )
 
 // ---- Noms de section ----
