@@ -8,7 +8,10 @@ import (
 
 // JournalVersion est la version du format du journal écrite dans chaque nouvel événement.
 // 0 (champ absent) désigne les journaux antérieurs aux codes structurés, toujours rejouables.
-const JournalVersion = 1
+// 2 : config_changed ne peut plus changer les options de construction d'un tableau déjà tiré
+// (consolante, dernière chance, réconciliation, recharge, têtes de série) ; un événement de
+// version 1 qui le faisait reste accepté, sans effet, comme il l'a été.
+const JournalVersion = 2
 
 // EventKind est le type d'un événement du journal.
 type EventKind string
