@@ -277,8 +277,10 @@ func (s *State) bracketRanking(ph *PhaseState) []Rank {
 	var list []sc
 	for _, p := range ph.Entrants {
 		v := scores[p]
-		if s.Withdrawn[p] && v.score < 0 {
-			v.note = Note{Kind: NoteForfeit}
+		if s.Withdrawn[p] {
+			// Retiré : classé sur son parcours (la sortie qu'il a atteinte), avec la note qui le
+			// dit ; sans aucun match joué, il reste en queue.
+			v.note = Note{Kind: NoteWithdrawn, Section: v.note.Section, Sub: v.note.Sub}
 		}
 		if v.score < 0 {
 			v.score = 0

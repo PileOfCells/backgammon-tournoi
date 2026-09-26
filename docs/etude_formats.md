@@ -32,6 +32,10 @@ par un TD (papier ou logiciel), aucun match inutile, **aucun départage**.
    contre 1,6 à 3 % au hasard : le format joue sur un facteur 2 à 3.
 
 Choix retenus : pas de finale à handicap, pas de têtes de série protégées (culture actuelle du backgammon).
+Un joueur qui se retire est classé sur son parcours — comme éliminé à l'instant du retrait, par
+ses victoires (suisse, GSL) ou par la sortie atteinte (tableaux), ex æquo avec les éliminés au
+même niveau — et non en queue de classement : même principe que l'absence de départage, un
+retrait n'efface pas ce qui a été joué.
 Les têtes de série existent depuis en **option** du moteur (`seeding: "rating"` sur une phase de
 tableau), éteintes par défaut : la conclusion de l'étude reste le défaut, l'option est là pour
 l'organisateur qui décide autrement.

@@ -356,18 +356,14 @@ les pauses repas, un directeur de tournoi qui veut faire autrement.
 
 Les manques identifiés, par ordre d'urgence :
 
-- **Interface** : le moteur ne fournit que la logique ; l'écran du directeur de tournoi reste à
-  écrire.
-- **Retardataires** : un joueur inscrit après le tirage d'un tableau n'entre nulle part.
-- **Forfaits fins** : le forfait est aujourd'hui total. Il manque le forfait sur un seul match, et
-  le retrait « à partir de la ronde suivante ».
-- **Tables** : pas de table indisponible ou réservée, pas de changement de table en cours de match.
-- **Pauses repas** : le moteur ne sait pas s'abstenir de lancer un match qui finirait après l'heure
-  de la pause.
-- **Réparation après correction** : l'incohérence est signalée, pas réparée.
-- **Prix** : les montants par place et le partage entre ex æquo existent ; les structures en
-  pourcentage du pool, la retenue d'organisation et les prix par section restent à faire.
-- **Longueurs de match par tour** (9 / 11 / 13 / 15) : pas encore paramétrables.
+- **Interface** : le moteur ne fournit que la logique ; l'écran du directeur de tournoi est celui
+  du logiciel hôte.
+- **Byes entre groupes** : la règle « pas de second bye tant que d'autres n'en ont pas eu » ne
+  s'applique qu'à l'intérieur d'un groupe de défaites.
+- **Consolante** : pas d'option de saut (perdants du seul premier tour, entrée jusqu'à une heure
+  limite) ; les rematchs y sont évités au premier croisement seulement.
+- **Classement des places non gagnantes** : les règles restent à valider avec la FFBG.
+- **Écran joueur** (« votre prochain match, votre table ») : pas encore écrit.
 
 La recommandation qui en découle : **un premier tournoi de club de 16 à 32 joueurs, en doublant sur
 papier**, en notant chaque fois que le directeur de tournoi a voulu faire autre chose que la
@@ -376,6 +372,13 @@ proposition du moteur. Ce sont ces cas-là qui définiront les fonctions manquan
 ---
 
 # Questions fréquentes
+
+## « Un joueur est parti en cours de tournoi : pourquoi n'est-il pas dernier ? »
+
+Parce que son retrait n'efface pas ce qu'il a joué. Il est classé comme s'il avait été éliminé à
+l'instant où il est parti : au suisse, par ses victoires, à égalité avec les éliminés qui en ont
+autant ; dans un tableau, au tour qu'il avait atteint. Le classement le note « retiré », avec son
+bilan. Le mot « forfait » ne désigne plus que le match qu'il a abandonné en partant.
 
 ## « Pourquoi mes deux joueurs ex æquo ne sont-ils pas départagés ? »
 

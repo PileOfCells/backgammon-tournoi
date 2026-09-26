@@ -147,6 +147,7 @@ func TestRenduFrancaisCouvreLesCodes(t *testing.T) {
 		{Kind: tournoi.NoteWinner}, {Kind: tournoi.NoteFinalist},
 		{Kind: tournoi.NoteAlive, Lives: 2}, {Kind: tournoi.NoteRecord, Wins: 3, Losses: 1},
 		{Kind: tournoi.NoteForfeit}, {Kind: tournoi.NoteRunning},
+		{Kind: tournoi.NoteWithdrawn, Wins: 8, Losses: 1}, {Kind: tournoi.NoteWithdrawn, Section: "main"},
 		{Kind: tournoi.NoteAwaitingDraw}, {Kind: tournoi.NoteUnranked},
 		{Kind: tournoi.NoteSectionExit, Section: "main"},
 		{Kind: tournoi.NoteSectionWinner, Section: "conso"},
