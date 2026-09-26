@@ -159,6 +159,14 @@ const (
 	// déplacement qui l'a produit a été accepté : le moteur avertit, il ne bloque pas.
 	// L'avertissement tombe dès que l'un des deux matchs se termine ou change de table.
 	WarnTableShared WarningCode = "table_shared"
+	// WarnCorrectionEliminatesRunning : dans un suisse, une correction (ou une annulation) a fait
+	// tomber à 0 vie un joueur (Player) qui joue en ce moment le match Match. L'annulation de ce
+	// match est proposée (cancel_match). Dérivé : tombe quand le match finit ou est annulé.
+	WarnCorrectionEliminatesRunning WarningCode = "correction_eliminates_running"
+	// WarnCorrectionRevives : dans un suisse, une correction (ou une annulation) a rendu une vie à
+	// un joueur (Player) qu'elle avait éliminé. Il redevient appariable ; l'avertissement reste
+	// jusqu'à ce qu'il rejoue, ou qu'il soit de nouveau éliminé.
+	WarnCorrectionRevives WarningCode = "correction_revives"
 )
 
 // Warning est une incohérence : un code et de quoi la situer. Rien n'est bloqué par un
@@ -175,8 +183,9 @@ type Warning struct {
 	Length    int         `json:"length,omitempty"`
 	ScoreA    int         `json:"score_a,omitempty"`
 	ScoreB    int         `json:"score_b,omitempty"`
-	Table     int         `json:"table,omitempty"` // table_shared : la table disputée
-	Other     MatchID     `json:"other,omitempty"` // table_shared : l'autre match sur la table
+	Player    PlayerID    `json:"player,omitempty"` // correction_* : le joueur concerné
+	Table     int         `json:"table,omitempty"`  // table_shared : la table disputée
+	Other     MatchID     `json:"other,omitempty"`  // table_shared : l'autre match sur la table
 }
 
 // ---- Informations ----

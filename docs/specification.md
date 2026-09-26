@@ -331,6 +331,7 @@ type State struct {
     Last       time.Time            `json:"last"`     // horodatage du dernier événement
     Warnings   []Warning            `json:"warnings,omitempty"` // incohérences (codes)
     Infos      []Info               `json:"infos,omitempty"`    // inscrits qui ne jouent nulle part
+    Revived    map[PlayerID]bool    `json:"revived,omitempty"`  // rendus à la vie par une correction, jusqu'à ce qu'ils rejouent
     nextID     int                  // interne : compteur de matchs
 }
 ```
@@ -593,7 +594,7 @@ Cinq familles de codes, toutes dans `codes.go` :
 |---|---|---|
 | Libellés | `Label{Kind, N, Losses, Match, Section, Text, Players, Spots, Sub}` | `Event.Label`, `Match.Label`, `Action.Label`, `GMatch.Label` |
 | Notes de classement | `Note{Kind, Wins, Losses, Lives, Section, Qualified, Sub}` | `Rank.Note` |
-| Avertissements | `Warning{Code, Match, Section, Label, A, B, ExpectedA, ExpectedB, Length, ScoreA, ScoreB, Table, Other}` | `State.Warnings`, `Action.Warn` (le code seul) |
+| Avertissements | `Warning{Code, Match, Section, Label, A, B, ExpectedA, ExpectedB, Length, ScoreA, ScoreB, Player, Table, Other}` | `State.Warnings`, `Action.Warn` (le code seul) |
 | Informations | `Info{Code, Player, Phase, Section, Label}` | `State.Infos` |
 | Raisons d'attente | `ReasonCode` | `Action.Reason` |
 
@@ -856,9 +857,14 @@ si Winner ∉ {m.A, m.B} → erreur « vainqueur absent du match »
 m.Status = Finished ; m.Winner, m.ScoreA, m.ScoreB, m.Forfeit = ev.…
 si m.End est nul OU Kind == result → m.End = ev.Time
 
-si Kind == result_corrected → recompute()
+si Kind == result_corrected → avant := aliveInSwiss() ; recompute() ; noteRevived(avant)
 sinon                       → onResult(m)
 ```
+
+`aliveInSwiss` relève les joueurs en vie de chaque phase `swiss_lives`. `noteRevived` compare
+avant et après : un joueur que la correction rend à la vie entre dans `State.Revived`, un joueur
+qu'elle élimine en sort ; les avertissements sont recalculés (voir « Contrôle de cohérence »).
+`match_started` retire ses deux joueurs de `Revived`.
 
 Une correction sur un match **annulé** le ramène à l'état `Finished` : c'est le moyen de revenir
 sur une annulation.
@@ -871,7 +877,7 @@ initiale suivie d'un recalcul complet (plus coûteux, mais correct).
 ```
 m := s.Matches[MatchID] ; si absent → erreur
 m.Status = Cancelled ; m.End = ev.Time
-recompute()
+avant := aliveInSwiss() ; recompute() ; noteRevived(avant)
 ```
 
 Le match reste dans `MatchOrder` et dans `Matches` : le journal ne perd rien. Il est simplement
@@ -1288,6 +1294,19 @@ match <ID> (<section> <label>) : joueurs <A>/<B> mais le tableau attend <P0>/<P1
 Pour chaque match terminé dont le score dépasse la longueur annoncée, l'avertissement
 `score_over_length`.
 
+Dans les phases `swiss_lives`, deux avertissements disent ce qu'une correction (ou une annulation)
+a changé à la vie d'un joueur — un suisse n'a pas de graphe, donc pas de `bracket_wrong_players` :
+
+- `correction_eliminates_running` (`Match`, `Player`, `A`, `B`, `Label`) : un match **en cours**
+  dont un joueur n'a plus aucune vie. Cela n'arrive pas dans un tournoi mené normalement — on ne
+  lance pas un joueur éliminé — ; c'est la trace d'une correction d'un résultat antérieur qui l'a
+  éliminé pendant qu'il jouait. L'annulation du match est proposée (voir « Réparation »).
+  L'avertissement tombe quand le match finit ou est annulé.
+- `correction_revives` (`Player`) : un joueur que la correction a rendu à la vie (`State.Revived`).
+  Il est de nouveau appariable, et le moteur le dit jusqu'à ce qu'il rejoue — ou qu'une autre
+  correction l'élimine de nouveau. Sans cela, la joueuse éliminée une heure à tort revenait dans
+  les appariements sans que rien ne le signale.
+
 Et pour chaque table qui porte **plusieurs matchs en cours**, l'avertissement `table_shared`,
 une fois par match arrivé en second dans `MatchOrder`, avec `Table`, `Match` (ce match) et
 `Other` (le premier occupant). Il est dérivé de l'état : il disparaît quand l'un des deux matchs
@@ -1340,6 +1359,12 @@ que le TD n'a rien confirmé, il n'y a rien à relancer.
 **Rien n'est appliqué d'office.** Ne rien confirmer laisse l'état tel quel, avertissement
 compris : un directeur peut préférer laisser le tableau tel qu'il a été joué et le noter à la
 main.
+
+**Dans un suisse**, il n'y a pas de graphe à réparer, mais une correction peut éliminer un joueur
+en plein match (`correction_eliminates_running`). `proposeSwissRepair` propose alors, en tête de
+liste avec les autres réparations, un `cancel_match` du match en cours. Le TD peut aussi laisser
+finir le match : son adversaire perdra peut-être une vie contre un joueur éliminé, et c'est sa
+décision.
 
 Corollaire dans `recompute` : `GMatch.MatchID` repart **vide** au recalcul, et n'est reposé que
 pour les matchs non annulés. Sans cela, une place dont le match vient d'être annulé gardait son

@@ -183,6 +183,8 @@ func TestRenduFrancaisCouvreLesCodes(t *testing.T) {
 		{Code: tournoi.WarnEndsInBreak}, // porté par une PROPOSITION : il n'y a pas encore de match
 		{Code: tournoi.WarnSlowMatch, Match: "M1"},
 		{Code: tournoi.WarnTableShared, Match: "M2", Other: "M1", Table: 4},
+		{Code: tournoi.WarnCorrectionEliminatesRunning, Match: "M3", Player: "a"},
+		{Code: tournoi.WarnCorrectionRevives, Player: "a"},
 	}
 	for _, w := range avertissements {
 		if s := w.String(); s == "" || s == string(w.Code) {

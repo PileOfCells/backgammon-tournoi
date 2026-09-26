@@ -29,8 +29,11 @@ type State struct {
 	Warnings      []Warning          `json:"warnings,omitempty"`
 	// Infos : les inscrits qui ne jouent encore nulle part et où ils entreront (retardataire.go).
 	// Dérivées de l'état à chaque événement, jamais accumulées.
-	Infos  []Info `json:"infos,omitempty"`
-	nextID int
+	Infos []Info `json:"infos,omitempty"`
+	// Revived : joueurs qu'une correction a rendus à la vie dans un suisse, jusqu'à ce qu'ils
+	// rejouent (WarnCorrectionRevives).
+	Revived map[PlayerID]bool `json:"revived,omitempty"`
+	nextID  int
 }
 
 // PhaseState est l'état d'une phase.
@@ -266,6 +269,8 @@ func (s *State) Apply(ev Event) error {
 		s.Matches[m.ID] = m
 		s.MatchOrder = append(s.MatchOrder, m.ID)
 		s.nextID++
+		delete(s.Revived, m.A) // il rejoue : l'avertissement de retour a servi
+		delete(s.Revived, m.B)
 		if ph := s.phaseOf(ev.Phase); ph != nil {
 			ph.Started = true
 			if ev.Round > ph.Round && ph.Cfg.Kind == KindSwissLives {
@@ -293,7 +298,9 @@ func (s *State) Apply(ev Event) error {
 			m.End = ev.Time
 		}
 		if ev.Kind == EvResultCorrected {
+			avant := s.aliveInSwiss()
 			s.recompute()
+			s.noteRevived(avant)
 		} else {
 			s.onResult(m)
 		}
@@ -307,7 +314,9 @@ func (s *State) Apply(ev Event) error {
 			return fmt.Errorf("match %s inconnu", ev.MatchID)
 		}
 		m.Status, m.End = Cancelled, ev.Time
+		avant := s.aliveInSwiss()
 		s.recompute()
+		s.noteRevived(avant)
 	case EvBye:
 		ph := s.phaseOf(ev.Phase)
 		if ph == nil {
@@ -621,7 +630,74 @@ func (s *State) check() []Warning {
 			w = append(w, Warning{Code: WarnScoreOverLength, Match: m.ID, Length: m.Length, ScoreA: m.ScoreA, ScoreB: m.ScoreB})
 		}
 	}
+	w = append(w, s.swissCorrections()...)
 	return append(w, s.sharedTables()...)
+}
+
+// aliveInSwiss : les joueurs en vie dans chaque phase suisse, avant une correction.
+func (s *State) aliveInSwiss() map[PlayerID]bool {
+	out := map[PlayerID]bool{}
+	for _, ph := range s.Phases {
+		if ph.Cfg.Kind != KindSwissLives {
+			continue
+		}
+		for _, p := range s.alive(ph) {
+			out[p] = true
+		}
+	}
+	return out
+}
+
+// noteRevived compare les joueurs en vie avant et après une correction : un joueur que la
+// correction rend à la vie est noté dans Revived, un joueur qu'elle élimine en sort.
+func (s *State) noteRevived(avant map[PlayerID]bool) {
+	après := s.aliveInSwiss()
+	for p := range après {
+		if !avant[p] {
+			if s.Revived == nil {
+				s.Revived = map[PlayerID]bool{}
+			}
+			s.Revived[p] = true
+		}
+	}
+	for p := range avant {
+		if !après[p] {
+			delete(s.Revived, p)
+		}
+	}
+	s.Warnings = s.check()
+}
+
+// swissCorrections : ce qu'une correction a changé à la vie d'un joueur de suisse. Un match en
+// cours dont un joueur n'a plus de vie (il ne peut l'être que par une correction ou une
+// annulation d'un résultat antérieur), et les joueurs rendus à la vie (Revived).
+func (s *State) swissCorrections() []Warning {
+	var w []Warning
+	for _, id := range s.MatchOrder {
+		m := s.Matches[id]
+		if m.Status != Running {
+			continue
+		}
+		ph := s.phaseOf(m.Phase)
+		if ph == nil || ph.Cfg.Kind != KindSwissLives {
+			continue
+		}
+		for _, p := range []PlayerID{m.A, m.B} {
+			if _, entré := ph.Lives[p]; entré && s.remainingLives(ph, p) == 0 && !s.Withdrawn[p] {
+				w = append(w, Warning{Code: WarnCorrectionEliminatesRunning, Match: m.ID, Player: p, A: m.A, B: m.B, Label: m.Label})
+			}
+		}
+	}
+	if len(s.Revived) > 0 {
+		var ids []PlayerID
+		for p := range s.Revived {
+			ids = append(ids, p)
+		}
+		for _, p := range sortedIDs(ids) {
+			w = append(w, Warning{Code: WarnCorrectionRevives, Player: p})
+		}
+	}
+	return w
 }
 
 // sharedTables : les tables qui portent plusieurs matchs en cours. Un avertissement par match

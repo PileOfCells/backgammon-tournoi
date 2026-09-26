@@ -122,6 +122,31 @@ func (s *State) proposeRepair(ph *PhaseState) []Action {
 	return acts
 }
 
+// proposeSwissRepair : dans un suisse, l'annulation des matchs en cours dont un joueur n'a plus
+// de vie — une correction l'a éliminé pendant qu'il jouait (WarnCorrectionEliminatesRunning).
+// Proposée comme toute réparation : le TD peut aussi laisser finir le match.
+func (s *State) proposeSwissRepair(ph *PhaseState) []Action {
+	if ph.Cfg.Kind != KindSwissLives {
+		return nil
+	}
+	var acts []Action
+	for _, w := range s.Warnings {
+		if w.Code != WarnCorrectionEliminatesRunning {
+			continue
+		}
+		m := s.Matches[w.Match]
+		if m == nil || m.Phase != ph.Index || m.Status != Running {
+			continue
+		}
+		if len(acts) > 0 && acts[len(acts)-1].Match == m.ID {
+			continue // les deux joueurs du même match
+		}
+		acts = append(acts, Action{Kind: ActCancelMatch, Phase: ph.Index, Label: m.Label, Round: m.Round,
+			Match: m.ID, A: m.A, B: m.B})
+	}
+	return acts
+}
+
 // matchOf : le match joué à cette place, s'il en existe un qui compte encore.
 func (s *State) matchOf(g *GMatch) *Match {
 	if g.MatchID == "" {
