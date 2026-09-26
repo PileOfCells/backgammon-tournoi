@@ -349,7 +349,7 @@ func (s *State) Apply(ev Event) error {
 		if err := cfg.Validate(); err != nil {
 			return err
 		}
-		if err := s.acceptConfig(cfg); err != nil {
+		if err := s.acceptConfig(cfg, ev.Version); err != nil {
 			return err
 		}
 		s.setConfig(cfg)

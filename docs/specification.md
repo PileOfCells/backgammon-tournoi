@@ -671,7 +671,7 @@ Un événement est une structure « plate » : tous les types partagent les mêm
 inutiles restant vides. C'est un choix délibéré — il rend le journal lisible et évite la
 désérialisation polymorphe.
 
-`Version` est le format du journal (`JournalVersion`, actuellement 1). Un événement sans ce champ
+`Version` est le format du journal (`JournalVersion`, actuellement 2). Un événement sans ce champ
 vient d'un journal antérieur aux codes structurés et est **converti à la lecture** (voir
 « Compatibilité ascendante » plus bas). Les constructeurs d'événements le posent : un `Event`
 écrit à la main sans version serait relu comme un journal ancien.
@@ -926,7 +926,7 @@ suivants).
 ```
 si ev.Config == nil → erreur
 cfg := copie profonde de *ev.Config ; cfg.Validate() → erreur éventuelle
-acceptConfig(cfg) → erreur éventuelle
+acceptConfig(cfg, ev.Version) → erreur éventuelle (un *ConfigRefusal)
 setConfig(cfg) ; recompute()
 ```
 
@@ -934,12 +934,44 @@ L'événement porte la configuration **entière**, et non le champ à changer : 
 dans le journal est le résultat, pas l'instruction qui y mène — le même choix que pour `draw`.
 Un journal se relit alors sans connaître la règle de composition des retouches successives.
 
-`acceptConfig` refuse deux choses, et seulement deux :
+`acceptConfig` refuse trois choses, et seulement trois :
 
 - une configuration qui a **moins de phases** que le tournoi n'en a ouvertes (une phase ouverte
   ne se retire pas) ;
-- un changement de `Kind` sur une phase **terminée, tirée ou commencée**. Le refus nomme la
-  phase et dit laquelle des trois raisons s'applique.
+- un changement de `Kind` sur une phase **terminée, tirée ou commencée** ;
+- sur un tableau (`bracket`, `lives_bracket`) **déjà tiré**, un changement de l'une des options
+  qui ne servent qu'à construire le graphe au tirage : `consolation`, `last_chance`,
+  `reconciliation`, `recharge`, `seeding`. Le graphe est fait ; les changer ne pourrait plus rien
+  produire. Avant ce refus, cocher la consolante d'un tableau tiré était accepté, écrit dans la
+  configuration, et sans effet : le TD croyait avoir une consolante.
+
+Le refus est un `*ConfigRefusal`, qui nomme la phase, le champ et la raison par des codes :
+
+```go
+type ConfigRefusal struct {
+    Phase  int    // la phase qui bloque (removed : l'indice de la première phase retirée)
+    Field  string // champ JSON de PhaseConfig : "kind", "consolation"… ; "phases" pour un retrait
+    Reason string // RefusalRemoved "removed", RefusalFinished "finished",
+                  // RefusalDrawn "drawn", RefusalStarted "started"
+    From, To string // kind : l'ancien et le nouveau format
+    Opened int      // removed : le nombre de phases déjà ouvertes
+}
+```
+
+`Error()` en donne le rendu français (console, démo) ; un hôte multilingue traduit les codes.
+
+**Journaux anciens.** Le troisième refus n'existe qu'à partir de la **version 2** du journal. Un
+`config_changed` de version 0 ou 1 qui changeait ces options après le tirage a été joué ainsi —
+accepté, sans effet — et se rejoue ainsi : `acceptConfig` reçoit la version de l'événement et
+n'applique le verrou du tirage qu'à partir de 2.
+
+```go
+func (s *State) CheckConfig(next Config) error
+```
+
+`CheckConfig` est la **prévisualisation** : `Validate` puis `acceptConfig` sur une copie, aux
+règles de la version courante, sans rien appliquer. C'est ce qu'un formulaire de réglages appelle
+pour griser ou expliquer un champ avant d'écrire l'événement.
 
 Tout le reste est accepté, y compris ce que le moteur ne peut pas juger : la bascule (`target`),
 les longueurs à venir, les tables, les pauses, la dotation, et une phase **ajoutée après** la
@@ -3015,6 +3047,12 @@ au classement, et `Propose` qui ne panique pas.
 
 ## Compatibilité ascendante
 
+| Version | Ce qui change à la lecture |
+|---|---|
+| 0 | libellés en texte français, convertis en codes par `Event.upgraded` ; ronde relue du libellé |
+| 1 | codes structurés ; `config_changed` peut changer les options de construction d'un tableau tiré (sans effet) |
+| 2 | `config_changed` ne le peut plus : refus `drawn` |
+
 `testdata/journal_v0.json` est un journal complet écrit dans la forme d'avant les codes
 structurés — aucun champ `version`, aucun champ `round`, un `label` qui était une chaîne
 française. Le test le rejoue et compare le classement **place par place**. Cette fixture ne se
@@ -3124,7 +3162,7 @@ reconstruction fidèle du moteur ne doit pas les inclure sans le dire.
 
 `PlayerID`, `Player`, `MatchID`, `MatchStatus`, `Match`, `Rank`, `ActionKind`, `Action`, `Draw`,
 `EventKind`, `Event`, `Journal`, `Config`, `PhaseConfig`, `Tables`, `TableRule`, `State`,
-`PhaseState`, `Section`, `GMatch`, `Src`, `Slot`, `Clock`, `External`.
+`PhaseState`, `Section`, `GMatch`, `Src`, `Slot`, `Clock`, `External`, `ConfigRefusal`.
 
 Codes (voir `codes.go`, aucun texte destiné à l'affichage ne sort du moteur) : `LabelKind`,
 `Label`, `NoteKind`, `Note`, `WarningCode`, `Warning`, `InfoCode`, `Info`, `ReasonCode`.
@@ -3153,6 +3191,7 @@ func (s *State) ProposeAt(now time.Time) []Action
 func (s *State) ProposeWith(now time.Time, ext External) []Action // tables prises par une autre épreuve
 func (s *State) EventFromAction(a Action, now time.Time) (Event, error)
 func ResultEvent(id MatchID, winner PlayerID, scoreA, scoreB int, now time.Time) Event
+func (s *State) CheckConfig(next Config) error  // prévisualisation ; refus = *ConfigRefusal
 
 // consultation
 func (s *State) Running() []*Match
