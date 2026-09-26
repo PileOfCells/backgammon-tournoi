@@ -1262,7 +1262,7 @@ Déclenché par `player_withdrawn`, `result_corrected` et `match_cancelled`.
        ph := phaseOf(m.Phase) ; si absente ou m.Status == Cancelled → passer
        ph.Opponents[m.A] += m.B ; ph.Opponents[m.B] += m.A
        si un GMatch (m.Section, m.Key) existe → son MatchID = m.ID
-       si m.Status == Finished → onResult(m)
+   Puis, dans le même ordre : si m.Status == Finished → onResult(m)
 
 3. Pour chaque phase : resolve(s.Withdrawn)
 
@@ -1271,6 +1271,12 @@ Déclenché par `player_withdrawn`, `result_corrected` et `match_cancelled`.
 
 Ce qui **n'est pas** réinitialisé : `Byes` (un bye reste acquis), `Entrants`, `Lives`, `Round`,
 `Drawn`, `Sections` (structure) et `GMatch.MatchID`.
+
+L'étape 2 fait **deux passes** : relier toutes les places à leur match, puis rejouer les
+résultats. En une seule passe, `resolve` — appelée par `onResult` — voyait une place encore sans
+match dont un joueur était retiré, et la déclarait gagnée par forfait (`Walkover`) alors que le
+match avait été joué avant le retrait ; le classement ignorait ce match, et une demi-finaliste
+retirée finissait dernière.
 
 Les **places dérivées** (`GMatch.Players[k]` dont la source est un autre match) repartent vides à
 l'étape 1 et sont refaites par `resolve`. Sans cela, un match qui cesse d'être joué — correction,
@@ -2103,7 +2109,8 @@ pour chaque entrant p :
         note  := "en vie (<n> vies)"
         si len(alive) == 1 → note := "vainqueur"
     si p est retiré :
-        score := -1 ; note := "forfait"
+        score := Wins[p]
+        note  := retiré (Wins, Losses, Lives = vies qui lui restaient)
 
 si len(alive) == 1 et ElimOrder non vide :
     le DERNIER éliminé reçoit score 999 et la note "finaliste"
@@ -2118,11 +2125,20 @@ Lecture des scores :
 |---|---|
 | `1000 + vies + victoires` | joueur encore en vie ; plus il a de vies et de victoires, mieux il est classé |
 | `999` | finaliste (dernier éliminé quand le vainqueur est connu) |
-| `victoires` | éliminé ; départagé par le nombre de victoires au moment de l'élimination, ex æquo conservés |
-| `-1` | forfait, classé dernier |
+| `victoires` | éliminé, ou retiré ; départagé par le nombre de victoires au moment de l'élimination (ou du retrait), ex æquo conservés |
 
 C'est la traduction exacte du principe « pas de départage » : deux joueurs éliminés avec le même
 nombre de victoires sont **ex æquo**, définitivement.
+
+**Un joueur retiré est classé sur son parcours**, comme s'il avait été éliminé à l'instant de son
+retrait : par ses victoires, **ex æquo** avec les éliminés qui en ont autant, derrière tous les
+joueurs encore en vie. Ses vies restantes ne comptent pas — il ne les jouera pas — mais la note
+les porte, avec ses victoires et ses défaites (`withdrawn`). Le parti pris est celui des
+éliminés : pas de départage, et un retrait n'efface pas ce qui a été joué. Le meilleur joueur d'un
+suisse de cinq jours qui part le mercredi avec huit victoires était classé dernier (« forfait ») ;
+il est désormais classé parmi les éliminés à huit victoires. Le « forfait » ne désigne plus que le
+match abandonné (`Match.Forfeit`) et, dans le classement propre d'une section, le match perdu par
+forfait (`forfeit`).
 
 ---
 
@@ -2422,8 +2438,9 @@ initialiser score[p] = -1, note = « non classé » pour chaque entrant
         note := "vainqueur <nom de section>"
         si section == "gf" : le perdant reçoit prio(gf)*1000+998, note « finaliste »
 
-(3) NON CLASSÉS :
-    si retiré et score < 0            → note « forfait »
+(3) RETIRÉS ET NON CLASSÉS :
+    si retiré → note := retiré (withdrawn), avec la section et le libellé de sa sortie s'il en a une
+                (son score, lui, est celui de son parcours)
     si score < 0 :
         score := 0
         si la note est restée « non classé » → note « en cours », score := 5000
@@ -2435,6 +2452,11 @@ La règle (1) est contre-intuitive mais essentielle : **un joueur est classé pa
 c'est-à-dire par la section de plus faible priorité où il a perdu. Un joueur battu au premier tour
 du principal puis en finale de consolante est classé sur sa performance en consolante, pas sur son
 élimination du principal.
+
+Un joueur **retiré** garde le score de la sortie qu'il a atteinte : une demi-finaliste qui part
+pendant sa demi-finale la perd par forfait, et elle est classée comme une demi-finaliste éliminée —
+sa place en consolante, résolue sans match (walkover), n'entre pas dans le classement. Retiré sans
+avoir joué, il reste en queue (score 0).
 
 Le score 5000 attribué aux joueurs « en cours » les place **devant tout le monde** : c'est voulu,
 puisque le classement intermédiaire doit montrer les joueurs encore en course en tête.
@@ -3256,7 +3278,8 @@ reconstruction fidèle du moteur ne doit pas les inclure sans le dire.
 `PhaseState`, `Section`, `GMatch`, `Src`, `Slot`, `Clock`, `External`, `ConfigRefusal`.
 
 Codes (voir `codes.go`, aucun texte destiné à l'affichage ne sort du moteur) : `LabelKind`,
-`Label`, `NoteKind`, `Note`, `WarningCode`, `Warning`, `InfoCode`, `Info`, `ReasonCode`.
+`Label`, `NoteKind`, `Note`, `WarningCode`, `Warning`, `InfoCode`, `Info`, `ReasonCode`
+(`NoteWithdrawn` : retiré, classé sur son parcours ; `NoteForfeit` : match perdu par forfait).
 
 ### Constantes
 

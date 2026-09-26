@@ -145,6 +145,11 @@ func (n Note) String() string {
 		return fmt.Sprintf("%d victoires, %d défaites", n.Wins, n.Losses)
 	case NoteForfeit:
 		return "forfait"
+	case NoteWithdrawn:
+		if n.Section != "" {
+			return fmt.Sprintf("retiré (%s, %s)", sectionName(n.Section), sub)
+		}
+		return fmt.Sprintf("retiré (%d victoires, %d défaites)", n.Wins, n.Losses)
 	case NoteRunning:
 		return "en cours"
 	case NoteAwaitingDraw:

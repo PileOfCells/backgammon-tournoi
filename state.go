@@ -556,6 +556,11 @@ func (s *State) recompute() {
 			}
 		}
 	}
+	// Deux passes : d'abord relier chaque place à son match, PUIS rejouer les résultats. En une
+	// seule passe, resolve (appelée à chaque résultat) voyait une place encore sans match, dont
+	// un joueur était retiré, et la déclarait gagnée par forfait — alors que le match avait été
+	// joué, avant le retrait. Le forfait restait marqué (Walkover) et le classement ignorait ce
+	// match : une demi-finaliste retirée finissait dernière.
 	for _, id := range s.MatchOrder {
 		m := s.Matches[id]
 		ph := s.phaseOf(m.Phase)
@@ -567,7 +572,9 @@ func (s *State) recompute() {
 		if g := ph.gmatch(m.Section, m.Key); g != nil {
 			g.MatchID = m.ID
 		}
-		if m.Status == Finished {
+	}
+	for _, id := range s.MatchOrder {
+		if m := s.Matches[id]; m.Status == Finished && s.phaseOf(m.Phase) != nil {
 			s.onResult(m)
 		}
 	}
@@ -789,8 +796,15 @@ func (s *State) livesRanking(ph *PhaseState) []Rank {
 			}
 		}
 		if s.Withdrawn[p] {
-			v = -1
-			note = Note{Kind: NoteForfeit}
+			// Retiré : classé sur son parcours, comme un joueur éliminé à cet instant — par ses
+			// victoires, ex æquo avec les éliminés qui en ont autant. Il ne précède aucun joueur
+			// encore en vie. Le « forfait » n'est que celui du match qu'il abandonne.
+			v = float64(ph.Wins[p])
+			restantes := ph.Lives[p] - ph.Losses[p]
+			if restantes < 0 {
+				restantes = 0
+			}
+			note = Note{Kind: NoteWithdrawn, Wins: ph.Wins[p], Losses: ph.Losses[p], Lives: restantes}
 		}
 		list = append(list, sc{p, v, note})
 	}
