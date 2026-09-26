@@ -263,6 +263,12 @@ func (s *State) rrRanking(ph *PhaseState) []Rank {
 		for p, w := range rrWins(sec) {
 			score[p] = w
 			note[p] = Note{Kind: NotePoolRecord, Section: sec.Name, Wins: w}
+			if s.Withdrawn[p] {
+				// Retiré : classé sur ses victoires, ex æquo avec les éliminés qui en ont autant,
+				// jamais parmi les qualifiés (#25).
+				note[p] = Note{Kind: NoteWithdrawn, Section: sec.Name, Wins: w}
+				continue
+			}
 			if qual[p] {
 				score[p] += 100
 				n := note[p]

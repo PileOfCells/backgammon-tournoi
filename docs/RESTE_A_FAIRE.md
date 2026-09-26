@@ -71,6 +71,10 @@ où intervenir et comment vérifier.
   par ses victoires, ex æquo avec les éliminés au même nombre ; dans un tableau à la sortie
   atteinte — avec la note `withdrawn`. `forfeit` ne désigne plus que le match perdu par forfait.
   Défaut corrigé en chemin : `recompute` marquait « walkover » un match joué avant un retrait.
+- [x] **Retiré de tableau sans défaite jouée** (issue #25). Le match perdu par forfait (walkover)
+  compte comme sortie : un retiré de `lives_bracket` ou de `bracket` est classé avec les perdants
+  du match qui l'attendait, et non dernier sans section. Poules : note `withdrawn`, jamais parmi
+  les qualifiés du classement.
 - [ ] **Byes et exemptions équitables sur plusieurs rondes** : en mode `rounds`, le bye va au
   joueur du groupe le plus bas n'en ayant pas eu ; vérifier la règle « pas de second bye tant que
   d'autres n'en ont pas eu » entre groupes différents (aujourd'hui par groupe). `pairGroup`.

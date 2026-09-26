@@ -377,8 +377,9 @@ proposition du moteur. Ce sont ces cas-là qui définiront les fonctions manquan
 
 Parce que son retrait n'efface pas ce qu'il a joué. Il est classé comme s'il avait été éliminé à
 l'instant où il est parti : au suisse, par ses victoires, à égalité avec les éliminés qui en ont
-autant ; dans un tableau, au tour qu'il avait atteint. Le classement le note « retiré », avec son
-bilan. Le mot « forfait » ne désigne plus que le match qu'il a abandonné en partant.
+autant ; dans un tableau, comme s'il perdait ses matchs restants, à égalité avec les perdants du
+match qui l'attendait ; dans une poule, par ses victoires, sans être qualifié. Le classement le
+note « retiré », avec son bilan. Le mot « forfait » ne désigne plus que le match qu'il a abandonné en partant.
 
 ## « Un joueur doit s'absenter : faut-il le retirer ? »
 
