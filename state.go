@@ -358,11 +358,12 @@ func (s *State) Apply(ev Event) error {
 		return fmt.Errorf("événement %q inconnu", ev.Kind)
 	}
 	switch ev.Kind {
-	case EvMatchStarted, EvResult:
+	case EvMatchStarted, EvResult, EvTableChanged:
 		// Ces deux-là changent ce que check() regarde — les joueurs qui occupent une place de
 		// graphe, le score au regard de la longueur annoncée — sans passer par recompute. Sans
 		// ce rappel, un score au-delà de la longueur n'apparaissait qu'après une correction
 		// sans rapport, ou jamais : le TD ne le voyait pas au moment où il pouvait encore agir.
+		// table_changed et match_started peuvent mettre deux matchs sur la même table.
 		// Les autres types qui touchent un match recalculent déjà tout (recompute appelle
 		// check) ; length_changed ne touche que les matchs FUTURS d'une phase, et ne peut donc
 		// rien changer à ce que check regarde.
@@ -597,6 +598,29 @@ func (s *State) check() []Warning {
 		if m.Status == Finished && m.Length > 0 && (m.ScoreA > m.Length || m.ScoreB > m.Length) {
 			w = append(w, Warning{Code: WarnScoreOverLength, Match: m.ID, Length: m.Length, ScoreA: m.ScoreA, ScoreB: m.ScoreB})
 		}
+	}
+	return append(w, s.sharedTables()...)
+}
+
+// sharedTables : les tables qui portent plusieurs matchs en cours. Un avertissement par match
+// arrivé en second (dans l'ordre des matchs), qui nomme le premier occupant : c'est celui qu'on
+// a déplacé ou lancé par-dessus, donc celui que le TD a à regarder.
+func (s *State) sharedTables() []Warning {
+	var w []Warning
+	var occupant map[int]MatchID
+	for _, id := range s.MatchOrder {
+		m := s.Matches[id]
+		if m.Status != Running || m.Table <= 0 {
+			continue
+		}
+		if occupant == nil {
+			occupant = map[int]MatchID{}
+		}
+		if o, ok := occupant[m.Table]; ok {
+			w = append(w, Warning{Code: WarnTableShared, Match: m.ID, Other: o, Table: m.Table, A: m.A, B: m.B})
+			continue
+		}
+		occupant[m.Table] = m.ID
 	}
 	return w
 }

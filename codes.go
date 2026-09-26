@@ -155,6 +155,10 @@ const (
 	WarnEndsInBreak WarningCode = "ends_in_break"
 	// WarnSlowMatch : un match en cours dépasse la durée attendue.
 	WarnSlowMatch WarningCode = "slow_match"
+	// WarnTableShared : deux matchs en cours sur la même table (Table), Match et Other. Le
+	// déplacement qui l'a produit a été accepté : le moteur avertit, il ne bloque pas.
+	// L'avertissement tombe dès que l'un des deux matchs se termine ou change de table.
+	WarnTableShared WarningCode = "table_shared"
 )
 
 // Warning est une incohérence : un code et de quoi la situer. Rien n'est bloqué par un
@@ -171,6 +175,8 @@ type Warning struct {
 	Length    int         `json:"length,omitempty"`
 	ScoreA    int         `json:"score_a,omitempty"`
 	ScoreB    int         `json:"score_b,omitempty"`
+	Table     int         `json:"table,omitempty"` // table_shared : la table disputée
+	Other     MatchID     `json:"other,omitempty"` // table_shared : l'autre match sur la table
 }
 
 // ---- Informations ----

@@ -21,7 +21,23 @@ func (s *State) Propose() []Action { return s.ProposeAt(s.Last) }
 // Le rejeu n'en est pas affecté : ce qui est rejoué, ce sont les événements, pas les
 // propositions. Deux hôtes dont les horloges diffèrent proposent les mêmes matchs, à des
 // instants différents.
-func (s *State) ProposeAt(now time.Time) []Action {
+func (s *State) ProposeAt(now time.Time) []Action { return s.ProposeWith(now, External{}) }
+
+// External décrit ce que l'hôte sait de la salle et que le journal de CE tournoi ignore : les
+// tables où joue, en ce moment, une autre épreuve dirigée à côté. Ce n'est pas un événement :
+// l'occupation par l'extérieur change à chaque match de l'autre épreuve, elle n'appartient pas
+// à l'histoire de celle-ci, et le rejeu n'en a pas besoin — le match_started confirmé porte,
+// lui, la table effectivement prise.
+type External struct {
+	// BusyTables : tables occupées hors de ce tournoi. L'attribution les saute ; une proposition
+	// qui ne trouve plus de table attend (ReasonWaitingTable) au lieu de collisionner.
+	BusyTables []int `json:"busy_tables,omitempty"`
+}
+
+// ProposeWith est ProposeAt avec ce que l'hôte sait de l'extérieur (External). Seule
+// l'attribution des tables en dépend ; les appariements, tirages et passages de phase restent
+// fonction du seul journal.
+func (s *State) ProposeWith(now time.Time, ext External) []Action {
 	if s.Current < 0 || s.Finished {
 		return nil
 	}
@@ -59,7 +75,7 @@ func (s *State) ProposeAt(now time.Time) []Action {
 		}
 		return []Action{{Kind: ActWait, Phase: ph.Index, Reason: ReasonNoPairing}}
 	}
-	s.assignTables(acts)
+	s.assignTables(acts, ext.BusyTables)
 	s.flagBreaks(acts, now)
 	return acts
 }
@@ -99,15 +115,20 @@ func (s *State) Running() []*Match {
 	return out
 }
 
-// assignTables attribue les plus petites tables libres aux matchs proposés.
 // assignTables attribue une table à chaque match proposé : la plus petite qui soit libre,
-// disponible, et non réservée à autre chose (tables.go). Une proposition qui n'en trouve pas
-// reste dans la file avec ReasonWaitingTable — le TD peut la lancer avec un numéro saisi.
-func (s *State) assignTables(acts []Action) {
+// disponible, non réservée à autre chose (tables.go) et non occupée par une autre épreuve de la
+// salle (dehors, voir External). Une proposition qui n'en trouve pas reste dans la file avec
+// ReasonWaitingTable — le TD peut la lancer avec un numéro saisi.
+func (s *State) assignTables(acts []Action, dehors []int) {
 	used := map[int]bool{}
 	for _, m := range s.Running() {
 		if m.Table > 0 {
 			used[m.Table] = true
+		}
+	}
+	for _, t := range dehors {
+		if t > 0 {
+			used[t] = true
 		}
 	}
 	max := s.Config.Tables.Count
