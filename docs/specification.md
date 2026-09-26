@@ -590,7 +590,7 @@ Cinq familles de codes, toutes dans `codes.go` :
 |---|---|---|
 | Libellés | `Label{Kind, N, Losses, Match, Section, Text, Players, Spots, Sub}` | `Event.Label`, `Match.Label`, `Action.Label`, `GMatch.Label` |
 | Notes de classement | `Note{Kind, Wins, Losses, Lives, Section, Qualified, Sub}` | `Rank.Note` |
-| Avertissements | `Warning{Code, Match, Section, Label, A, B, ExpectedA, ExpectedB, Length, ScoreA, ScoreB}` | `State.Warnings`, `Action.Warn` (le code seul) |
+| Avertissements | `Warning{Code, Match, Section, Label, A, B, ExpectedA, ExpectedB, Length, ScoreA, ScoreB, Table, Other}` | `State.Warnings`, `Action.Warn` (le code seul) |
 | Informations | `Info{Code, Player, Phase, Section, Label}` | `State.Infos` |
 | Raisons d'attente | `ReasonCode` | `Action.Reason` |
 
@@ -629,6 +629,7 @@ const (
     EvLengthChanged   EventKind = "length_changed"
     EvConfigChanged   EventKind = "config_changed"
     EvReopened        EventKind = "reopened"
+    EvTableChanged    EventKind = "table_changed"
     EvFinished        EventKind = "finished"
     EvNote            EventKind = "note"
 )
@@ -703,6 +704,7 @@ Il n'exige pas la monotonie et ne s'en sert jamais pour décider.
 | `length_changed` | `Phase`, `Length` |
 | `config_changed` | `Config` (obligatoire, la configuration **entière**) |
 | `reopened` | — |
+| `table_changed` | `MatchID`, `Table` |
 | `finished` | — |
 | `note` | `Text` |
 
@@ -937,6 +939,21 @@ s.Finished = false ; s.Final = nil
 Rouvre un tournoi clos, parce qu'un résultat était faux. Le classement final figé est effacé et
 sera recalculé à la clôture suivante ; le journal, lui, garde tout — la clôture, la réouverture,
 la correction et la nouvelle clôture sont quatre événements.
+
+### `table_changed`
+
+```
+m := s.Matches[MatchID] ; si absent → erreur « match inconnu »
+m.Table = ev.Table
+check()
+```
+
+Le déplacement est **toujours accepté**, y compris vers une table qui porte déjà un match en
+cours : le moteur avertit, il ne bloque pas. `check` lève alors `table_shared` (voir « Contrôle
+de cohérence »), qui tombe de lui-même dès que l'un des deux matchs se termine ou repart ailleurs.
+Refuser aurait laissé le TD sans recours dans la salle pleine où il en a justement besoin — un
+plateau cassé, quatorze tables sur quatorze occupées, deux joueurs qui finissent sur un coin de
+table en attendant.
 
 ### `finished`
 
@@ -1202,12 +1219,17 @@ l'ensemble `{m.A, m.B}` diffère de `{g.Players[0], g.Players[1]}`, produire l'a
 match <ID> (<section> <label>) : joueurs <A>/<B> mais le tableau attend <P0>/<P1>
 ```
 
-Et pour chaque match terminé dont le score dépasse la longueur annoncée, l'avertissement
-`score_over_length`. Le score est **enregistré** malgré tout : pendant un tournoi, c'est la
+Pour chaque match terminé dont le score dépasse la longueur annoncée, l'avertissement
+`score_over_length`.
+
+Et pour chaque table qui porte **plusieurs matchs en cours**, l'avertissement `table_shared`,
+une fois par match arrivé en second dans `MatchOrder`, avec `Table`, `Match` (ce match) et
+`Other` (le premier occupant). Il est dérivé de l'état : il disparaît quand l'un des deux matchs
+se termine, est annulé ou change de table. Un match sans table (`Table = 0`) ne partage rien. Le score est **enregistré** malgré tout : pendant un tournoi, c'est la
 parole du TD qui fait foi ; le moteur le signale, il ne le refuse pas.
 
-`check` est rappelée après **tout événement qui touche un match** : `result` et `match_started`
-directement, les autres (`result_corrected`, `match_cancelled`, `player_withdrawn`,
+`check` est rappelée après **tout événement qui touche un match** : `result`, `match_started` et
+`table_changed` directement, les autres (`result_corrected`, `match_cancelled`, `player_withdrawn`,
 `config_changed`) par `recompute`, qui la termine. Un avertissement qui n'apparaîtrait qu'après
 une correction sans rapport ne servirait à rien : le TD doit le voir au moment où il peut encore
 agir. `length_changed` ne touche que les matchs FUTURS d'une phase et ne change donc rien à ce
@@ -1304,8 +1326,19 @@ un match lancé à midi moins dix et attendu pour 13 h 30 fait manquer le repas 
 
 ```go
 func (s *State) Propose() []Action              // = ProposeAt(s.Last)
-func (s *State) ProposeAt(now time.Time) []Action
+func (s *State) ProposeAt(now time.Time) []Action // = ProposeWith(now, External{})
+func (s *State) ProposeWith(now time.Time, ext External) []Action
+
+type External struct {
+    BusyTables []int `json:"busy_tables,omitempty"` // tables occupées hors de ce tournoi
+}
 ```
+
+`External` est ce que l'hôte sait de la salle et que le journal de ce tournoi ignore : les tables
+où joue, en ce moment, **une autre épreuve** dirigée dans la même salle. Ce n'est pas un
+événement : l'occupation par l'extérieur change à chaque match de l'autre épreuve, elle
+n'appartient pas à l'histoire de celle-ci, et le rejeu n'en a pas besoin — le `match_started`
+confirmé porte la table effectivement prise. Seule l'attribution des tables en dépend.
 
 C'est le point d'entrée principal du moteur. Il est **pur** : il ne modifie pas l'état (à
 l'exception de l'écriture des numéros de table dans les actions renvoyées) et ne dépend que du
@@ -1329,7 +1362,7 @@ si acts est vide :
         sinon                        → [ Finish ]
     → [ Wait, raison « aucun appariement possible » ]
 
-assignTables(acts)
+assignTables(acts, ext.BusyTables)
 → acts
 ```
 
@@ -1365,24 +1398,26 @@ func (s *State) busy(p PlayerID) bool       // p a-t-il un match en cours ?
 ## Attribution des tables
 
 ```go
-func (s *State) assignTables(acts []Action)
+func (s *State) assignTables(acts []Action, dehors []int)
 ```
 
 ```
-used := { table de chaque match en cours, si > 0 }
-t := 1
+used := { table de chaque match en cours, si > 0 } ∪ { tables de dehors }
 pour chaque action du lot, dans l'ordre :
     si ce n'est pas un start_match, ou si Table est déjà renseignée → passer
-    avancer t tant que used[t]
-    si Config.Tables > 0 et t > Config.Tables → arrêter
-         (les actions suivantes restent sans table)
+    t := la plus petite table t ≥ 1 telle que
+             non used[t] et Config.Tables.AvailableFor(t, section, phase)
+    si aucune (t > Tables.Count quand Count > 0) :
+         Action.Reason = waiting_table ; passer
     Action.Table = t ; used[t] = true
 ```
 
-La table proposée est donc toujours **la plus petite libre**. Les actions au-delà du nombre de
-tables gardent `Table = 0` : le TD voit qu'il n'a pas de table disponible, mais l'action reste
-confirmable (le moteur ne bloque pas). Il n'existe pas aujourd'hui de notion de table indisponible,
-réservée, ni d'événement de changement de table.
+`AvailableFor` écarte les tables hors service (`Tables.Unavailable`) et celles qui sont réservées
+à une autre section ou à une autre phase (`Tables.Reserved`). `dehors` est `External.BusyTables` :
+les tables où joue une autre épreuve de la salle. La table proposée est donc toujours **la plus
+petite libre**. Une action qui n'en trouve pas garde `Table = 0` et porte la raison
+`waiting_table` : elle reste confirmable (le moteur ne bloque pas), le TD saisit une table ou
+attend qu'une se libère.
 
 ## Générateur pseudo-aléatoire
 
@@ -3021,8 +3056,6 @@ reconstruction fidèle du moteur ne doit pas les inclure sans le dire.
   chaque appel ; l'hôte doit l'appeler à intervalle fixe pour obtenir un effet micro-rondes. À
   implémenter proprement : paramètre `batch_minutes` et horodatage du dernier lot dans
   `phase_swiss.go`.
-- **Tables** : pas de table indisponible, réservée, ni de changement de table d'un match en cours
-  (événement `table_changed` à créer).
 
 ## Fonctions attendues d'un logiciel de tournoi
 
@@ -3068,7 +3101,7 @@ reconstruction fidèle du moteur ne doit pas les inclure sans le dire.
 
 `PlayerID`, `Player`, `MatchID`, `MatchStatus`, `Match`, `Rank`, `ActionKind`, `Action`, `Draw`,
 `EventKind`, `Event`, `Journal`, `Config`, `PhaseConfig`, `Tables`, `TableRule`, `State`,
-`PhaseState`, `Section`, `GMatch`, `Src`, `Slot`, `Clock`.
+`PhaseState`, `Section`, `GMatch`, `Src`, `Slot`, `Clock`, `External`.
 
 Codes (voir `codes.go`, aucun texte destiné à l'affichage ne sort du moteur) : `LabelKind`,
 `Label`, `NoteKind`, `Note`, `WarningCode`, `Warning`, `InfoCode`, `Info`, `ReasonCode`.
@@ -3094,6 +3127,7 @@ func (s *State) Step(evs ...Event) ([]Action, error)
 // boucle du TD
 func (s *State) Propose() []Action              // = ProposeAt(s.Last)
 func (s *State) ProposeAt(now time.Time) []Action
+func (s *State) ProposeWith(now time.Time, ext External) []Action // tables prises par une autre épreuve
 func (s *State) EventFromAction(a Action, now time.Time) (Event, error)
 func ResultEvent(id MatchID, winner PlayerID, scoreA, scoreB int, now time.Time) Event
 

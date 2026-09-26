@@ -211,6 +211,11 @@ func (w Warning) String() string {
 		return fmt.Sprintf("match %s : la fin attendue tombe pendant une pause", w.Match)
 	case WarnSlowMatch:
 		return fmt.Sprintf("match %s : durée au-delà de l'attendu", w.Match)
+	case WarnTableShared:
+		if w.Match == "" {
+			return "deux matchs en cours sur la même table"
+		}
+		return fmt.Sprintf("table %d : %s et %s y sont en cours tous les deux", w.Table, w.Other, w.Match)
 	}
 	return string(w.Code)
 }

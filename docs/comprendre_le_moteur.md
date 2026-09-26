@@ -268,6 +268,12 @@ séparation a un coût (il faut confirmer) et deux avantages :
 - chaque bouton de l'interface correspond exactement à une ligne du journal, ce qui rend le système
   vérifiable.
 
+Même quand le directeur fait quelque chose de douteux, le moteur l'accepte et le dit. Déplacer un
+match sur une table où un autre match est en cours est enregistré tel quel ; un avertissement
+« deux matchs sur la table 11 » reste affiché jusqu'à ce que l'un des deux se termine. Et quand
+plusieurs épreuves se partagent la salle, le logiciel hôte indique au moteur les tables que les
+autres occupent : il n'y propose rien, et un match sans table libre attend.
+
 ## Les tirages sont enregistrés, pas recalculés
 
 Quand le moteur tire un tableau ou compose des groupes, **le résultat du tirage est écrit dans le
