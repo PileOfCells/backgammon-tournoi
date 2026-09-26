@@ -252,6 +252,7 @@ Une erreur ne se corrige pas en effaçant. Elle se corrige en **ajoutant** :
 | Mauvais vainqueur saisi | une correction de résultat |
 | Match lancé par erreur | une annulation de match |
 | Joueur qui abandonne | un forfait |
+| Nom ou club mal orthographié | une correction de fiche (le joueur garde son état, retrait compris) |
 
 Le logiciel recalcule alors tout, et **signale ce qui n'est plus cohérent** — typiquement : « le
 match M17 a été joué par Alice et Bob, mais le tableau attend maintenant Alice et Chloé ». Le

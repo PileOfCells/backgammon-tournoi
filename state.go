@@ -204,6 +204,15 @@ func (s *State) Apply(ev Event) error {
 		case ph.Index == 0 && !ph.Drawn && (ph.Cfg.Kind == KindSwissLives || !ph.Started):
 			s.enter(ph, p.ID, livesFor(ph.Cfg)) // admis avec toutes ses vies (suisse) ou avant le tirage
 		}
+	case EvPlayerUpdated:
+		if ev.Player == nil || ev.Player.ID == "" {
+			return fmt.Errorf("joueur sans identifiant")
+		}
+		if _, ok := s.Players[ev.Player.ID]; !ok {
+			return fmt.Errorf("joueur %s inconnu : une inscription est un player_added", ev.Player.ID)
+		}
+		p := *ev.Player
+		s.Players[p.ID] = &p
 	case EvPlayerWithdrawn:
 		if _, ok := s.Players[ev.ID]; !ok {
 			return fmt.Errorf("joueur %s inconnu", ev.ID)
