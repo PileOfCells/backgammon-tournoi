@@ -348,7 +348,7 @@ func (t *td) exec(f []string) error {
 				return err
 			}
 			fmt.Println("  ✔", a)
-			if a.Kind == tournoi.ActDraw || a.Kind == tournoi.ActNextPhase || a.Kind == tournoi.ActFinish {
+			if a.Kind == tournoi.ActDraw || a.Kind == tournoi.ActRepechage || a.Kind == tournoi.ActNextPhase || a.Kind == tournoi.ActFinish {
 				break
 			}
 		}

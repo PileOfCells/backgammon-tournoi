@@ -70,6 +70,8 @@ type PhaseState struct {
 	Sections  []*Section         `json:"sections,omitempty"`
 	Length    int                `json:"length"` // longueur courante des matchs
 	Started   bool               `json:"started"`
+	// Repechages : poules, qualifié retiré → joueur repêché à sa place (repechage.go).
+	Repechages map[PlayerID]PlayerID `json:"repechages,omitempty"`
 }
 
 // Section est un graphe de matchs dont les places se remplissent par les résultats
@@ -367,6 +369,10 @@ func (s *State) Apply(ev Event) error {
 		s.Phases = append(s.Phases, next)
 		s.Current++
 		s.enterFrom(next, ph)
+	case EvRepechage:
+		if err := s.applyRepechage(ev); err != nil {
+			return err
+		}
 	case EvTableChanged:
 		m, ok := s.Matches[ev.MatchID]
 		if !ok {
@@ -474,14 +480,23 @@ func (s *State) enterFrom(next, prev *PhaseState) {
 	default: // survivants avec leurs vies restantes
 		for _, p := range s.survivors(prev) {
 			if !s.Withdrawn[p] {
-				l := s.remainingLives(prev, p)
-				if next.Cfg.Kind != KindLivesBracket && next.Cfg.Kind != KindGSL && next.Cfg.Kind != KindSwissLives {
-					l = livesFor(next.Cfg)
-				}
-				s.enter(next, p, l)
+				s.enter(next, p, s.entryLives(next, prev, p))
 			}
 		}
 	}
+}
+
+// entryLives : vies d'un joueur qui entre dans next depuis prev. Les survivants gardent leurs
+// vies restantes quand next est à vies ; sinon, et pour les entrées « all » et « top:N », next
+// donne les siennes.
+func (s *State) entryLives(next, prev *PhaseState, p PlayerID) int {
+	if next.Cfg.Entry != "survivors" && next.Cfg.Entry != "" {
+		return livesFor(next.Cfg)
+	}
+	if next.Cfg.Kind != KindLivesBracket && next.Cfg.Kind != KindGSL && next.Cfg.Kind != KindSwissLives {
+		return livesFor(next.Cfg)
+	}
+	return s.remainingLives(prev, p)
 }
 
 func livesFor(cfg PhaseConfig) int {

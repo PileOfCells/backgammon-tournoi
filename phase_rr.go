@@ -213,8 +213,13 @@ func (s *State) applyRRDraw(ph *PhaseState, section string, d *Draw) error {
 	return nil
 }
 
-// rrQualified : qualifiés de chaque poule (après barrages).
+// rrQualified : qualifiés de chaque poule (après barrages), repêchés compris (repechage.go).
 func (s *State) rrQualified(ph *PhaseState) []PlayerID {
+	return s.repechageQualified(ph, s.rrQualifiedBase(ph))
+}
+
+// rrQualifiedBase : qualifiés au seul vu des résultats, avant repêchage.
+func (s *State) rrQualifiedBase(ph *PhaseState) []PlayerID {
 	var out []PlayerID
 	for _, sec := range ph.Sections {
 		if sec.Kind != secKindPool {

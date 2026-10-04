@@ -124,6 +124,8 @@ func TestRenduFrancaisCouvreLesCodes(t *testing.T) {
 		{Kind: tournoi.LabelDrawBarrage, Section: "poule:A", Players: 3, Spots: 2},
 		{Kind: tournoi.LabelDrawBracket, N: 16},
 		{Kind: tournoi.LabelDrawBlock, N: 1, Players: 4},
+		{Kind: tournoi.LabelRepechage, Section: "poule:A", Players: 1},
+		{Kind: tournoi.LabelRepechage, Section: "poule:A", Players: 3},
 		{Kind: tournoi.LabelPhase, Text: "Suisse"},
 	}
 	for _, l := range labels {
@@ -174,6 +176,18 @@ func TestRenduFrancaisCouvreLesCodes(t *testing.T) {
 	for _, i := range infos {
 		if s := i.String(); s == "" || s == string(i.Code) {
 			t.Errorf("information %s : pas de rendu français (%q)", i.Code, s)
+		}
+	}
+	for _, st := range []tournoi.PlayerStatus{
+		{Kind: tournoi.StatusPlaying}, {Kind: tournoi.StatusPlaying, Section: "conso", Round: 2, Label: tournoi.Label{Kind: tournoi.LabelConsolationRound, N: 2}},
+		{Kind: tournoi.StatusBye, Section: "main", Round: 2, Label: tournoi.Label{Kind: tournoi.LabelSemiFinal}},
+		{Kind: tournoi.StatusBye, Round: 3, Label: tournoi.Label{Kind: tournoi.LabelRound, N: 3}},
+		{Kind: tournoi.StatusQualified, Phase: 1}, {Kind: tournoi.StatusUndecided, Phase: 1},
+		{Kind: tournoi.StatusEliminated}, {Kind: tournoi.StatusWinner}, {Kind: tournoi.StatusWithdrawn},
+		{Kind: tournoi.StatusNotEntered},
+	} {
+		if s := st.String(); s == "" || s == string(st.Kind) {
+			t.Errorf("statut %s : pas de rendu français (%q)", st.Kind, s)
 		}
 	}
 	avertissements := []tournoi.Warning{

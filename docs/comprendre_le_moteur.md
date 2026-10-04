@@ -1,7 +1,7 @@
 ---
 title: "Comprendre le moteur de tournoi"
 subtitle: "Ce qu'il fait, pourquoi il le fait ainsi, et ce qu'il ne fait pas encore"
-date: "26 septembre 2026"
+date: "4 octobre 2026"
 lang: fr
 toc: true
 toc-depth: 2
@@ -216,6 +216,36 @@ mais écarté pour la version 1, pour deux raisons :
 
 Même raison : le format doit récompenser le parcours, pas le corriger.
 
+## Un qualifié de poule qui se retire : repêchage proposé plutôt qu'exemption
+
+Quand un qualifié de poule se retire **avant le tirage** du tableau, sa place est **proposée au
+suivant de sa poule** (le joueur ni qualifié ni retiré qui a le plus de victoires de poule). Le
+directeur confirme ou passe outre ; s'il passe outre, la place devient une exemption.
+
+Trois réponses étaient possibles :
+
+- **l'exemption** (ce que faisait le moteur jusque-là) : le tableau garde sa taille, une place
+  reste vide, et le joueur tiré en face gagne un tour sans jouer. Ce tour gratuit ne récompense
+  aucun parcours : il tombe sur qui le tirage désigne ;
+- **le repêchage d'office** : la place va au suivant sans que personne le décide. C'est juste
+  sportivement, mais le moteur déciderait seul d'une question que le directeur tranche
+  ordinairement à la table — et un journal déjà joué, rejoué, changerait de tableau ;
+- **le repêchage proposé** (retenu) : le moteur désigne le suivant, le directeur confirme, et sa
+  décision est écrite au journal (événement `repechage`).
+
+Le repêchage est mis en tête de la file parce qu'il est la réponse sportive : le suivant de la
+poule a gagné sa place au classement, l'exemption ne la donne à personne. Il n'est pas imposé
+parce que le moteur propose et le directeur dispose : un règlement local, un repêché déjà parti
+ou un horaire serré peuvent faire préférer l'exemption, qui reste à un clic (passer à la phase
+suivante sans confirmer). Et parce que rien n'est écrit sans confirmation, les journaux existants
+se rejouent à l'identique.
+
+Les cas limites suivent la même logique. Un suivant lui-même retiré est sauté. Entre suivants ex
+æquo, le moteur ne départage pas : il propose chacun, le directeur choisit. Une poule épuisée
+laisse l'exemption. **Après le tirage, plus de repêchage** : le retiré perd son match par forfait,
+comme tout retrait de tableau — changer un tableau tiré reviendrait à refaire le tirage dans le
+dos des joueurs qui l'ont vu, alors qu'avant le tirage personne ne sait encore qui il rencontre.
+
 ## Longueurs de match
 
 Résultat n° 5 : c'est presque neutre. Le moteur permet une longueur par phase et une longueur de
@@ -380,6 +410,30 @@ l'instant où il est parti : au suisse, par ses victoires, à égalité avec les
 autant ; dans un tableau, comme s'il perdait ses matchs restants, à égalité avec les perdants du
 match qui l'attendait ; dans une poule, par ses victoires, sans être qualifié. Le classement le
 note « retiré », avec son bilan. Le mot « forfait » ne désigne plus que le match qu'il a abandonné en partant.
+
+## « Un qualifié de ma poule s'en va avant le tableau : qui prend sa place ? »
+
+Le suivant de sa poule, si vous le confirmez. Dès le retrait, la file propose « Repêchage » en
+tête, avant le passage au tableau — ou avant le tirage, si le passage est déjà fait. En cas
+d'égalité entre suivants, elle propose chacun et vous choisissez. Si vous passez directement au
+tableau, la place devient une exemption. Une fois le tableau tiré, il est trop tard : le retiré
+perd son premier match par forfait.
+
+## « Le classement dit que j'ai été sorti du tableau : suis-je éliminé ? »
+
+Pas forcément. Le classement **situe** chaque joueur — « principal, premier tour » dit où vous
+avez perdu — mais il ne dit pas si vous avez encore un match : battu au premier tour du principal,
+vous jouez peut-être la consolante. La question « est-ce que je joue ? » a sa propre réponse, que
+le moteur donne pour chaque inscrit : **en jeu** (et où), **exempté** (et à quel tour du tableau,
+ou à quelle ronde du suisse il revient), **qualifié** pour la phase suivante, **pas encore fixé**,
+**éliminé**, **vainqueur** ou **retiré**.
+
+Cette réponse vient du moteur, pas du logiciel qui l'affiche, parce qu'elle applique les règles du
+tournoi : la liste des qualifiés est celle que le passage de phase produira, et un repêché de poule
+est qualifié dès que le directeur a confirmé le repêchage — le joueur qu'il remplace ne l'est plus.
+« Pas encore fixé » est une vraie réponse : un joueur dont le parcours est fini mais dont la phase
+suivante prend les N premiers attend la fin de la phase pour connaître son rang, et un candidat au
+repêchage attend la décision du directeur.
 
 ## « Un joueur doit s'absenter : faut-il le retirer ? »
 

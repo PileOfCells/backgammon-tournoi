@@ -166,6 +166,15 @@ func cohérent(t *testing.T, st *tournoi.State) {
 		rangs[rk.Player] = true
 	}
 	st.Propose() // ne doit pas paniquer
+	statuts := st.Statuses()
+	if len(statuts) != len(st.Order) && st.Current >= 0 {
+		t.Fatalf("%d statuts pour %d inscrits", len(statuts), len(st.Order))
+	}
+	for _, s := range statuts {
+		if (s.Kind == tournoi.StatusWithdrawn) != st.Withdrawn[s.Player] {
+			t.Fatalf("%s : retiré=%v, statut %s", s.Player, st.Withdrawn[s.Player], s.Kind)
+		}
+	}
 }
 
 func cfgFuzz() tournoi.Config {

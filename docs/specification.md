@@ -1,7 +1,7 @@
 ---
 title: "Moteur de tournoi de backgammon — spécification"
 subtitle: "Document de reconstruction complète (bibliothèque `tournoi`)"
-date: "26 septembre 2026"
+date: "4 octobre 2026"
 lang: fr
 toc: true
 toc-depth: 3
@@ -258,6 +258,7 @@ const (
     ActDraw        ActionKind = "draw"         // effectuer un tirage (le tirage est joint)
     ActNextPhase   ActionKind = "next_phase"   // passer à la phase suivante
     ActCancelMatch ActionKind = "cancel_match" // annuler un match devenu incohérent
+    ActRepechage   ActionKind = "repechage"    // repêcher B à la place du qualifié de poule A, retiré
     ActFinish      ActionKind = "finish"       // clore le tournoi
     ActWait        ActionKind = "wait"         // rien à faire : attendre
 )
@@ -290,6 +291,7 @@ type Action struct {
 | `draw` | `Tirage : <Label>` |
 | `next_phase` | `Passer à la phase suivante : <Label>` |
 | `cancel_match` | `Annuler <Match> : <A> contre <B> (<Label>), devenu incohérent` |
+| `repechage` | `<Label> : <B> à la place de <A>, retiré` |
 | `finish` | `Clore le tournoi` |
 | (autre) | `Attendre : <Reason>` |
 
@@ -359,6 +361,7 @@ type PhaseState struct {
     Sections  []*Section              `json:"sections,omitempty"`
     Length    int                     `json:"length"`    // longueur courante des matchs
     Started   bool                    `json:"started"`   // au moins un match lancé
+    Repechages map[PlayerID]PlayerID  `json:"repechages,omitempty"` // poules : qualifié retiré → repêché (N26)
 }
 ```
 
@@ -589,7 +592,7 @@ Rien de ce qui sort du moteur n'est destiné à être affiché tel quel. Un logi
 tournoi dans la langue de son utilisateur ; le moteur ne peut donc figer aucune langue, et surtout
 pas dans le journal, qui est conservé pour toujours.
 
-Cinq familles de codes, toutes dans `codes.go` :
+Cinq familles de codes, toutes dans `codes.go`, et les statuts de joueur (`statut.go`) :
 
 | Famille | Type | Où elle apparaît |
 |---|---|---|
@@ -597,6 +600,7 @@ Cinq familles de codes, toutes dans `codes.go` :
 | Notes de classement | `Note{Kind, Wins, Losses, Lives, Section, Qualified, Sub}` | `Rank.Note` |
 | Avertissements | `Warning{Code, Match, Section, Label, A, B, ExpectedA, ExpectedB, Length, ScoreA, ScoreB, Player, Table, Other}` | `State.Warnings`, `Action.Warn` (le code seul) |
 | Informations | `Info{Code, Player, Phase, Section, Label}` | `State.Infos` |
+| Statuts | `PlayerStatus{Player, Kind, Phase, Section, Round, Label}` | `State.Statuses()`, `State.StatusOf(p)` |
 | Raisons d'attente | `ReasonCode` | `Action.Reason` |
 
 `Label.Sub` compose un libellé dans un autre (« Bloc 2, groupe B : match décisif »). `Label.Text`
@@ -713,6 +717,7 @@ Il n'exige pas la monotonie et ne s'en sert jamais pour décider.
 | `bye` | `Phase`, `ID`, `Label` |
 | `draw` | `Phase`, `Section`, `Draw` (obligatoire) |
 | `next_phase` | — |
+| `repechage` | `Phase` (la phase de poules), `Section` (la poule), `A` (le qualifié retiré), `B` (le repêché) |
 | `length_changed` | `Phase`, `Length` |
 | `config_changed` | `Config` (obligatoire, la configuration **entière**) |
 | `reopened` | — |
@@ -850,6 +855,9 @@ pour chaque match en cours où il joue :
 recompute()
 ```
 
+Un qualifié de poule qui se retire avant le tirage de la phase suivante ouvre un repêchage
+(proposé, voir « Repêchage d'un qualifié retiré (N26) »).
+
 Le forfait est **général** : le joueur quitte le tournoi. Ses matchs de graphe non encore lancés
 seront perdus par walkover lors de la résolution (voir `resolve`). Il n'existe pas aujourd'hui de
 forfait limité à un match, ni de retrait différé « à partir de la ronde suivante ».
@@ -973,6 +981,24 @@ next := newPhaseState(s.Current+1, Config.Phases[s.Current+1])
 s.Phases += next ; s.Current++
 enterFrom(next, ph)
 ```
+
+### `repechage`
+
+```
+ph := Phases[ev.Phase] ; erreur si absente ou si ce n'est pas une phase de poules
+erreur si repêchage fermé (voir « Repêchage d'un qualifié retiré ») :
+    pas de phase après les poules, phase suivante en entrée « all »,
+    poules ou barrages non terminés, phase suivante déjà tirée ou commencée
+sec := la poule ev.Section ; erreur si inconnue
+erreur si A n'est pas, dans sec, un qualifié (rrQualified) retiré
+erreur si B n'est pas, dans sec, un joueur ni qualifié ni retiré
+ph.Repechages[A] = B
+si la phase suivante est déjà ouverte (passage fait, tirage pas encore) :
+    retirer A de ses entrants ; enter(next, B, entryLives(next, ph, B))
+```
+
+B n'est pas forcément le joueur proposé : le TD peut choisir un autre joueur non qualifié de la
+poule (entre ex æquo, typiquement). Un journal sans `repechage` se rejoue comme avant N26.
 
 ### `length_changed`
 
@@ -1107,6 +1133,7 @@ func PlayerAvailableEvent(id PlayerID, now time.Time) Event
 func PlayerWithdrawnEvent(id PlayerID, now time.Time) Event
 func PlayerWithdrawnAfterCurrentEvent(id PlayerID, now time.Time) Event
 func ForfeitEvent(id MatchID, winner PlayerID, now time.Time) Event
+func RepechageEvent(phase int, section string, withdrawn, replacement PlayerID, now time.Time) Event
 func CorrectionEvent(id MatchID, winner PlayerID, scoreA, scoreB int, now time.Time) Event
 func CancelEvent(id MatchID, now time.Time) Event
 func LengthChangedEvent(phase, length int, now time.Time) Event
@@ -1127,6 +1154,7 @@ func (e Event) WithNote(text string) Event
 | `draw` | `draw` avec `Draw = a.Draw` |
 | `cancel_match` | `match_cancelled` avec `MatchID = a.Match` |
 | `next_phase` | `next_phase` |
+| `repechage` | `repechage` avec `A = a.A` (le retiré), `B = a.B` (le repêché) |
 | `finish` | `finished` |
 | autre (`wait`) | erreur « action sans événement associé » |
 
@@ -1232,10 +1260,16 @@ selon next.Cfg.Entry :
 
   "survivors" (défaut) :
       pour chaque p de survivors(prev), non retiré :
-          l := remainingLives(prev, p)
-          si next.Kind ∉ {lives_bracket, gsl, swiss_lives} → l = livesFor(next.Cfg)
-          enter(next, p, l)
+          enter(next, p, entryLives(next, prev, p))
+
+entryLives(next, prev, p) :
+      entrée « all » ou « top:N » → livesFor(next.Cfg)
+      next.Kind ∈ {lives_bracket, gsl, swiss_lives} → remainingLives(prev, p)
+      sinon → livesFor(next.Cfg)
 ```
+
+Après des poules, `survivors(prev)` = `rrQualified(prev)`, **repêchés compris** : un qualifié
+retiré n'entre pas, et son repêché (s'il y en a un) entre à sa place.
 
 C'est ici que se joue la **bascule à vies** : un joueur qui sort d'un suisse à 2 vies avec ses deux
 vies intactes entre dans un `lives_bracket` avec 2 vies, ce qui lui vaudra une **exemption du
@@ -1517,10 +1551,13 @@ si acts est vide :
     si runningInPhase(ph) > 0 :
         → [ Wait, raison « matchs en cours » ]
     si phaseDone(ph) :
-        si une phase suivante existe → [ NextPhase, Label = nom de la phase suivante ]
+        si une phase suivante existe → proposeRepechages(ph)   ← vide hors poules (N26)
+                                       + [ NextPhase, Label = nom de la phase suivante ]
         sinon                        → [ Finish ]
     → [ Wait, raison « aucun appariement possible » ]
 
+si ph n'est ni tirée ni commencée et suit une phase de poules :
+    acts := proposeRepechages(phase précédente) + acts   ← passage fait, tirage pas encore
 si la phase n'est pas un suisse : holdAbsent(acts)   ← match d'un absent : raison player_unavailable
                                   holdElsewhere(acts) ← joueur dans ext.BusyPlayers : raison player_busy
 assignTables(acts, ext.BusyTables)                  ← une action retenue n'a pas de table
@@ -2534,6 +2571,13 @@ match (#25).
 Le score 5000 attribué aux joueurs « en cours » les place **devant tout le monde** : c'est voulu,
 puisque le classement intermédiaire doit montrer les joueurs encore en course en tête.
 
+La note `section_exit` dit où un joueur est **sorti d'une section**, pas qu'il est éliminé : le
+perdant du principal reversé en consolante la porte, avec la section `main`, tant que sa
+consolante n'est pas jouée ; il n'est pas non plus « en cours » au sens de la règle (3). C'est
+une note de classement — elle situe le joueur — et non une réponse à « joue-t-il encore ? ». Cette
+réponse est le statut (`State.Statuses`, chapitre « Statut d'un joueur »), qui le dit en jeu, en
+consolante.
+
 ## Survivants d'un tableau
 
 ```go
@@ -2704,11 +2748,11 @@ Les poules qui ont fini avancent donc vers leur barrage pendant que les autres j
 ## Qualifiés et classement
 
 ```go
-func (s *State) rrQualified(ph *PhaseState) []PlayerID
+func (s *State) rrQualified(ph *PhaseState) []PlayerID // = repechageQualified(ph, rrQualifiedBase(ph))
 ```
 
 ```
-pour chaque poule :
+rrQualifiedBase — pour chaque poule :
     w   := rrWins ; ids := sortedIDs puis tri décroissant sur w
     tied, spots := rrTie
     si pas d'égalité :
@@ -2717,7 +2761,51 @@ pour chaque poule :
         v := w[tied[0]]
         → tous ceux qui ont strictement plus de v victoires
         + si un barrage existe et len(barrageAlive) <= spots → les survivants du barrage
+
+repechageQualified — pour chaque qualifié p de la base :
+    tant que p est retiré et ph.Repechages[p] existe → p := ph.Repechages[p]   (en chaîne)
+    garder p (une seule fois)
 ```
+
+Un repêchage ne tient qu'autant que le retrait : un qualifié réinscrit avant le tirage retrouve sa
+place, et son repêché la perd.
+
+## Repêchage d'un qualifié retiré (N26)
+
+**Règle.** Un qualifié de poule qui se retire **avant le tirage** de la phase suivante laisse sa
+place au **suivant de sa poule**, si le TD le confirme. Le moteur propose (`repechage`), il
+n'impose pas : passer à la phase suivante, ou tirer, sans confirmer laisse la place vide, et elle
+devient une exemption du tableau — le comportement d'avant la règle.
+
+```
+proposeRepechages(ph) :
+    vide si ph n'est pas une phase de poules, si elle n'a pas de phase suivante, si celle-ci
+    prend tous les joueurs (« all »), si les poules ou les barrages ne sont pas finis, ou si la
+    phase suivante est déjà tirée ou commencée
+    qual := rrQualified(ph)
+    pour chaque poule, dans l'ordre :
+        gone := le premier joueur (ordre des identifiants) de qual retiré ; aucun → poule suivante
+        cands := joueurs de la poule ni dans qual ni retirés, au plus grand nombre de victoires
+        pour chaque c de cands (ordre des identifiants) :
+            Action{repechage, Phase, Section = poule, A = gone, B = c,
+                   Label{repechage, Section = poule, Players = len(cands)}}
+```
+
+Cas limites :
+
+| Cas | Réponse du moteur |
+|---|---|
+| Le suivant est lui-même retiré | il est sauté : le candidat est le suivant **non retiré** |
+| Plus personne dans la poule (tous qualifiés ou retirés) | aucune proposition ; la place devient une exemption |
+| Le repêché se retire à son tour avant le tirage | il est un qualifié retiré comme un autre : nouveau repêchage proposé |
+| Deux qualifiés de la même poule se retirent | un repêchage à la fois : le second est proposé une fois le premier confirmé |
+| Suivants ex æquo (même nombre de victoires) | une proposition par candidat, `Label.Players` = leur nombre ; le TD choisit (aucun départage) |
+| Retrait après le passage de phase, avant le tirage | le repêchage reste proposé, devant le tirage ; le repêché remplace le retiré parmi les entrants |
+| Retrait après le tirage (ou après un premier match de la phase suivante) | pas de repêchage : le retiré perd son match par forfait (walkover), comme tout retrait de tableau ; `repechage` est refusé |
+| Phase suivante en entrée `all` | sans objet (tout le monde entre déjà) ; ni proposé ni accepté |
+
+Le repêché est **qualifié** au classement de la poule (`Note.Qualified`, bonus de 100) ; le retiré
+garde la note `withdrawn`, jamais qualifié.
 
 ```go
 func (s *State) rrRanking(ph *PhaseState) []Rank
@@ -2885,6 +2973,85 @@ qu'un filtre sur la colonne. Les sections apparaissent parce qu'elles ont une do
 le classement de chaque groupe GSL d'un tournoi de cent joueurs noierait la feuille affichée au
 mur. Le prix est formaté avec deux décimales. Un joueur absent de `Players` est écrit avec son
 identifiant en guise de nom et un club vide.
+
+---
+
+# Statut d'un joueur
+
+```go
+type StatusKind string
+type PlayerStatus struct {
+    Player  PlayerID   `json:"player"`
+    Kind    StatusKind `json:"kind"`
+    Phase   int        `json:"phase,omitempty"`
+    Section string     `json:"section,omitempty"`
+    Round   int        `json:"round,omitempty"`
+    Label   Label      `json:"label,omitempty"`
+}
+func (s *State) Statuses() []PlayerStatus       // un par inscrit, ordre d'inscription
+func (s *State) StatusOf(p PlayerID) PlayerStatus
+```
+
+La réponse à « est-ce que je joue ? », que le classement ne donne pas : une note situe un joueur,
+elle ne dit pas s'il a encore un match (voir `section_exit`, « Classement d'un tableau »). Le
+statut est **dérivé** de l'état, comme `State.Infos` : il ne dépend que du journal, ni de l'heure
+ni d'une proposition non confirmée — sauf le repêchage, dont les candidats proposés restent
+indécis tant que le TD n'a pas tranché. `Statuses` est vide avant la création du tournoi.
+
+| `Kind` | Sens | Champs |
+|---|---|---|
+| `playing` | encore en course dans la phase en cours | `Phase` ; tableau : `Section`, `Round`, `Label` du prochain match |
+| `bye` | exempté : ne joue pas maintenant, entre plus tard | tableau : `Section`, `Round` (tour, à partir de 1), `Label` du match où il entre ; suisse par rondes : `Round` = ronde du retour, `Label` = `round` |
+| `qualified` | entre dans la phase `Phase` | `Phase` |
+| `undecided` | son sort dans la phase `Phase` n'est pas fixé | `Phase` |
+| `eliminated` | plus aucun match dans le tournoi | `Phase` = dernière phase jouée |
+| `winner` | premier, la dernière phase finie ou le tournoi clos | `Phase` |
+| `withdrawn` | retiré ; prime sur tout le reste | `Phase` = dernière phase jouée |
+| `not_entered` | inscrit, engagé dans aucune phase (`State.Infos` dit où il entrera) | — |
+
+Règles, dans l'ordre où elles s'appliquent :
+
+```
+retiré                                   → withdrawn
+tournoi clos ou dernière phase finie     → winner pour les rangs 1 de Ranking(), sinon eliminated
+phase en cours finie, une phase suivante → passage simulé : enterFrom sur une phase neuve
+                                           (exactement ce que fera next_phase)
+    entrant simulé                       → qualified (Phase = suivante)
+    candidat d'un repêchage proposé      → undecided
+    sinon                                → eliminated, sauf phase ultérieure d'entrée « all »
+engagé dans aucune phase                 → not_entered
+entrant d'une phase antérieure seulement → eliminated (même exception « all »)
+phase k > 0 ni tirée ni commencée        → qualified (Phase = k) ;
+                                           candidats d'un repêchage de k-1 → undecided
+suisse, GSL : plus de vie                → parcours fini (ci-dessous)
+suisse par rondes : bye de la ronde en cours (ByeRounds), pas en match
+                                         → bye, Round = ronde + 1
+tableau tiré : un match du graphe non joué l'attend (le plus petit tour)
+    aucun match joué dans la phase, et un match franchi sans le jouer (exemption ou
+    forfait d'un retiré), ce match pas lancé
+                                         → bye
+    sinon                                → playing
+tableau tiré, aucun match ne l'attend
+    vainqueur du tableau (grande finale jouée, ou finale du principal sans grande finale)
+                                         → qualified pour la suivante, sinon winner
+    sinon                                → parcours fini
+sinon                                    → playing
+
+parcours fini, phase non finie :
+    pas de phase suivante                → eliminated
+    phase suivante en « top:N »          → undecided (le rang ne se fixe qu'à la fin)
+    sinon                                → eliminated, sauf phase ultérieure d'entrée « all »
+```
+
+Un **repêché** (N26) est qualifié dès que le repêchage est confirmé, puisque `rrQualified` le
+compte ; le retiré qu'il remplace est `withdrawn`. Un candidat proposé mais pas confirmé est
+`undecided` ; si le TD passe outre et tire le tableau, le repêchage est clos et le candidat est
+éliminé. Une poule ne connaît pas d'élimination en cours de phase : ses joueurs sont `playing`
+jusqu'à la fin des poules et des barrages.
+
+Le passage simulé est la raison d'être de cette fonction dans le moteur : la liste des
+qualifiés est celle que `next_phase` produira (un test le vérifie à chaque passage de toute la
+matrice), sans que l'hôte ait à rejouer le journal ni à recoder `enterFrom`.
 
 ---
 
@@ -3218,6 +3385,14 @@ entière tournant en intégration continue.
 8. **Peu de rematchs** : en suisse, le nombre de secondes rencontres reste sous
    `graines × (Lives + 3)` dès que `P ≥ 8`.
 
+`TestStatutsInvariants` rejoue la même matrice (plus une entrée `top:4` et une entrée `all`) et
+vérifie les statuts après chaque événement : un statut par inscrit ; `withdrawn` exactement pour
+les retirés ; un joueur annoncé `eliminated` ne démarre plus aucun match, un `bye` ou un
+`eliminated` n'est pas en train de jouer ; les `qualified` annoncés avant `next_phase` sont
+exactement les entrants qu'il produit ; à la clôture, `winner` exactement pour les rangs 1. Les
+feuilles T1 et T2 de la simulation blunderDB 2026-10 (`testdata/simulation-2026-10/`) et
+l'épreuve A de T3 (repêchage N26) sont rejouées avec les mêmes contrôles.
+
 ## Fuzzing
 
 Deux cibles gardent `Apply` contre ce qu'aucun test écrit à la main ne cherche :
@@ -3366,7 +3541,7 @@ Codes (voir `codes.go`, aucun texte destiné à l'affichage ne sort du moteur) :
 `EvResult`, `EvResultCorrected`, `EvMatchCancelled`, `EvBye`, `EvDraw`, `EvNextPhase`,
 `EvLengthChanged`, `EvTableChanged`, `EvFinished`, `EvNote` ; `KindSwissLives`,
 `KindLivesBracket`, `KindGSL`, `KindBracket`, `KindRoundRobin` ; `JournalVersion` ; les codes
-`Label*`, `Note*`, `Warn*`, `Info*`, `Reason*`.
+`Label*`, `Note*`, `Warn*`, `Info*`, `Reason*`, `Status*`.
 
 ### Fonctions et méthodes
 
@@ -3389,6 +3564,8 @@ func (s *State) CheckConfig(next Config) error  // prévisualisation ; refus = *
 func (s *State) Running() []*Match
 func (s *State) Ranking() []Rank
 func (s *State) FreeSlots() []Slot          // places d'exemption libres (retardataires)
+func (s *State) Statuses() []PlayerStatus   // « est-ce que je joue ? », un statut par inscrit
+func (s *State) StatusOf(p PlayerID) PlayerStatus
 func (s *State) StandingsCSV() []byte
 func (s *State) SectionRanking(section string) []Rank
 func (s *State) Pool() float64
@@ -3412,6 +3589,7 @@ func (l Label) String() string
 func (n Note) String() string
 func (w Warning) String() string
 func (i Info) String() string
+func (p PlayerStatus) String() string
 func (r ReasonCode) String() string
 func PhaseName(p PhaseConfig) string
 
