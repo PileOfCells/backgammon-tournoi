@@ -1,6 +1,6 @@
 # Reste à faire
 
-État au 26 septembre 2026. Le moteur Go est fonctionnel et testé par simulation ;
+État au 4 octobre 2026. Le moteur Go est fonctionnel et testé par simulation ;
 il n'a jamais dirigé un vrai tournoi. Les points sont classés par priorité ; chaque entrée dit
 où intervenir et comment vérifier.
 
@@ -75,6 +75,10 @@ où intervenir et comment vérifier.
   compte comme sortie : un retiré de `lives_bracket` ou de `bracket` est classé avec les perdants
   du match qui l'attendait, et non dernier sans section. Poules : note `withdrawn`, jamais parmi
   les qualifiés du classement.
+- [x] **Qualifié de poule retiré avant le tableau** (issue #26, N26). Le moteur propose de
+  repêcher le suivant de la poule (`ActRepechage`, événement `repechage`, `repechage.go`) avant le
+  passage de phase, puis avant le tirage ; sans confirmation la place reste une exemption, et
+  après le tirage le retiré perd son match par forfait. Ex æquo : une proposition par candidat.
 - [ ] **Byes et exemptions équitables sur plusieurs rondes** : en mode `rounds`, le bye va au
   joueur du groupe le plus bas n'en ayant pas eu ; vérifier la règle « pas de second bye tant que
   d'autres n'en ont pas eu » entre groupes différents (aujourd'hui par groupe). `pairGroup`.
