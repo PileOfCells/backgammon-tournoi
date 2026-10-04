@@ -124,6 +124,8 @@ func TestRenduFrancaisCouvreLesCodes(t *testing.T) {
 		{Kind: tournoi.LabelDrawBarrage, Section: "poule:A", Players: 3, Spots: 2},
 		{Kind: tournoi.LabelDrawBracket, N: 16},
 		{Kind: tournoi.LabelDrawBlock, N: 1, Players: 4},
+		{Kind: tournoi.LabelRepechage, Section: "poule:A", Players: 1},
+		{Kind: tournoi.LabelRepechage, Section: "poule:A", Players: 3},
 		{Kind: tournoi.LabelPhase, Text: "Suisse"},
 	}
 	for _, l := range labels {

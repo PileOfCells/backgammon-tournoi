@@ -86,6 +86,10 @@ const (
 	// ActCancelMatch : annuler un match devenu incohérent après une correction (reparation.go).
 	// Comme toute action, elle est PROPOSÉE : rien n'est annulé d'office.
 	ActCancelMatch ActionKind = "cancel_match"
+	// ActRepechage : un qualifié de poule s'est retiré avant le tirage de la phase suivante ;
+	// le suivant de sa poule (B) peut prendre sa place (A). Proposée, jamais imposée : sans
+	// confirmation, la place devient une exemption (repechage.go).
+	ActRepechage ActionKind = "repechage"
 )
 
 // Action est une proposition du moteur ; le TD la confirme en ajoutant l'événement correspondant

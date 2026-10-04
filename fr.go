@@ -72,6 +72,11 @@ func (l Label) String() string {
 		return fmt.Sprintf("%d poules", l.N)
 	case LabelDrawBarrage:
 		return fmt.Sprintf("Barrage %s : %d joueurs pour %d place(s)", sectionName(l.Section), l.Players, l.Spots)
+	case LabelRepechage:
+		if l.Players > 1 {
+			return fmt.Sprintf("Repêchage %s (%d ex æquo, au choix)", sectionName(l.Section), l.Players)
+		}
+		return "Repêchage " + sectionName(l.Section)
 	case LabelDrawBracket:
 		if sub != "" {
 			return fmt.Sprintf("%s : tableau de %d places", sub, l.N)

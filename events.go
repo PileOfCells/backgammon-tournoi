@@ -32,6 +32,7 @@ const (
 	EvBye               EventKind = "bye"              // Phase, Player, Label
 	EvDraw              EventKind = "draw"             // Phase, Section, Draw
 	EvNextPhase         EventKind = "next_phase"       // passage à la phase suivante
+	EvRepechage         EventKind = "repechage"        // Phase, Section (poule), A (qualifié retiré), B (repêché)
 	EvLengthChanged     EventKind = "length_changed"   // Phase, Length (matchs futurs de la phase)
 	EvConfigChanged     EventKind = "config_changed"   // Config (la configuration ENTIÈRE, voir reconfig.go)
 	EvReopened          EventKind = "reopened"         // le tournoi clos est rouvert ; Final sera recalculé
@@ -109,6 +110,9 @@ func (s *State) EventFromAction(a Action, now time.Time) (Event, error) {
 		ev.MatchID = a.Match
 	case ActNextPhase:
 		ev.Kind = EvNextPhase
+	case ActRepechage:
+		ev.Kind = EvRepechage
+		ev.A, ev.B = a.A, a.B
 	case ActFinish:
 		ev.Kind = EvFinished
 	default:
@@ -198,6 +202,15 @@ func PlayerAvailableEvent(id PlayerID, now time.Time) Event {
 // forfait, et ses matchs de graphe non lancés aussi.
 func PlayerWithdrawnEvent(id PlayerID, now time.Time) Event {
 	return Event{Version: JournalVersion, Kind: EvPlayerWithdrawn, Time: now, ID: id}
+}
+
+// RepechageEvent : dans la poule section de la phase phase, replacement prend la place du
+// qualifié withdrawn, retiré avant le tirage de la phase suivante. C'est l'événement que
+// produit EventFromAction sur une ActRepechage ; le construire à la main sert au TD qui choisit
+// un autre joueur de la poule que celui proposé (entre ex æquo, par exemple).
+func RepechageEvent(phase int, section string, withdrawn, replacement PlayerID, now time.Time) Event {
+	return Event{Version: JournalVersion, Kind: EvRepechage, Time: now, Phase: phase, Section: section,
+		A: withdrawn, B: replacement}
 }
 
 // PlayerWithdrawnAfterCurrentEvent : retrait différé. Le joueur n'est plus apparié, mais le

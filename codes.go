@@ -52,12 +52,15 @@ const (
 	LabelInBlock      LabelKind = "in_block" // N = bloc, Section, Sub
 
 	// Poules
-	LabelPoolRound     LabelKind = "pool_round" // N
-	LabelInSection     LabelKind = "in_section" // Section, Sub
-	LabelBarrage       LabelKind = "barrage"    // Section
-	LabelBarrageCross  LabelKind = "barrage_crossed"
-	LabelDrawPools     LabelKind = "draw_pools"   // N = nombre de poules
-	LabelDrawBarrage   LabelKind = "draw_barrage" // Section, Players, Spots
+	LabelPoolRound    LabelKind = "pool_round" // N
+	LabelInSection    LabelKind = "in_section" // Section, Sub
+	LabelBarrage      LabelKind = "barrage"    // Section
+	LabelBarrageCross LabelKind = "barrage_crossed"
+	LabelDrawPools    LabelKind = "draw_pools"   // N = nombre de poules
+	LabelDrawBarrage  LabelKind = "draw_barrage" // Section, Players, Spots
+	// LabelRepechage : repêchage proposé dans la poule Section ; Players = nombre de candidats
+	// ex æquo (1 : un seul suivant ; davantage : le TD choisit, voir repechage.go).
+	LabelRepechage     LabelKind = "repechage"
 	LabelDrawBracket   LabelKind = "draw_bracket" // N = places
 	LabelDrawBlock     LabelKind = "draw_block"   // N = bloc, Groups
 	LabelPhase         LabelKind = "phase"        // Phase : le nom vient de la configuration
