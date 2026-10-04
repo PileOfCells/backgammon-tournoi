@@ -419,6 +419,22 @@ d'égalité entre suivants, elle propose chacun et vous choisissez. Si vous pass
 tableau, la place devient une exemption. Une fois le tableau tiré, il est trop tard : le retiré
 perd son premier match par forfait.
 
+## « Le classement dit que j'ai été sorti du tableau : suis-je éliminé ? »
+
+Pas forcément. Le classement **situe** chaque joueur — « principal, premier tour » dit où vous
+avez perdu — mais il ne dit pas si vous avez encore un match : battu au premier tour du principal,
+vous jouez peut-être la consolante. La question « est-ce que je joue ? » a sa propre réponse, que
+le moteur donne pour chaque inscrit : **en jeu** (et où), **exempté** (et à quel tour du tableau,
+ou à quelle ronde du suisse il revient), **qualifié** pour la phase suivante, **pas encore fixé**,
+**éliminé**, **vainqueur** ou **retiré**.
+
+Cette réponse vient du moteur, pas du logiciel qui l'affiche, parce qu'elle applique les règles du
+tournoi : la liste des qualifiés est celle que le passage de phase produira, et un repêché de poule
+est qualifié dès que le directeur a confirmé le repêchage — le joueur qu'il remplace ne l'est plus.
+« Pas encore fixé » est une vraie réponse : un joueur dont le parcours est fini mais dont la phase
+suivante prend les N premiers attend la fin de la phase pour connaître son rang, et un candidat au
+repêchage attend la décision du directeur.
+
 ## « Un joueur doit s'absenter : faut-il le retirer ? »
 
 Non. On le déclare **indisponible** — jusqu'à une heure, jusqu'à une ronde, ou jusqu'à nouvel

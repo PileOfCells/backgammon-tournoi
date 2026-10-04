@@ -79,6 +79,12 @@ où intervenir et comment vérifier.
   repêcher le suivant de la poule (`ActRepechage`, événement `repechage`, `repechage.go`) avant le
   passage de phase, puis avant le tirage ; sans confirmation la place reste une exemption, et
   après le tirage le retiré perd son match par forfait. Ex æquo : une proposition par candidat.
+- [x] **« Est-ce que je joue ? »** (blunderDB #550). `State.Statuses` / `State.StatusOf`
+  (`statut.go`) donnent le statut de chaque inscrit : en jeu, exempté (tour de tableau ou ronde
+  de suisse où il entre), qualifié (pour quelle phase), indécis (entrée `top:N` pas encore
+  jouée, candidat d'un repêchage non tranché), éliminé, vainqueur, retiré, non engagé. Un hôte
+  n'a plus à recoder le passage de phase ni les exemptions. Vérifié sur toute la matrice et sur
+  T1-T3 de la simulation blunderDB.
 - [ ] **Byes et exemptions équitables sur plusieurs rondes** : en mode `rounds`, le bye va au
   joueur du groupe le plus bas n'en ayant pas eu ; vérifier la règle « pas de second bye tant que
   d'autres n'en ont pas eu » entre groupes différents (aujourd'hui par groupe). `pairGroup`.

@@ -199,6 +199,39 @@ func (r ReasonCode) String() string {
 	return string(r)
 }
 
+// String rend le statut d'un joueur en français (« est-ce que je joue ? »), sans son nom. Les
+// phases sont numérotées à partir de 1 : leur nom est dans la configuration, que l'hôte a.
+func (p PlayerStatus) String() string {
+	où := func() string {
+		if p.Section == "" {
+			return p.Label.String()
+		}
+		return sectionName(p.Section) + ", " + p.Label.String()
+	}
+	switch p.Kind {
+	case StatusPlaying:
+		if p.Section != "" {
+			return "en jeu — " + où()
+		}
+		return "en jeu"
+	case StatusBye:
+		return fmt.Sprintf("exempté — entre au tour %d (%s)", p.Round, où())
+	case StatusQualified:
+		return fmt.Sprintf("qualifié — phase %d", p.Phase+1)
+	case StatusUndecided:
+		return fmt.Sprintf("en attente — la phase %d n'est pas encore fixée", p.Phase+1)
+	case StatusEliminated:
+		return "éliminé"
+	case StatusWinner:
+		return "vainqueur"
+	case StatusWithdrawn:
+		return "retiré"
+	case StatusNotEntered:
+		return "inscrit, pas encore engagé"
+	}
+	return string(p.Kind)
+}
+
 // String rend une information en français.
 func (i Info) String() string {
 	switch i.Code {

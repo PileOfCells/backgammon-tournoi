@@ -178,6 +178,18 @@ func TestRenduFrancaisCouvreLesCodes(t *testing.T) {
 			t.Errorf("information %s : pas de rendu français (%q)", i.Code, s)
 		}
 	}
+	for _, st := range []tournoi.PlayerStatus{
+		{Kind: tournoi.StatusPlaying}, {Kind: tournoi.StatusPlaying, Section: "conso", Round: 2, Label: tournoi.Label{Kind: tournoi.LabelConsolationRound, N: 2}},
+		{Kind: tournoi.StatusBye, Section: "main", Round: 2, Label: tournoi.Label{Kind: tournoi.LabelSemiFinal}},
+		{Kind: tournoi.StatusBye, Round: 3, Label: tournoi.Label{Kind: tournoi.LabelRound, N: 3}},
+		{Kind: tournoi.StatusQualified, Phase: 1}, {Kind: tournoi.StatusUndecided, Phase: 1},
+		{Kind: tournoi.StatusEliminated}, {Kind: tournoi.StatusWinner}, {Kind: tournoi.StatusWithdrawn},
+		{Kind: tournoi.StatusNotEntered},
+	} {
+		if s := st.String(); s == "" || s == string(st.Kind) {
+			t.Errorf("statut %s : pas de rendu français (%q)", st.Kind, s)
+		}
+	}
 	avertissements := []tournoi.Warning{
 		{Code: tournoi.WarnBracketWrongPlayers, Match: "M1", Section: "main",
 			Label: tournoi.Label{Kind: tournoi.LabelFinal}, A: "a", B: "b", ExpectedA: "c", ExpectedB: "d"},

@@ -128,7 +128,7 @@ const (
 	NoteRunning       NoteKind = "running"        // encore en course, tableau non terminé
 	NoteAwaitingDraw  NoteKind = "awaiting_draw"  // tableau pas encore tiré
 	NoteUnranked      NoteKind = "unranked"       // aucune sortie enregistrée
-	NoteSectionExit   NoteKind = "section_exit"   // Section + Sub : éliminé là
+	NoteSectionExit   NoteKind = "section_exit"   // Section + Sub : sorti de cette section là — pas forcément éliminé (State.Statuses)
 	NoteSectionWinner NoteKind = "section_winner" // Section
 	NotePoolRecord    NoteKind = "pool_record"    // Section, Wins, Qualified
 )
