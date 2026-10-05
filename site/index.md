@@ -4,8 +4,8 @@
 c'est une bibliothèque que d'autres logiciels utilisent pour diriger un tournoi — inscrire les
 joueurs, apparier les matchs, tenir les tableaux, produire le classement.
 
-Il est écrit en Go, sans aucune dépendance, et se lit en entier. Il est publié sous une licence
-libre et son code est sur [GitHub](https://github.com/PileOfCells/backgammon-tournoi).
+Il est écrit en Go, sans aucune dépendance, et se lit en entier. Il est publié sous licence MIT
+et son code est sur [GitHub](https://github.com/PileOfCells/backgammon-tournoi).
 
 ## Ce qu'il fait
 
