@@ -218,19 +218,19 @@
       "pool": 100,
       "distributable": 100,
       "amounts": [
-        34,
         33,
-        33
+        33,
+        34
       ],
       "shares": {
-        "p01": 34,
+        "p01": 33,
         "p02": 33,
-        "p03": 33
+        "p03": 34
       }
     }
   },
   {
-    "name": "reste négatif au premier",
+    "name": "4 × 15 % de 10 : restes égaux aux mieux classés",
     "entry_fee": 1,
     "players": 10,
     "percents": [
@@ -261,16 +261,16 @@
       "pool": 10,
       "distributable": 10,
       "amounts": [
-        0,
         2,
         2,
-        2
+        1,
+        1
       ],
       "shares": {
-        "p01": 0,
+        "p01": 2,
         "p02": 2,
-        "p03": 2,
-        "p04": 2
+        "p03": 1,
+        "p04": 1
       }
     }
   },
