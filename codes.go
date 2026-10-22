@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+
+	"github.com/PileOfCells/backgammon-tournoi/rules"
 )
 
 // Codes structurés : le moteur n'émet aucune phrase destinée à l'affichage.
@@ -25,47 +27,47 @@ const (
 	LabelNone LabelKind = ""
 
 	// Suisse
-	LabelSwissGroup LabelKind = "swiss_group" // Losses, Match : « 1 défaite, match 3 »
-	LabelRound      LabelKind = "round"       // N : « Ronde 3 »
-	LabelRematch    LabelKind = "rematch"
-	LabelCrossed    LabelKind = "crossed" // match croisé de secours
+	LabelSwissGroup LabelKind = LabelKind(rules.LabelSwissGroup) // Losses, Match : « 1 défaite, match 3 »
+	LabelRound      LabelKind = LabelKind(rules.LabelRound)      // N : « Ronde 3 »
+	LabelRematch    LabelKind = LabelKind(rules.LabelRematch)
+	LabelCrossed    LabelKind = LabelKind(rules.LabelCrossed) // match croisé de secours
 
 	// Tableaux
-	LabelBracketRound       LabelKind = "bracket_round" // N : « Tour 2 »
-	LabelFinal              LabelKind = "final"
-	LabelSemiFinal          LabelKind = "semi_final"
-	LabelQuarterFinal       LabelKind = "quarter_final"
-	LabelMainDraw           LabelKind = "main_draw" // Sub : « Principal, quart de finale »
-	LabelConsolationRound   LabelKind = "consolation_round"
-	LabelConsolationFinal   LabelKind = "consolation_final"
-	LabelLastChance         LabelKind = "last_chance" // Sub facultatif
-	LabelGrandFinal         LabelKind = "grand_final"
-	LabelGrandFinalRecharge LabelKind = "grand_final_recharge"
+	LabelBracketRound       LabelKind = LabelKind(rules.LabelBracketRound) // N : « Tour 2 »
+	LabelFinal              LabelKind = LabelKind(rules.LabelFinal)
+	LabelSemiFinal          LabelKind = LabelKind(rules.LabelSemiFinal)
+	LabelQuarterFinal       LabelKind = LabelKind(rules.LabelQuarterFinal)
+	LabelMainDraw           LabelKind = LabelKind(rules.LabelMainDraw) // Sub : « Principal, quart de finale »
+	LabelConsolationRound   LabelKind = LabelKind(rules.LabelConsolationRound)
+	LabelConsolationFinal   LabelKind = LabelKind(rules.LabelConsolationFinal)
+	LabelLastChance         LabelKind = LabelKind(rules.LabelLastChance) // Sub facultatif
+	LabelGrandFinal         LabelKind = LabelKind(rules.LabelGrandFinal)
+	LabelGrandFinalRecharge LabelKind = LabelKind(rules.LabelGrandFinalRecharge)
 
 	// GSL
-	LabelOpening      LabelKind = "opening"
-	LabelWinnersMatch LabelKind = "winners_match"
-	LabelLosersMatch  LabelKind = "losers_match"
-	LabelDecider      LabelKind = "decider"
-	LabelSingleMatch  LabelKind = "single_match"
-	LabelSingleElim   LabelKind = "single_elimination"
-	LabelInBlock      LabelKind = "in_block" // N = bloc, Section, Sub
+	LabelOpening      LabelKind = LabelKind(rules.LabelOpening)
+	LabelWinnersMatch LabelKind = LabelKind(rules.LabelWinnersMatch)
+	LabelLosersMatch  LabelKind = LabelKind(rules.LabelLosersMatch)
+	LabelDecider      LabelKind = LabelKind(rules.LabelDecider)
+	LabelSingleMatch  LabelKind = LabelKind(rules.LabelSingleMatch)
+	LabelSingleElim   LabelKind = LabelKind(rules.LabelSingleElim)
+	LabelInBlock      LabelKind = LabelKind(rules.LabelInBlock) // N = bloc, Section, Sub
 
 	// Poules
-	LabelPoolRound    LabelKind = "pool_round" // N
-	LabelInSection    LabelKind = "in_section" // Section, Sub
-	LabelBarrage      LabelKind = "barrage"    // Section
-	LabelBarrageCross LabelKind = "barrage_crossed"
-	LabelDrawPools    LabelKind = "draw_pools"   // N = nombre de poules
-	LabelDrawBarrage  LabelKind = "draw_barrage" // Section, Players, Spots
+	LabelPoolRound    LabelKind = LabelKind(rules.LabelPoolRound) // N
+	LabelInSection    LabelKind = LabelKind(rules.LabelInSection) // Section, Sub
+	LabelBarrage      LabelKind = LabelKind(rules.LabelBarrage)   // Section
+	LabelBarrageCross LabelKind = LabelKind(rules.LabelBarrageCross)
+	LabelDrawPools    LabelKind = LabelKind(rules.LabelDrawPools)   // N = nombre de poules
+	LabelDrawBarrage  LabelKind = LabelKind(rules.LabelDrawBarrage) // Section, Players, Spots
 	// LabelRepechage : repêchage proposé dans la poule Section ; Players = nombre de candidats
 	// ex æquo (1 : un seul suivant ; davantage : le TD choisit, voir repechage.go).
 	LabelRepechage     LabelKind = "repechage"
-	LabelDrawBracket   LabelKind = "draw_bracket" // N = places
-	LabelDrawBlock     LabelKind = "draw_block"   // N = bloc, Groups
-	LabelPhase         LabelKind = "phase"        // Phase : le nom vient de la configuration
-	LabelPoolName      LabelKind = "pool_name"    // Text : la lettre de la poule
-	LabelBarrageName   LabelKind = "barrage_name" // Sub = LabelPoolName
+	LabelDrawBracket   LabelKind = LabelKind(rules.LabelDrawBracket) // N = places
+	LabelDrawBlock     LabelKind = LabelKind(rules.LabelDrawBlock)   // N = bloc, Groups
+	LabelPhase         LabelKind = LabelKind(rules.LabelPhase)       // Phase : le nom vient de la configuration
+	LabelPoolName      LabelKind = "pool_name"                       // Text : la lettre de la poule
+	LabelBarrageName   LabelKind = "barrage_name"                    // Sub = LabelPoolName
 	LabelSectionMain   LabelKind = "section_main"
 	LabelSectionConso  LabelKind = "section_conso"
 	LabelSectionLast   LabelKind = "section_last"
@@ -89,29 +91,6 @@ type Label struct {
 // Empty indique un libellé absent.
 func (l Label) Empty() bool { return l.Kind == LabelNone }
 
-// with renvoie une copie de l portant sub comme sous-libellé.
-func (l Label) with(sub Label) Label {
-	if sub.Empty() {
-		return l
-	}
-	c := sub
-	l.Sub = &c
-	return l
-}
-
-// roundLabel : libellé du tour r d'un tableau de `rounds` tours (0 = premier tour).
-func roundLabel(r, rounds int) Label {
-	switch rounds - r {
-	case 1:
-		return Label{Kind: LabelFinal}
-	case 2:
-		return Label{Kind: LabelSemiFinal}
-	case 3:
-		return Label{Kind: LabelQuarterFinal}
-	}
-	return Label{Kind: LabelBracketRound, N: r + 1}
-}
-
 // ---- Notes de classement ----
 
 // NoteKind est le code d'une note de classement.
@@ -119,18 +98,18 @@ type NoteKind string
 
 const (
 	NoteNone          NoteKind = ""
-	NoteWinner        NoteKind = "winner"
-	NoteFinalist      NoteKind = "finalist"
-	NoteAlive         NoteKind = "alive"          // Lives
-	NoteRecord        NoteKind = "record"         // Wins, Losses
-	NoteForfeit       NoteKind = "forfeit"        // match perdu par forfait (classement d'une section) ; journaux antérieurs : retiré
-	NoteWithdrawn     NoteKind = "withdrawn"      // retiré, classé sur son parcours : Wins, Losses, Lives ; tableau : Section + Sub ; poule : Section + Wins
-	NoteRunning       NoteKind = "running"        // encore en course, tableau non terminé
-	NoteAwaitingDraw  NoteKind = "awaiting_draw"  // tableau pas encore tiré
-	NoteUnranked      NoteKind = "unranked"       // aucune sortie enregistrée
-	NoteSectionExit   NoteKind = "section_exit"   // Section + Sub : sorti de cette section là — pas forcément éliminé (State.Statuses)
-	NoteSectionWinner NoteKind = "section_winner" // Section
-	NotePoolRecord    NoteKind = "pool_record"    // Section, Wins, Qualified
+	NoteWinner        NoteKind = NoteKind(rules.NoteWinner)
+	NoteFinalist      NoteKind = NoteKind(rules.NoteFinalist)
+	NoteAlive         NoteKind = NoteKind(rules.NoteAlive)         // Lives
+	NoteRecord        NoteKind = NoteKind(rules.NoteRecord)        // Wins, Losses
+	NoteForfeit       NoteKind = NoteKind(rules.NoteForfeit)       // match perdu par forfait (classement d'une section) ; journaux antérieurs : retiré
+	NoteWithdrawn     NoteKind = NoteKind(rules.NoteWithdrawn)     // retiré, classé sur son parcours : Wins, Losses, Lives ; tableau : Section + Sub ; poule : Section + Wins
+	NoteRunning       NoteKind = NoteKind(rules.NoteRunning)       // encore en course, tableau non terminé
+	NoteAwaitingDraw  NoteKind = NoteKind(rules.NoteAwaitingDraw)  // tableau pas encore tiré
+	NoteUnranked      NoteKind = NoteKind(rules.NoteUnranked)      // aucune sortie enregistrée
+	NoteSectionExit   NoteKind = NoteKind(rules.NoteSectionExit)   // Section + Sub : sorti de cette section là — pas forcément éliminé (State.Statuses)
+	NoteSectionWinner NoteKind = NoteKind(rules.NoteSectionWinner) // Section
+	NotePoolRecord    NoteKind = NoteKind(rules.NotePoolRecord)    // Section, Wins, Qualified
 )
 
 // Note est la note de classement d'un joueur : un code et ses paramètres, jamais une phrase.
@@ -245,19 +224,19 @@ const (
 // ou l'hôte le rend.
 
 const (
-	secMain       = "main"
-	secConso      = "conso"
-	secLast       = "last"
-	secGrandFinal = "gf"
+	secMain       = rules.SectionMain
+	secConso      = rules.SectionConso
+	secLast       = rules.SectionLast
+	secGrandFinal = rules.SectionGrandFinal
 
 	poolPrefix    = "poule:"
 	barragePrefix = "barrage:"
 
 	// Kinds de section (Section.Kind) : la famille de graphe, indépendante du nom.
-	secKindGSL     = "gsl"
-	secKindSE      = "se"
-	secKindPool    = "poule"
-	secKindBarrage = "barrage"
+	secKindGSL     = rules.SectionGSL
+	secKindSE      = rules.SectionSE
+	secKindPool    = rules.SectionPool
+	secKindBarrage = rules.SectionBarrage
 )
 
 // poolSectionName : nom de la i-ième poule (0 → "poule:A").

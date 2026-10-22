@@ -61,13 +61,13 @@ posent, et un journal `Version: 0` est converti à la lecture par `Event.upgrade
 
 ### Déterminisme
 
-`Propose` ne dépend que du journal : le générateur aléatoire est `s.rng()` = f(graine, nombre d'événements, phase courante). Les **tirages** (placement dans un tableau, composition des groupes) sont matérialisés dans l'événement `EvDraw` (`Draw{Slots, Groups, Lives}`), si bien que rejouer un journal ne dépend pas de l'algorithme d'appariement : on peut changer `drawSlots`, `pairGroup`, etc. sans casser les journaux existants. Les tests vérifient qu'un rejeu donne le même classement final et aucun `Warning`.
+`Propose` ne dépend que du journal : le générateur aléatoire est `rules.Seed.Draw()` = f(graine, nombre d'événements, phase courante) (une ronde de suisse : `Seed.Round`, sans le nombre d'événements). Les **tirages** (placement dans un tableau, composition des groupes) sont matérialisés dans l'événement `EvDraw` (`Draw{Slots, Groups, Lives}`), si bien que rejouer un journal ne dépend pas de l'algorithme d'appariement : on peut changer `rules.DrawSlots`, l'appariement de groupe de `rules/suisse.go`, etc. sans casser les journaux existants. Les tests vérifient qu'un rejeu donne le même classement final et aucun `Warning`.
 
 Toute itération sur une map dont l'ordre influence une proposition doit passer par `sortedIDs` ou un tri stable.
 
 ### Phases et formats
 
-Un tournoi est une suite de `PhaseConfig` (`Config.Validate` remplit les défauts). `engine.go` dispatche `Propose`/`phaseDone` par `Kind` vers un fichier par format :
+Un tournoi est une suite de `PhaseConfig` (`Config.Validate` remplit les défauts). `engine.go` dispatche `Propose`/`phaseDone` par `Kind` vers un fichier par format (l'enveloppe), dont la règle est dans `rules` (`suisse.go`, `graphes_phase.go`, `classement.go`) :
 
 | Kind | Fichier | Mécanisme |
 |---|---|---|
@@ -76,13 +76,13 @@ Un tournoi est une suite de `PhaseConfig` (`Config.Validate` remplit les défaut
 | `bracket`, `lives_bracket` | `phase_bracket.go` | tirage puis sections `main`, `conso`, `last`, `gf` |
 | `round_robin` | `phase_rr.go` | poules (table de Berger), puis sections `barrage` à appariement dynamique en cas d'égalité |
 
-Le tirage d'un tableau (`drawSlots`) est aléatoire par défaut ; `PhaseConfig.Seeding = "rating"` le remplace par le placement classique par cote (`seeding.go`). Le défaut vide est un choix de conception justifié dans `docs/etude_formats.md`, pas un oubli : ne pas l'inverser.
+Le tirage d'un tableau (`rules.DrawSlots`) est aléatoire par défaut ; `PhaseConfig.Seeding = "rating"` le remplace par le placement classique par cote (`rules.SeedOrder`). Le défaut vide est un choix de conception justifié dans `docs/etude_formats.md`, pas un oubli : ne pas l'inverser.
 
 Le passage de phase (`enterFrom`) admet les survivants **avec leurs vies restantes** quand la phase suivante est à vies (`lives_bracket` : 2 vies = exempt du premier tour), sinon `entry` vaut `all` ou `top:N`.
 
-### Graphes de matchs (`graph.go`)
+### Graphes de matchs (`rules/graphe.go`)
 
-Tableaux, GSL, poules et consolantes sont des `Section` : listes de `GMatch` dont chaque place (`Src`) est soit un joueur fixé, soit le vainqueur/perdant d'un autre match (même section ou autre section, ex. les perdants du principal alimentent la consolante). `resolve()` propage les résultats, les exemptions (`BYE`) et les matchs conditionnels (recharge en double élimination) jusqu'au point fixe ; `ready()`/`readyFree()` donnent les matchs lançables. Les constructeurs (`bracketSection`, `consolationSection`, `gslSection`, `bracketFromSrcs`) ne font que poser des `Src` ; ajouter un format de graphe revient à écrire un constructeur.
+Tableaux, GSL, poules et consolantes sont des `Section` : listes de `GMatch` dont chaque place (`Src`) est soit un joueur fixé, soit le vainqueur/perdant d'un autre match (même section ou autre section, ex. les perdants du principal alimentent la consolante). `rules.Resolve` propage les résultats, les exemptions (`BYE`) et les matchs conditionnels (recharge en double élimination) jusqu'au point fixe ; `rules.Ready`/`ReadyFree` donnent les matchs lançables. Les constructeurs (`BracketSection`, `ConsolationSection`, `GSLSection`, `LastChanceSection`…) ne font que poser des `Src` ; ajouter un format de graphe revient à écrire un constructeur. Le moteur garde ses `Section`/`GMatch` (sérialisées dans l'état) et les convertit (`regles.go`).
 
 Un `Match` (state.go, joué, avec table et horodatages) est relié à son `GMatch` par `(Section, Key)` ; `EvMatchStarted` porte ces deux champs.
 
@@ -94,7 +94,7 @@ Un `Match` (state.go, joué, avec table et horodatages) est relié à son `GMatc
 
 ### Paquets annexes
 
-- `rules/` : règles en fonctions PURES (sans état, sans E/S, sans horloge, bibliothèque standard seule ; ADR-0105 de blunderDB) — dotation, prévision de fin, feuille d'appariements. Ses types sont les siens (`Ref`, `Match`, `Interval`), jamais `State` ni `Event`. `prizes.go`, `standings.go`, `clock.go`, `sim.Forecast` et `render.PairingSheet` en sont des ENVELOPPES : une règle n'a qu'une implémentation, ici. Fichiers dorés dans `rules/testdata/` (et `sim/testdata/prevision.json`), rejoués contre `rules` ET contre les enveloppes ; `fin.json` vient de l'arithmétique de `direction/clock.go` de blunderDB. Une sortie qui change à entrée égale est une version mineure : `go test -run TestDores . -args -update` et `go test ./render ./sim -update` les réécrivent.
+- `rules/` : règles en fonctions PURES (sans état, sans E/S, sans horloge, bibliothèque standard seule ; ADR-0105 de blunderDB) — appariements (`Pair`, graphes, tirages), classement (`Rank`, `RankSection`, `MergeRankings`), dotation, prévision de fin (dont `RemainingMatches`), feuille d'appariements. Ses types sont les siens (`Ref`, `Phase`, `Pairing`, `Section`, `Match`, `Label`, `Note`…), jamais `State` ni `Event`. Les fichiers de phase, `graph.go`, `Ranking`, `SectionRanking`, `prizes.go`, `standings.go`, `clock.go`, `sim.Forecast` et `render.PairingSheet` en sont des ENVELOPPES (`regles.go` construit l'instantané) : une règle n'a qu'une implémentation, ici. `testdata/trace_moteur.json` fige propositions et classements à chaque pas des simulations (`go test -run TestDores . -args -update`). Fichiers dorés dans `rules/testdata/` (et `sim/testdata/prevision.json`), rejoués contre `rules` ET contre les enveloppes ; `fin.json` vient de l'arithmétique de `direction/clock.go` de blunderDB. Une sortie qui change à entrée égale est une version mineure : `go test -run TestDores . -args -update` et `go test ./render ./sim -update` les réécrivent.
 - `sim/` : `Run(cfg, players, Options)` joue un tournoi complet avec résultats tirés selon les PR (`PGain`, modèle Elo/FIBS) ; `Options.Hook` est appelé après chaque événement (c'est ainsi que les tests vérifient les invariants) ; `Forecast` prévoit la fin d'un tournoi en cours. Les tests du paquet racine (`sim_test.go`, `parity_test.go`) sont dans `tournoi_test` et reposent entièrement sur `sim`.
 - `render/` : rendu traduisible. Tout passe par un `Labeler` injecté — les codes du moteur ET les mots du rendu lui-même (`Term`) ; `French()` est fourni pour la console, la démo et les tests. La feuille de style, le crédit et la langue sont injectés ; les pages sont AUTONOMES (un fichier, CSS embarqué, aucune ressource externe, aucun script). `BracketBoardSVG` (toutes les sections d'une phase côte à côte, avec les descentes), `LivesBoard`, `TableGrid`, `RunningTable`, `ActionsList`, `StandingsTable`, `PairingSheet`, `Page`. Fichiers témoins dans `render/testdata/` : `go test ./render -update` pour les régénérer après un changement voulu.
 - `players/` : import et export CSV (séparateur détecté, identifiants en slug ; `ToCSV` écrit ce que `FromCSV` relit).

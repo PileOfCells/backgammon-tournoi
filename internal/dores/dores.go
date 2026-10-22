@@ -13,6 +13,8 @@ import (
 	"encoding/json"
 	"os"
 	"time"
+
+	"github.com/PileOfCells/backgammon-tournoi/rules"
 )
 
 // ---- Dotation (dotation.json) ----
@@ -126,6 +128,42 @@ type End struct {
 	DayOfPlay    []DayCase         `json:"day_of_play"`
 	AfterBreaks  []BreaksCase      `json:"after_breaks"`
 	EstimatedEnd []EndCase         `json:"estimated_end"`
+}
+
+// ---- Appariements et classements (appariements.json) ----
+
+// Rules : les instantanés de phase pris dans des tournois simulés, et les classements de phase à
+// fusionner. Les types sont ceux de rules : un client les décode avec les siens.
+type Rules struct {
+	Phases []PhaseCase `json:"phases"`
+	Merges []MergeCase `json:"merges"`
+}
+
+// PhaseCase : un instantané, la graine de la proposition, et ce qu'en tirent Pair, PhaseDone,
+// Rank, RankSection (chaque section, par nom), PoolQualified (poules) et RemainingMatches.
+type PhaseCase struct {
+	Name  string      `json:"name"`
+	Seed  rules.Seed  `json:"seed"`
+	Phase rules.Phase `json:"phase"`
+	Out   PhaseOut    `json:"out"`
+}
+
+// PhaseOut : les sorties d'un instantané.
+type PhaseOut struct {
+	Pairs     []rules.Pairing             `json:"pairs"`
+	Done      bool                        `json:"done"`
+	Rank      []rules.Standing            `json:"rank"`
+	Sections  map[string][]rules.Standing `json:"sections,omitempty"`
+	Qualified []rules.Ref                 `json:"qualified,omitempty"`
+	Remaining rules.Remaining             `json:"remaining"`
+}
+
+// MergeCase : les classements de chaque phase, de la première à la dernière, et le classement
+// général (MergeRankings).
+type MergeCase struct {
+	Name    string             `json:"name"`
+	ByPhase [][]rules.Standing `json:"by_phase"`
+	Out     []rules.Standing   `json:"out"`
 }
 
 // ---- Feuille d'appariements (feuille.json) ----

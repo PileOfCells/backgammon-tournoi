@@ -85,7 +85,7 @@ type enJeu struct {
 
 // tracer joue le tournoi comme sim.Run, en enregistrant chaque pas ; perturber y ajoute des
 // retraits, des indisponibilités et des joueurs occupés ailleurs, à des pas fixés par la graine.
-func tracer(cfg tournoi.Config, players []tournoi.Player, seed int64, perturber bool) casTrace {
+func tracer(cfg tournoi.Config, players []tournoi.Player, seed int64, perturber bool, voir ...func(*tournoi.State, int)) casTrace {
 	h := sha256.New()
 	rng := rand.New(rand.NewSource(seed))
 	alea := rand.New(rand.NewSource(seed*31 + 17))
@@ -126,6 +126,9 @@ func tracer(cfg tournoi.Config, players []tournoi.Player, seed int64, perturber 
 			break
 		}
 		enregistrer(h, st, now, externe())
+		for _, f := range voir {
+			f(st, steps)
+		}
 		if perturber && steps > 3 {
 			switch {
 			case steps%17 == 5:

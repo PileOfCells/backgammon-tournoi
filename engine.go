@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"sort"
 	"time"
+
+	"github.com/PileOfCells/backgammon-tournoi/rules"
 )
 
 // Propose renvoie les actions à effectuer maintenant. Le TD en confirme tout ou partie ; chaque
@@ -114,18 +116,8 @@ func (s *State) propose(now time.Time, ext External) []Action {
 	return s.withAbsences(ph, acts)
 }
 
-// phaseDone : la phase n'a plus rien à jouer.
-func (s *State) phaseDone(ph *PhaseState) bool {
-	switch ph.Cfg.Kind {
-	case KindSwissLives:
-		return s.swissDone(ph)
-	case KindGSL:
-		return s.gslDone(ph)
-	case KindRoundRobin:
-		return ph.Drawn && ph.allDone() && s.rrBarragesDone(ph)
-	}
-	return ph.Drawn && ph.allDone()
-}
+// phaseDone : la phase n'a plus rien à jouer (rules.PhaseDone).
+func (s *State) phaseDone(ph *PhaseState) bool { return rules.PhaseDone(s.bilan(ph)) }
 
 func (s *State) runningInPhase(ph *PhaseState) int {
 	n := 0

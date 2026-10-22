@@ -197,11 +197,26 @@ où intervenir et comment vérifier.
   ils sont rejoués contre `rules` et contre les enveloppes (`go test -run TestDores . -args
   -update` pour les réécrire après un changement de règle voulu). Seul écart : `Forecast` somme
   les cotes connues dans l'ordre des identifiants et non dans celui d'une carte.
-- [ ] **Règles pures, second lot** (issue #27) : `Rank` et `Pair` pour chaque format, `Propose` et
-  `SectionRanking` en enveloppes, parité par les configurations de `sim_test.go` et des fichiers
-  dorés ; le libellé d'une ligne de feuille (un `Label`) passe alors dans `rules`, et les MATCHS
-  RESTANTS de la prévision de fin (ADR-0105 §1) avec `Pair` : ils se comptent en appariant, et
-  `sim.Forecast` les obtient d'ici là en rejouant le moteur.
+- [x] **Règles pures, second lot** (issue #27, ADR-0105 de blunderDB). `rules` porte les
+  appariements et le classement de chaque format : `Pair(Phase, Seed)` rend des `Pairing` (une
+  proposition — paire, exemption ou tirage —, type distinct de `rules.Match`, le match lancé) pour
+  le suisse à vies continu ou par rondes, les blocs GSL, les tableaux (à vies, consolante,
+  dernière chance, double élimination) et les poules avec barrages ; une ronde ouverte se
+  recalcule par `PairSwissRound` et `PairSwissOrphans`. Les graphes (`Section`, `Node`, `Resolve`,
+  `Ready`, `ReadyFree`, constructeurs), les tirages (`DrawSlots`, `SeedOrder`, `Partition`), la fin
+  de phase (`PhaseDone`), `Rank`, `RankSection`, `MergeRankings`, `PoolQualified`, et les codes
+  (`Label`, `Note`) y vivent ; les constantes de libellé et de note du moteur en sont tirées.
+  `Propose`, `Ranking` et `SectionRanking` en sont des enveloppes (`regles.go` construit
+  l'instantané, `State.RulesPhase` l'expose) ; restent au moteur ce qui dépend de l'histoire —
+  joueurs appelés d'une ronde ouverte, absences, tables, pauses, réparation, repêchage proposé.
+  Les MATCHS RESTANTS de la prévision de fin sont `RemainingMatches` (encadrement de la phase en
+  cours, exact pour un tableau sans recharge, vérifié à chaque événement des simulations) ; la
+  ligne de feuille porte son libellé (`rules.Match.Label`). Preuve de parité :
+  `testdata/trace_moteur.json`, écrite par le moteur d'AVANT (propositions avec et sans
+  `External`, classements, statuts à chaque pas de 912 tournois simulés, dont la moitié
+  perturbés), inchangée ; `rules/testdata/appariements.json` rejoue les instantanés contre les
+  fonctions pures. Écarts : `sim.Forecast` simule toujours la fin (il ne lit pas
+  `RemainingMatches`), et les phases suivantes ne sont pas comptées dans les matchs restants.
 - [x] **Reste de l'arrondi des prix** (issue #28). Le reste allait au premier même négatif : 4 ×
   15 % d'un pool de 10 donnaient 0, 2, 2, 2. `rules.PlaceAmounts` applique désormais la méthode
   du plus fort reste (troncature, unités restantes aux plus grandes parties décimales, à égalité
