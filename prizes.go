@@ -118,10 +118,11 @@ func (s *State) Distributable() float64 {
 // PrizeAmounts : les montants place par place d'une section, arrondis à l'unité (rules.PlaceAmounts).
 //
 // Les pourcentages d'une affiche ne tombent presque jamais juste : 50/30/20 % de 432 € font
-// 216, 129,60 et 86,40. Chaque place est arrondie à l'unité — personne ne paie en centimes à
-// une table de tournoi — et le RESTE va au premier, en plus ou en moins. Le premier prix est
-// celui où un euro de trop ou de trop peu se voit le moins, et c'est la seule façon de garantir
-// que la somme distribuée égale exactement le pool après retenue.
+// 216, 129,60 et 86,40. Chaque place est payée à l'unité — personne ne paie en centimes à une
+// table de tournoi — par la méthode du plus fort reste : 216, 129 et 86 tronqués, puis l'euro
+// qui manque à la plus grande partie décimale, 0,60, d'où 216/130/86. La somme distribuée égale
+// exactement le pool après retenue, aucun prix n'est négatif, et un barème décroissant donne des
+// prix décroissants.
 //
 // Des montants fixes (Amounts) ne sont ni arrondis ni ajustés : ils sont ce que l'organisateur
 // a écrit. Une section sans dotation : nil.

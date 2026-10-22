@@ -76,8 +76,9 @@ ont atteint : vainqueur, finaliste, éliminé à tel tour, éliminé avec tant d
 
 La dotation se répartit sur ce classement. Un droit d'entrée, une retenue d'organisation, des
 pourcentages — une affiche annonce « 50/30/20 % » et non des montants, puisque le pool dépend du
-nombre d'inscrits. Chaque prix est arrondi à l'unité et le reste va au premier, de sorte que la
-somme distribuée égale exactement le pool après retenue. Une consolante peut avoir ses propres
+nombre d'inscrits. Chaque prix est tronqué à l'unité, puis les unités restantes vont aux plus
+grands restes, à égalité au mieux classé : la somme distribuée égale exactement le pool après
+retenue, et un barème décroissant donne des prix décroissants. Une consolante peut avoir ses propres
 prix, sur son propre classement.
 
 ## Ce qui est affiché

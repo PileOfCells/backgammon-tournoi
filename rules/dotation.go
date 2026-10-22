@@ -1,6 +1,9 @@
 package rules
 
-import "math"
+import (
+	"math"
+	"sort"
+)
 
 // Ce qui est calculé ici s'arrête au montant par PLACE, puis au partage entre ex æquo : deux
 // demi-finalistes classés troisièmes se partagent les prix des 3ᵉ et 4ᵉ places. Quelle section
@@ -41,10 +44,14 @@ func Distributable(pool float64, r Retention) float64 {
 
 // PlaceAmounts : les montants place par place d'une dotation, sur le pool distribuable.
 //
-// Chaque place en pourcentage est arrondie à l'unité — personne ne paie en centimes à une table
-// de tournoi — et le RESTE va au premier, en plus ou en moins, si bien que la somme distribuée
-// égale exactement le pool distribuable arrondi. Des montants fixes ne sont ni arrondis ni
-// ajustés. Sans l'un ni l'autre : nil.
+// Une place en pourcentage se paie à l'unité — personne ne paie en centimes à une table de
+// tournoi — par la méthode du plus fort reste : chaque montant exact est tronqué à l'unité, puis
+// les unités qui manquent pour atteindre le pool distribuable arrondi vont, une chacune, aux
+// places dont la partie fractionnaire est la plus grande ; à égalité, à la mieux classée. La
+// somme distribuée égale ainsi exactement le pool distribuable arrondi, aucun montant n'est
+// négatif, et un barème décroissant donne des montants décroissants : une place ne touche
+// jamais moins qu'une place moins bien classée dont le pourcentage n'est pas plus grand.
+// Des montants fixes ne sont ni arrondis ni ajustés. Sans l'un ni l'autre : nil.
 func PlaceAmounts(scale PrizeScale, distributable float64) []float64 {
 	if len(scale.Amounts) > 0 {
 		return append([]float64(nil), scale.Amounts...)
@@ -52,14 +59,28 @@ func PlaceAmounts(scale PrizeScale, distributable float64) []float64 {
 	if len(scale.Percents) == 0 {
 		return nil
 	}
-	out := make([]float64, len(scale.Percents))
+	n := len(scale.Percents)
+	out := make([]float64, n)
+	reste := make([]float64, n)
 	somme, exact := 0.0, 0.0
 	for i, pct := range scale.Percents {
-		exact += distributable * pct / 100
-		out[i] = math.Round(distributable * pct / 100)
+		// Le bruit binaire (0,29 × 100 = 28,999…) ne doit pas faire perdre une unité à la
+		// troncature : la part exacte est d'abord ramenée au millionième.
+		v := math.Round(distributable*pct/100*1e6) / 1e6
+		exact += v
+		out[i] = math.Floor(v)
+		reste[i] = v - out[i]
 		somme += out[i]
 	}
-	out[0] += math.Round(exact) - somme
+	ordre := make([]int, n)
+	for i := range ordre {
+		ordre[i] = i
+	}
+	sort.SliceStable(ordre, func(a, b int) bool { return reste[ordre[a]] > reste[ordre[b]] })
+	// Σ tronqués ≤ Σ exacts < Σ tronqués + n : il manque au plus n unités, une par place.
+	for k := 0; k < int(math.Round(exact)-somme) && k < n; k++ {
+		out[ordre[k]]++
+	}
 	return out
 }
 

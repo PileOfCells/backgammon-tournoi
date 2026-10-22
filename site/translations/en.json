@@ -48,7 +48,7 @@
     "Scheduled breaks are declared in advance. A match whose expected end would fall during the break is flagged — but **it remains proposed**. The director knows whether those two will eat afterwards.",
     "The end",
     "The standings can be read at any moment, not only at the end. They place players by what they reached: winner, finalist, knocked out in such a round, knocked out with so many wins. **Ties stay ties**: no hidden tiebreak separates them.",
-    "The prize money is spread over those standings. An entry fee, an organisation retention, percentages — a poster announces \"50/30/20%\" and not amounts, since the pool depends on the number of entries. Each prize is rounded to the unit and the remainder goes to the first place, so that the sum distributed equals exactly the pool after retention. A consolation can have its own prizes, on its own standings.",
+    "The prize money is spread over those standings. An entry fee, an organisation retention, percentages — a poster announces \"50/30/20%\" and not amounts, since the pool depends on the number of entries. Each prize is truncated to the unit, then the remaining units go to the largest remainders, ties going to the better-placed: the sum distributed equals exactly the pool after retention, and a decreasing scale gives decreasing prizes. A consolation can have its own prizes, on its own standings.",
     "What gets displayed",
     "The engine produces self-contained pages: a single file, which opens offline from a USB stick on the hall's computer. The wall screen shows the actions to take, the table grid, the matches in progress, the brackets and the standings. The pairing sheet prints on one A4 page, with an empty box per player to write the score by hand."
   ],

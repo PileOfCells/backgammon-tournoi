@@ -11,7 +11,7 @@
 // Trois règles y vivent aujourd'hui :
 //
 //   - la DOTATION : pool brut (Pool), pool après retenue (Distributable), montants par place
-//     arrondis à l'unité avec le reste au premier (PlaceAmounts), partage entre ex æquo
+//     à l'unité par la méthode du plus fort reste (PlaceAmounts), partage entre ex æquo
 //     (SharePrizes) ;
 //   - la PRÉVISION DE FIN (sauf les matchs restants, qui dépendent des appariements) : rythme observé (PaceAt, ExpectedDuration, IsSlow), temps de jeu
 //     (PlayingTime, union des intervalles de match), jour de jeu (DayOfPlay), fin estimée

@@ -2936,10 +2936,14 @@ Distributable() = Pool − Pool × Retention.Percent/100 − Retention.Amount   
 ```
 
 `PrizeAmounts(sec)` : si le barème donne des `Amounts`, ce sont eux, tels quels. S'il donne des
-`Percents`, chaque place vaut `Distributable × pct/100`, **arrondie à l'unité** — personne ne
-paie en centimes à une table de tournoi — et le RESTE, en plus ou en moins, va au **premier**.
-C'est la seule façon de garantir que la somme distribuée égale exactement le pool après retenue,
-et le premier prix est celui où un euro d'écart se voit le moins.
+`Percents`, chaque place vaut `Distributable × pct/100`, payée **à l'unité** — personne ne
+paie en centimes à une table de tournoi — par la **méthode du plus fort reste** (Hamilton) :
+chaque montant est tronqué à l'unité, puis les unités qui manquent pour atteindre le pool
+distribuable arrondi vont, une chacune, aux places de plus grande partie décimale ; à égalité, à
+la mieux classée. La somme distribuée égale exactement le pool après retenue arrondi, aucun prix
+n'est négatif, chaque prix est à moins d'une unité de sa part exacte, et un barème décroissant
+donne des prix décroissants. Exemple : 4 × 15 % d'un pool de 10 font 1,5 chacun ; les deux
+unités restantes vont aux deux premiers, d'où 2/2/1/1.
 
 `Sections` est indexée par identifiant de section (`main`, `conso`, `last`, `gf`, `poule:A`…),
 plus la clé réservée `all` pour le classement général — celui que `Ranking()` renvoie, et le seul

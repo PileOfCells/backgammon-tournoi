@@ -179,13 +179,15 @@ msgstr "Η κατάταξη διαβάζεται ανά πάσα στιγμή, �
 
 #: ../../deroulement.md:77
 msgid ""
-"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue"
-" d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et"
-" non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
-"prix est arrondi à l'unité et le reste va au premier, de sorte que la "
-"somme distribuée égale exactement le pool après retenue. Une consolante "
-"peut avoir ses propres prix, sur son propre classement."
-msgstr "Το έπαθλο μοιράζεται πάνω σε αυτή την κατάταξη. Ένα δικαίωμα συμμετοχής, μια παρακράτηση της διοργάνωσης, ποσοστά — μια αφίσα ανακοινώνει «50/30/20 %» και όχι ποσά, αφού το ταμείο εξαρτάται από τον αριθμό των συμμετοχών. Κάθε έπαθλο στρογγυλοποιείται στη μονάδα και το υπόλοιπο πάει στον πρώτο, ώστε το σύνολο που μοιράζεται να ισούται ακριβώς με το ταμείο μετά την παρακράτηση. Ένα παρηγορητικό μπορεί να έχει τα δικά του έπαθλα, στη δική του κατάταξη."
+"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue "
+"d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et "
+"non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
+"prix est tronqué à l'unité, puis les unités restantes vont aux plus "
+"grands restes, à égalité au mieux classé : la somme distribuée égale "
+"exactement le pool après retenue, et un barème décroissant donne des prix "
+"décroissants. Une consolante peut avoir ses propres prix, sur son propre "
+"classement."
+msgstr "Το έπαθλο μοιράζεται πάνω σε αυτή την κατάταξη. Ένα δικαίωμα συμμετοχής, μια παρακράτηση της διοργάνωσης, ποσοστά — μια αφίσα ανακοινώνει «50/30/20 %» και όχι ποσά, αφού το ταμείο εξαρτάται από τον αριθμό των συμμετοχών. Κάθε έπαθλο περικόπτεται στη μονάδα, και οι μονάδες που απομένουν πηγαίνουν στα μεγαλύτερα υπόλοιπα, σε ισοπαλία στον καλύτερα κατατασσόμενο: το σύνολο που μοιράζεται ισούται ακριβώς με το ταμείο μετά την παρακράτηση, και μια φθίνουσα κλίμακα δίνει φθίνοντα έπαθλα. Ένα παρηγορητικό μπορεί να έχει τα δικά του έπαθλα, στη δική του κατάταξη."
 
 #: ../../deroulement.md:83
 msgid "Ce qui est affiché"

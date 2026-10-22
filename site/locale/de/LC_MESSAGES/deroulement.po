@@ -179,13 +179,15 @@ msgstr "Die Rangliste lässt sich jederzeit lesen, nicht nur am Schluss. Sie ord
 
 #: ../../deroulement.md:77
 msgid ""
-"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue"
-" d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et"
-" non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
-"prix est arrondi à l'unité et le reste va au premier, de sorte que la "
-"somme distribuée égale exactement le pool après retenue. Une consolante "
-"peut avoir ses propres prix, sur son propre classement."
-msgstr "Das Preisgeld verteilt sich über diese Rangliste. Ein Startgeld, ein Einbehalt der Organisation, Prozentsätze — ein Plakat kündigt „50/30/20 %“ an und keine Beträge, da der Pott von der Zahl der Anmeldungen abhängt. Jeder Preis wird auf die Einheit gerundet, und der Rest geht an den Ersten, so dass die ausgeschüttete Summe genau dem Pott nach Einbehalt entspricht. Eine Trostrunde kann eigene Preise auf ihrer eigenen Rangliste haben."
+"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue "
+"d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et "
+"non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
+"prix est tronqué à l'unité, puis les unités restantes vont aux plus "
+"grands restes, à égalité au mieux classé : la somme distribuée égale "
+"exactement le pool après retenue, et un barème décroissant donne des prix "
+"décroissants. Une consolante peut avoir ses propres prix, sur son propre "
+"classement."
+msgstr "Das Preisgeld verteilt sich über diese Rangliste. Ein Startgeld, ein Einbehalt der Organisation, Prozentsätze — ein Plakat kündigt „50/30/20 %“ an und keine Beträge, da der Pott von der Zahl der Anmeldungen abhängt. Jeder Preis wird auf die Einheit abgeschnitten, dann gehen die übrigen Einheiten an die größten Reste, bei Gleichstand an den besser Platzierten: Die ausgeschüttete Summe entspricht genau dem Pott nach Einbehalt, und eine absteigende Staffel ergibt absteigende Preise. Eine Trostrunde kann eigene Preise auf ihrer eigenen Rangliste haben."
 
 #: ../../deroulement.md:83
 msgid "Ce qui est affiché"

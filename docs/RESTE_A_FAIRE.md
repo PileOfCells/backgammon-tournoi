@@ -103,8 +103,8 @@ où intervenir et comment vérifier.
   l'hôte ; restent les règles de classement elles-mêmes, à valider avec la FFBG.
 - [x] **Prix** (issue #9). `Config.Prizes` est un `PrizePool` (`prizes.go`) : droit d'entrée,
   retenue (montant et/ou pourcentage), barème par section en pourcentages du pool distribuable ou
-  en montants fixes. `State.PrizeAmounts(sec)` arrondit à l'unité et met le reste au premier, de
-  sorte que la somme distribuée égale exactement le pool après retenue ; `SectionRanking(sec)`
+  en montants fixes. `State.PrizeAmounts(sec)` paie à l'unité par la méthode du plus fort reste
+  (point ci-dessous), de sorte que la somme distribuée égale exactement le pool après retenue ; `SectionRanking(sec)`
   donne le classement propre d'une section (par tour atteint) et `StandingsCSV` sort une section
   par bloc. La forme ancienne (`"prizes": [100, 60, 40]`) reste lue. Reste à valider avec la FFBG
   les règles de classement des places non gagnantes (point ci-dessus).
@@ -201,10 +201,12 @@ où intervenir et comment vérifier.
   dorés ; le libellé d'une ligne de feuille (un `Label`) passe alors dans `rules`, et les MATCHS
   RESTANTS de la prévision de fin (ADR-0105 §1) avec `Pair` : ils se comptent en appariant, et
   `sim.Forecast` les obtient d'ici là en rejouant le moteur.
-- [ ] **Reste de l'arrondi des prix** : le reste va au premier même quand il est négatif, si bien
-  que 4 × 15 % d'un pool de 10 donnent 0, 2, 2, 2 (cas « reste négatif au premier » de
-  `rules/testdata/dotation.json`). Le premier ne devrait pas toucher moins que le deuxième ; à
-  trancher avec la FFBG, puis changer `rules.PlaceAmounts` et le fichier doré (version mineure).
+- [x] **Reste de l'arrondi des prix** (issue #28). Le reste allait au premier même négatif : 4 ×
+  15 % d'un pool de 10 donnaient 0, 2, 2, 2. `rules.PlaceAmounts` applique désormais la méthode
+  du plus fort reste (troncature, unités restantes aux plus grandes parties décimales, à égalité
+  au mieux classé) : 2, 2, 1, 1. Aucun prix négatif, somme exacte et monotonie sur un barème
+  décroissant sont vérifiées sur des barèmes tirés au hasard. Changement de règle : fichier doré
+  de la dotation mis à jour, version mineure du module.
 - [ ] Renommer le module au chemin définitif du dépôt de l'hôte (`go mod edit -module …`).
 
 ## 5. Documentation publiée

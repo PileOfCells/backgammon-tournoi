@@ -179,13 +179,15 @@ msgstr "La clasificación se lee en todo momento, no solo al final. Coloca a los
 
 #: ../../deroulement.md:77
 msgid ""
-"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue"
-" d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et"
-" non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
-"prix est arrondi à l'unité et le reste va au premier, de sorte que la "
-"somme distribuée égale exactement le pool après retenue. Une consolante "
-"peut avoir ses propres prix, sur son propre classement."
-msgstr "La dotación se reparte sobre esa clasificación. Una cuota de inscripción, una retención de la organización, unos porcentajes — un cartel anuncia «50/30/20 %» y no importes, ya que el bote depende del número de inscritos. Cada premio se redondea a la unidad y el resto va al primero, de modo que la suma repartida sea exactamente el bote después de la retención. Un consuelo puede tener sus propios premios, sobre su propia clasificación."
+"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue "
+"d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et "
+"non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
+"prix est tronqué à l'unité, puis les unités restantes vont aux plus "
+"grands restes, à égalité au mieux classé : la somme distribuée égale "
+"exactement le pool après retenue, et un barème décroissant donne des prix "
+"décroissants. Une consolante peut avoir ses propres prix, sur son propre "
+"classement."
+msgstr "La dotación se reparte sobre esa clasificación. Una cuota de inscripción, una retención de la organización, unos porcentajes — un cartel anuncia «50/30/20 %» y no importes, ya que el bote depende del número de inscritos. Cada premio se trunca a la unidad y las unidades restantes van a los mayores restos, en caso de empate al mejor clasificado: la suma repartida es exactamente el bote después de la retención, y una escala decreciente da premios decrecientes. Un consuelo puede tener sus propios premios, sobre su propia clasificación."
 
 #: ../../deroulement.md:83
 msgid "Ce qui est affiché"
