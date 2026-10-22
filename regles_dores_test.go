@@ -54,7 +54,7 @@ func casDotation() []dores.PrizeCase {
 		{Name: "montants fixes", EntryFee: 10, Players: 16, Amounts: []float64{100, 60, 40.5}, Ranking: cl(1, 2, 3, 4)},
 		{Name: "tiers", EntryFee: 10, Players: 10, Percents: []float64{33.333, 33.333, 33.334}, Ranking: cl(1, 2, 3)},
 		{Name: "4 × 15 % de 10 : restes égaux aux mieux classés", EntryFee: 1, Players: 10, Percents: []float64{15, 15, 15, 15}, Ranking: cl(1, 2, 3, 4)},
-		{Name: "reste positif au premier", EntryFee: 7, Players: 13, RetPct: 5, Percents: []float64{45, 35, 20}, Ranking: cl(1, 2, 3)},
+		{Name: "86,45 en 45/35/20 : l'unité à la plus grande décimale", EntryFee: 7, Players: 13, RetPct: 5, Percents: []float64{45, 35, 20}, Ranking: cl(1, 2, 3)},
 		{Name: "ex aequo au-delà des places dotées", EntryFee: 10, Players: 8, Percents: []float64{50, 30, 20}, Ranking: cl(1, 2, 3, 3, 3, 3)},
 		{Name: "premier ex aequo", EntryFee: 10, Players: 8, Percents: []float64{60, 40}, Ranking: cl(1, 1, 3)},
 		{Name: "pourcentages sous 100", EntryFee: 15, Players: 11, Percents: []float64{30, 20}, Ranking: cl(1, 2, 3)},

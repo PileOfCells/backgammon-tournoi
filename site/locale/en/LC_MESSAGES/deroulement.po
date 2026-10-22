@@ -179,21 +179,21 @@ msgstr "The standings can be read at any moment, not only at the end. They place
 
 #: ../../deroulement.md:77
 msgid ""
-"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue "
-"d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et "
-"non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
+"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue"
+" d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et"
+" non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
 "prix est tronqué à l'unité, puis les unités restantes vont aux plus "
 "grands restes, à égalité au mieux classé : la somme distribuée égale "
-"exactement le pool après retenue, et un barème décroissant donne des prix "
-"décroissants. Une consolante peut avoir ses propres prix, sur son propre "
-"classement."
+"exactement le pool après retenue, et un barème décroissant donne des prix"
+" décroissants. Une consolante peut avoir ses propres prix, sur son propre"
+" classement."
 msgstr "The prize money is spread over those standings. An entry fee, an organisation retention, percentages — a poster announces \"50/30/20%\" and not amounts, since the pool depends on the number of entries. Each prize is truncated to the unit, then the remaining units go to the largest remainders, ties going to the better-placed: the sum distributed equals exactly the pool after retention, and a decreasing scale gives decreasing prizes. A consolation can have its own prizes, on its own standings."
 
-#: ../../deroulement.md:83
+#: ../../deroulement.md:84
 msgid "Ce qui est affiché"
 msgstr "What gets displayed"
 
-#: ../../deroulement.md:85
+#: ../../deroulement.md:86
 msgid ""
 "Le moteur produit des pages autonomes : un seul fichier, qui s'ouvre hors"
 " ligne depuis une clé USB sur l'ordinateur de la salle. L'écran mural "

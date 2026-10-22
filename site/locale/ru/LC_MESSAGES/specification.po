@@ -3597,8 +3597,8 @@ msgstr ""
 
 #: ../../specification.md:2938
 msgid ""
-"`PrizeAmounts(sec)` : si le barème donne des `Amounts`, ce sont eux, tels "
-"quels. S'il donne des `Percents`, chaque place vaut `Distributable × "
+"`PrizeAmounts(sec)` : si le barème donne des `Amounts`, ce sont eux, tels"
+" quels. S'il donne des `Percents`, chaque place vaut `Distributable × "
 "pct/100`, payée **à l'unité** — personne ne paie en centimes à une table "
 "de tournoi — par la **méthode du plus fort reste** (Hamilton) : chaque "
 "montant est tronqué à l'unité, puis les unités qui manquent pour "
@@ -3607,11 +3607,11 @@ msgid ""
 "distribuée égale exactement le pool après retenue arrondi, aucun prix "
 "n'est négatif, chaque prix est à moins d'une unité de sa part exacte, et "
 "un barème décroissant donne des prix décroissants. Exemple : 4 × 15 % "
-"d'un pool de 10 font 1,5 chacun ; les deux unités restantes vont aux deux "
-"premiers, d'où 2/2/1/1."
+"d'un pool de 10 font 1,5 chacun ; les deux unités restantes vont aux deux"
+" premiers, d'où 2/2/1/1."
 msgstr ""
 
-#: ../../specification.md:2944
+#: ../../specification.md:2948
 msgid ""
 "`Sections` est indexée par identifiant de section (`main`, `conso`, "
 "`last`, `gf`, `poule:A`…), plus la clé réservée `all` pour le classement "
@@ -3619,7 +3619,7 @@ msgid ""
 "tournoi sans tableau."
 msgstr ""
 
-#: ../../specification.md:2948
+#: ../../specification.md:2952
 msgid ""
 "`SectionRanking(sec)` est le classement PROPRE d'une section : ses "
 "joueurs, par tour atteint dans cette section, le vainqueur en tête. Il "
@@ -3632,7 +3632,7 @@ msgid ""
 "première."
 msgstr ""
 
-#: ../../specification.md:2955
+#: ../../specification.md:2959
 #, python-format
 msgid ""
 "`Validate` refuse une dotation incohérente : pourcentages ET montants "
@@ -3641,18 +3641,18 @@ msgid ""
 "qu'au moment de payer, devant les joueurs."
 msgstr ""
 
-#: ../../specification.md:2959
+#: ../../specification.md:2963
 msgid ""
 "La forme ancienne (`\"prizes\": [100, 60, 40]`, une simple liste de "
 "montants) reste lue et devient le barème du classement général : les "
 "journaux existants n'ont pas à être réécrits."
 msgstr ""
 
-#: ../../specification.md:2962
+#: ../../specification.md:2966
 msgid "Export CSV"
 msgstr ""
 
-#: ../../specification.md:2968
+#: ../../specification.md:2972
 msgid ""
 "Séparateur `;`, en-tête `section;rang;id;nom;club;note;prix`. La première"
 " colonne dit à quel classement la ligne appartient : `all` pour le "
@@ -3666,11 +3666,11 @@ msgid ""
 "écrit avec son identifiant en guise de nom et un club vide."
 msgstr ""
 
-#: ../../specification.md:2979
+#: ../../specification.md:2983
 msgid "Statut d'un joueur"
 msgstr ""
 
-#: ../../specification.md:2995
+#: ../../specification.md:2999
 msgid ""
 "La réponse à « est-ce que je joue ? », que le classement ne donne pas : "
 "une note situe un joueur, elle ne dit pas s'il a encore un match (voir "
@@ -3772,11 +3772,11 @@ msgstr ""
 msgid "inscrit, engagé dans aucune phase (`State.Infos` dit où il entrera)"
 msgstr ""
 
-#: ../../specification.md:3012
+#: ../../specification.md:3016
 msgid "Règles, dans l'ordre où elles s'appliquent :"
 msgstr ""
 
-#: ../../specification.md:3046
+#: ../../specification.md:3050
 msgid ""
 "Un **repêché** (N26) est qualifié dès que le repêchage est confirmé, "
 "puisque `rrQualified` le compte ; le retiré qu'il remplace est "
@@ -3787,7 +3787,7 @@ msgid ""
 "barrages."
 msgstr ""
 
-#: ../../specification.md:3052
+#: ../../specification.md:3056
 msgid ""
 "Le passage simulé est la raison d'être de cette fonction dans le moteur :"
 " la liste des qualifiés est celle que `next_phase` produira (un test le "
@@ -3795,11 +3795,11 @@ msgid ""
 "rejouer le journal ni à recoder `enterFrom`."
 msgstr ""
 
-#: ../../specification.md:3058
+#: ../../specification.md:3062
 msgid "Horloge et prévisions"
 msgstr ""
 
-#: ../../specification.md:3063
+#: ../../specification.md:3067
 msgid ""
 "`Config.MinPerPoint × n` minutes. Avec le défaut de 8 min/point, un match"
 " en 7 points est attendu en 56 minutes. L'étude recommande de compter "
@@ -3807,28 +3807,28 @@ msgid ""
 "min/point pour l'espérance d'un match."
 msgstr ""
 
-#: ../../specification.md:3070
+#: ../../specification.md:3074
 msgid ""
 "Les matchs en cours dont la durée écoulée dépasse `facteur × "
 "Expected(Length)`. Le rendu HTML utilise un facteur de 1,5 pour colorer "
 "une ligne en rouge."
 msgstr ""
 
-#: ../../specification.md:3094
+#: ../../specification.md:3098
 msgid ""
 "Les matchs gagnés par forfait sont exclus des moyennes : ils fausseraient"
 " la mesure."
 msgstr ""
 
-#: ../../specification.md:3098
+#: ../../specification.md:3102
 msgid "Paquets annexes"
 msgstr ""
 
-#: ../../specification.md:3100
+#: ../../specification.md:3104
 msgid "`sim` — simulation et prévision"
 msgstr ""
 
-#: ../../specification.md:3102
+#: ../../specification.md:3106
 msgid ""
 "Le paquet `sim` joue des tournois fictifs avec le moteur. Il sert à trois"
 " choses : les tests d'invariants, la validation des formats (comparaison "
@@ -3836,23 +3836,23 @@ msgid ""
 "tournoi en cours."
 msgstr ""
 
-#: ../../specification.md:3106
+#: ../../specification.md:3110
 msgid "Modèle probabiliste"
 msgstr ""
 
-#: ../../specification.md:3112
+#: ../../specification.md:3116
 msgid ""
 "Probabilité que le joueur de PR `a` batte celui de PR `b` en `n` points, "
 "formule Elo/FIBS avec la conversion **3 PR = 100 points Elo** :"
 msgstr ""
 
-#: ../../specification.md:3115
+#: ../../specification.md:3119
 msgid ""
 "$$ D = \\frac{(b-a)\\times 100}{3} \\qquad P = \\frac{1}{1 + "
 "10^{-D\\sqrt{n}/2000}} $$"
 msgstr ""
 
-#: ../../specification.md:3117
+#: ../../specification.md:3121
 msgid ""
 "Justification (voir `docs/etude_formats.md`) : sur la base BMAB (33 238 "
 "matchs uniques), 1 PR d'écart vaut 2,8 % à 7–11 points (β = 0,036 pour α "
@@ -3862,7 +3862,7 @@ msgid ""
 "√N » soutient α = 0,5."
 msgstr ""
 
-#: ../../specification.md:3126
+#: ../../specification.md:3130
 msgid ""
 "Durée d'un match de `n` points : loi **gamma de forme 8** et de moyenne "
 "`minPerPoint × n`, obtenue en moyennant huit tirages exponentiels. La "
@@ -3870,28 +3870,28 @@ msgid ""
 "l'observation."
 msgstr ""
 
-#: ../../specification.md:3130
+#: ../../specification.md:3134
 msgid "Exécution d'un tournoi"
 msgstr ""
 
-#: ../../specification.md:3154
+#: ../../specification.md:3158
 msgid "Boucle de simulation :"
 msgstr ""
 
-#: ../../specification.md:3170
+#: ../../specification.md:3174
 msgid ""
 "Le score du vainqueur est `n` ; celui du perdant est tiré uniformément "
 "dans `[0, n-1]`."
 msgstr ""
 
-#: ../../specification.md:3172
+#: ../../specification.md:3176
 msgid ""
 "`Hook` est appelé après chaque événement appliqué : c'est le point "
 "d'accroche des tests d'invariants. Une erreur renvoyée par le hook "
 "interrompt la simulation."
 msgstr ""
 
-#: ../../specification.md:3179
+#: ../../specification.md:3183
 msgid ""
 "Crée `P` joueurs de PR tirés dans une loi normale `N(mu, sigma)` tronquée"
 " à `[min, max]`, **triés du meilleur au moins bon** : `P1` est toujours "
@@ -3900,43 +3900,43 @@ msgid ""
 "l'étude est `Champ(64, 6, 2, 2, 10)`."
 msgstr ""
 
-#: ../../specification.md:3184
+#: ../../specification.md:3188
 msgid "Prévision de fin"
 msgstr ""
 
-#: ../../specification.md:3191
+#: ../../specification.md:3195
 msgid ""
 "Rejoue le journal, puis simule `K` fins de tournoi à partir de `now`. "
 "Renvoie les durées restantes en minutes, **triées croissantes** : la "
 "médiane est `out[K/2]`, le quantile 90 % `out[9K/10]`."
 msgstr ""
 
-#: ../../specification.md:3194
+#: ../../specification.md:3198
 msgid "Particularités :"
 msgstr ""
 
-#: ../../specification.md:3196
+#: ../../specification.md:3200
 msgid ""
 "les PR inconnus (0) sont remplacés par la moyenne des PR connus, ou 6 "
 "s'il n'y en a aucun ;"
 msgstr ""
 
-#: ../../specification.md:3197
+#: ../../specification.md:3201
 #, python-format
 msgid ""
 "pour un match déjà en cours, la durée restante est un tirage neuf moins "
 "le temps déjà écoulé, **plancher à 10 % de la durée attendue** ;"
 msgstr ""
 
-#: ../../specification.md:3199
+#: ../../specification.md:3203
 msgid "un tournoi déjà terminé renvoie `[0]`."
 msgstr ""
 
-#: ../../specification.md:3201
+#: ../../specification.md:3205
 msgid "`render` — affichage"
 msgstr ""
 
-#: ../../specification.md:3203
+#: ../../specification.md:3207
 msgid ""
 "Fonctions **pures** produisant du HTML et du SVG. Rien n'y est écrit en "
 "dur dans une langue : le moteur ne produit que des codes, et ce paquet "
@@ -4029,7 +4029,7 @@ msgid ""
 "méta (pas de script)"
 msgstr ""
 
-#: ../../specification.md:3240
+#: ../../specification.md:3244
 msgid ""
 "**Une page produite est autonome** : un seul fichier, feuille de style "
 "embarquée, aucune ressource externe — pas de police distante, pas de "
@@ -4037,7 +4037,7 @@ msgid ""
 "USB, sur l'ordinateur de la salle. Un crédit figure en pied de page."
 msgstr ""
 
-#: ../../specification.md:3244
+#: ../../specification.md:3248
 msgid ""
 "**Les lots.** `Batches(st)` groupe les matchs de la phase courante par "
 "instant de départ. Un lot est ce qu'un directeur appelle une ronde dans "
@@ -4048,7 +4048,7 @@ msgid ""
 "dernier donne le plus récent."
 msgstr ""
 
-#: ../../specification.md:3250
+#: ../../specification.md:3254
 msgid ""
 "**Mise en page du SVG.** Une colonne par tour (`Rounds`), boîte de 190 × "
 "44 px, écart horizontal 60 px, vertical 12 px, et 40 px entre deux "
@@ -4064,7 +4064,7 @@ msgid ""
 " est blanc (match à venir), jaune pâle (en cours) ou vert pâle (terminé)."
 msgstr ""
 
-#: ../../specification.md:3261
+#: ../../specification.md:3265
 msgid ""
 "Le nom affiché d'un joueur est `Player.Name`, ou l'identifiant à défaut —"
 " un nom est saisi par le TD et ne se traduit pas. `BYE` et une place "
@@ -4072,36 +4072,36 @@ msgid ""
 "passe par `html.EscapeString`."
 msgstr ""
 
-#: ../../specification.md:3265
+#: ../../specification.md:3269
 msgid ""
 "Les rendus sont figés par des **fichiers témoins** dans "
 "`render/testdata/` : toute modification du rendu fait échouer les tests, "
 "et `go test ./render -update` les régénère une fois le changement relu."
 msgstr ""
 
-#: ../../specification.md:3269
+#: ../../specification.md:3273
 msgid "`players` — import CSV"
 msgstr ""
 
-#: ../../specification.md:3275
+#: ../../specification.md:3279
 msgid "Import souple destiné aux exports HelloAsso, FFBG ou tableur :"
 msgstr ""
 
-#: ../../specification.md:3277
+#: ../../specification.md:3281
 msgid "BOM UTF-8 retiré ;"
 msgstr ""
 
-#: ../../specification.md:3278
+#: ../../specification.md:3282
 msgid ""
 "séparateur **détecté** sur la première ligne parmi `;`, `,` et tabulation"
 " (celui qui apparaît le plus souvent ; `,` par défaut) ;"
 msgstr ""
 
-#: ../../specification.md:3280
+#: ../../specification.md:3284
 msgid "lecture tolérante (`FieldsPerRecord = -1`, `LazyQuotes`) ;"
 msgstr ""
 
-#: ../../specification.md:3281
+#: ../../specification.md:3285
 msgid ""
 "colonnes reconnues par **inclusion de sous-chaîne**, en minuscules : `id`"
 " ; nom (`nom complet`, `name`, `nom`) ; prénom (`prénom`, `prenom`, "
@@ -4109,35 +4109,35 @@ msgid ""
 " `rating`, `elo`) ;"
 msgstr ""
 
-#: ../../specification.md:3284
+#: ../../specification.md:3288
 msgid "si ni colonne de nom ni colonne de prénom : erreur ;"
 msgstr ""
 
-#: ../../specification.md:3285
+#: ../../specification.md:3289
 msgid ""
 "le nom est la colonne « nom », sauf si prénom et nom de famille existent "
 "tous deux et que le prénom est renseigné — auquel cas c'est leur "
 "concaténation ;"
 msgstr ""
 
-#: ../../specification.md:3287
+#: ../../specification.md:3291
 msgid "une ligne sans nom est ignorée ;"
 msgstr ""
 
-#: ../../specification.md:3288
+#: ../../specification.md:3292
 msgid ""
 "l'identifiant est la colonne `id` si elle est renseignée, sinon un "
 "**slug** du nom ; en cas de collision, un suffixe `-2`, `-3`… est ajouté "
 ";"
 msgstr ""
 
-#: ../../specification.md:3290
+#: ../../specification.md:3294
 msgid ""
 "le PR accepte la virgule décimale ; une valeur illisible laisse `Rating` "
 "à 0."
 msgstr ""
 
-#: ../../specification.md:3292
+#: ../../specification.md:3296
 msgid ""
 "Le slug conserve les minuscules ASCII, les chiffres et les caractères "
 "non-ASCII (donc les lettres accentuées), remplace espace, tiret, souligné"
@@ -4145,15 +4145,15 @@ msgid ""
 "aux extrémités."
 msgstr ""
 
-#: ../../specification.md:3296
+#: ../../specification.md:3300
 msgid "Binaires de démonstration"
 msgstr ""
 
-#: ../../specification.md:3298
+#: ../../specification.md:3302
 msgid "`cmd/tournoi-demo`"
 msgstr ""
 
-#: ../../specification.md:3300
+#: ../../specification.md:3304
 msgid "Simule un tournoi complet et écrit ses sorties dans un dossier."
 msgstr ""
 
@@ -4218,7 +4218,7 @@ msgid ""
 "avertissements"
 msgstr ""
 
-#: ../../specification.md:3316
+#: ../../specification.md:3320
 msgid ""
 "Fichiers produits : `journal.json`, `affichage.html`, `classement.csv`, "
 "un SVG par section, `affichage_mi_tournoi.html` (rejeu des deux tiers du "
@@ -4227,11 +4227,11 @@ msgid ""
 "durée réellement observée."
 msgstr ""
 
-#: ../../specification.md:3321
+#: ../../specification.md:3325
 msgid "`cmd/tournoi-td`"
 msgstr ""
 
-#: ../../specification.md:3323
+#: ../../specification.md:3327
 msgid ""
 "Console interactive de direction de tournoi, pour éprouver le moteur à la"
 " main. Le journal est réécrit après chaque commande et `affichage.html` "
@@ -4339,7 +4339,7 @@ msgstr ""
 msgid "`aide`, `quitte`"
 msgstr ""
 
-#: ../../specification.md:3346
+#: ../../specification.md:3350
 msgid ""
 "Le joueur peut être désigné par son identifiant ou par une sous-chaîne de"
 " son nom (erreur si ambiguë). `ok tous` s'interrompt après une action "
@@ -4347,15 +4347,15 @@ msgid ""
 "propositions suivantes sont caduques."
 msgstr ""
 
-#: ../../specification.md:3352
+#: ../../specification.md:3356
 msgid "Invariants et plan de tests"
 msgstr ""
 
-#: ../../specification.md:3354
+#: ../../specification.md:3358
 msgid "Nature des tests"
 msgstr ""
 
-#: ../../specification.md:3356
+#: ../../specification.md:3360
 msgid ""
 "Les tests **ne sont pas des tests unitaires** : ce sont des **tests "
 "d'invariants par simulation**. Un nouveau format ou une nouvelle option "
@@ -4363,11 +4363,11 @@ msgid ""
 "par toutes les vérifications."
 msgstr ""
 
-#: ../../specification.md:3368
+#: ../../specification.md:3372
 msgid "Invariants vérifiés"
 msgstr ""
 
-#: ../../specification.md:3370
+#: ../../specification.md:3374
 msgid ""
 "`TestFormatsInvariants` joue **toutes les configurations de `configs()` ×"
 " 8 effectifs (2, 3, 5, 8, 13, 32, 64, 100) × 8 graines**, et vérifie "
@@ -4377,52 +4377,52 @@ msgid ""
 "sauvegarde, la matrice entière tournant en intégration continue."
 msgstr ""
 
-#: ../../specification.md:3376
+#: ../../specification.md:3380
 msgid "**Terminaison** : aucune simulation ne dépasse `MaxSteps`, aucun blocage."
 msgstr ""
 
-#: ../../specification.md:3377
+#: ../../specification.md:3381
 msgid ""
 "**Vainqueur unique** : `Final` existe et contient exactement un joueur au"
 " rang 1."
 msgstr ""
 
-#: ../../specification.md:3378
+#: ../../specification.md:3382
 msgid ""
 "**Classement complet** : `len(Final) == P` — tous les inscrits sont "
 "classés."
 msgstr ""
 
-#: ../../specification.md:3379
+#: ../../specification.md:3383
 msgid ""
 "**Rejeu identique** : `Replay(journal)` produit exactement le même "
 "`Final` (comparaison JSON)."
 msgstr ""
 
-#: ../../specification.md:3380
+#: ../../specification.md:3384
 msgid "**Aucun avertissement** après rejeu : `len(Warnings) == 0`."
 msgstr ""
 
-#: ../../specification.md:3381
+#: ../../specification.md:3385
 msgid ""
 "**Aucun joueur éliminé ne joue** : dans une phase à vies, à l'instant où "
 "un match démarre, `Losses[p] < Lives[p]` pour les deux joueurs."
 msgstr ""
 
-#: ../../specification.md:3383
+#: ../../specification.md:3387
 msgid ""
 "**Pas de match entre groupes différents** : dans une phase à vies, "
 "`Losses[A] == Losses[B]`, sauf pour les libellés `Finale` et `Match "
 "croisé` (les replis)."
 msgstr ""
 
-#: ../../specification.md:3385
+#: ../../specification.md:3389
 msgid ""
 "**Peu de rematchs** : en suisse, le nombre de secondes rencontres reste "
 "sous `graines × (Lives + 3)` dès que `P ≥ 8`."
 msgstr ""
 
-#: ../../specification.md:3388
+#: ../../specification.md:3392
 msgid ""
 "`TestStatutsInvariants` rejoue la même matrice (plus une entrée `top:4` "
 "et une entrée `all`) et vérifie les statuts après chaque événement : un "
@@ -4435,17 +4435,17 @@ msgid ""
 "l'épreuve A de T3 (repêchage N26) sont rejouées avec les mêmes contrôles."
 msgstr ""
 
-#: ../../specification.md:3396
+#: ../../specification.md:3400
 msgid "Fuzzing"
 msgstr ""
 
-#: ../../specification.md:3398
+#: ../../specification.md:3402
 msgid ""
 "Deux cibles gardent `Apply` contre ce qu'aucun test écrit à la main ne "
 "cherche :"
 msgstr ""
 
-#: ../../specification.md:3400
+#: ../../specification.md:3404
 msgid ""
 "`FuzzApply` applique des suites d'événements tirées au hasard. Les octets"
 " ne sont pas du JSON mais un **plan** : chaque triplet choisit un type "
@@ -4454,14 +4454,14 @@ msgid ""
 "testerait donc que le décodeur."
 msgstr ""
 
-#: ../../specification.md:3404
+#: ../../specification.md:3408
 msgid ""
 "`FuzzReplayJournal` rejoue des octets quelconques présentés comme un "
 "journal — le fichier que l'hôte a stocké et qui revient tronqué, "
 "réordonné ou corrompu."
 msgstr ""
 
-#: ../../specification.md:3407
+#: ../../specification.md:3411
 msgid ""
 "Dans les deux cas, **une erreur est une réponse acceptable** ; un `panic`"
 " ou un état incohérent n'en est pas une. L'état est vérifié après chaque "
@@ -4471,7 +4471,7 @@ msgid ""
 "aucun joueur deux fois au classement, et `Propose` qui ne panique pas."
 msgstr ""
 
-#: ../../specification.md:3413
+#: ../../specification.md:3417
 msgid "Compatibilité ascendante"
 msgstr ""
 
@@ -4499,7 +4499,7 @@ msgstr ""
 msgid "`config_changed` ne le peut plus : refus `drawn`"
 msgstr ""
 
-#: ../../specification.md:3421
+#: ../../specification.md:3425
 msgid ""
 "`testdata/journal_v0.json` est un journal complet écrit dans la forme "
 "d'avant les codes structurés — aucun champ `version`, aucun champ "
@@ -4508,7 +4508,7 @@ msgid ""
 "pas : elle vaut par le fait qu'elle n'a pas bougé."
 msgstr ""
 
-#: ../../specification.md:3426
+#: ../../specification.md:3430
 msgid "`TestMatchCounts` fixe les comptes de matchs sur 64 joueurs :"
 msgstr ""
 
@@ -4544,13 +4544,13 @@ msgstr ""
 msgid "Blocs GSL"
 msgstr ""
 
-#: ../../specification.md:3435
+#: ../../specification.md:3439
 msgid ""
 "(126 = 2 × 64 − 2 ; le 127ᵉ est la recharge, jouée une fois sur deux "
 "environ.)"
 msgstr ""
 
-#: ../../specification.md:3437
+#: ../../specification.md:3441
 msgid ""
 "`TestCorrection` vérifie qu'après l'inversion du premier résultat d'un "
 "tournoi par `result_corrected`, la somme des défaites de la phase égale "
@@ -4558,7 +4558,7 @@ msgid ""
 "reconstruit."
 msgstr ""
 
-#: ../../specification.md:3441
+#: ../../specification.md:3445
 msgid ""
 "`TestWithdrawnAfterDraw` vérifie qu'un joueur retiré **après** le tirage "
 "d'un tableau n'est plus jamais proposé, que ses matchs non lancés sont "
@@ -4566,7 +4566,7 @@ msgid ""
 "n'est produit."
 msgstr ""
 
-#: ../../specification.md:3445
+#: ../../specification.md:3449
 #, python-format
 msgid ""
 "`TestParity` (long, sauté en mode court) mesure sur 1 500 tournois de 64 "
@@ -4578,68 +4578,68 @@ msgid ""
 "que 4 à 9 % du temps (64 ou 32 joueurs), contre 1,6 à 3 % au hasard."
 msgstr ""
 
-#: ../../specification.md:3452
+#: ../../specification.md:3456
 msgid "Invariants structurels à préserver"
 msgstr ""
 
-#: ../../specification.md:3454
+#: ../../specification.md:3458
 msgid "Une réimplémentation doit maintenir, à tout instant :"
 msgstr ""
 
-#: ../../specification.md:3456
+#: ../../specification.md:3460
 msgid "un joueur a **au plus un match en cours** ;"
 msgstr ""
 
-#: ../../specification.md:3457
+#: ../../specification.md:3461
 msgid ""
 "`MatchOrder` est en bijection avec les clés de `Matches`, dans l'ordre de"
 " lancement ;"
 msgstr ""
 
-#: ../../specification.md:3458
+#: ../../specification.md:3462
 msgid "les identifiants de matchs sont `M1`, `M2`, … consécutifs sans trou ;"
 msgstr ""
 
-#: ../../specification.md:3459
+#: ../../specification.md:3463
 msgid ""
 "`sum(Losses)` sur une phase = nombre de matchs terminés (non annulés) de "
 "cette phase ;"
 msgstr ""
 
-#: ../../specification.md:3460
+#: ../../specification.md:3464
 msgid "`remainingLives(p) = Lives[p] − Losses[p]`, borné à 0 ;"
 msgstr ""
 
-#: ../../specification.md:3461
+#: ../../specification.md:3465
 msgid ""
 "un `GMatch` `Done` a `Winner` et `Loser` renseignés, sauf s'il est "
 "`Skipped` ;"
 msgstr ""
 
-#: ../../specification.md:3462
+#: ../../specification.md:3466
 msgid "`resolve` est idempotente : l'appeler deux fois de suite ne change rien ;"
 msgstr ""
 
-#: ../../specification.md:3463
+#: ../../specification.md:3467
 msgid "`Replay(journal)` est une fonction pure du journal."
 msgstr ""
 
-#: ../../specification.md:3467
+#: ../../specification.md:3471
 msgid "Limites connues et extensions prévues"
 msgstr ""
 
-#: ../../specification.md:3469
+#: ../../specification.md:3473
 msgid ""
 "Reprise priorisée de `docs/RESTE_A_FAIRE.md`. Ces points ne sont **pas** "
 "implémentés : une reconstruction fidèle du moteur ne doit pas les inclure"
 " sans le dire."
 msgstr ""
 
-#: ../../specification.md:3472
+#: ../../specification.md:3476
 msgid "Avant un premier tournoi réel"
 msgstr ""
 
-#: ../../specification.md:3474
+#: ../../specification.md:3478
 msgid ""
 "**Interface TD dans le logiciel hôte** : le moteur ne fournit que "
 "`Propose` / `Apply`. Il faut une page listant les actions avec un bouton "
@@ -4649,19 +4649,19 @@ msgid ""
 "avertissement."
 msgstr ""
 
-#: ../../specification.md:3478
+#: ../../specification.md:3482
 msgid ""
 "**Persistance du journal côté hôte** (une ligne JSON par événement, en "
 "ajout). Tester une coupure en plein tournoi."
 msgstr ""
 
-#: ../../specification.md:3480
+#: ../../specification.md:3484
 msgid ""
 "**Validation manuelle** sur un tournoi de club de 16 à 32 joueurs, en "
 "doublant sur papier."
 msgstr ""
 
-#: ../../specification.md:3481
+#: ../../specification.md:3485
 msgid ""
 "**Règle anti-manipulation du continu** : aujourd'hui `Propose` apparie "
 "tous les joueurs libres à chaque appel ; l'hôte doit l'appeler à "
@@ -4670,117 +4670,117 @@ msgid ""
 "`phase_swiss.go`."
 msgstr ""
 
-#: ../../specification.md:3486
+#: ../../specification.md:3490
 msgid "Fonctions attendues d'un logiciel de tournoi"
 msgstr ""
 
-#: ../../specification.md:3488
+#: ../../specification.md:3492
 msgid ""
 "**Forfaits fins** : il manque le forfait pour un seul match sans retrait,"
 " et le retrait « à partir de la ronde suivante »."
 msgstr ""
 
-#: ../../specification.md:3490
+#: ../../specification.md:3494
 msgid ""
 "**Pauses programmées** : `Propose` ne doit pas lancer un match dont la "
 "fin attendue dépasse l'heure de la pause. Paramètre `Config.Breaks "
 "[]TimeRange`."
 msgstr ""
 
-#: ../../specification.md:3492
+#: ../../specification.md:3496
 msgid ""
 "**Équité des byes entre groupes** : la règle « pas de second bye tant que"
 " d'autres n'en ont pas eu » n'est appliquée qu'à l'intérieur d'un groupe "
 "de défaites."
 msgstr ""
 
-#: ../../specification.md:3494
+#: ../../specification.md:3498
 msgid ""
 "**Options de saut** pour la consolante et la dernière chance (perdants du"
 " tour 1 seulement, jusqu'au tour *k*, consolante à tirage avec heure "
 "limite d'entrée)."
 msgstr ""
 
-#: ../../specification.md:3496
+#: ../../specification.md:3500
 msgid ""
 "**Têtes de série optionnelles** (`seeding: \"rating\"` dans `drawSlots`),"
 " écartées en v1 par choix."
 msgstr ""
 
-#: ../../specification.md:3497
+#: ../../specification.md:3501
 msgid ""
 "**Classement des places non gagnantes** : règles à valider avec la FFBG ;"
 " codes traduisibles à substituer aux notes en français brut."
 msgstr ""
 
-#: ../../specification.md:3499
+#: ../../specification.md:3503
 msgid ""
 "**Prix** : structures en pourcentage du pool, retenue d'organisation, "
 "arrondi, prix séparés par section."
 msgstr ""
 
-#: ../../specification.md:3501
+#: ../../specification.md:3505
 msgid ""
 "**Exports** : feuille d'appariements imprimable par ronde ou par bloc ; "
 "import CSV avec ratings FFBG."
 msgstr ""
 
-#: ../../specification.md:3504
+#: ../../specification.md:3508
 msgid "Moteur : robustesse"
 msgstr ""
 
-#: ../../specification.md:3506
+#: ../../specification.md:3510
 msgid ""
 "**Correction d'un résultat de tableau après coup** : l'avertissement "
 "existe, la réparation n'est pas outillée (rejouer le match, annuler la "
 "suite en série)."
 msgstr ""
 
-#: ../../specification.md:3508
+#: ../../specification.md:3512
 msgid ""
 "**Rematchs dans les consolantes** : l'ordre inversé des drops n'évite que"
 " les rencontres immédiates. À mesurer par simulation."
 msgstr ""
 
-#: ../../specification.md:3510
+#: ../../specification.md:3514
 msgid ""
 "**Poules** : le cas d'égalité à trois pour deux places n'a pas été "
 "éprouvé sur un tournoi réel (durée du barrage)."
 msgstr ""
 
-#: ../../specification.md:3512
+#: ../../specification.md:3516
 msgid ""
 "**Bascule Σ vies = 2^k en mode `rounds`** : la somme décroît par paquets "
 "et la ronde peut ne pas se lancer si elle ferait passer sous la cible ; à"
 " corriger dans le budget de `proposeSwissRound`."
 msgstr ""
 
-#: ../../specification.md:3515
+#: ../../specification.md:3519
 msgid ""
 "**API stable** : versionner le format du journal (champ `version` dans "
 "`Event`), documenter la compatibilité ascendante, fuzzer `Apply` sur des "
 "journaux aléatoires."
 msgstr ""
 
-#: ../../specification.md:3517
+#: ../../specification.md:3521
 msgid ""
 "**Rendu** : pas de tests (prévoir des fichiers témoins SVG/HTML), pas de "
 "vue double élimination côte à côte, pas d'écran joueur."
 msgstr ""
 
-#: ../../specification.md:3522
+#: ../../specification.md:3526
 msgid "Annexes"
 msgstr ""
 
-#: ../../specification.md:3524
+#: ../../specification.md:3528
 msgid "A. Récapitulatif de l'API publique"
 msgstr ""
 
-#: ../../specification.md:3526
+#: ../../specification.md:3530
 msgid "Types"
 msgstr ""
 
-#: ../../specification.md:3528
+#: ../../specification.md:3532
 msgid ""
 "`PlayerID`, `Player`, `MatchID`, `MatchStatus`, `Match`, `Rank`, "
 "`ActionKind`, `Action`, `Draw`, `EventKind`, `Event`, `Journal`, "
@@ -4789,7 +4789,7 @@ msgid ""
 " `Absence`."
 msgstr ""
 
-#: ../../specification.md:3532
+#: ../../specification.md:3536
 msgid ""
 "Codes (voir `codes.go`, aucun texte destiné à l'affichage ne sort du "
 "moteur) : `LabelKind`, `Label`, `NoteKind`, `Note`, `WarningCode`, "
@@ -4797,11 +4797,11 @@ msgid ""
 "classé sur son parcours ; `NoteForfeit` : match perdu par forfait)."
 msgstr ""
 
-#: ../../specification.md:3536
+#: ../../specification.md:3540
 msgid "Constantes"
 msgstr ""
 
-#: ../../specification.md:3538
+#: ../../specification.md:3542
 msgid ""
 "`BYE` ; `Running`, `Finished`, `Cancelled` ; `ActStartMatch`, `ActBye`, "
 "`ActDraw`, `ActNextPhase`, `ActFinish`, `ActWait` ; `EvCreated`, "
@@ -4814,22 +4814,22 @@ msgid ""
 "`Note*`, `Warn*`, `Info*`, `Reason*`, `Status*`."
 msgstr ""
 
-#: ../../specification.md:3546
+#: ../../specification.md:3550
 msgid "Fonctions et méthodes"
 msgstr ""
 
-#: ../../specification.md:3602
+#: ../../specification.md:3606
 msgid ""
 "Tout le reste (`pairGroup`, `drawSlots`, `resolve`, `bracketSection`…) "
 "est **non exporté** : ce sont des détails d'implémentation que l'on doit "
 "pouvoir changer sans casser les journaux."
 msgstr ""
 
-#: ../../specification.md:3605
+#: ../../specification.md:3609
 msgid "B. Exemple de journal"
 msgstr ""
 
-#: ../../specification.md:3633
+#: ../../specification.md:3637
 msgid "C. Nomenclature des clés"
 msgstr ""
 
@@ -4941,7 +4941,7 @@ msgstr ""
 msgid "`Barrage Poule C`"
 msgstr ""
 
-#: ../../specification.md:3646
+#: ../../specification.md:3650
 msgid "D. Documents liés"
 msgstr ""
 

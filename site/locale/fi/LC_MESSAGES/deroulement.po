@@ -179,21 +179,21 @@ msgstr "Tulosluettelon voi lukea milloin tahansa, ei vain lopuksi. Se sijoittaa 
 
 #: ../../deroulement.md:77
 msgid ""
-"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue "
-"d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et "
-"non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
+"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue"
+" d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et"
+" non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
 "prix est tronqué à l'unité, puis les unités restantes vont aux plus "
 "grands restes, à égalité au mieux classé : la somme distribuée égale "
-"exactement le pool après retenue, et un barème décroissant donne des prix "
-"décroissants. Une consolante peut avoir ses propres prix, sur son propre "
-"classement."
+"exactement le pool après retenue, et un barème décroissant donne des prix"
+" décroissants. Une consolante peut avoir ses propres prix, sur son propre"
+" classement."
 msgstr "Palkintorahat jaetaan tämän luettelon mukaan. Osallistumismaksu, järjestäjän pidätys, prosenttiosuudet — juliste ilmoittaa ”50/30/20 %” eikä summia, koska potti riippuu ilmoittautuneiden määrästä. Jokainen palkinto katkaistaan yksikköön, ja jäljelle jäävät yksiköt menevät suurimmille jäännöksille, tasatilanteessa paremmin sijoittuneelle: jaettu summa on täsmälleen potti pidätyksen jälkeen, ja laskeva asteikko antaa laskevat palkinnot. Lohdutuskaaviolla voi olla omat palkintonsa omalla tulosluettelollaan."
 
-#: ../../deroulement.md:83
+#: ../../deroulement.md:84
 msgid "Ce qui est affiché"
 msgstr "Mitä näytetään"
 
-#: ../../deroulement.md:85
+#: ../../deroulement.md:86
 msgid ""
 "Le moteur produit des pages autonomes : un seul fichier, qui s'ouvre hors"
 " ligne depuis une clé USB sur l'ordinateur de la salle. L'écran mural "

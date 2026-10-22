@@ -104,10 +104,11 @@ où intervenir et comment vérifier.
 - [x] **Prix** (issue #9). `Config.Prizes` est un `PrizePool` (`prizes.go`) : droit d'entrée,
   retenue (montant et/ou pourcentage), barème par section en pourcentages du pool distribuable ou
   en montants fixes. `State.PrizeAmounts(sec)` paie à l'unité par la méthode du plus fort reste
-  (point ci-dessous), de sorte que la somme distribuée égale exactement le pool après retenue ; `SectionRanking(sec)`
-  donne le classement propre d'une section (par tour atteint) et `StandingsCSV` sort une section
-  par bloc. La forme ancienne (`"prizes": [100, 60, 40]`) reste lue. Reste à valider avec la FFBG
-  les règles de classement des places non gagnantes (point ci-dessus).
+  (point « Reste de l'arrondi des prix », section 4), de sorte que la somme distribuée égale
+  exactement le pool après retenue ; `SectionRanking(sec)` donne le classement propre d'une
+  section (par tour atteint) et `StandingsCSV` sort une section par bloc. La forme ancienne
+  (`"prizes": [100, 60, 40]`) reste lue. Reste à valider avec la FFBG les règles de classement
+  des places non gagnantes (point ci-dessus).
 - [x] **Export / import des joueurs** (issue #12). `players.ToCSV` écrit l'annuaire dans le
   format que `players.FromCSV` relit sans perte (colonnes `nom;club;cote`, colonne `id` seulement
   quand l'identifiant ne se déduit pas du nom) ; la console TD a la commande `exporte`. Au

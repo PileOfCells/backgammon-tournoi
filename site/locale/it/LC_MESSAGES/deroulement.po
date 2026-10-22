@@ -179,21 +179,21 @@ msgstr "La classifica si legge in ogni momento, non solo alla fine. Colloca i gi
 
 #: ../../deroulement.md:77
 msgid ""
-"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue "
-"d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et "
-"non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
+"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue"
+" d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et"
+" non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
 "prix est tronqué à l'unité, puis les unités restantes vont aux plus "
 "grands restes, à égalité au mieux classé : la somme distribuée égale "
-"exactement le pool après retenue, et un barème décroissant donne des prix "
-"décroissants. Une consolante peut avoir ses propres prix, sur son propre "
-"classement."
+"exactement le pool après retenue, et un barème décroissant donne des prix"
+" décroissants. Une consolante peut avoir ses propres prix, sur son propre"
+" classement."
 msgstr "Il montepremi si ripartisce su questa classifica. Una quota d'iscrizione, una trattenuta d'organizzazione, delle percentuali — un manifesto annuncia «50/30/20 %» e non degli importi, poiché il monte dipende dal numero degli iscritti. Ogni premio è troncato all'unità, poi le unità rimanenti vanno ai resti più grandi, a parità al meglio classificato: la somma distribuita è esattamente il monte al netto della trattenuta, e una scala decrescente dà premi decrescenti. Una consolazione può avere i propri premi, sulla propria classifica."
 
-#: ../../deroulement.md:83
+#: ../../deroulement.md:84
 msgid "Ce qui est affiché"
 msgstr "Ciò che viene mostrato"
 
-#: ../../deroulement.md:85
+#: ../../deroulement.md:86
 msgid ""
 "Le moteur produit des pages autonomes : un seul fichier, qui s'ouvre hors"
 " ligne depuis une clé USB sur l'ordinateur de la salle. L'écran mural "

@@ -179,21 +179,21 @@ msgstr "順位表は最後だけでなく、いつでも読めます。到達点
 
 #: ../../deroulement.md:77
 msgid ""
-"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue "
-"d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et "
-"non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
+"La dotation se répartit sur ce classement. Un droit d'entrée, une retenue"
+" d'organisation, des pourcentages — une affiche annonce « 50/30/20 % » et"
+" non des montants, puisque le pool dépend du nombre d'inscrits. Chaque "
 "prix est tronqué à l'unité, puis les unités restantes vont aux plus "
 "grands restes, à égalité au mieux classé : la somme distribuée égale "
-"exactement le pool après retenue, et un barème décroissant donne des prix "
-"décroissants. Une consolante peut avoir ses propres prix, sur son propre "
-"classement."
+"exactement le pool après retenue, et un barème décroissant donne des prix"
+" décroissants. Une consolante peut avoir ses propres prix, sur son propre"
+" classement."
 msgstr "賞金はこの順位表に沿って配分されます。参加費、主催者の控除、割合 — ポスターが掲げるのは「50/30/20 %」であって金額ではありません。原資は参加人数で決まるからです。各賞金はまず単位未満を切り捨て、残った単位を端数の大きい順に一つずつ配り、端数が同じなら上位を優先します。配分の合計は控除後の原資とちょうど一致し、逓減する配分率からは逓減する賞金が得られます。敗者復活戦には、その独自の順位表に基づく独自の賞金を設けられます。"
 
-#: ../../deroulement.md:83
+#: ../../deroulement.md:84
 msgid "Ce qui est affiché"
 msgstr "画面に出るもの"
 
-#: ../../deroulement.md:85
+#: ../../deroulement.md:86
 msgid ""
 "Le moteur produit des pages autonomes : un seul fichier, qui s'ouvre hors"
 " ligne depuis une clé USB sur l'ordinateur de la salle. L'écran mural "
