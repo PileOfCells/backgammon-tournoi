@@ -35,7 +35,8 @@ type Clock struct {
 
 // ClockAt calcule les indicateurs à l'instant now (rules.PaceAt).
 func (s *State) ClockAt(now time.Time, start time.Time) Clock {
-	return Clock(rules.PaceAt(s.RulesMatches(), now, start))
+	p := rules.PaceAt(s.RulesMatches(), now, start)
+	return Clock{Played: p.Played, Running: p.Running, Elapsed: p.Elapsed, AvgMatch: p.AvgMatch, AvgPerPt: p.AvgPerPt}
 }
 
 // RulesMatches : les matchs de l'état, dans l'ordre de lancement, tels que les règles pures les

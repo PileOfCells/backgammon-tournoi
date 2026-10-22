@@ -13,7 +13,7 @@
 //   - la DOTATION : pool brut (Pool), pool après retenue (Distributable), montants par place
 //     arrondis à l'unité avec le reste au premier (PlaceAmounts), partage entre ex æquo
 //     (SharePrizes) ;
-//   - la PRÉVISION DE FIN : rythme observé (PaceAt, ExpectedDuration, IsSlow), temps de jeu
+//   - la PRÉVISION DE FIN (sauf les matchs restants, qui dépendent des appariements) : rythme observé (PaceAt, ExpectedDuration, IsSlow), temps de jeu
 //     (PlayingTime, union des intervalles de match), jour de jeu (DayOfPlay), fin estimée
 //     (EstimatedEnd : médiane des fins simulées reportée au-delà des pauses, AfterBreaks), et les
 //     pièces du modèle de simulation (WinProbability, MeanRating, RemainingDuration) ; la
@@ -21,13 +21,16 @@
 //   - la FEUILLE D'APPARIEMENTS : les lots d'une phase (Batches) et les lignes d'un lot dans
 //     l'ordre imprimé (PairingSheet), sans phrase ni HTML.
 //
-// Les appariements et le classement (Pair, Rank) viendront au second lot ; d'ici là, le libellé
-// d'une ligne de feuille reste chez l'hôte, qui le retrouve par l'identifiant du match.
+// Les appariements et le classement (Pair, Rank) viendront au second lot, et avec eux les
+// MATCHS RESTANTS de la prévision de fin, qui se comptent en appariant : d'ici là, sim.Forecast
+// les obtient en rejouant le moteur. Le libellé d'une ligne de feuille reste aussi chez l'hôte,
+// qui le retrouve par l'identifiant du match.
 //
-// Les fichiers dorés de testdata/ donnent, pour chaque fonction, des entrées et les sorties
+// Les fichiers dorés de testdata/ sont du JSON : pour chaque fonction, des entrées et les sorties
 // attendues. Les tests de ce paquet les rejouent contre les fonctions pures, ceux du moteur
-// contre ses enveloppes ; un client peut les rejouer contre son adaptateur. Une règle dont la
-// sortie change à entrée égale est une version mineure du module.
+// contre ses enveloppes. Un client du module les rejoue contre son adaptateur en les décodant
+// avec ses propres types : les types Go qui les décrivent ici sont internes au module. Une règle
+// dont la sortie change à entrée égale est une version mineure du module.
 package rules
 
 // Ref est la référence opaque d'un joueur : l'appelant la choisit et la retrouve.

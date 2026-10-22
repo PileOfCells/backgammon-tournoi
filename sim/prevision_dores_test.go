@@ -9,6 +9,7 @@ import (
 
 	"github.com/PileOfCells/backgammon-tournoi"
 	"github.com/PileOfCells/backgammon-tournoi/internal/dores"
+	"github.com/PileOfCells/backgammon-tournoi/rules"
 	"github.com/PileOfCells/backgammon-tournoi/sim"
 )
 
@@ -106,5 +107,31 @@ func TestDoresPrevision(t *testing.T) {
 		}
 		b, _ := json.MarshalIndent(court, "", " ")
 		t.Errorf("%s : la prévision a changé à entrée égale (%d octets).\n%s", chemin, len(produit), b)
+	}
+}
+
+// TestEstimatedEnd : la fin estimée est la médiane de Forecast reportée après les pauses, et un
+// tournoi terminé n'en a pas.
+func TestEstimatedEnd(t *testing.T) {
+	var cas []casPrevision
+	if err := dores.Read("testdata/prevision.json", &cas); err != nil {
+		t.Fatal(err)
+	}
+	for _, c := range cas {
+		fin, ok, err := sim.EstimatedEnd(c.Journal, c.Now, c.K, c.MinPerPoint, c.Seed)
+		if err != nil {
+			t.Fatalf("%s : %v", c.Name, err)
+		}
+		st, _ := tournoi.Replay(c.Journal)
+		if st.Finished {
+			if ok {
+				t.Errorf("%s : terminé, et pourtant une fin estimée", c.Name)
+			}
+			continue
+		}
+		want, _ := rules.EstimatedEnd(c.Now, sim.Durations(c.Out), st.Config.BreakIntervals())
+		if !ok || !fin.Equal(want) {
+			t.Errorf("%s : %v (%v), attendu %v", c.Name, fin, ok, want)
+		}
 	}
 }

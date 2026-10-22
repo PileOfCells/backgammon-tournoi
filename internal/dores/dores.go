@@ -2,9 +2,10 @@
 // leur lecture et leur réécriture.
 //
 // Un même fichier est rejoué deux fois : par les tests de rules, contre les fonctions pures, et
-// par ceux du moteur (racine, sim, render), contre les enveloppes. Un client du module (blunderDB,
-// gammonGo) peut le rejouer contre son propre adaptateur. Les types sont donc partagés ici, et
-// seulement par des tests : rien de ce paquet n'est appelé par le moteur.
+// par ceux du moteur (racine, sim, render), contre les enveloppes. Les types sont partagés ici,
+// et seulement par des tests : rien de ce paquet n'est appelé par le moteur. Un client du module
+// (blunderDB, gammonGo) ne peut pas importer ce paquet interne : il rejoue les fichiers JSON en
+// les décodant avec ses propres types.
 package dores
 
 import (
@@ -111,12 +112,12 @@ type BreaksCase struct {
 
 // EndCase : la fin estimée, médiane des fins simulées reportée après les pauses.
 type EndCase struct {
-	Name      string     `json:"name"`
-	Now       time.Time  `json:"now"`
-	Remaining []float64  `json:"remaining"` // minutes, triées comme sim.Forecast les rend
-	Breaks    []Interval `json:"breaks"`
-	Out       time.Time  `json:"out"`
-	OK        bool       `json:"ok"`
+	Name      string          `json:"name"`
+	Now       time.Time       `json:"now"`
+	Remaining []time.Duration `json:"remaining"` // triées, comme sim.Forecast les rend
+	Breaks    []Interval      `json:"breaks"`
+	Out       time.Time       `json:"out"`
+	OK        bool            `json:"ok"`
 }
 
 // End : le fichier fin.json.

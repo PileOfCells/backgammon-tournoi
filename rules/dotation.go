@@ -65,7 +65,8 @@ func PlaceAmounts(scale PrizeScale, distributable float64) []float64 {
 
 // SharePrizes répartit des montants par place sur un classement avec ex æquo : les joueurs
 // classés à la même place se partagent les prix des places qu'ils occupent. Un joueur classé
-// au-delà des places dotées touche 0.
+// au-delà des places dotées touche 0, comme un rang nul ou négatif, qui n'est pas une place du
+// barème.
 func SharePrizes(ranking []Placement, amounts []float64) map[Ref]float64 {
 	out := map[Ref]float64{}
 	byRank := map[int][]Ref{}
@@ -74,7 +75,7 @@ func SharePrizes(ranking []Placement, amounts []float64) map[Ref]float64 {
 	}
 	for rank, ids := range byRank {
 		total := 0.0
-		for i := rank - 1; i < rank-1+len(ids); i++ {
+		for i := rank - 1; rank >= 1 && i < rank-1+len(ids); i++ {
 			if i < len(amounts) {
 				total += amounts[i]
 			}

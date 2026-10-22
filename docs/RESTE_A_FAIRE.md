@@ -189,7 +189,8 @@ où intervenir et comment vérifier.
   `direction/clock.go` de blunderDB, reprise à l'identique) et la feuille d'appariements
   (`Batches`, `PairingSheet`, en identifiants et sans HTML). `State` (`Pool`, `Distributable`,
   `PrizeAmounts`, `Prizes`, `ClockAt`, `SlowMatches`, `Expected`), `sim` (`PGain`, `Forecast`) et
-  `render` (`Batches`, `PairingSheet`) en sont des enveloppes ; `State.RulesMatches` et
+  `render` (`Batches`, `PairingSheet`) en sont des enveloppes, et `sim.EstimatedEnd` assemble
+  `Forecast` et `rules.EstimatedEnd` (durées en `time.Duration`) ; `State.RulesMatches` et
   `Config.BreakIntervals` donnent les entrées. Les fichiers dorés de `rules/testdata/` (et
   `sim/testdata/prevision.json`) ont été figés AVANT le déplacement et n'ont pas bougé d'un octet ;
   ils sont rejoués contre `rules` et contre les enveloppes (`go test -run TestDores . -args
@@ -197,7 +198,9 @@ où intervenir et comment vérifier.
   les cotes connues dans l'ordre des identifiants et non dans celui d'une carte.
 - [ ] **Règles pures, second lot** (issue #27) : `Rank` et `Pair` pour chaque format, `Propose` et
   `SectionRanking` en enveloppes, parité par les configurations de `sim_test.go` et des fichiers
-  dorés ; le libellé d'une ligne de feuille (un `Label`) passe alors dans `rules`.
+  dorés ; le libellé d'une ligne de feuille (un `Label`) passe alors dans `rules`, et les MATCHS
+  RESTANTS de la prévision de fin (ADR-0105 §1) avec `Pair` : ils se comptent en appariant, et
+  `sim.Forecast` les obtient d'ici là en rejouant le moteur.
 - [ ] **Reste de l'arrondi des prix** : le reste va au premier même quand il est négatif, si bien
   que 4 × 15 % d'un pool de 10 donnent 0, 2, 2, 2 (cas « reste négatif au premier » de
   `rules/testdata/dotation.json`). Le premier ne devrait pas toucher moins que le deuxième ; à

@@ -18,7 +18,7 @@ type Match struct {
 	Phase   int         `json:"phase"`
 	Status  MatchStatus `json:"status"`
 	Start   time.Time   `json:"start"`
-	End     time.Time   `json:"end,omitempty"`
+	End     time.Time   `json:"end"` // valeur nulle : pas encore terminé, ou fin inconnue
 	Table   int         `json:"table,omitempty"`
 	Length  int         `json:"length"`
 	A       Ref         `json:"a"`

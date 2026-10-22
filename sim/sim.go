@@ -188,8 +188,8 @@ func Champ(P int, mu, sigma, min, max float64, rng *rand.Rand) []tournoi.Player 
 
 // Forecast rejoue un journal puis simule K fins de tournoi à partir de l'instant now ; renvoie
 // les durées restantes (minutes) triées, pour la prévision de l'heure de fin. Les PR inconnus
-// (0) sont remplacés par la moyenne des PR connus (ou 6, rules.MeanRating). La fin estimée est
-// rules.EstimatedEnd(now, Forecast(…), cfg.BreakIntervals()) : médiane reportée après les pauses.
+// (0) sont remplacés par la moyenne des PR connus (ou 6, rules.MeanRating). EstimatedEnd en
+// tire la fin estimée.
 func Forecast(j tournoi.Journal, now time.Time, K int, minPerPoint float64, seed int64) ([]float64, error) {
 	base, err := tournoi.Replay(j)
 	if err != nil {
@@ -297,4 +297,32 @@ func Forecast(j tournoi.Journal, now time.Time, K int, minPerPoint float64, seed
 	}
 	sort.Float64s(out)
 	return out, nil
+}
+
+// Durations : les durées restantes de Forecast, de minutes en time.Duration.
+func Durations(minutes []float64) []time.Duration {
+	out := make([]time.Duration, len(minutes))
+	for i, m := range minutes {
+		out[i] = time.Duration(m * float64(time.Minute))
+	}
+	return out
+}
+
+// EstimatedEnd : la fin estimée d'un tournoi en cours, médiane de K fins simulées (Forecast)
+// reportée au-delà des pauses déclarées (rules.EstimatedEnd). ok est faux pour un tournoi
+// terminé ou sans fin simulée.
+func EstimatedEnd(j tournoi.Journal, now time.Time, K int, minPerPoint float64, seed int64) (end time.Time, ok bool, err error) {
+	st, err := tournoi.Replay(j)
+	if err != nil {
+		return time.Time{}, false, err
+	}
+	if st.Finished {
+		return time.Time{}, false, nil
+	}
+	runs, err := Forecast(j, now, K, minPerPoint, seed)
+	if err != nil {
+		return time.Time{}, false, err
+	}
+	end, ok = rules.EstimatedEnd(now, Durations(runs), st.Config.BreakIntervals())
+	return end, ok, nil
 }

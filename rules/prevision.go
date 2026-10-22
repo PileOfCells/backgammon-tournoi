@@ -136,17 +136,16 @@ func AfterBreaks(now time.Time, play time.Duration, breaks []Interval) time.Time
 	return t.Add(left)
 }
 
-// EstimatedEnd : la fin estimée, médiane des durées restantes simulées (en minutes, telles que
-// sim.Forecast les rend) posée après now et reportée au-delà des pauses. La médiane d'un nombre
-// pair de fins est la plus haute des deux du milieu. ok est faux sans aucune fin simulée.
-func EstimatedEnd(now time.Time, remaining []float64, breaks []Interval) (end time.Time, ok bool) {
+// EstimatedEnd : la fin estimée, médiane des durées restantes simulées posée après now et
+// reportée au-delà des pauses. La médiane d'un nombre pair de fins est la plus haute des deux du
+// milieu. ok est faux sans aucune fin simulée.
+func EstimatedEnd(now time.Time, remaining []time.Duration, breaks []Interval) (end time.Time, ok bool) {
 	if len(remaining) == 0 {
 		return time.Time{}, false
 	}
-	r := append([]float64(nil), remaining...)
-	sort.Float64s(r)
-	median := r[len(r)/2]
-	return AfterBreaks(now, time.Duration(median*float64(time.Minute)), breaks), true
+	r := append([]time.Duration(nil), remaining...)
+	sort.Slice(r, func(i, j int) bool { return r[i] < r[j] })
+	return AfterBreaks(now, r[len(r)/2], breaks), true
 }
 
 // WinProbability : probabilité que A (PR a) batte B (PR b) en n points, formule Elo/FIBS
