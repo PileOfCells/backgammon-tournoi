@@ -70,15 +70,6 @@ func fromRulesNote(n rules.Note) Note {
 	return out
 }
 
-func toRulesNote(n Note) rules.Note {
-	out := rules.Note{Kind: rules.NoteKind(n.Kind), Wins: n.Wins, Losses: n.Losses, Lives: n.Lives, Section: n.Section, Qualified: n.Qualified}
-	if n.Sub != nil {
-		sub := toRulesLabel(*n.Sub)
-		out.Sub = &sub
-	}
-	return out
-}
-
 func fromStandings(st []rules.Standing) []Rank {
 	if st == nil {
 		return nil
@@ -86,14 +77,6 @@ func fromStandings(st []rules.Standing) []Rank {
 	out := make([]Rank, len(st))
 	for i, x := range st {
 		out[i] = Rank{Player: PlayerID(x.Player), Rank: x.Rank, Note: fromRulesNote(x.Note)}
-	}
-	return out
-}
-
-func toStandings(rk []Rank) []rules.Standing {
-	out := make([]rules.Standing, len(rk))
-	for i, x := range rk {
-		out[i] = rules.Standing{Player: ref(x.Player), Rank: x.Rank, Note: toRulesNote(x.Note)}
 	}
 	return out
 }
@@ -206,8 +189,7 @@ func (s *State) instantané(ph *PhaseState, free []PlayerID, apparier bool) rule
 	p := rules.Phase{Format: rules.Format(ph.Cfg.Kind), Name: PhaseName(ph.Cfg), Rules: phaseRules(ph.Cfg),
 		Eliminated: refs(ph.ElimOrder), Withdrawn: withdrawnRefs(s.Withdrawn), Drawn: ph.Drawn, Round: ph.Round,
 		Length: ph.Length, Running: s.runningInPhase(ph), Free: refs(free)}
-	// Seul un suisse lit les adversaires ; seules les poules lisent les barrages. L'instantané
-	// est construit à chaque proposition : ce qu'aucune règle ne lit n'y est pas copié.
+	// Seul un suisse lit les adversaires ; seules les poules lisent les barrages.
 	suisse, poules := apparier && ph.Cfg.Kind == KindSwissLives, ph.Cfg.Kind == KindRoundRobin
 	p.Entrants = make([]rules.Entrant, len(ph.Entrants))
 	for i, id := range ph.Entrants {

@@ -2,7 +2,6 @@ package tournoi
 
 import (
 	"fmt"
-	"math/rand"
 	"time"
 
 	"github.com/PileOfCells/backgammon-tournoi/rules"
@@ -176,11 +175,6 @@ func (s *State) promoteDeferred() {
 }
 
 func (s *State) nextMatchID() MatchID { return MatchID(fmt.Sprintf("M%d", s.nextID+1)) }
-
-// rng renvoie un générateur déterministe pour la proposition courante.
-func (s *State) rng() *rand.Rand {
-	return rand.New(rand.NewSource(s.Seed*1000003 + int64(s.NEvents)*7919 + int64(s.Current)))
-}
 
 func (s *State) phase() *PhaseState {
 	if s.Current < 0 || s.Current >= len(s.Phases) {

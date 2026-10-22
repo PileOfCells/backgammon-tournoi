@@ -13,11 +13,6 @@ func (s *State) sumLives(ph *PhaseState) int {
 	return n
 }
 
-// swissFrozen : la bascule vers le tableau est atteinte (somme des vies ≤ Target, plus de match en cours).
-func (s *State) swissFrozen(ph *PhaseState) bool {
-	return ph.Cfg.Target > 0 && s.sumLives(ph)-s.runningInPhase(ph) <= ph.Cfg.Target
-}
-
 // swissDone : la phase suisse n'a plus rien à jouer (rules.PhaseDone).
 func (s *State) swissDone(ph *PhaseState) bool { return rules.PhaseDone(s.bilan(ph)) }
 

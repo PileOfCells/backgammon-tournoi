@@ -18,8 +18,8 @@ import (
 
 // testdata/trace_moteur.json fige ce que le moteur PROPOSE et CLASSE à chaque pas d'un tournoi
 // simulé : Propose (avec et sans External), Ranking, SectionRanking de chaque section, Statuses,
-// avertissements. Il a été écrit par le moteur d'AVANT le second lot de rules (appariements et
-// classement en fonctions pures), et prouve que les enveloppes rendent la même chose, à l'octet.
+// avertissements. Il fige le comportement du moteur ; il ne se régénère que sur un changement
+// voulu, et prouve que les enveloppes de rules rendent la même chose, à l'octet.
 //
 // Les cas sont les configurations de sim_test.go, à chaque effectif de la liste et à trois
 // graines, chacun deux fois : tel quel, puis PERTURBÉ (retraits, indisponibilités, joueurs

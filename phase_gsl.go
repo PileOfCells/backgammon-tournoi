@@ -7,8 +7,6 @@ import "github.com/PileOfCells/backgammon-tournoi/rules"
 // Les règles — groupes GSL pour les joueurs sans défaite, mini-tableaux pour ceux qui en ont une,
 // finale entre les deux derniers — sont dans rules (Pair, GSLBlockSections) ; ici, l'enveloppe.
 
-func (s *State) gslDone(ph *PhaseState) bool { return rules.PhaseDone(s.bilan(ph)) }
-
 func (s *State) proposeGSL(ph *PhaseState) []Action {
 	return s.actions(ph, rules.Pair(s.snapshot(ph, nil), s.seed()))
 }

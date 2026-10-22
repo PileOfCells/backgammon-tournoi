@@ -239,19 +239,6 @@ const (
 	secKindBarrage = rules.SectionBarrage
 )
 
-// poolSectionName : nom de la i-ième poule (0 → "poule:A").
-func poolSectionName(i int) string { return poolPrefix + string(rune('A'+i)) }
-
-// barrageSectionName : nom du barrage de la poule donnée.
-func barrageSectionName(pool string) string {
-	return barragePrefix + strings.TrimPrefix(pool, poolPrefix)
-}
-
-// poolOfBarrage : la poule dont ce barrage départage les ex æquo.
-func poolOfBarrage(barrage string) string {
-	return poolPrefix + strings.TrimPrefix(barrage, barragePrefix)
-}
-
 // poolLetter : la lettre d'une section de poule.
 func poolLetter(name string) (string, bool) {
 	if strings.HasPrefix(name, poolPrefix) {

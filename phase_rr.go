@@ -11,9 +11,6 @@ import (
 // Tirage, poules (table de Berger), égalités, barrages, qualifiés et classement sont dans rules
 // (Pair, PoolSections, PoolTie, PoolQualified, Rank) ; ici, l'enveloppe.
 
-// groupName : identifiant de la i-ième poule (voir codes.go, « Noms de section »).
-func groupName(i int) string { return poolSectionName(i) }
-
 func (s *State) proposeRR(ph *PhaseState) []Action {
 	return s.actions(ph, rules.Pair(s.snapshot(ph, nil), s.seed()))
 }
@@ -38,7 +35,7 @@ func (s *State) applyRRDraw(ph *PhaseState, section string, d *Draw) error {
 		return fmt.Errorf("barrage : un seul groupe attendu")
 	}
 	// places : recalculées à partir de la poule
-	poule := ph.section(poolOfBarrage(section))
+	poule := ph.section(rules.PoolOfBarrage(section))
 	if poule == nil {
 		return fmt.Errorf("barrage : poule %q inconnue", section)
 	}
