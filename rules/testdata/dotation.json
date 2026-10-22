@@ -1,0 +1,518 @@
+[
+  {
+    "name": "affiche 50/30/20 sur 432",
+    "entry_fee": 18,
+    "players": 24,
+    "percents": [
+      50,
+      30,
+      20
+    ],
+    "ranking": [
+      {
+        "player": "p01",
+        "rank": 1
+      },
+      {
+        "player": "p02",
+        "rank": 2
+      },
+      {
+        "player": "p03",
+        "rank": 3
+      },
+      {
+        "player": "p04",
+        "rank": 4
+      },
+      {
+        "player": "p05",
+        "rank": 5
+      }
+    ],
+    "out": {
+      "pool": 432,
+      "distributable": 432,
+      "amounts": [
+        216,
+        130,
+        86
+      ],
+      "shares": {
+        "p01": 216,
+        "p02": 130,
+        "p03": 86,
+        "p04": 0,
+        "p05": 0
+      }
+    }
+  },
+  {
+    "name": "retenue en pourcentage et en montant",
+    "entry_fee": 20,
+    "players": 37,
+    "retention_amount": 50,
+    "retention_percent": 10,
+    "percents": [
+      40,
+      25,
+      15,
+      10,
+      10
+    ],
+    "ranking": [
+      {
+        "player": "p01",
+        "rank": 1
+      },
+      {
+        "player": "p02",
+        "rank": 2
+      },
+      {
+        "player": "p03",
+        "rank": 3
+      },
+      {
+        "player": "p04",
+        "rank": 3
+      },
+      {
+        "player": "p05",
+        "rank": 5
+      },
+      {
+        "player": "p06",
+        "rank": 5
+      },
+      {
+        "player": "p07",
+        "rank": 5
+      },
+      {
+        "player": "p08",
+        "rank": 8
+      }
+    ],
+    "out": {
+      "pool": 740,
+      "distributable": 616,
+      "amounts": [
+        246,
+        154,
+        92,
+        62,
+        62
+      ],
+      "shares": {
+        "p01": 246,
+        "p02": 154,
+        "p03": 77,
+        "p04": 77,
+        "p05": 20.666666666666668,
+        "p06": 20.666666666666668,
+        "p07": 20.666666666666668,
+        "p08": 0
+      }
+    }
+  },
+  {
+    "name": "retenue plus grande que le pool",
+    "entry_fee": 5,
+    "players": 4,
+    "retention_amount": 100,
+    "percents": [
+      60,
+      40
+    ],
+    "ranking": [
+      {
+        "player": "p01",
+        "rank": 1
+      },
+      {
+        "player": "p02",
+        "rank": 2
+      }
+    ],
+    "out": {
+      "pool": 20,
+      "distributable": 0,
+      "amounts": [
+        0,
+        0
+      ],
+      "shares": {
+        "p01": 0,
+        "p02": 0
+      }
+    }
+  },
+  {
+    "name": "montants fixes",
+    "entry_fee": 10,
+    "players": 16,
+    "amounts": [
+      100,
+      60,
+      40.5
+    ],
+    "ranking": [
+      {
+        "player": "p01",
+        "rank": 1
+      },
+      {
+        "player": "p02",
+        "rank": 2
+      },
+      {
+        "player": "p03",
+        "rank": 3
+      },
+      {
+        "player": "p04",
+        "rank": 4
+      }
+    ],
+    "out": {
+      "pool": 160,
+      "distributable": 160,
+      "amounts": [
+        100,
+        60,
+        40.5
+      ],
+      "shares": {
+        "p01": 100,
+        "p02": 60,
+        "p03": 40.5,
+        "p04": 0
+      }
+    }
+  },
+  {
+    "name": "tiers",
+    "entry_fee": 10,
+    "players": 10,
+    "percents": [
+      33.333,
+      33.333,
+      33.334
+    ],
+    "ranking": [
+      {
+        "player": "p01",
+        "rank": 1
+      },
+      {
+        "player": "p02",
+        "rank": 2
+      },
+      {
+        "player": "p03",
+        "rank": 3
+      }
+    ],
+    "out": {
+      "pool": 100,
+      "distributable": 100,
+      "amounts": [
+        34,
+        33,
+        33
+      ],
+      "shares": {
+        "p01": 34,
+        "p02": 33,
+        "p03": 33
+      }
+    }
+  },
+  {
+    "name": "reste négatif au premier",
+    "entry_fee": 1,
+    "players": 10,
+    "percents": [
+      15,
+      15,
+      15,
+      15
+    ],
+    "ranking": [
+      {
+        "player": "p01",
+        "rank": 1
+      },
+      {
+        "player": "p02",
+        "rank": 2
+      },
+      {
+        "player": "p03",
+        "rank": 3
+      },
+      {
+        "player": "p04",
+        "rank": 4
+      }
+    ],
+    "out": {
+      "pool": 10,
+      "distributable": 10,
+      "amounts": [
+        0,
+        2,
+        2,
+        2
+      ],
+      "shares": {
+        "p01": 0,
+        "p02": 2,
+        "p03": 2,
+        "p04": 2
+      }
+    }
+  },
+  {
+    "name": "reste positif au premier",
+    "entry_fee": 7,
+    "players": 13,
+    "retention_percent": 5,
+    "percents": [
+      45,
+      35,
+      20
+    ],
+    "ranking": [
+      {
+        "player": "p01",
+        "rank": 1
+      },
+      {
+        "player": "p02",
+        "rank": 2
+      },
+      {
+        "player": "p03",
+        "rank": 3
+      }
+    ],
+    "out": {
+      "pool": 91,
+      "distributable": 86.45,
+      "amounts": [
+        39,
+        30,
+        17
+      ],
+      "shares": {
+        "p01": 39,
+        "p02": 30,
+        "p03": 17
+      }
+    }
+  },
+  {
+    "name": "ex aequo au-delà des places dotées",
+    "entry_fee": 10,
+    "players": 8,
+    "percents": [
+      50,
+      30,
+      20
+    ],
+    "ranking": [
+      {
+        "player": "p01",
+        "rank": 1
+      },
+      {
+        "player": "p02",
+        "rank": 2
+      },
+      {
+        "player": "p03",
+        "rank": 3
+      },
+      {
+        "player": "p04",
+        "rank": 3
+      },
+      {
+        "player": "p05",
+        "rank": 3
+      },
+      {
+        "player": "p06",
+        "rank": 3
+      }
+    ],
+    "out": {
+      "pool": 80,
+      "distributable": 80,
+      "amounts": [
+        40,
+        24,
+        16
+      ],
+      "shares": {
+        "p01": 40,
+        "p02": 24,
+        "p03": 4,
+        "p04": 4,
+        "p05": 4,
+        "p06": 4
+      }
+    }
+  },
+  {
+    "name": "premier ex aequo",
+    "entry_fee": 10,
+    "players": 8,
+    "percents": [
+      60,
+      40
+    ],
+    "ranking": [
+      {
+        "player": "p01",
+        "rank": 1
+      },
+      {
+        "player": "p02",
+        "rank": 1
+      },
+      {
+        "player": "p03",
+        "rank": 3
+      }
+    ],
+    "out": {
+      "pool": 80,
+      "distributable": 80,
+      "amounts": [
+        48,
+        32
+      ],
+      "shares": {
+        "p01": 40,
+        "p02": 40,
+        "p03": 0
+      }
+    }
+  },
+  {
+    "name": "pourcentages sous 100",
+    "entry_fee": 15,
+    "players": 11,
+    "percents": [
+      30,
+      20
+    ],
+    "ranking": [
+      {
+        "player": "p01",
+        "rank": 1
+      },
+      {
+        "player": "p02",
+        "rank": 2
+      },
+      {
+        "player": "p03",
+        "rank": 3
+      }
+    ],
+    "out": {
+      "pool": 165,
+      "distributable": 165,
+      "amounts": [
+        50,
+        33
+      ],
+      "shares": {
+        "p01": 50,
+        "p02": 33,
+        "p03": 0
+      }
+    }
+  },
+  {
+    "name": "aucune dotation",
+    "entry_fee": 10,
+    "players": 8,
+    "ranking": [
+      {
+        "player": "p01",
+        "rank": 1
+      },
+      {
+        "player": "p02",
+        "rank": 2
+      }
+    ],
+    "out": {
+      "pool": 80,
+      "distributable": 80,
+      "amounts": null,
+      "shares": {
+        "p01": 0,
+        "p02": 0
+      }
+    }
+  },
+  {
+    "name": "aucun inscrit",
+    "entry_fee": 10,
+    "players": 0,
+    "percents": [
+      100
+    ],
+    "ranking": null,
+    "out": {
+      "pool": 0,
+      "distributable": 0,
+      "amounts": [
+        0
+      ],
+      "shares": {}
+    }
+  },
+  {
+    "name": "droit nul, montants fixes",
+    "entry_fee": 0,
+    "players": 6,
+    "amounts": [
+      20,
+      10
+    ],
+    "ranking": [
+      {
+        "player": "p01",
+        "rank": 1
+      },
+      {
+        "player": "p02",
+        "rank": 1
+      },
+      {
+        "player": "p03",
+        "rank": 1
+      }
+    ],
+    "out": {
+      "pool": 0,
+      "distributable": 0,
+      "amounts": [
+        20,
+        10
+      ],
+      "shares": {
+        "p01": 10,
+        "p02": 10,
+        "p03": 10
+      }
+    }
+  }
+]

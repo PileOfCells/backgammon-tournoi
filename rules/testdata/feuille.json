@@ -1,0 +1,3019 @@
+[
+  {
+    "name": "avant toute phase",
+    "current": -1,
+    "round": 0,
+    "matches": [
+      {
+        "id": "M3",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "a",
+        "b": "b"
+      },
+      {
+        "id": "M1",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "c",
+        "b": "d"
+      },
+      {
+        "id": "M2",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 1,
+        "length": 7,
+        "a": "e",
+        "b": "f"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-09-21T08:00:00+03:00",
+        "table": 1,
+        "length": 5,
+        "a": "a",
+        "b": "c"
+      },
+      {
+        "id": "M5",
+        "phase": 1,
+        "status": "cancelled",
+        "start": "2026-09-21T10:00:00+03:00",
+        "table": 3,
+        "length": 7,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M6",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "length": 9,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M7",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "b",
+        "b": "c"
+      },
+      {
+        "id": "M10",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "e",
+        "b": "g"
+      },
+      {
+        "id": "M8",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:45:00+03:00",
+        "table": 5,
+        "length": 7,
+        "a": "h",
+        "b": "i"
+      }
+    ],
+    "out": {
+      "batches": [],
+      "round": 0,
+      "rows": []
+    }
+  },
+  {
+    "name": "aucun match dans la phase",
+    "current": 2,
+    "round": 1,
+    "matches": [
+      {
+        "id": "M3",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "a",
+        "b": "b"
+      },
+      {
+        "id": "M1",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "c",
+        "b": "d"
+      },
+      {
+        "id": "M2",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 1,
+        "length": 7,
+        "a": "e",
+        "b": "f"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-09-21T08:00:00+03:00",
+        "table": 1,
+        "length": 5,
+        "a": "a",
+        "b": "c"
+      },
+      {
+        "id": "M5",
+        "phase": 1,
+        "status": "cancelled",
+        "start": "2026-09-21T10:00:00+03:00",
+        "table": 3,
+        "length": 7,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M6",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "length": 9,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M7",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "b",
+        "b": "c"
+      },
+      {
+        "id": "M10",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "e",
+        "b": "g"
+      },
+      {
+        "id": "M8",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:45:00+03:00",
+        "table": 5,
+        "length": 7,
+        "a": "h",
+        "b": "i"
+      }
+    ],
+    "out": {
+      "batches": [],
+      "round": 0,
+      "rows": []
+    }
+  },
+  {
+    "name": "premier lot, tables égales départagées par identifiant",
+    "current": 1,
+    "round": 1,
+    "matches": [
+      {
+        "id": "M3",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "a",
+        "b": "b"
+      },
+      {
+        "id": "M1",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "c",
+        "b": "d"
+      },
+      {
+        "id": "M2",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 1,
+        "length": 7,
+        "a": "e",
+        "b": "f"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-09-21T08:00:00+03:00",
+        "table": 1,
+        "length": 5,
+        "a": "a",
+        "b": "c"
+      },
+      {
+        "id": "M5",
+        "phase": 1,
+        "status": "cancelled",
+        "start": "2026-09-21T10:00:00+03:00",
+        "table": 3,
+        "length": 7,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M6",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "length": 9,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M7",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "b",
+        "b": "c"
+      },
+      {
+        "id": "M10",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "e",
+        "b": "g"
+      },
+      {
+        "id": "M8",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:45:00+03:00",
+        "table": 5,
+        "length": 7,
+        "a": "h",
+        "b": "i"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M3",
+          "M1",
+          "M2"
+        ],
+        [
+          "M8"
+        ],
+        [
+          "M6",
+          "M7",
+          "M10"
+        ]
+      ],
+      "round": 1,
+      "rows": [
+        "M2",
+        "M1",
+        "M3"
+      ]
+    }
+  },
+  {
+    "name": "lot du milieu",
+    "current": 1,
+    "round": 2,
+    "matches": [
+      {
+        "id": "M3",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "a",
+        "b": "b"
+      },
+      {
+        "id": "M1",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "c",
+        "b": "d"
+      },
+      {
+        "id": "M2",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 1,
+        "length": 7,
+        "a": "e",
+        "b": "f"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-09-21T08:00:00+03:00",
+        "table": 1,
+        "length": 5,
+        "a": "a",
+        "b": "c"
+      },
+      {
+        "id": "M5",
+        "phase": 1,
+        "status": "cancelled",
+        "start": "2026-09-21T10:00:00+03:00",
+        "table": 3,
+        "length": 7,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M6",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "length": 9,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M7",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "b",
+        "b": "c"
+      },
+      {
+        "id": "M10",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "e",
+        "b": "g"
+      },
+      {
+        "id": "M8",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:45:00+03:00",
+        "table": 5,
+        "length": 7,
+        "a": "h",
+        "b": "i"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M3",
+          "M1",
+          "M2"
+        ],
+        [
+          "M8"
+        ],
+        [
+          "M6",
+          "M7",
+          "M10"
+        ]
+      ],
+      "round": 2,
+      "rows": [
+        "M8"
+      ]
+    }
+  },
+  {
+    "name": "dernier lot, table nulle en tête",
+    "current": 1,
+    "round": 3,
+    "matches": [
+      {
+        "id": "M3",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "a",
+        "b": "b"
+      },
+      {
+        "id": "M1",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "c",
+        "b": "d"
+      },
+      {
+        "id": "M2",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 1,
+        "length": 7,
+        "a": "e",
+        "b": "f"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-09-21T08:00:00+03:00",
+        "table": 1,
+        "length": 5,
+        "a": "a",
+        "b": "c"
+      },
+      {
+        "id": "M5",
+        "phase": 1,
+        "status": "cancelled",
+        "start": "2026-09-21T10:00:00+03:00",
+        "table": 3,
+        "length": 7,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M6",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "length": 9,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M7",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "b",
+        "b": "c"
+      },
+      {
+        "id": "M10",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "e",
+        "b": "g"
+      },
+      {
+        "id": "M8",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:45:00+03:00",
+        "table": 5,
+        "length": 7,
+        "a": "h",
+        "b": "i"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M3",
+          "M1",
+          "M2"
+        ],
+        [
+          "M8"
+        ],
+        [
+          "M6",
+          "M7",
+          "M10"
+        ]
+      ],
+      "round": 3,
+      "rows": [
+        "M6",
+        "M10",
+        "M7"
+      ]
+    }
+  },
+  {
+    "name": "zéro : le plus récent",
+    "current": 1,
+    "round": 0,
+    "matches": [
+      {
+        "id": "M3",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "a",
+        "b": "b"
+      },
+      {
+        "id": "M1",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "c",
+        "b": "d"
+      },
+      {
+        "id": "M2",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 1,
+        "length": 7,
+        "a": "e",
+        "b": "f"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-09-21T08:00:00+03:00",
+        "table": 1,
+        "length": 5,
+        "a": "a",
+        "b": "c"
+      },
+      {
+        "id": "M5",
+        "phase": 1,
+        "status": "cancelled",
+        "start": "2026-09-21T10:00:00+03:00",
+        "table": 3,
+        "length": 7,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M6",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "length": 9,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M7",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "b",
+        "b": "c"
+      },
+      {
+        "id": "M10",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "e",
+        "b": "g"
+      },
+      {
+        "id": "M8",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:45:00+03:00",
+        "table": 5,
+        "length": 7,
+        "a": "h",
+        "b": "i"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M3",
+          "M1",
+          "M2"
+        ],
+        [
+          "M8"
+        ],
+        [
+          "M6",
+          "M7",
+          "M10"
+        ]
+      ],
+      "round": 3,
+      "rows": [
+        "M6",
+        "M10",
+        "M7"
+      ]
+    }
+  },
+  {
+    "name": "négatif : le plus récent",
+    "current": 1,
+    "round": -2,
+    "matches": [
+      {
+        "id": "M3",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "a",
+        "b": "b"
+      },
+      {
+        "id": "M1",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "c",
+        "b": "d"
+      },
+      {
+        "id": "M2",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 1,
+        "length": 7,
+        "a": "e",
+        "b": "f"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-09-21T08:00:00+03:00",
+        "table": 1,
+        "length": 5,
+        "a": "a",
+        "b": "c"
+      },
+      {
+        "id": "M5",
+        "phase": 1,
+        "status": "cancelled",
+        "start": "2026-09-21T10:00:00+03:00",
+        "table": 3,
+        "length": 7,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M6",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "length": 9,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M7",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "b",
+        "b": "c"
+      },
+      {
+        "id": "M10",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "e",
+        "b": "g"
+      },
+      {
+        "id": "M8",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:45:00+03:00",
+        "table": 5,
+        "length": 7,
+        "a": "h",
+        "b": "i"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M3",
+          "M1",
+          "M2"
+        ],
+        [
+          "M8"
+        ],
+        [
+          "M6",
+          "M7",
+          "M10"
+        ]
+      ],
+      "round": 3,
+      "rows": [
+        "M6",
+        "M10",
+        "M7"
+      ]
+    }
+  },
+  {
+    "name": "au-delà : le plus récent",
+    "current": 1,
+    "round": 9,
+    "matches": [
+      {
+        "id": "M3",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "a",
+        "b": "b"
+      },
+      {
+        "id": "M1",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "c",
+        "b": "d"
+      },
+      {
+        "id": "M2",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 1,
+        "length": 7,
+        "a": "e",
+        "b": "f"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-09-21T08:00:00+03:00",
+        "table": 1,
+        "length": 5,
+        "a": "a",
+        "b": "c"
+      },
+      {
+        "id": "M5",
+        "phase": 1,
+        "status": "cancelled",
+        "start": "2026-09-21T10:00:00+03:00",
+        "table": 3,
+        "length": 7,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M6",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "length": 9,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M7",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "b",
+        "b": "c"
+      },
+      {
+        "id": "M10",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "e",
+        "b": "g"
+      },
+      {
+        "id": "M8",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:45:00+03:00",
+        "table": 5,
+        "length": 7,
+        "a": "h",
+        "b": "i"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M3",
+          "M1",
+          "M2"
+        ],
+        [
+          "M8"
+        ],
+        [
+          "M6",
+          "M7",
+          "M10"
+        ]
+      ],
+      "round": 3,
+      "rows": [
+        "M6",
+        "M10",
+        "M7"
+      ]
+    }
+  },
+  {
+    "name": "phase précédente",
+    "current": 0,
+    "round": 1,
+    "matches": [
+      {
+        "id": "M3",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "a",
+        "b": "b"
+      },
+      {
+        "id": "M1",
+        "phase": 1,
+        "status": "finished",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 2,
+        "length": 7,
+        "a": "c",
+        "b": "d"
+      },
+      {
+        "id": "M2",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:00:00+03:00",
+        "table": 1,
+        "length": 7,
+        "a": "e",
+        "b": "f"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-09-21T08:00:00+03:00",
+        "table": 1,
+        "length": 5,
+        "a": "a",
+        "b": "c"
+      },
+      {
+        "id": "M5",
+        "phase": 1,
+        "status": "cancelled",
+        "start": "2026-09-21T10:00:00+03:00",
+        "table": 3,
+        "length": 7,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M6",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "length": 9,
+        "a": "a",
+        "b": "d"
+      },
+      {
+        "id": "M7",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "b",
+        "b": "c"
+      },
+      {
+        "id": "M10",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T10:30:00+03:00",
+        "table": 4,
+        "length": 9,
+        "a": "e",
+        "b": "g"
+      },
+      {
+        "id": "M8",
+        "phase": 1,
+        "status": "running",
+        "start": "2026-09-21T09:45:00+03:00",
+        "table": 5,
+        "length": 7,
+        "a": "h",
+        "b": "i"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M4"
+        ]
+      ],
+      "round": 1,
+      "rows": [
+        "M4"
+      ]
+    }
+  },
+  {
+    "name": "suisse par rondes de 32, lot 1",
+    "current": 0,
+    "round": 1,
+    "matches": [
+      {
+        "id": "M1",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 1,
+        "length": 7,
+        "a": "p11",
+        "b": "p21"
+      },
+      {
+        "id": "M2",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 2,
+        "length": 7,
+        "a": "p24",
+        "b": "p26"
+      },
+      {
+        "id": "M3",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 3,
+        "length": 7,
+        "a": "p28",
+        "b": "p25"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 4,
+        "length": 7,
+        "a": "p16",
+        "b": "p05"
+      },
+      {
+        "id": "M5",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 5,
+        "length": 7,
+        "a": "p09",
+        "b": "p32"
+      },
+      {
+        "id": "M6",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 6,
+        "length": 7,
+        "a": "p03",
+        "b": "p14"
+      },
+      {
+        "id": "M7",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 7,
+        "length": 7,
+        "a": "p12",
+        "b": "p15"
+      },
+      {
+        "id": "M8",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 8,
+        "length": 7,
+        "a": "p10",
+        "b": "p13"
+      },
+      {
+        "id": "M9",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 9,
+        "length": 7,
+        "a": "p19",
+        "b": "p04"
+      },
+      {
+        "id": "M10",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 10,
+        "length": 7,
+        "a": "p07",
+        "b": "p30"
+      },
+      {
+        "id": "M11",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 11,
+        "length": 7,
+        "a": "p22",
+        "b": "p01"
+      },
+      {
+        "id": "M12",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 12,
+        "length": 7,
+        "a": "p20",
+        "b": "p27"
+      },
+      {
+        "id": "M13",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 13,
+        "length": 7,
+        "a": "p02",
+        "b": "p31"
+      },
+      {
+        "id": "M14",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 14,
+        "length": 7,
+        "a": "p23",
+        "b": "p17"
+      },
+      {
+        "id": "M15",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 15,
+        "length": 7,
+        "a": "p29",
+        "b": "p18"
+      },
+      {
+        "id": "M16",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 16,
+        "length": 7,
+        "a": "p08",
+        "b": "p06"
+      },
+      {
+        "id": "M17",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 1,
+        "length": 7,
+        "a": "p02",
+        "b": "p08"
+      },
+      {
+        "id": "M18",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 2,
+        "length": 7,
+        "a": "p07",
+        "b": "p04"
+      },
+      {
+        "id": "M19",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 3,
+        "length": 7,
+        "a": "p15",
+        "b": "p10"
+      },
+      {
+        "id": "M20",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 4,
+        "length": 7,
+        "a": "p25",
+        "b": "p01"
+      },
+      {
+        "id": "M21",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 5,
+        "length": 7,
+        "a": "p24",
+        "b": "p17"
+      },
+      {
+        "id": "M22",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 6,
+        "length": 7,
+        "a": "p29",
+        "b": "p11"
+      },
+      {
+        "id": "M23",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 7,
+        "length": 7,
+        "a": "p16",
+        "b": "p20"
+      },
+      {
+        "id": "M24",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 8,
+        "length": 7,
+        "a": "p09",
+        "b": "p14"
+      },
+      {
+        "id": "M25",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 9,
+        "length": 7,
+        "a": "p26",
+        "b": "p28"
+      },
+      {
+        "id": "M26",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 10,
+        "length": 7,
+        "a": "p21",
+        "b": "p06"
+      },
+      {
+        "id": "M27",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 11,
+        "length": 7,
+        "a": "p31",
+        "b": "p23"
+      },
+      {
+        "id": "M28",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 12,
+        "length": 7,
+        "a": "p27",
+        "b": "p32"
+      },
+      {
+        "id": "M29",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 13,
+        "length": 7,
+        "a": "p03",
+        "b": "p22"
+      },
+      {
+        "id": "M30",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 14,
+        "length": 7,
+        "a": "p13",
+        "b": "p05"
+      },
+      {
+        "id": "M31",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 15,
+        "length": 7,
+        "a": "p18",
+        "b": "p19"
+      },
+      {
+        "id": "M32",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 16,
+        "length": 7,
+        "a": "p12",
+        "b": "p30"
+      },
+      {
+        "id": "M33",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T11:38:42.502307222Z",
+        "table": 1,
+        "length": 7,
+        "a": "p20",
+        "b": "p02"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M1",
+          "M2",
+          "M3",
+          "M4",
+          "M5",
+          "M6",
+          "M7",
+          "M8",
+          "M9",
+          "M10",
+          "M11",
+          "M12",
+          "M13",
+          "M14",
+          "M15",
+          "M16"
+        ],
+        [
+          "M17",
+          "M18",
+          "M19",
+          "M20",
+          "M21",
+          "M22",
+          "M23",
+          "M24",
+          "M25",
+          "M26",
+          "M27",
+          "M28",
+          "M29",
+          "M30",
+          "M31",
+          "M32"
+        ],
+        [
+          "M33"
+        ]
+      ],
+      "round": 1,
+      "rows": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5",
+        "M6",
+        "M7",
+        "M8",
+        "M9",
+        "M10",
+        "M11",
+        "M12",
+        "M13",
+        "M14",
+        "M15",
+        "M16"
+      ]
+    }
+  },
+  {
+    "name": "suisse par rondes de 32, lot 2",
+    "current": 0,
+    "round": 2,
+    "matches": [
+      {
+        "id": "M1",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 1,
+        "length": 7,
+        "a": "p11",
+        "b": "p21"
+      },
+      {
+        "id": "M2",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 2,
+        "length": 7,
+        "a": "p24",
+        "b": "p26"
+      },
+      {
+        "id": "M3",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 3,
+        "length": 7,
+        "a": "p28",
+        "b": "p25"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 4,
+        "length": 7,
+        "a": "p16",
+        "b": "p05"
+      },
+      {
+        "id": "M5",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 5,
+        "length": 7,
+        "a": "p09",
+        "b": "p32"
+      },
+      {
+        "id": "M6",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 6,
+        "length": 7,
+        "a": "p03",
+        "b": "p14"
+      },
+      {
+        "id": "M7",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 7,
+        "length": 7,
+        "a": "p12",
+        "b": "p15"
+      },
+      {
+        "id": "M8",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 8,
+        "length": 7,
+        "a": "p10",
+        "b": "p13"
+      },
+      {
+        "id": "M9",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 9,
+        "length": 7,
+        "a": "p19",
+        "b": "p04"
+      },
+      {
+        "id": "M10",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 10,
+        "length": 7,
+        "a": "p07",
+        "b": "p30"
+      },
+      {
+        "id": "M11",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 11,
+        "length": 7,
+        "a": "p22",
+        "b": "p01"
+      },
+      {
+        "id": "M12",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 12,
+        "length": 7,
+        "a": "p20",
+        "b": "p27"
+      },
+      {
+        "id": "M13",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 13,
+        "length": 7,
+        "a": "p02",
+        "b": "p31"
+      },
+      {
+        "id": "M14",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 14,
+        "length": 7,
+        "a": "p23",
+        "b": "p17"
+      },
+      {
+        "id": "M15",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 15,
+        "length": 7,
+        "a": "p29",
+        "b": "p18"
+      },
+      {
+        "id": "M16",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 16,
+        "length": 7,
+        "a": "p08",
+        "b": "p06"
+      },
+      {
+        "id": "M17",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 1,
+        "length": 7,
+        "a": "p02",
+        "b": "p08"
+      },
+      {
+        "id": "M18",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 2,
+        "length": 7,
+        "a": "p07",
+        "b": "p04"
+      },
+      {
+        "id": "M19",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 3,
+        "length": 7,
+        "a": "p15",
+        "b": "p10"
+      },
+      {
+        "id": "M20",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 4,
+        "length": 7,
+        "a": "p25",
+        "b": "p01"
+      },
+      {
+        "id": "M21",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 5,
+        "length": 7,
+        "a": "p24",
+        "b": "p17"
+      },
+      {
+        "id": "M22",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 6,
+        "length": 7,
+        "a": "p29",
+        "b": "p11"
+      },
+      {
+        "id": "M23",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 7,
+        "length": 7,
+        "a": "p16",
+        "b": "p20"
+      },
+      {
+        "id": "M24",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 8,
+        "length": 7,
+        "a": "p09",
+        "b": "p14"
+      },
+      {
+        "id": "M25",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 9,
+        "length": 7,
+        "a": "p26",
+        "b": "p28"
+      },
+      {
+        "id": "M26",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 10,
+        "length": 7,
+        "a": "p21",
+        "b": "p06"
+      },
+      {
+        "id": "M27",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 11,
+        "length": 7,
+        "a": "p31",
+        "b": "p23"
+      },
+      {
+        "id": "M28",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 12,
+        "length": 7,
+        "a": "p27",
+        "b": "p32"
+      },
+      {
+        "id": "M29",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 13,
+        "length": 7,
+        "a": "p03",
+        "b": "p22"
+      },
+      {
+        "id": "M30",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 14,
+        "length": 7,
+        "a": "p13",
+        "b": "p05"
+      },
+      {
+        "id": "M31",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 15,
+        "length": 7,
+        "a": "p18",
+        "b": "p19"
+      },
+      {
+        "id": "M32",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 16,
+        "length": 7,
+        "a": "p12",
+        "b": "p30"
+      },
+      {
+        "id": "M33",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T11:38:42.502307222Z",
+        "table": 1,
+        "length": 7,
+        "a": "p20",
+        "b": "p02"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M1",
+          "M2",
+          "M3",
+          "M4",
+          "M5",
+          "M6",
+          "M7",
+          "M8",
+          "M9",
+          "M10",
+          "M11",
+          "M12",
+          "M13",
+          "M14",
+          "M15",
+          "M16"
+        ],
+        [
+          "M17",
+          "M18",
+          "M19",
+          "M20",
+          "M21",
+          "M22",
+          "M23",
+          "M24",
+          "M25",
+          "M26",
+          "M27",
+          "M28",
+          "M29",
+          "M30",
+          "M31",
+          "M32"
+        ],
+        [
+          "M33"
+        ]
+      ],
+      "round": 2,
+      "rows": [
+        "M17",
+        "M18",
+        "M19",
+        "M20",
+        "M21",
+        "M22",
+        "M23",
+        "M24",
+        "M25",
+        "M26",
+        "M27",
+        "M28",
+        "M29",
+        "M30",
+        "M31",
+        "M32"
+      ]
+    }
+  },
+  {
+    "name": "suisse par rondes de 32, lot 0",
+    "current": 0,
+    "round": 0,
+    "matches": [
+      {
+        "id": "M1",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 1,
+        "length": 7,
+        "a": "p11",
+        "b": "p21"
+      },
+      {
+        "id": "M2",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 2,
+        "length": 7,
+        "a": "p24",
+        "b": "p26"
+      },
+      {
+        "id": "M3",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 3,
+        "length": 7,
+        "a": "p28",
+        "b": "p25"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 4,
+        "length": 7,
+        "a": "p16",
+        "b": "p05"
+      },
+      {
+        "id": "M5",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 5,
+        "length": 7,
+        "a": "p09",
+        "b": "p32"
+      },
+      {
+        "id": "M6",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 6,
+        "length": 7,
+        "a": "p03",
+        "b": "p14"
+      },
+      {
+        "id": "M7",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 7,
+        "length": 7,
+        "a": "p12",
+        "b": "p15"
+      },
+      {
+        "id": "M8",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 8,
+        "length": 7,
+        "a": "p10",
+        "b": "p13"
+      },
+      {
+        "id": "M9",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 9,
+        "length": 7,
+        "a": "p19",
+        "b": "p04"
+      },
+      {
+        "id": "M10",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 10,
+        "length": 7,
+        "a": "p07",
+        "b": "p30"
+      },
+      {
+        "id": "M11",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 11,
+        "length": 7,
+        "a": "p22",
+        "b": "p01"
+      },
+      {
+        "id": "M12",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 12,
+        "length": 7,
+        "a": "p20",
+        "b": "p27"
+      },
+      {
+        "id": "M13",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 13,
+        "length": 7,
+        "a": "p02",
+        "b": "p31"
+      },
+      {
+        "id": "M14",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 14,
+        "length": 7,
+        "a": "p23",
+        "b": "p17"
+      },
+      {
+        "id": "M15",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 15,
+        "length": 7,
+        "a": "p29",
+        "b": "p18"
+      },
+      {
+        "id": "M16",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 16,
+        "length": 7,
+        "a": "p08",
+        "b": "p06"
+      },
+      {
+        "id": "M17",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 1,
+        "length": 7,
+        "a": "p02",
+        "b": "p08"
+      },
+      {
+        "id": "M18",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 2,
+        "length": 7,
+        "a": "p07",
+        "b": "p04"
+      },
+      {
+        "id": "M19",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 3,
+        "length": 7,
+        "a": "p15",
+        "b": "p10"
+      },
+      {
+        "id": "M20",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 4,
+        "length": 7,
+        "a": "p25",
+        "b": "p01"
+      },
+      {
+        "id": "M21",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 5,
+        "length": 7,
+        "a": "p24",
+        "b": "p17"
+      },
+      {
+        "id": "M22",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 6,
+        "length": 7,
+        "a": "p29",
+        "b": "p11"
+      },
+      {
+        "id": "M23",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 7,
+        "length": 7,
+        "a": "p16",
+        "b": "p20"
+      },
+      {
+        "id": "M24",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 8,
+        "length": 7,
+        "a": "p09",
+        "b": "p14"
+      },
+      {
+        "id": "M25",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 9,
+        "length": 7,
+        "a": "p26",
+        "b": "p28"
+      },
+      {
+        "id": "M26",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 10,
+        "length": 7,
+        "a": "p21",
+        "b": "p06"
+      },
+      {
+        "id": "M27",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 11,
+        "length": 7,
+        "a": "p31",
+        "b": "p23"
+      },
+      {
+        "id": "M28",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 12,
+        "length": 7,
+        "a": "p27",
+        "b": "p32"
+      },
+      {
+        "id": "M29",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 13,
+        "length": 7,
+        "a": "p03",
+        "b": "p22"
+      },
+      {
+        "id": "M30",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 14,
+        "length": 7,
+        "a": "p13",
+        "b": "p05"
+      },
+      {
+        "id": "M31",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 15,
+        "length": 7,
+        "a": "p18",
+        "b": "p19"
+      },
+      {
+        "id": "M32",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T10:30:29.480341464Z",
+        "table": 16,
+        "length": 7,
+        "a": "p12",
+        "b": "p30"
+      },
+      {
+        "id": "M33",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T11:38:42.502307222Z",
+        "table": 1,
+        "length": 7,
+        "a": "p20",
+        "b": "p02"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M1",
+          "M2",
+          "M3",
+          "M4",
+          "M5",
+          "M6",
+          "M7",
+          "M8",
+          "M9",
+          "M10",
+          "M11",
+          "M12",
+          "M13",
+          "M14",
+          "M15",
+          "M16"
+        ],
+        [
+          "M17",
+          "M18",
+          "M19",
+          "M20",
+          "M21",
+          "M22",
+          "M23",
+          "M24",
+          "M25",
+          "M26",
+          "M27",
+          "M28",
+          "M29",
+          "M30",
+          "M31",
+          "M32"
+        ],
+        [
+          "M33"
+        ]
+      ],
+      "round": 3,
+      "rows": [
+        "M33"
+      ]
+    }
+  },
+  {
+    "name": "tableau avec consolante de 16, lot 1",
+    "current": 0,
+    "round": 1,
+    "matches": [
+      {
+        "id": "M1",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 1,
+        "length": 9,
+        "a": "p14",
+        "b": "p16"
+      },
+      {
+        "id": "M2",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 2,
+        "length": 9,
+        "a": "p09",
+        "b": "p12"
+      },
+      {
+        "id": "M3",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 3,
+        "length": 9,
+        "a": "p10",
+        "b": "p03"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 5,
+        "length": 9,
+        "a": "p13",
+        "b": "p11"
+      },
+      {
+        "id": "M5",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 6,
+        "length": 9,
+        "a": "p08",
+        "b": "p05"
+      },
+      {
+        "id": "M6",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 7,
+        "length": 9,
+        "a": "p15",
+        "b": "p07"
+      },
+      {
+        "id": "M7",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 8,
+        "length": 9,
+        "a": "p02",
+        "b": "p06"
+      },
+      {
+        "id": "M8",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 9,
+        "length": 9,
+        "a": "p04",
+        "b": "p01"
+      },
+      {
+        "id": "M9",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T09:55:03.991599281Z",
+        "table": 1,
+        "length": 9,
+        "a": "p02",
+        "b": "p04"
+      },
+      {
+        "id": "M10",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T09:55:03.991599281Z",
+        "table": 5,
+        "length": 9,
+        "a": "p06",
+        "b": "p01"
+      },
+      {
+        "id": "M11",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:00:50.965181869Z",
+        "table": 3,
+        "length": 9,
+        "a": "p10",
+        "b": "p13"
+      },
+      {
+        "id": "M12",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:00:50.965181869Z",
+        "table": 8,
+        "length": 9,
+        "a": "p03",
+        "b": "p11"
+      },
+      {
+        "id": "M13",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:33:37.654622875Z",
+        "table": 2,
+        "length": 9,
+        "a": "p16",
+        "b": "p12"
+      },
+      {
+        "id": "M14",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:33:37.654622875Z",
+        "table": 9,
+        "length": 9,
+        "a": "p14",
+        "b": "p09"
+      },
+      {
+        "id": "M15",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:56:20.760439025Z",
+        "table": 6,
+        "length": 9,
+        "a": "p05",
+        "b": "p07"
+      },
+      {
+        "id": "M16",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:56:20.760439025Z",
+        "table": 7,
+        "length": 9,
+        "a": "p08",
+        "b": "p15"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M1",
+          "M2",
+          "M3",
+          "M4",
+          "M5",
+          "M6",
+          "M7",
+          "M8"
+        ],
+        [
+          "M9",
+          "M10"
+        ],
+        [
+          "M11",
+          "M12"
+        ],
+        [
+          "M13",
+          "M14"
+        ],
+        [
+          "M15",
+          "M16"
+        ]
+      ],
+      "round": 1,
+      "rows": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5",
+        "M6",
+        "M7",
+        "M8"
+      ]
+    }
+  },
+  {
+    "name": "tableau avec consolante de 16, lot 2",
+    "current": 0,
+    "round": 2,
+    "matches": [
+      {
+        "id": "M1",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 1,
+        "length": 9,
+        "a": "p14",
+        "b": "p16"
+      },
+      {
+        "id": "M2",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 2,
+        "length": 9,
+        "a": "p09",
+        "b": "p12"
+      },
+      {
+        "id": "M3",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 3,
+        "length": 9,
+        "a": "p10",
+        "b": "p03"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 5,
+        "length": 9,
+        "a": "p13",
+        "b": "p11"
+      },
+      {
+        "id": "M5",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 6,
+        "length": 9,
+        "a": "p08",
+        "b": "p05"
+      },
+      {
+        "id": "M6",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 7,
+        "length": 9,
+        "a": "p15",
+        "b": "p07"
+      },
+      {
+        "id": "M7",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 8,
+        "length": 9,
+        "a": "p02",
+        "b": "p06"
+      },
+      {
+        "id": "M8",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 9,
+        "length": 9,
+        "a": "p04",
+        "b": "p01"
+      },
+      {
+        "id": "M9",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T09:55:03.991599281Z",
+        "table": 1,
+        "length": 9,
+        "a": "p02",
+        "b": "p04"
+      },
+      {
+        "id": "M10",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T09:55:03.991599281Z",
+        "table": 5,
+        "length": 9,
+        "a": "p06",
+        "b": "p01"
+      },
+      {
+        "id": "M11",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:00:50.965181869Z",
+        "table": 3,
+        "length": 9,
+        "a": "p10",
+        "b": "p13"
+      },
+      {
+        "id": "M12",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:00:50.965181869Z",
+        "table": 8,
+        "length": 9,
+        "a": "p03",
+        "b": "p11"
+      },
+      {
+        "id": "M13",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:33:37.654622875Z",
+        "table": 2,
+        "length": 9,
+        "a": "p16",
+        "b": "p12"
+      },
+      {
+        "id": "M14",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:33:37.654622875Z",
+        "table": 9,
+        "length": 9,
+        "a": "p14",
+        "b": "p09"
+      },
+      {
+        "id": "M15",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:56:20.760439025Z",
+        "table": 6,
+        "length": 9,
+        "a": "p05",
+        "b": "p07"
+      },
+      {
+        "id": "M16",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:56:20.760439025Z",
+        "table": 7,
+        "length": 9,
+        "a": "p08",
+        "b": "p15"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M1",
+          "M2",
+          "M3",
+          "M4",
+          "M5",
+          "M6",
+          "M7",
+          "M8"
+        ],
+        [
+          "M9",
+          "M10"
+        ],
+        [
+          "M11",
+          "M12"
+        ],
+        [
+          "M13",
+          "M14"
+        ],
+        [
+          "M15",
+          "M16"
+        ]
+      ],
+      "round": 2,
+      "rows": [
+        "M9",
+        "M10"
+      ]
+    }
+  },
+  {
+    "name": "tableau avec consolante de 16, lot 3",
+    "current": 0,
+    "round": 3,
+    "matches": [
+      {
+        "id": "M1",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 1,
+        "length": 9,
+        "a": "p14",
+        "b": "p16"
+      },
+      {
+        "id": "M2",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 2,
+        "length": 9,
+        "a": "p09",
+        "b": "p12"
+      },
+      {
+        "id": "M3",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 3,
+        "length": 9,
+        "a": "p10",
+        "b": "p03"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 5,
+        "length": 9,
+        "a": "p13",
+        "b": "p11"
+      },
+      {
+        "id": "M5",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 6,
+        "length": 9,
+        "a": "p08",
+        "b": "p05"
+      },
+      {
+        "id": "M6",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 7,
+        "length": 9,
+        "a": "p15",
+        "b": "p07"
+      },
+      {
+        "id": "M7",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 8,
+        "length": 9,
+        "a": "p02",
+        "b": "p06"
+      },
+      {
+        "id": "M8",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 9,
+        "length": 9,
+        "a": "p04",
+        "b": "p01"
+      },
+      {
+        "id": "M9",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T09:55:03.991599281Z",
+        "table": 1,
+        "length": 9,
+        "a": "p02",
+        "b": "p04"
+      },
+      {
+        "id": "M10",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T09:55:03.991599281Z",
+        "table": 5,
+        "length": 9,
+        "a": "p06",
+        "b": "p01"
+      },
+      {
+        "id": "M11",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:00:50.965181869Z",
+        "table": 3,
+        "length": 9,
+        "a": "p10",
+        "b": "p13"
+      },
+      {
+        "id": "M12",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:00:50.965181869Z",
+        "table": 8,
+        "length": 9,
+        "a": "p03",
+        "b": "p11"
+      },
+      {
+        "id": "M13",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:33:37.654622875Z",
+        "table": 2,
+        "length": 9,
+        "a": "p16",
+        "b": "p12"
+      },
+      {
+        "id": "M14",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:33:37.654622875Z",
+        "table": 9,
+        "length": 9,
+        "a": "p14",
+        "b": "p09"
+      },
+      {
+        "id": "M15",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:56:20.760439025Z",
+        "table": 6,
+        "length": 9,
+        "a": "p05",
+        "b": "p07"
+      },
+      {
+        "id": "M16",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:56:20.760439025Z",
+        "table": 7,
+        "length": 9,
+        "a": "p08",
+        "b": "p15"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M1",
+          "M2",
+          "M3",
+          "M4",
+          "M5",
+          "M6",
+          "M7",
+          "M8"
+        ],
+        [
+          "M9",
+          "M10"
+        ],
+        [
+          "M11",
+          "M12"
+        ],
+        [
+          "M13",
+          "M14"
+        ],
+        [
+          "M15",
+          "M16"
+        ]
+      ],
+      "round": 3,
+      "rows": [
+        "M11",
+        "M12"
+      ]
+    }
+  },
+  {
+    "name": "tableau avec consolante de 16, lot 0",
+    "current": 0,
+    "round": 0,
+    "matches": [
+      {
+        "id": "M1",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 1,
+        "length": 9,
+        "a": "p14",
+        "b": "p16"
+      },
+      {
+        "id": "M2",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 2,
+        "length": 9,
+        "a": "p09",
+        "b": "p12"
+      },
+      {
+        "id": "M3",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 3,
+        "length": 9,
+        "a": "p10",
+        "b": "p03"
+      },
+      {
+        "id": "M4",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 5,
+        "length": 9,
+        "a": "p13",
+        "b": "p11"
+      },
+      {
+        "id": "M5",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 6,
+        "length": 9,
+        "a": "p08",
+        "b": "p05"
+      },
+      {
+        "id": "M6",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 7,
+        "length": 9,
+        "a": "p15",
+        "b": "p07"
+      },
+      {
+        "id": "M7",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 8,
+        "length": 9,
+        "a": "p02",
+        "b": "p06"
+      },
+      {
+        "id": "M8",
+        "phase": 0,
+        "status": "finished",
+        "start": "2026-01-01T09:00:00Z",
+        "table": 9,
+        "length": 9,
+        "a": "p04",
+        "b": "p01"
+      },
+      {
+        "id": "M9",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T09:55:03.991599281Z",
+        "table": 1,
+        "length": 9,
+        "a": "p02",
+        "b": "p04"
+      },
+      {
+        "id": "M10",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T09:55:03.991599281Z",
+        "table": 5,
+        "length": 9,
+        "a": "p06",
+        "b": "p01"
+      },
+      {
+        "id": "M11",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:00:50.965181869Z",
+        "table": 3,
+        "length": 9,
+        "a": "p10",
+        "b": "p13"
+      },
+      {
+        "id": "M12",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:00:50.965181869Z",
+        "table": 8,
+        "length": 9,
+        "a": "p03",
+        "b": "p11"
+      },
+      {
+        "id": "M13",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:33:37.654622875Z",
+        "table": 2,
+        "length": 9,
+        "a": "p16",
+        "b": "p12"
+      },
+      {
+        "id": "M14",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:33:37.654622875Z",
+        "table": 9,
+        "length": 9,
+        "a": "p14",
+        "b": "p09"
+      },
+      {
+        "id": "M15",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:56:20.760439025Z",
+        "table": 6,
+        "length": 9,
+        "a": "p05",
+        "b": "p07"
+      },
+      {
+        "id": "M16",
+        "phase": 0,
+        "status": "running",
+        "start": "2026-01-01T10:56:20.760439025Z",
+        "table": 7,
+        "length": 9,
+        "a": "p08",
+        "b": "p15"
+      }
+    ],
+    "out": {
+      "batches": [
+        [
+          "M1",
+          "M2",
+          "M3",
+          "M4",
+          "M5",
+          "M6",
+          "M7",
+          "M8"
+        ],
+        [
+          "M9",
+          "M10"
+        ],
+        [
+          "M11",
+          "M12"
+        ],
+        [
+          "M13",
+          "M14"
+        ],
+        [
+          "M15",
+          "M16"
+        ]
+      ],
+      "round": 5,
+      "rows": [
+        "M15",
+        "M16"
+      ]
+    }
+  }
+]
