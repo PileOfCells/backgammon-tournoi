@@ -1,12 +1,12 @@
 section;rang;id;nom;club;note;prix
-all;1;P8;Joueur 8;Club 2;vainqueur principal;149.00
+all;1;P8;Joueur 8;Club 2;vainqueur principal;151.00
 all;2;P5;Joueur 5;Club 4;principal, Finale;86.00
 all;3;P20;Joueur 20;Club 4;consolante, Finale consolante;52.00
-all;4;P3;Joueur 3;Club 2;consolante, Consolante tour 7;35.00
+all;4;P3;Joueur 3;Club 2;consolante, Consolante tour 7;34.00
 all;5;P23;Joueur 23;Club 2;consolante, Consolante tour 1;22.00
 all;6;P1;Joueur 1;Club 0;dernière chance, Dernière chance, Finale;22.00
-all;7;P7;Joueur 7;Club 1;dernière chance, Dernière chance, Demi-finale;22.00
-all;7;P9;Joueur 9;Club 3;dernière chance, Dernière chance, Demi-finale;22.00
+all;7;P7;Joueur 7;Club 1;dernière chance, Dernière chance, Demi-finale;21.50
+all;7;P9;Joueur 9;Club 3;dernière chance, Dernière chance, Demi-finale;21.50
 all;9;P2;Joueur 2;Club 1;dernière chance, Dernière chance, Quart de finale;0.00
 all;9;P6;Joueur 6;Club 0;dernière chance, Dernière chance, Quart de finale;0.00
 all;9;P12;Joueur 12;Club 1;dernière chance, Dernière chance, Quart de finale;0.00

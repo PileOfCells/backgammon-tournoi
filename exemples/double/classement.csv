@@ -1,10 +1,10 @@
 section;rang;id;nom;club;note;prix
-all;1;P1;Joueur 1;Club 0;vainqueur grande finale;102.00
+all;1;P1;Joueur 1;Club 0;vainqueur grande finale;101.00
 all;2;P10;Joueur 10;Club 4;finaliste;58.00
 all;3;P14;Joueur 14;Club 3;consolante, Finale consolante;35.00
 all;4;P13;Joueur 13;Club 2;consolante, Consolante tour 5;23.00
-all;5;P7;Joueur 7;Club 1;consolante, Consolante tour 4;14.00
-all;5;P8;Joueur 8;Club 2;consolante, Consolante tour 4;14.00
+all;5;P7;Joueur 7;Club 1;consolante, Consolante tour 4;14.50
+all;5;P8;Joueur 8;Club 2;consolante, Consolante tour 4;14.50
 all;7;P6;Joueur 6;Club 0;consolante, Consolante tour 3;14.00
 all;7;P9;Joueur 9;Club 3;consolante, Consolante tour 3;14.00
 all;9;P2;Joueur 2;Club 1;consolante, Consolante tour 2;0.00
