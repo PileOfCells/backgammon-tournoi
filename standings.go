@@ -5,26 +5,20 @@ import (
 	"encoding/csv"
 	"fmt"
 	"strconv"
+
+	"github.com/PileOfCells/backgammon-tournoi/rules"
 )
 
 // Prizes répartit une dotation par place sur un classement avec ex æquo : les joueurs classés
-// à la même place se partagent les prix des places qu'ils occupent.
+// à la même place se partagent les prix des places qu'ils occupent (rules.SharePrizes).
 func Prizes(ranking []Rank, prizes []float64) map[PlayerID]float64 {
-	out := map[PlayerID]float64{}
-	byRank := map[int][]PlayerID{}
-	for _, r := range ranking {
-		byRank[r.Rank] = append(byRank[r.Rank], r.Player)
+	places := make([]rules.Placement, len(ranking))
+	for i, r := range ranking {
+		places[i] = rules.Placement{Player: rules.Ref(r.Player), Rank: r.Rank}
 	}
-	for rank, ids := range byRank {
-		total := 0.0
-		for i := rank - 1; i < rank-1+len(ids); i++ {
-			if i < len(prizes) {
-				total += prizes[i]
-			}
-		}
-		for _, p := range ids {
-			out[p] = total / float64(len(ids))
-		}
+	out := map[PlayerID]float64{}
+	for p, v := range rules.SharePrizes(places, prizes) {
+		out[PlayerID(p)] = v
 	}
 	return out
 }

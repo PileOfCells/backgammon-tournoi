@@ -1,17 +1,23 @@
 package tournoi
 
-import "time"
+import (
+	"time"
+
+	"github.com/PileOfCells/backgammon-tournoi/rules"
+)
+
+// Le rythme d'un tournoi : enveloppes de rules (rules/prevision.go) sur l'état.
 
 // Expected : durée attendue d'un match de n points.
 func (s *State) Expected(n int) time.Duration {
-	return time.Duration(s.Config.MinPerPoint * float64(n) * float64(time.Minute))
+	return rules.ExpectedDuration(n, s.Config.MinPerPoint)
 }
 
 // SlowMatches : matchs en cours qui dépassent `facteur` fois leur durée attendue.
 func (s *State) SlowMatches(now time.Time, facteur float64) []*Match {
 	var out []*Match
 	for _, m := range s.Running() {
-		if now.Sub(m.Start) > time.Duration(facteur*float64(s.Expected(m.Length))) {
+		if rules.IsSlow(m.rulesMatch(), now, facteur, s.Config.MinPerPoint) {
 			out = append(out, m)
 		}
 	}
@@ -27,29 +33,35 @@ type Clock struct {
 	AvgPerPt time.Duration `json:"avg_per_pt"` // durée moyenne observée par point
 }
 
-// ClockAt calcule les indicateurs à l'instant now.
+// ClockAt calcule les indicateurs à l'instant now (rules.PaceAt).
 func (s *State) ClockAt(now time.Time, start time.Time) Clock {
-	c := Clock{Elapsed: now.Sub(start)}
-	var total time.Duration
-	pts := 0
+	return Clock(rules.PaceAt(s.RulesMatches(), now, start))
+}
+
+// RulesMatches : les matchs de l'état, dans l'ordre de lancement, tels que les règles pures les
+// lisent. C'est l'entrée de rules.PlayingTime, rules.PaceAt, rules.Batches et
+// rules.PairingSheet pour un hôte qui tient un State.
+func (s *State) RulesMatches() []rules.Match {
+	out := make([]rules.Match, 0, len(s.MatchOrder))
 	for _, id := range s.MatchOrder {
-		m := s.Matches[id]
-		switch m.Status {
-		case Finished:
-			if !m.Forfeit && !m.End.IsZero() {
-				c.Played++
-				total += m.End.Sub(m.Start)
-				pts += m.Length
-			}
-		case Running:
-			c.Running++
+		if m := s.Matches[id]; m != nil {
+			out = append(out, m.rulesMatch())
 		}
 	}
-	if c.Played > 0 {
-		c.AvgMatch = total / time.Duration(c.Played)
+	return out
+}
+
+func (m *Match) rulesMatch() rules.Match {
+	return rules.Match{ID: string(m.ID), Phase: m.Phase, Status: rules.MatchStatus(m.Status), Start: m.Start,
+		End: m.End, Table: m.Table, Length: m.Length, A: rules.Ref(m.A), B: rules.Ref(m.B), Forfeit: m.Forfeit}
+}
+
+// BreakIntervals : les pauses déclarées, telles que rules.AfterBreaks et rules.EstimatedEnd les
+// lisent.
+func (c Config) BreakIntervals() []rules.Interval {
+	out := make([]rules.Interval, len(c.Breaks))
+	for i, b := range c.Breaks {
+		out[i] = rules.Interval{Start: b.Start, End: b.End}
 	}
-	if pts > 0 {
-		c.AvgPerPt = total / time.Duration(pts)
-	}
-	return c
+	return out
 }

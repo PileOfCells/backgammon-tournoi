@@ -31,6 +31,12 @@
 // matchs en cours, classement, page complète). Prévision de fin : sim.Forecast(journal, now, K, …).
 // Import de joueurs : players.FromCSV.
 //
+// Règles pures : le paquet rules porte la dotation, la prévision de fin (temps de jeu, jour, fin
+// après les pauses) et la feuille d'appariements en fonctions sans état ni E/S ; les méthodes de
+// State, sim et render qui les appliquent en sont des enveloppes. Un hôte qui tient son propre
+// état les appelle directement ; State.RulesMatches et Config.BreakIntervals en donnent les
+// entrées depuis un State.
+//
 // Déterminisme : Propose dépend seulement du journal (graine + nombre d'événements) ; le contenu
 // des tirages est écrit dans les événements EvDraw, donc rejouer un journal ne dépend pas de
 // l'algorithme d'appariement.

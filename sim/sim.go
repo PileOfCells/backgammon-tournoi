@@ -5,19 +5,17 @@ package sim
 
 import (
 	"fmt"
-	"math"
 	"math/rand"
 	"sort"
 	"time"
 
 	"github.com/PileOfCells/backgammon-tournoi"
+	"github.com/PileOfCells/backgammon-tournoi/rules"
 )
 
 // PGain : probabilité que A (PR a) batte B (PR b) en N points, formule Elo/FIBS (3 PR = 100 Elo).
-func PGain(a, b float64, n int) float64 {
-	d := (b - a) * 100 / 3
-	return 1 / (1 + math.Pow(10, -d*math.Sqrt(float64(n))/2000))
-}
+// Enveloppe de rules.WinProbability.
+func PGain(a, b float64, n int) float64 { return rules.WinProbability(a, b, n) }
 
 // Duree : durée d'un match en minutes, loi gamma de forme 8 et de moyenne minPerPoint*n.
 func Duree(n int, minPerPoint float64, rng *rand.Rand) time.Duration {
@@ -190,7 +188,8 @@ func Champ(P int, mu, sigma, min, max float64, rng *rand.Rand) []tournoi.Player 
 
 // Forecast rejoue un journal puis simule K fins de tournoi à partir de l'instant now ; renvoie
 // les durées restantes (minutes) triées, pour la prévision de l'heure de fin. Les PR inconnus
-// (0) sont remplacés par la moyenne des PR connus (ou 6).
+// (0) sont remplacés par la moyenne des PR connus (ou 6, rules.MeanRating). La fin estimée est
+// rules.EstimatedEnd(now, Forecast(…), cfg.BreakIntervals()) : médiane reportée après les pauses.
 func Forecast(j tournoi.Journal, now time.Time, K int, minPerPoint float64, seed int64) ([]float64, error) {
 	base, err := tournoi.Replay(j)
 	if err != nil {
@@ -202,18 +201,20 @@ func Forecast(j tournoi.Journal, now time.Time, K int, minPerPoint float64, seed
 	if minPerPoint <= 0 {
 		minPerPoint = base.Config.MinPerPoint
 	}
-	mean, n := 0.0, 0
-	for _, p := range base.Players {
-		if p.Rating > 0 {
-			mean += p.Rating
-			n++
+	// Les cotes dans l'ordre des identifiants, pour que la somme flottante ne dépende pas de
+	// l'ordre d'itération de la carte.
+	ids := make([]string, 0, len(base.Players))
+	for id := range base.Players {
+		ids = append(ids, string(id))
+	}
+	sort.Strings(ids)
+	ratings := make([]float64, 0, len(ids))
+	for _, id := range ids {
+		if p := base.Players[tournoi.PlayerID(id)]; p != nil {
+			ratings = append(ratings, p.Rating)
 		}
 	}
-	if n > 0 {
-		mean /= float64(n)
-	} else {
-		mean = 6
-	}
+	mean := rules.MeanRating(ratings)
 	rating := func(st *tournoi.State, id tournoi.PlayerID) float64 {
 		if p := st.Players[id]; p != nil && p.Rating > 0 {
 			return p.Rating
@@ -227,11 +228,8 @@ func Forecast(j tournoi.Journal, now time.Time, K int, minPerPoint float64, seed
 		t := now
 		var enCours []running
 		for _, m := range st.Running() {
-			// durée restante : attendue moins écoulée, au moins 10 % de l'attendue
-			rest := Duree(m.Length, minPerPoint, rng) - now.Sub(m.Start)
-			if min := time.Duration(0.1 * minPerPoint * float64(m.Length) * float64(time.Minute)); rest < min {
-				rest = min
-			}
+			// durée restante : tirée moins écoulée, au moins 10 % de l'attendue
+			rest := rules.RemainingDuration(Duree(m.Length, minPerPoint, rng), now.Sub(m.Start), m.Length, minPerPoint)
 			enCours = append(enCours, running{m.ID, now.Add(rest), m.A, m.B, m.Length})
 		}
 		steps := 0

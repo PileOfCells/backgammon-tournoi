@@ -1,6 +1,6 @@
 # Reste à faire
 
-État au 4 octobre 2026. Le moteur Go est fonctionnel et testé par simulation ;
+État au 22 octobre 2026. Le moteur Go est fonctionnel et testé par simulation ;
 il n'a jamais dirigé un vrai tournoi. Les points sont classés par priorité ; chaque entrée dit
 où intervenir et comment vérifier.
 
@@ -181,6 +181,27 @@ où intervenir et comment vérifier.
   erreur est une réponse acceptable. Les deux tournent en intégration continue
   (`.github/workflows/ci.yml`), 60 s par proposition et 300 s le lundi. Mesuré localement :
   3 minutes sur `FuzzApply`, 156 000 exécutions, rien trouvé.
+- [x] **Règles pures, premier lot** (issue #27, ADR-0105 de blunderDB). Le paquet `rules` porte,
+  sans état, sans E/S ni horloge, la dotation (`Pool`, `Distributable`, `PlaceAmounts`,
+  `SharePrizes`), la prévision de fin (`PaceAt`, `ExpectedDuration`, `IsSlow`, `PlayingTime`,
+  `DayOfPlay`, `AfterBreaks`, `EstimatedEnd`, `WinProbability`, `MeanRating`,
+  `RemainingDuration` — le temps de jeu, le jour et la fin après les pauses sont l'arithmétique de
+  `direction/clock.go` de blunderDB, reprise à l'identique) et la feuille d'appariements
+  (`Batches`, `PairingSheet`, en identifiants et sans HTML). `State` (`Pool`, `Distributable`,
+  `PrizeAmounts`, `Prizes`, `ClockAt`, `SlowMatches`, `Expected`), `sim` (`PGain`, `Forecast`) et
+  `render` (`Batches`, `PairingSheet`) en sont des enveloppes ; `State.RulesMatches` et
+  `Config.BreakIntervals` donnent les entrées. Les fichiers dorés de `rules/testdata/` (et
+  `sim/testdata/prevision.json`) ont été figés AVANT le déplacement et n'ont pas bougé d'un octet ;
+  ils sont rejoués contre `rules` et contre les enveloppes (`go test -run TestDores . -args
+  -update` pour les réécrire après un changement de règle voulu). Seul écart : `Forecast` somme
+  les cotes connues dans l'ordre des identifiants et non dans celui d'une carte.
+- [ ] **Règles pures, second lot** (issue #27) : `Rank` et `Pair` pour chaque format, `Propose` et
+  `SectionRanking` en enveloppes, parité par les configurations de `sim_test.go` et des fichiers
+  dorés ; le libellé d'une ligne de feuille (un `Label`) passe alors dans `rules`.
+- [ ] **Reste de l'arrondi des prix** : le reste va au premier même quand il est négatif, si bien
+  que 4 × 15 % d'un pool de 10 donnent 0, 2, 2, 2 (cas « reste négatif au premier » de
+  `rules/testdata/dotation.json`). Le premier ne devrait pas toucher moins que le deuxième ; à
+  trancher avec la FFBG, puis changer `rules.PlaceAmounts` et le fichier doré (version mineure).
 - [ ] Renommer le module au chemin définitif du dépôt de l'hôte (`go mod edit -module …`).
 
 ## 5. Documentation publiée

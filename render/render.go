@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/PileOfCells/backgammon-tournoi"
+	"github.com/PileOfCells/backgammon-tournoi/rules"
 )
 
 // Renderer produit les composants d'affichage. Tout ce qui est traduisible passe par L ; la
@@ -485,56 +486,47 @@ func (r *Renderer) ActionsList(st *tournoi.State, acts []tournoi.Action) string 
 
 // ---- Feuille d'appariements ----
 
-// Batches : les lots de matchs de la phase courante, dans l'ordre de leur départ.
+// Batches : les lots de matchs de la phase courante, dans l'ordre de leur départ
+// (rules.Batches).
 //
 // Un « lot » est un paquet de matchs lancés au même instant. C'est ce qu'un directeur appelle
 // une ronde dans un suisse par rondes, un bloc dans un GSL, un tour dans un tableau, et une
 // micro-ronde dans un suisse continu à batch_minutes. Le moteur n'a pas de mot pour ça, et il
 // n'en a pas besoin : l'instant de départ le dit.
 func Batches(st *tournoi.State) [][]*tournoi.Match {
-	if st.Current < 0 {
+	lots := rules.Batches(st.RulesMatches(), st.Current)
+	if lots == nil {
 		return nil
 	}
-	parInstant := map[time.Time][]*tournoi.Match{}
-	var instants []time.Time
-	for _, id := range st.MatchOrder {
-		m := st.Matches[id]
-		if m.Phase != st.Current || m.Status == tournoi.Cancelled {
-			continue
-		}
-		if _, vu := parInstant[m.Start]; !vu {
-			instants = append(instants, m.Start)
-		}
-		parInstant[m.Start] = append(parInstant[m.Start], m)
+	out := make([][]*tournoi.Match, 0, len(lots))
+	for _, lot := range lots {
+		out = append(out, matchsDe(st, lot))
 	}
-	sort.Slice(instants, func(i, j int) bool { return instants[i].Before(instants[j]) })
-	out := make([][]*tournoi.Match, 0, len(instants))
-	for _, t := range instants {
-		out = append(out, parInstant[t])
+	return out
+}
+
+// matchsDe : les matchs de l'état que désignent des lignes de rules.
+func matchsDe(st *tournoi.State, ms []rules.Match) []*tournoi.Match {
+	out := make([]*tournoi.Match, len(ms))
+	for i, m := range ms {
+		out[i] = st.Matches[tournoi.MatchID(m.ID)]
 	}
 	return out
 }
 
 // PairingSheet : la feuille d'appariements d'un lot, à imprimer et à poser sur la table du TD.
-// Une ligne par match, une case vide pour le score écrit à la main.
+// Une ligne par match, une case vide pour le score écrit à la main. Le lot et l'ordre des lignes
+// sont rules.PairingSheet ; ce qui est ici n'est que le rendu.
 //
 // round est le numéro du lot (1 = le premier de la phase) ; 0 ou au-delà du dernier donne le lot
 // le plus récent, celui qu'on imprime en pratique.
 func (r *Renderer) PairingSheet(st *tournoi.State, round int) string {
-	lots := Batches(st)
-	if len(lots) == 0 {
+	feuille := rules.PairingSheet(st.RulesMatches(), st.Current, round)
+	if feuille.Round == 0 {
 		return fmt.Sprintf(`<p class="resume">%s</p>`, esc(r.t(TermNoMatch, 0)))
 	}
-	if round < 1 || round > len(lots) {
-		round = len(lots)
-	}
-	lot := lots[round-1]
-	sort.Slice(lot, func(i, j int) bool {
-		if lot[i].Table != lot[j].Table {
-			return lot[i].Table < lot[j].Table
-		}
-		return lot[i].ID < lot[j].ID
-	})
+	round = feuille.Round
+	lot := matchsDe(st, feuille.Rows)
 	var b strings.Builder
 	fmt.Fprintf(&b, `<h2>%s — %s %d</h2>`, esc(r.t(TermPairings, 0)), esc(r.t(TermRound, 0)), round)
 	fmt.Fprintf(&b, `<table class="appariements"><tr><th>%s</th><th>%s</th><th>%s</th><th>%s</th><th>%s</th><th>%s</th></tr>`,
