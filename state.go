@@ -2,9 +2,9 @@ package tournoi
 
 import (
 	"fmt"
-	"math/rand"
-	"sort"
 	"time"
+
+	"github.com/PileOfCells/backgammon-tournoi/rules"
 )
 
 // State est l'état complet d'un tournoi, reconstruit à partir du journal.
@@ -175,11 +175,6 @@ func (s *State) promoteDeferred() {
 }
 
 func (s *State) nextMatchID() MatchID { return MatchID(fmt.Sprintf("M%d", s.nextID+1)) }
-
-// rng renvoie un générateur déterministe pour la proposition courante.
-func (s *State) rng() *rand.Rand {
-	return rand.New(rand.NewSource(s.Seed*1000003 + int64(s.NEvents)*7919 + int64(s.Current)))
-}
 
 func (s *State) phase() *PhaseState {
 	if s.Current < 0 || s.Current >= len(s.Phases) {
@@ -511,14 +506,7 @@ func livesFor(cfg PhaseConfig) int {
 
 // remainingLives : vies restantes d'un joueur dans une phase à vies.
 func (s *State) remainingLives(ph *PhaseState, p PlayerID) int {
-	if s.Withdrawn[p] {
-		return 0
-	}
-	l := ph.Lives[p] - ph.Losses[p]
-	if l < 0 {
-		l = 0
-	}
-	return l
+	return rules.RemainingLives(ph.Lives[p], ph.Losses[p], s.Withdrawn[p])
 }
 
 // alive : joueurs de la phase encore en vie.
@@ -762,108 +750,17 @@ func (s *State) sharedTables() []Warning {
 }
 
 // Ranking renvoie le classement général courant : la phase en cours d'abord, puis les phases
-// précédentes (joueurs éliminés plus tôt classés derrière).
+// précédentes (joueurs éliminés plus tôt classés derrière), ex æquo conservés
+// (rules.MergeRankings sur les rules.Rank de chaque phase).
 func (s *State) Ranking() []Rank {
-	var out []Rank
-	seen := map[PlayerID]bool{}
-	offset := 0
-	for i := len(s.Phases) - 1; i >= 0; i-- {
-		r := s.phaseRanking(s.Phases[i])
-		max := 0
-		for _, rk := range r {
-			if seen[rk.Player] {
-				continue
-			}
-			seen[rk.Player] = true
-			out = append(out, Rank{Player: rk.Player, Rank: rk.Rank + offset, Note: rk.Note})
-			if rk.Rank > max {
-				max = rk.Rank
-			}
-		}
-		offset += len(r)
+	parPhase := make([][]rules.Standing, len(s.Phases))
+	for i, ph := range s.Phases {
+		parPhase[i] = rules.Rank(s.bilan(ph))
 	}
-	// renumérotation dense avec ex æquo conservés
-	sort.SliceStable(out, func(a, b int) bool { return out[a].Rank < out[b].Rank })
-	pos, prev, prevRank := 0, -1, 0
-	for i := range out {
-		if out[i].Rank != prev {
-			prev = out[i].Rank
-			prevRank = pos + 1
-		}
-		out[i].Rank = prevRank
-		pos++
-	}
-	return out
+	return fromStandings(rules.MergeRankings(parPhase))
 }
 
-// phaseRanking : classement interne d'une phase.
+// phaseRanking : classement interne d'une phase (rules.Rank).
 func (s *State) phaseRanking(ph *PhaseState) []Rank {
-	switch ph.Cfg.Kind {
-	case KindBracket, KindLivesBracket:
-		return s.bracketRanking(ph)
-	case KindRoundRobin:
-		return s.rrRanking(ph)
-	}
-	return s.livesRanking(ph)
-}
-
-// livesRanking : vainqueur, finaliste, puis par victoires au moment de l'élimination (ex æquo).
-func (s *State) livesRanking(ph *PhaseState) []Rank {
-	type sc struct {
-		p     PlayerID
-		score float64
-		note  Note
-	}
-	var list []sc
-	alive := s.alive(ph)
-	for _, p := range ph.Entrants {
-		v := float64(ph.Wins[p])
-		note := Note{Kind: NoteRecord, Wins: ph.Wins[p], Losses: ph.Losses[p]}
-		if s.remainingLives(ph, p) > 0 {
-			v += 1000 + float64(s.remainingLives(ph, p))
-			note = Note{Kind: NoteAlive, Lives: s.remainingLives(ph, p)}
-			if len(alive) == 1 {
-				note = Note{Kind: NoteWinner}
-			}
-		}
-		if s.Withdrawn[p] {
-			// Retiré : classé sur son parcours, comme un joueur éliminé à cet instant — par ses
-			// victoires, ex æquo avec les éliminés qui en ont autant. Il ne précède aucun joueur
-			// encore en vie. Le « forfait » n'est que celui du match qu'il abandonne.
-			v = float64(ph.Wins[p])
-			restantes := ph.Lives[p] - ph.Losses[p]
-			if restantes < 0 {
-				restantes = 0
-			}
-			note = Note{Kind: NoteWithdrawn, Wins: ph.Wins[p], Losses: ph.Losses[p], Lives: restantes}
-		}
-		list = append(list, sc{p, v, note})
-	}
-	if len(alive) == 1 && len(ph.ElimOrder) > 0 { // finaliste = dernier éliminé
-		last := ph.ElimOrder[len(ph.ElimOrder)-1]
-		for i := range list {
-			if list[i].p == last {
-				list[i].score, list[i].note = 999, Note{Kind: NoteFinalist}
-			}
-		}
-	}
-	sort.SliceStable(list, func(a, b int) bool { return list[a].score > list[b].score })
-	out := make([]Rank, len(list))
-	rank := 1
-	for i := range list {
-		if i > 0 && list[i].score != list[i-1].score {
-			rank = i + 1
-		}
-		out[i] = Rank{Player: list[i].p, Rank: rank, Note: list[i].note}
-	}
-	return out
-}
-
-// labelPtr : copie adressable d'un libellé, pour les champs Sub.
-func labelPtr(l Label) *Label {
-	if l.Empty() {
-		return nil
-	}
-	c := l
-	return &c
+	return fromStandings(rules.Rank(s.bilan(ph)))
 }

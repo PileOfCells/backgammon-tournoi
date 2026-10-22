@@ -18,32 +18,6 @@ import (
 // choisit. Après le tirage (ou le premier match) de la phase suivante, plus de repêchage : le
 // retiré perd son match par forfait, comme tout retrait de tableau.
 
-// repechageQualified remplace, dans la liste des qualifiés d'une poule, chaque retiré repêché
-// par son remplaçant — en chaîne, si le remplaçant s'est retiré à son tour et a été remplacé.
-// Un qualifié réintégré (plus retiré) retrouve sa place : le repêchage ne tient qu'autant que
-// le retrait.
-func (s *State) repechageQualified(ph *PhaseState, base []PlayerID) []PlayerID {
-	if len(ph.Repechages) == 0 {
-		return base
-	}
-	seen := map[PlayerID]bool{}
-	out := make([]PlayerID, 0, len(base))
-	for _, p := range base {
-		for i := 0; s.Withdrawn[p] && i <= len(ph.Repechages); i++ {
-			r, ok := ph.Repechages[p]
-			if !ok {
-				break
-			}
-			p = r
-		}
-		if !seen[p] {
-			seen[p] = true
-			out = append(out, p)
-		}
-	}
-	return out
-}
-
 // repechageOpen : la phase de poules ph peut encore repêcher — terminée, suivie d'une phase qui
 // sélectionne ses entrants (pas « all ») et qui n'est ni tirée ni commencée.
 func (s *State) repechageOpen(ph *PhaseState) error {

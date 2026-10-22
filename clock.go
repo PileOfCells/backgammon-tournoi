@@ -41,7 +41,8 @@ func (s *State) ClockAt(now time.Time, start time.Time) Clock {
 
 // RulesMatches : les matchs de l'état, dans l'ordre de lancement, tels que les règles pures les
 // lisent. C'est l'entrée de rules.PlayingTime, rules.PaceAt, rules.Batches et
-// rules.PairingSheet pour un hôte qui tient un State.
+// rules.PairingSheet pour un hôte qui tient un State ; chaque ligne porte son libellé (Label),
+// celui qu'une feuille imprime.
 func (s *State) RulesMatches() []rules.Match {
 	out := make([]rules.Match, 0, len(s.MatchOrder))
 	for _, id := range s.MatchOrder {
@@ -53,8 +54,14 @@ func (s *State) RulesMatches() []rules.Match {
 }
 
 func (m *Match) rulesMatch() rules.Match {
-	return rules.Match{ID: string(m.ID), Phase: m.Phase, Status: rules.MatchStatus(m.Status), Start: m.Start,
-		End: m.End, Table: m.Table, Length: m.Length, A: rules.Ref(m.A), B: rules.Ref(m.B), Forfeit: m.Forfeit}
+	r := rules.Match{ID: string(m.ID), Phase: m.Phase, Section: m.Section, Status: rules.MatchStatus(m.Status), Start: m.Start,
+		End: m.End, Table: m.Table, Length: m.Length, A: rules.Ref(m.A), B: rules.Ref(m.B), Winner: rules.Ref(m.Winner),
+		Forfeit: m.Forfeit}
+	if !m.Label.Empty() {
+		l := toRulesLabel(m.Label)
+		r.Label = &l
+	}
+	return r
 }
 
 // BreakIntervals : les pauses déclarées, telles que rules.AfterBreaks et rules.EstimatedEnd les

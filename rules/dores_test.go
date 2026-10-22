@@ -146,3 +146,37 @@ func TestDoresFeuille(t *testing.T) {
 	}
 	identique(t, chemin, cas)
 }
+
+func TestDoresAppariements(t *testing.T) {
+	const chemin = "testdata/appariements.json"
+	var f dores.Rules
+	if err := dores.Read(chemin, &f); err != nil {
+		t.Fatal(err)
+	}
+	for i := range f.Phases {
+		c := &f.Phases[i]
+		p := c.Phase
+		o := dores.PhaseOut{Pairs: rules.Pair(p, c.Seed), Done: rules.PhaseDone(p), Rank: rules.Rank(p),
+			Remaining: rules.RemainingMatches(p)}
+		if o.Pairs == nil {
+			o.Pairs = []rules.Pairing{}
+		}
+		if o.Rank == nil {
+			o.Rank = []rules.Standing{}
+		}
+		if len(p.Sections) > 0 {
+			o.Sections = map[string][]rules.Standing{}
+			for _, sec := range p.Sections {
+				o.Sections[sec.Name] = rules.RankSection(sec, p.Withdrawn)
+			}
+		}
+		if p.Format == rules.FormatRoundRobin {
+			o.Qualified = rules.PoolQualified(p)
+		}
+		c.Out = o
+	}
+	for i := range f.Merges {
+		f.Merges[i].Out = rules.MergeRankings(f.Merges[i].ByPhase)
+	}
+	identique(t, chemin, f)
+}
