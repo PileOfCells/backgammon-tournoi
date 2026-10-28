@@ -1,3 +1,6 @@
+> **Dépôt archivé.** Le projet continue sous <https://github.com/kevung/nicomaque>
+> (`go get github.com/kevung/nicomaque`, même code à partir de v0.8.0).
+
 # tournoi — moteur de tournoi de backgammon (Go)
 
 Bibliothèque Go sans dépendance, à intégrer dans un logiciel web dans le même processus.
